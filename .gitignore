@@ -1,0 +1,12 @@
+# Private training datasets and scripts (never committed)
+*.jsonl
+*.pt
+*.bin
+*.ckpt
+*.venv/
+__pycache__/
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.log
