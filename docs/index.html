@@ -254,7 +254,7 @@
                   <td><code>7.1M</code></td>
                   <td>Pre-emptive defect forecaster: build break, regression &amp; syntax prediction (&lt; 5ms)</td>
                   <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-mini/releases/tag/v0.1.0">v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -439,7 +439,7 @@
 
           <h3>Architecture &amp; Mathematical Budget</h3>
           <ul>
-            <li><strong>Parameter Count:</strong> <strong>Exactly 7,100,000 parameters</strong> ($d_{\text{model}} = 256$, 6 layers, 8 heads, $d_{\text{ff}} = 1,024$, $d_{\text{break\_mid}} = 192$, $d_{\text{cat\_mid}} = 167$, $d_{\text{risk\_mid}} = 120$).</li>
+            <li><strong>Parameter Count:</strong> <strong>Exactly 7,100,000 parameters</strong> ($d_{\text{model}} = 256$, 6 layers, 8 heads, $d_{\text{ff}} = 1,024$, $d_{\text{break}} = 192$, $d_{\text{cat}} = 167$, $d_{\text{risk}} = 120$).</li>
             <li><strong>Core Backbone:</strong> 6-Layer Transformer Encoder with Graph AST Feature Projection.</li>
             <li><strong>Inference Latency:</strong> <strong>&lt; 5ms</strong> on standard CPU without GPU acceleration.</li>
             <li><strong>Model Footprint:</strong> 27.14 MB standalone single-file ONNX binary (~28 MB resident RAM).</li>
@@ -530,7 +530,7 @@
                   <td>NioMini 7.1M (Defect Forecaster)</td>
                   <td>27.14 MiB</td>
                   <td><code>c5408116f987416bdfd07db3bf7e13c335cad5106ef44dc8f23cbaf6b0b8ffad</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-mini/releases/download/v0.1.0/nio-mini.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio-mini.onnx">Download v0.3.0</a></td>
                 </tr>
                 <tr>
                   <td><code>tokenizer.json</code></td>
@@ -552,10 +552,11 @@ curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
 curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
 curl -LO "${RELEASE_URL}/nio_micro_base.onnx"
 curl -LO "${RELEASE_URL}/nio_mask.onnx"
+curl -LO "${RELEASE_URL}/nio-mini.onnx"
 curl -LO "${RELEASE_URL}/tokenizer.json"
 
 # Verify cryptographic SHA-256 signatures
-sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.onnx tokenizer.json</code></pre>
+sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.onnx nio-mini.onnx tokenizer.json</code></pre>
           </div>
         </section>
 
