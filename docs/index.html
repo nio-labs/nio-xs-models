@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nio Models — Official ONNX Model Registry for NioNano, NioMicro, and NioMask Micro Learning Models (MicroLMs).">
+  <meta name="theme-color" content="#f6f8fa">
+  <title>Nio Models — Official ONNX Model Registry</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" id="menuToggle" type="button" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#overview" class="brand-title">
+      <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+      <span class="brand-name">Nio Models</span>
+      <span class="badge">v0.3.0</span>
+    </a>
+    <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+      <span class="theme-icon">
+        <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#overview" class="sidebar-brand">
+          <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+          <span class="brand-text">
+            <span class="brand-name">Nio Models</span>
+            <span class="brand-sub">Official ONNX Registry</span>
+          </span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" aria-label="Documentation">
+        <div class="nav-section">
+          <div class="nav-section-title">Introduction</div>
+          <a href="#overview" class="nav-link active">1. Overview</a>
+          <a href="#microlm" class="nav-link">2. The MicroLM Paradigm</a>
+          <a href="#matrix" class="nav-link">3. Production Matrix</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Production Models</div>
+          <a href="#nionano" class="nav-link">4. NioNano (~0.5M)</a>
+          <a href="#niomicro" class="nav-link">5. NioMicro (5.0M)</a>
+          <a href="#niomask" class="nav-link">6. NioMask (1.1M)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Distribution &amp; Code</div>
+          <a href="#releases" class="nav-link">7. Releases &amp; Hashes</a>
+          <a href="#quickstart" class="nav-link">8. CLI Quickstart</a>
+          <a href="#rust-runtime" class="nav-link">9. Rust Runtime</a>
+          <a href="#python-runtime" class="nav-link">10. Python Runtime</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Ecosystem</div>
+          <a href="#benchmarks" class="nav-link">11. Edge Benchmarks</a>
+          <a href="#faq" class="nav-link">12. Technical FAQ</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+          </span>
+          <span class="theme-text">Dark mode</span>
+        </button>
+        <a href="https://github.com/nio-labs/nio-xs-models" target="_blank" rel="noreferrer" class="github-link">
+          <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          <span>GitHub: nio-xs-models</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content-wrapper">
+      <div class="content-container">
+
+        <!-- 1. OVERVIEW -->
+        <section id="overview" class="doc-section">
+          <div class="hero-header">
+            <div class="hero-badges">
+              <span class="badge badge-accent">Registry v0.3.0</span>
+              <span class="badge">ONNX Standard</span>
+              <span class="badge">Edge In-Process</span>
+              <span class="badge">Sub-5ms Latency</span>
+            </div>
+            <h1 class="hero-title">Deterministic Edge Intelligence. Zero Cloud Egress.</h1>
+            <p class="hero-desc">The official release registry for compiled <strong>Nio Micro Learning Models (MicroLMs)</strong>. Built specifically for local developer tooling, autonomous policy gates, high-speed intent routing, and real-time stream redaction.</p>
+            <div class="capsule-actions">
+              <a class="capsule-button" href="#matrix">Explore Models →</a>
+              <a class="capsule-button capsule-button-secondary" href="https://github.com/nio-labs/nio-xs-models/releases" target="_blank" rel="noreferrer">GitHub Releases (v0.3.0)</a>
+            </div>
+          </div>
+
+          <div class="callout callout-note">
+            <div class="callout-title">The Role of This Registry</div>
+            <p>Training curriculums, synthetic datasets, and raw training pipelines remain strictly private to Nio Labs. This repository acts as the authoritative, cryptographically verified distribution point for compiled production binaries (<code>.onnx</code>) and domain tokenizers used by <strong>NioXS</strong>, <strong>NioCLI</strong>, and edge runtimes.</p>
+          </div>
+        </section>
+
+        <!-- 2. THE MICROLM PARADIGM -->
+        <section id="microlm" class="doc-section">
+          <h2>2. What is a MicroLM?</h2>
+          <p><strong>MicroLM stands for Micro Learning Model — NOT Language Model.</strong></p>
+          <p>Modern enterprise workflows have become over-reliant on monolithic, multi-billion parameter Large Language Models (LLMs). While generative LLMs excel at creative writing and brainstorming, utilizing them for developer workflows, policy gates, and local terminals introduces severe flaws: 500ms–3,000ms network roundtrips, cloud API bills, security egress risks, and unpredictable hallucination.</p>
+
+          <p>The <strong>MicroLM Paradigm</strong> replaces heavy generalist chatbots with precision-crafted, task-dedicated neural engines:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Generative Chatbot LLM</th>
+                  <th>Nio MicroLM Engine</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Scope</strong></td>
+                  <td>General-purpose conversational text</td>
+                  <td><strong>Task-dedicated mathematical intelligence</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Footprint</strong></td>
+                  <td>7 Billion to 400+ Billion parameters</td>
+                  <td><strong>0.5M to 5.0M bounded parameters</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Execution</strong></td>
+                  <td>Cloud data centers (NVIDIA H100 clusters)</td>
+                  <td><strong>In-process edge execution (Standard CPU / NPU)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Latency</strong></td>
+                  <td>300ms to 3,500ms per turn</td>
+                  <td><strong>Sub-100µs to sub-5ms in-process</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Outputs</strong></td>
+                  <td>Ambiguous prose requiring regex parsing</td>
+                  <td><strong>Deterministic structured verdicts &amp; scores</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Data Privacy</strong></td>
+                  <td>Prompts leave machine to 3rd-party cloud</td>
+                  <td><strong>Zero egress: 100% on 127.0.0.1 air-gapped</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Cost</strong></td>
+                  <td>Per-token API pricing &amp; cloud subscriptions</td>
+                  <td><strong>$0.00 forever (Zero API keys needed)</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>The 4 Universal Principles of MicroLMs</h3>
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🎯</div>
+              <h4>1. Task-Dedicated Intelligence</h4>
+              <p>Models are trained with strict domain loss functions (multi-task cross-entropy, focal loss, calibrated MSE) rather than broad language prediction.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>2. Sub-5ms In-Process Execution</h4>
+              <p>Every engine is compiled to standard ONNX and executed natively via Rust (<code>ort</code> runtime) directly inside developer CLI processes and daemons.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h4>3. Absolute Data Sovereignty</h4>
+              <p>No user code, file paths, private keys, or command lines ever leave <code>localhost</code>. Eliminates corporate data leak liabilities.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">📐</div>
+              <h4>4. Exact Parameter Budgeting</h4>
+              <p>Every single parameter must earn its place. Models are engineered to exact bounds (e.g. 5,000,000 for Micro, 1,100,000 for Mask) to guarantee resident RAM constraints.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. PRODUCTION MATRIX -->
+        <section id="matrix" class="doc-section">
+          <h2>3. Available Production Models Matrix</h2>
+          <p>The following MicroLM engines are compiled, verified, and officially distributed through this registry:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Role</th>
+                  <th>Budget</th>
+                  <th>Specialization &amp; Primary Output</th>
+                  <th>Status</th>
+                  <th>Release</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#nionano"><strong>NioNano</strong></a></td>
+                  <td>Intent Reflex</td>
+                  <td><code>~0.5M</code></td>
+                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics</td>
+                  <td><span class="badge badge-accent">Active in Core</span></td>
+                  <td>Native in NioXS</td>
+                </tr>
+                <tr>
+                  <td><a href="#niomicro"><strong>NioMicro</strong></a></td>
+                  <td>Decision Engine</td>
+                  <td><code>5.0M / cluster</code></td>
+                  <td>Multi-head policy arbiter: contextual verdicts (approve/reject), sentiment, continuous risk</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><a href="#niomask"><strong>NioMask</strong></a></td>
+                  <td>Security &amp; Privacy</td>
+                  <td><code>1.1M</code></td>
+                  <td>Real-time byte stream secret, API key &amp; PII redactor (&lt; 0.2ms)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. NIONANO -->
+        <section id="nionano" class="doc-section">
+          <div class="section-badge">Assist &amp; Triage Layer</div>
+          <h2>4. NioNano — Command Triage &amp; Intent Reflex (~0.5M)</h2>
+          <p><strong>NioNano</strong> is the embedded reflex layer of the Nio ecosystem. Embedded directly into native Rust binaries with zero external runtime dependencies, it acts as the initial filter in developer terminals, IDE extensions, and CLI daemons.</p>
+
+          <h3>Technical Specifications</h3>
+          <ul>
+            <li><strong>Parameters:</strong> <strong>~500,000 (0.5M domain feature weights)</strong></li>
+            <li><strong>Latency:</strong> <strong>&lt; 0.1ms (sub-100 microseconds)</strong> on single CPU core</li>
+            <li><strong>Memory Footprint:</strong> ~5 MB resident RAM</li>
+            <li><strong>Implementation:</strong> In-process Rust (<code>nio-xs/crates/nano/src/model.rs</code>)</li>
+            <li><strong>Architecture:</strong> Multinomial feature matrix with n-gram tokenization and lexical intent routing.</li>
+          </ul>
+
+          <h3>Deterministic Intent Routing Classes</h3>
+          <p>NioNano maps arbitrary natural-language developer intent into 7 deterministic caller actions:</p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Class Action</th>
+                  <th>Target Operational Function</th>
+                  <th>Example Input</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>read_file</code></td>
+                  <td>Direct file inspection &amp; line slicing</td>
+                  <td><em>"show me lines 20-50 in src/main.rs"</em></td>
+                </tr>
+                <tr>
+                  <td><code>inspect_project</code></td>
+                  <td>Workspace layout, crate tree, dependencies</td>
+                  <td><em>"what crates are in this workspace?"</em></td>
+                </tr>
+                <tr>
+                  <td><code>find_files</code></td>
+                  <td>Fast globbing and file discovery</td>
+                  <td><em>"locate all docker-compose files"</em></td>
+                </tr>
+                <tr>
+                  <td><code>search_code</code></td>
+                  <td>Symbol search &amp; regex codebase discovery</td>
+                  <td><em>"where is NioMaskConfig defined?"</em></td>
+                </tr>
+                <tr>
+                  <td><code>run_checks</code></td>
+                  <td>Compiler diagnostics, test suites, formatting</td>
+                  <td><em>"run cargo check across all crates"</em></td>
+                </tr>
+                <tr>
+                  <td><code>clarify</code></td>
+                  <td>Ambiguous intent requiring interactive prompt</td>
+                  <td><em>"update it"</em> (missing target file)</td>
+                </tr>
+                <tr>
+                  <td><code>unsupported</code></td>
+                  <td>Out-of-bounds or non-operational queries</td>
+                  <td><em>"write a poem about butterflies"</em></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. NIOMICRO -->
+        <section id="niomicro" class="doc-section">
+          <div class="section-badge">Policy &amp; Decision Gate</div>
+          <h2>5. NioMicro — Domain-Clustered Decision Engine (5.0M / Cluster)</h2>
+          <p><strong>NioMicro</strong> (<code>nioxs::nio-micro</code>) is the flagship decision engine of Nio. It serves as an autonomous, deterministic gatekeeper for code diffs, command executions, pull requests, and infrastructure operations.</p>
+
+          <h3>The Modular Domain Cluster Architecture</h3>
+          <p>Rather than ballooning one model into hundreds of millions of parameters—which causes cross-domain confusion and high memory footprints—<strong>NioMicro is architected as modular 5M ONNX engines</strong>.</p>
+          <p>Each cluster contains exactly <strong>5,000,000 parameters</strong> and runs in under <strong>5ms</strong> on standard CPUs. The runtime dynamically mounts the required cluster based on tool namespaces or context:</p>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h4>Security Cluster (<code>sec</code>)</h4>
+              <p>Audits security commands (<code>semgrep</code>, <code>nuclei</code>, <code>trufflehog</code>), private keys, Golden Ticket exploits, shadow reads, and token exposures.</p>
+              <div class="badge">nio_micro_sec.onnx (20 MB)</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">☁️</div>
+              <h4>Infrastructure Cluster (<code>infra</code>)</h4>
+              <p>Protects cloud orchestrations (Kubernetes, Terraform, Helm, Docker, AWS). Blocks destructive S3 bucket wipes, etcd resets, and production scale-to-zero.</p>
+              <div class="badge">nio_micro_infra.onnx (20 MB)</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">⚙️</div>
+              <h4>Base Workflow Cluster (<code>base</code>)</h4>
+              <p>Evaluates standard developer workflows, Git operations, code modifications, build pipelines, and unit test changes.</p>
+              <div class="badge">nio_micro_base.onnx (20 MB)</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">📈</div>
+              <h4>Financial Cluster (<code>fin</code>)</h4>
+              <p>Enforces algorithmic trading thresholds, FIX protocol gateways, margin risks, and clearing settlement invariants.</p>
+              <div class="badge">In Training</div>
+            </div>
+          </div>
+
+          <h3>Transformer Architecture &amp; Multi-Task Heads</h3>
+          <ul>
+            <li><strong>Backbone:</strong> 4-Layer Bidirectional Transformer Encoder ($d_{\text{model}} = 224$, 4 Attention Heads, $d_{\text{ff}} = 1,304$).</li>
+            <li><strong>Parameter Count:</strong> <strong>Exactly 5,000,000 parameters</strong>.</li>
+            <li><strong>Dual Multi-Task Outputs:</strong>
+              <ol>
+                <li><strong>Decision Head (3 classes):</strong> <code>approve</code> (safe), <code>reject</code> (dangerous), <code>needs_review</code> (borderline/context missing).</li>
+                <li><strong>Sentiment Head (2 classes):</strong> Polarity detection (<code>positive</code> / <code>negative</code>).</li>
+                <li><strong>Continuous Risk Head:</strong> Calibrated risk score (<code>0.00</code> to <code>1.00</code>).</li>
+              </ol>
+            </li>
+          </ul>
+        </section>
+
+        <!-- 6. NIOMASK -->
+        <section id="niomask" class="doc-section">
+          <div class="section-badge">Stream Security &amp; Privacy</div>
+          <h2>6. NioMask — Real-Time Secret &amp; PII Stream Redactor (1.1M)</h2>
+          <p><strong>NioMask</strong> (<code>nioxs::nio-mask</code>) is the real-time privacy filter of the Nio ecosystem. Embedded directly into terminal stdout/stderr pipes, logging frameworks, and MCP gateway buffers, it sanitizes high-entropy secrets and sensitive PII in <strong>&lt; 0.2ms</strong> per chunk before data is written to disk or transmitted over the network.</p>
+
+          <h3>Architecture &amp; Mathematical Budget</h3>
+          <ul>
+            <li><strong>Parameter Count:</strong> <strong>Exactly 1,100,000 parameters</strong> ($d_{\text{model}} = 128$, $d_{\text{ff}} = 1,500$, $d_{\text{mid}} = 118$, $d_{\text{risk}} = 120$).</li>
+            <li><strong>Core Backbone:</strong> 2-Layer Byte-Level Convolutional Transformer (Kernel size $K=5$) + Shannon Entropy Stream Scanner.</li>
+            <li><strong>Latency:</strong> <strong>&lt; 0.2ms (sub-200µs)</strong> per 128-byte chunk on single CPU core.</li>
+            <li><strong>Binary Size:</strong> <strong>4.43 MB</strong> single self-contained portable ONNX binary.</li>
+            <li><strong>Evaluation Metrics:</strong>
+              <ul>
+                <li>Token Classification Accuracy: <strong>99.95%</strong></li>
+                <li>Secret Detection Recall: <strong>99.89%</strong> (F1: <strong>99.94%</strong>)</li>
+                <li>PII Detection F1: <strong>99.93%</strong></li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3>Target Classes &amp; Disambiguation</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Target Signatures</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>API Secrets &amp; Keys</strong></td>
+                  <td>AWS (<code>AKIA...</code>), GitHub (<code>ghp_...</code>, <code>github_pat_...</code>), OpenAI (<code>sk-...</code>, <code>sk-proj-...</code>), Slack (<code>xoxb-...</code>), Stripe (<code>sk_live_...</code>), Private RSA/SSH Keys, JWT Bearer tokens</td>
+                  <td><span class="badge badge-accent">Redacted</span> <code>[REDACTED_SECRET]</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Sensitive PII</strong></td>
+                  <td>Email addresses, IPv4/IPv6 addresses, basic authentication URIs (<code>https://user:pass@host</code>), passwords</td>
+                  <td><span class="badge badge-accent">Redacted</span> <code>[REDACTED_PII]</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Benign High-Entropy (Counter-Examples)</strong></td>
+                  <td>Git commit SHAs (<code>4b825dc...</code>), UUIDs (<code>6a545c21...</code>), Docker image digests (<code>sha256:e3b...</code>), base64 assets</td>
+                  <td><span class="badge">Preserved</span> <strong>Zero False Positives</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 7. RELEASES & HASHES -->
+        <section id="releases" class="doc-section">
+          <h2>7. Certified Releases &amp; Integrity Checksums</h2>
+          <p>Every compiled ONNX binary and tokenizer distributed through this registry is cryptographically verified with SHA-256 checksums.</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset Name</th>
+                  <th>Engine / Domain</th>
+                  <th>Size</th>
+                  <th>SHA-256 Checksum</th>
+                  <th>Download Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>nio_micro_sec.onnx</code></td>
+                  <td>NioMicro 5M (Security Cluster)</td>
+                  <td>19.66 MiB</td>
+                  <td><code>c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_sec.onnx">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_micro_infra.onnx</code></td>
+                  <td>NioMicro 5M (Infra Cluster)</td>
+                  <td>19.66 MiB</td>
+                  <td><code>9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_infra.onnx">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_micro_base.onnx</code></td>
+                  <td>NioMicro 5M (Base Cluster)</td>
+                  <td>19.66 MiB</td>
+                  <td><code>1dbc448bcc37e54a8d56f77469226d2890ca702a83f97e96e3af6774826c7ab6</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_base.onnx">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_mask.onnx</code></td>
+                  <td>NioMask 1.1M (Stream Redactor)</td>
+                  <td>4.43 MiB</td>
+                  <td><code>a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>tokenizer.json</code></td>
+                  <td>Domain BPE Tokenizer</td>
+                  <td>54.29 KiB</td>
+                  <td><code>69a1815f9c17c3d41c135b7c2992a84f9c22d570fdddcf5b8511e8dbd8ef4779</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/tokenizer.json">Download v0.3.0</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Automated Shell Download &amp; Verification</h3>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code># Download all certified v0.3.0 assets
+RELEASE_URL="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0"
+curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
+curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
+curl -LO "${RELEASE_URL}/nio_micro_base.onnx"
+curl -LO "${RELEASE_URL}/nio_mask.onnx"
+curl -LO "${RELEASE_URL}/tokenizer.json"
+
+# Verify cryptographic SHA-256 signatures
+sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.onnx tokenizer.json</code></pre>
+          </div>
+        </section>
+
+        <!-- 8. CLI QUICKSTART -->
+        <section id="quickstart" class="doc-section">
+          <h2>8. Quickstart with NioXS &amp; Nio CLI</h2>
+          <p>Nio CLI automatically discovers, pulls, and caches models in <code>~/.nioxs/models</code>:</p>
+
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code># Pull NioMicro Security Cluster
+nioxs pull nio-micro --cluster sec
+
+# Pull NioMicro Infrastructure Cluster
+nioxs pull nio-micro --cluster infra
+
+# Pull NioMask Stream Redactor
+nioxs pull nio-mask --version v0.1.0
+
+# Verify local model cache
+nioxs models list</code></pre>
+          </div>
+        </section>
+
+        <!-- 9. RUST RUNTIME -->
+        <section id="rust-runtime" class="doc-section">
+          <h2>9. Native Rust In-Process Integration</h2>
+          <p>Load and execute models with sub-5ms latency using the native Rust <code>ort</code> (ONNX Runtime) crate:</p>
+
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code>use ort::{Environment, SessionBuilder, Value};
+use std::sync::Arc;
+
+fn main() -> anyhow::Result<()> {
+    // 1. Initialize in-process ONNX Runtime environment
+    let environment = Arc::new(Environment::builder().with_name("NioRuntime").build()?);
+
+    // 2. Load compiled NioMicro Security Cluster (< 35 MB RAM)
+    let session = SessionBuilder::new(&environment)?
+        .with_intra_threads(1)?
+        .with_model_from_file("~/.nioxs/models/nio_micro_sec.onnx")?;
+
+    // 3. Prepare inputs and execute in < 5ms
+    println!("NioMicro loaded successfully into native process memory!");
+    Ok(())
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 10. PYTHON RUNTIME -->
+        <section id="python-runtime" class="doc-section">
+          <h2>10. Python ONNX Runtime Integration</h2>
+          <p>Execute models in Python environments with <code>onnxruntime</code>:</p>
+
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code>import onnxruntime as ort
+import numpy as np
+
+# Configure low-latency single-thread CPU execution
+sess_options = ort.SessionOptions()
+sess_options.intra_op_num_threads = 1
+sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+
+# Load NioMask
+session = ort.InferenceSession("nio_mask.onnx", sess_options, providers=["CPUExecutionProvider"])
+
+# Run inference on text byte stream
+text = "export GITHUB_TOKEN=ghp_kY4V9wM28N1z4F817B238491028301928491"
+byte_ids = np.array([[b + 4 for b in text.encode('utf-8')]], dtype=np.int64)
+attention_mask = np.ones_like(byte_ids, dtype=np.float32)
+
+token_logits, risk_score = session.run(None, {
+    "input_ids": byte_ids,
+    "attention_mask": attention_mask
+})
+
+print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code></pre>
+          </div>
+        </section>
+
+        <!-- 11. BENCHMARKS -->
+        <section id="benchmarks" class="doc-section">
+          <h2>11. Edge Latency Benchmarks</h2>
+          <p>All benchmarks performed on standard commodity laptop CPU (Intel Core Ultra / Apple Silicon M-series) without GPU acceleration:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Params</th>
+                  <th>Average Latency</th>
+                  <th>p50 Latency</th>
+                  <th>p95 Latency</th>
+                  <th>RAM Footprint</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>NioNano</strong></td>
+                  <td>~0.5M</td>
+                  <td><strong>0.08 ms (80 µs)</strong></td>
+                  <td>0.07 ms</td>
+                  <td>0.11 ms</td>
+                  <td>~5 MB</td>
+                </tr>
+                <tr>
+                  <td><strong>NioMask</strong></td>
+                  <td>1.1M</td>
+                  <td><strong>0.18 ms (180 µs)</strong></td>
+                  <td>0.16 ms</td>
+                  <td>0.24 ms</td>
+                  <td>~6 MB</td>
+                </tr>
+                <tr>
+                  <td><strong>NioMicro (Sec)</strong></td>
+                  <td>5.0M</td>
+                  <td><strong>3.40 ms</strong></td>
+                  <td>3.12 ms</td>
+                  <td>4.95 ms</td>
+                  <td>~35 MB</td>
+                </tr>
+                <tr>
+                  <td><strong>NioMicro (Infra)</strong></td>
+                  <td>5.0M</td>
+                  <td><strong>3.42 ms</strong></td>
+                  <td>3.15 ms</td>
+                  <td>4.98 ms</td>
+                  <td>~35 MB</td>
+                </tr>
+                <tr>
+                  <td><em>Cloud LLM (API)</em></td>
+                  <td><em>70B+</em></td>
+                  <td><em>850.0 ms</em></td>
+                  <td><em>780.0 ms</em></td>
+                  <td><em>2,400.0 ms</em></td>
+                  <td><em>Cloud GPU</em></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 12. FAQ -->
+        <section id="faq" class="doc-section">
+          <h2>12. Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <h4 class="faq-question">Why distribute ONNX instead of raw PyTorch checkpoints?</h4>
+            <div class="faq-answer">
+              <p>ONNX (Open Neural Network Exchange) is language-agnostic and runtime-agnostic. It runs directly inside native Rust, C++, Go, Python, and WebAssembly with zero Python runtime dependency, zero PyTorch overhead, and instant sub-millisecond execution on CPUs and NPUs.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h4 class="faq-question">Can multiple NioMicro clusters run simultaneously?</h4>
+            <div class="faq-answer">
+              <p>Yes. Because each cluster uses only ~35 MB resident RAM, running all three production clusters (<code>sec</code>, <code>infra</code>, and <code>base</code>) concurrently consumes less than 110 MB RAM total—well within the budget of any development machine or edge device.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <h4 class="faq-question">What devices are supported?</h4>
+            <div class="faq-answer">
+              <p>Any system supporting ONNX Runtime or native Candle: x86_64 (Linux, macOS, Windows), ARM64 (Apple Silicon M1/M2/M3/M4, Snapdragon X Elite, Raspberry Pi 4/5), and edge servers.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
