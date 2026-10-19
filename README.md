@@ -59,6 +59,7 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMini`** | Predictive Engine | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-mini/releases) |
 
 ---
 
@@ -221,6 +222,29 @@ nioxs pull nio-micro --cluster sec
 ```bash
 # Pull NioMask via Nio CLI
 nioxs pull nio-mask --version v0.1.0
+```
+
+---
+
+## 4. NioMini — Pre-emptive Defect Forecaster (7.1M)
+
+**NioMini** (`nioxs::nio-mini`) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing `cargo test` or triggering CI builds.
+
+### Key Specifications & Architecture
+* **Parameters:** **Exactly 7,100,000 parameters** ($d_{\text{model}} = 256$, 6 layers, 8 heads, $d_{\text{ff}} = 1,024$, $d_{\text{break\_mid}} = 192$, $d_{\text{cat\_mid}} = 167$, $d_{\text{risk\_mid}} = 120$)
+* **Model Size:** 27.14 MB single portable ONNX binary
+* **Architecture:** 6-Layer Transformer Encoder with Graph AST Feature Projection
+* **Inference Latency:** **< 5ms** on edge CPU
+* **Multi-Head Output Payload:**
+  1. `will_break`: Calibrated binary probability (`0.0` to `1.0`) predicting compilation or test failure
+  2. `defect_category`: 5-Class logits (`CLEAN`, `SYNTAX_ERROR`, `TYPE_MISMATCH`, `BORROW_CHECK_FAIL`, `TEST_REGRESSION`)
+  3. `risk_score`: Continuous risk score (`0.0` to `1.0`)
+* **Sha256:** `c5408116f987416bdfd07db3bf7e13c335cad5106ef44dc8f23cbaf6b0b8ffad`
+* **Official Release Asset:** [`v0.1.0`](https://github.com/nio-labs/nio-mini/releases/tag/v0.1.0)
+
+```bash
+# Pull NioMini via Nio CLI
+nioxs pull nio-mini --version v0.1.0
 ```
 
 ---

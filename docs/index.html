@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nio Models — Official ONNX Model Registry for NioNano, NioMicro, and NioMask Micro Learning Models (MicroLMs).">
+  <meta name="description" content="Nio Models — Official ONNX Model Registry for NioNano, NioMicro, NioMask, and NioMini Micro Learning Models (MicroLMs).">
   <meta name="theme-color" content="#f6f8fa">
   <title>Nio Models — Official ONNX Model Registry</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -68,18 +68,19 @@
           <a href="#nionano" class="nav-link">4. NioNano (~0.5M)</a>
           <a href="#niomicro" class="nav-link">5. NioMicro (5.0M)</a>
           <a href="#niomask" class="nav-link">6. NioMask (1.1M)</a>
+          <a href="#niomini" class="nav-link">7. NioMini (7.1M)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Distribution &amp; Code</div>
-          <a href="#releases" class="nav-link">7. Releases &amp; Hashes</a>
-          <a href="#quickstart" class="nav-link">8. CLI Quickstart</a>
-          <a href="#rust-runtime" class="nav-link">9. Rust Runtime</a>
-          <a href="#python-runtime" class="nav-link">10. Python Runtime</a>
+          <a href="#releases" class="nav-link">8. Releases &amp; Hashes</a>
+          <a href="#quickstart" class="nav-link">9. CLI Quickstart</a>
+          <a href="#rust-runtime" class="nav-link">10. Rust Runtime</a>
+          <a href="#python-runtime" class="nav-link">11. Python Runtime</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Ecosystem</div>
-          <a href="#benchmarks" class="nav-link">11. Edge Benchmarks</a>
-          <a href="#faq" class="nav-link">12. Technical FAQ</a>
+          <a href="#benchmarks" class="nav-link">12. Edge Benchmarks</a>
+          <a href="#faq" class="nav-link">13. Technical FAQ</a>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -246,6 +247,14 @@
                   <td>Real-time byte stream secret, API key &amp; PII redactor (&lt; 0.2ms)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><a href="#niomini"><strong>NioMini</strong></a></td>
+                  <td>Predictive Engine</td>
+                  <td><code>7.1M</code></td>
+                  <td>Pre-emptive defect forecaster: build break, regression &amp; syntax prediction (&lt; 5ms)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-mini/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -422,9 +431,58 @@
           </div>
         </section>
 
-        <!-- 7. RELEASES & HASHES -->
+        <!-- 7. NIOMINI -->
+        <section id="niomini" class="doc-section">
+          <div class="section-badge">Predictive Engine &amp; Defect Forecaster</div>
+          <h2>7. NioMini — Pre-emptive Defect Forecaster (7.1M)</h2>
+          <p><strong>NioMini</strong> (<code>nioxs::nio-mini</code>) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing <code>cargo test</code> or triggering CI builds.</p>
+
+          <h3>Architecture &amp; Mathematical Budget</h3>
+          <ul>
+            <li><strong>Parameter Count:</strong> <strong>Exactly 7,100,000 parameters</strong> ($d_{\text{model}} = 256$, 6 layers, 8 heads, $d_{\text{ff}} = 1,024$, $d_{\text{break\_mid}} = 192$, $d_{\text{cat\_mid}} = 167$, $d_{\text{risk\_mid}} = 120$).</li>
+            <li><strong>Core Backbone:</strong> 6-Layer Transformer Encoder with Graph AST Feature Projection.</li>
+            <li><strong>Inference Latency:</strong> <strong>&lt; 5ms</strong> on standard CPU without GPU acceleration.</li>
+            <li><strong>Model Footprint:</strong> 27.14 MB standalone single-file ONNX binary (~28 MB resident RAM).</li>
+          </ul>
+
+          <h3>Multi-Head Output Payload</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Output Head</th>
+                  <th>Tensor Shape</th>
+                  <th>Type &amp; Range</th>
+                  <th>Payload Semantics</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>will_break</code></td>
+                  <td><code>[batch_size, 1]</code></td>
+                  <td>Float (0.0 to 1.0)</td>
+                  <td>Calibrated probability that code diff breaks build, compilation, or tests</td>
+                </tr>
+                <tr>
+                  <td><code>defect_category</code></td>
+                  <td><code>[batch_size, 5]</code></td>
+                  <td>Logits (5 classes)</td>
+                  <td><code>CLEAN</code>, <code>SYNTAX_ERROR</code>, <code>TYPE_MISMATCH</code>, <code>BORROW_CHECK_FAIL</code>, <code>TEST_REGRESSION</code></td>
+                </tr>
+                <tr>
+                  <td><code>risk_score</code></td>
+                  <td><code>[batch_size, 1]</code></td>
+                  <td>Float (0.0 to 1.0)</td>
+                  <td>Continuous severity risk score for automated CI gating</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 8. RELEASES & HASHES -->
         <section id="releases" class="doc-section">
-          <h2>7. Certified Releases &amp; Integrity Checksums</h2>
+          <h2>8. Certified Releases &amp; Integrity Checksums</h2>
           <p>Every compiled ONNX binary and tokenizer distributed through this registry is cryptographically verified with SHA-256 checksums.</p>
 
           <div class="table-wrapper">
@@ -468,6 +526,13 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx">Download v0.3.0</a></td>
                 </tr>
                 <tr>
+                  <td><code>nio-mini.onnx</code></td>
+                  <td>NioMini 7.1M (Defect Forecaster)</td>
+                  <td>27.14 MiB</td>
+                  <td><code>c5408116f987416bdfd07db3bf7e13c335cad5106ef44dc8f23cbaf6b0b8ffad</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-mini/releases/download/v0.1.0/nio-mini.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
                   <td><code>tokenizer.json</code></td>
                   <td>Domain BPE Tokenizer</td>
                   <td>54.29 KiB</td>
@@ -494,9 +559,9 @@ sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.o
           </div>
         </section>
 
-        <!-- 8. CLI QUICKSTART -->
+        <!-- 9. CLI QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>8. Quickstart with NioXS &amp; Nio CLI</h2>
+          <h2>9. Quickstart with NioXS &amp; Nio CLI</h2>
           <p>Nio CLI automatically discovers, pulls, and caches models in <code>~/.nioxs/models</code>:</p>
 
           <div class="code-wrapper">
@@ -510,14 +575,17 @@ nioxs pull nio-micro --cluster infra
 # Pull NioMask Stream Redactor
 nioxs pull nio-mask --version v0.1.0
 
+# Pull NioMini Pre-emptive Defect Forecaster
+nioxs pull nio-mini --version v0.1.0
+
 # Verify local model cache
 nioxs models list</code></pre>
           </div>
         </section>
 
-        <!-- 9. RUST RUNTIME -->
+        <!-- 10. RUST RUNTIME -->
         <section id="rust-runtime" class="doc-section">
-          <h2>9. Native Rust In-Process Integration</h2>
+          <h2>10. Native Rust In-Process Integration</h2>
           <p>Load and execute models with sub-5ms latency using the native Rust <code>ort</code> (ONNX Runtime) crate:</p>
 
           <div class="code-wrapper">
@@ -541,9 +609,9 @@ fn main() -> anyhow::Result<()> {
           </div>
         </section>
 
-        <!-- 10. PYTHON RUNTIME -->
+        <!-- 11. PYTHON RUNTIME -->
         <section id="python-runtime" class="doc-section">
-          <h2>10. Python ONNX Runtime Integration</h2>
+          <h2>11. Python ONNX Runtime Integration</h2>
           <p>Execute models in Python environments with <code>onnxruntime</code>:</p>
 
           <div class="code-wrapper">
@@ -573,9 +641,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
         </section>
 
-        <!-- 11. BENCHMARKS -->
+        <!-- 12. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>11. Edge Latency Benchmarks</h2>
+          <h2>12. Edge Latency Benchmarks</h2>
           <p>All benchmarks performed on standard commodity laptop CPU (Intel Core Ultra / Apple Silicon M-series) without GPU acceleration:</p>
 
           <div class="table-wrapper">
@@ -624,6 +692,14 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
                   <td>~35 MB</td>
                 </tr>
                 <tr>
+                  <td><strong>NioMini</strong></td>
+                  <td>7.1M</td>
+                  <td><strong>3.80 ms</strong></td>
+                  <td>3.52 ms</td>
+                  <td>4.90 ms</td>
+                  <td>~28 MB</td>
+                </tr>
+                <tr>
                   <td><em>Cloud LLM (API)</em></td>
                   <td><em>70B+</em></td>
                   <td><em>850.0 ms</em></td>
@@ -636,9 +712,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
         </section>
 
-        <!-- 12. FAQ -->
+        <!-- 13. FAQ -->
         <section id="faq" class="doc-section">
-          <h2>12. Frequently Asked Questions</h2>
+          <h2>13. Frequently Asked Questions</h2>
 
           <div class="faq-item">
             <h4 class="faq-question">Why distribute ONNX instead of raw PyTorch checkpoints?</h4>
