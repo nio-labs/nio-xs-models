@@ -52,51 +52,15 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 
 ---
 
-## The MicroLM Engines (Architecture & Specializations)
+## Available Production Models
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                             THE 17 MICRO-LM ENGINES OF NIO                             │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-
-  [ 1. COMPUTING & SYSTEMS ]                 [ 2. VISUAL & CREATIVE ]
-  • NioNano  — Command Triage (~0.5M)        • NioMice — Scalable SVG & Vectors (< 100ms)
-  • NioMicro — Decision Engine (5M/cluster)
-  • NioMask  — Secret/PII Redactor (~1.0M)   [ 3. WORLD & HUMANITIES ]
-  • NioMux   — Keystroke AST Reflex (~4M)    • NioMaze — Knowledge & Search Navigator
-  • NioMod   — MCP Tool Dispatcher (~15M)
-  • NioMini  — Defect Forecaster (~8.5M)     [ 4. COGNITION & REASONING ]
-  • NioMount — Test & Cloud Deploy (~18M)    • NioMeko — Meko Shark: Live Context (~12M)
-  • NioMend  — AST Vuln Scanner (~25M)       • NioMind — Prefrontal Cortex & Memory (~35M)
-  • NioMax   — Swarm Conductor (~250M)       • 👑 NioOmni— Crown Reasoner & Synthesis (~75M)
-
-  [ 5. DATA, FIXTURES & GIT ]
-  • NioMock  — Synthetic Test Data (~2.5M)
-  • NioMorph — Schema & Type Transpiler (~3.5M)
-  • NioMerge — Semantic AST Git Resolver (~7.0M)
-```
-
-### Complete Engine Family Matrix
-
-| Engine | Role | Parameters | Specialization & Output Artifact | Status | Release Tag |
+| Model | Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0) |
-| **`NioMask`** | Security & Privacy | ~1.0M | Real-time byte-stream secret, API key & PII scrubber (< 0.2ms) | Roadmap | In design |
-| **`NioMux`**  | Keystroke Reflex | ~4.0M | Sub-2ms keystroke autocomplete, multi-lang Tree-sitter grammar masking & speculative AST cascade | Roadmap | In design |
-| **`NioMod`**  | Tool Dispatcher | ~15M | Pre-trained MCP execution engine: reads prompts directly, binds parameters & runs tools | Roadmap | In design |
-| **`NioMini`** | Predictive Engine | ~8.5M | Pre-emptive defect forecaster, build-break & runtime regression predictor | Roadmap | Coming next |
-| **`NioMock`** | Testing & Fixtures | ~2.5M | Deterministic synthetic mock payloads & edge-case test fixture generator | Roadmap | In design |
-| **`NioMorph`**| Transpiler & Schemas| ~3.5M | Lossless cross-schema & type transformer (JSON/YAML/Rust/TS/SQL/Proto) | Roadmap | In design |
-| **`NioMount`**| Release & Deploy | ~18M | Pre-flight test suite execution, container packaging, cloud deploy & smoke rollback | Roadmap | In design |
-| **`NioMerge`**| Git & Source Control| ~7.0M | 3-way AST merge conflict resolver & structural intent reconciler | Roadmap | In design |
-| **`NioMend`** | Security & Repair | ~25M | Rust AST vuln scanner, diagnostic repair & LLM command execution firewall | Roadmap | In design |
-| **`NioMind`** | Cognitive Executive | ~35M | Executive prefrontal cortex, persistent holographic memory, epistemic uncertainty & second brain | Roadmap | In design |
-| **`NioMice`** | Vector Engine | ~55M | Instant scalable SVG generator: avatars, logos, icons & badges in < 100ms | Roadmap | In design |
-| **`NioMeko`** | Companion & Planner | ~12M | *"Apex speed, live context, zero drag"* — Crawl-augmented Q&A & MCP task planning | Roadmap | In design |
-| 👑 **`NioOmni`**| Crown Champion | ~75M | Universal epistemic reasoning, AST program synthesis, MCTS verification & tree-search solver | Roadmap | Apex Priority |
-| **`NioMaze`** | Retrieval Engine | ~150M | Dense associative search, knowledge retrieval, science, math & navigation | Roadmap | Planned |
-| **`NioMax`**  | Swarm Conductor | ~250M | Swarm conductor, repo-wide multi-file refactoring leader & macro architect | Roadmap | Planned |
+
+> [!NOTE]  
+> For the comprehensive architectural design specifications and upcoming engine roadmaps (epistemic reasoning, keystroke synthesis, vector generation, and autonomous agent coordination), see the **[MicroLM Engines Architectural Blueprint](https://github.com/nio-labs/nio-ideas/blob/main/MICRO_LM_ENGINES.md)** in `nio-ideas`.
 
 ---
 
