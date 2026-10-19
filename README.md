@@ -59,8 +59,6 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0) |
 
-> [!NOTE]  
-> For the comprehensive architectural design specifications and upcoming engine roadmaps (epistemic reasoning, keystroke synthesis, vector generation, and autonomous agent coordination), see the **[MicroLM Engines Architectural Blueprint](https://github.com/nio-labs/nio-ideas/blob/main/MICRO_LM_ENGINES.md)** in `nio-ideas`.
 
 ---
 
