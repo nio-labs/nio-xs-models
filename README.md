@@ -2,7 +2,7 @@
 
 This repository serves as the official distribution hub for compiled, production-ready neural models (**Nio Models**) used across the **Nio** and **NioXS** edge ecosystem.
 
-Training datasets, raw curriculums, and internal training pipelines remain 100% private. Only compiled mathematical model binaries (`.onnx`) and domain tokenizers are distributed here as public release assets.
+Training datasets, raw curriculums, and internal training pipelines remain 100% private. Only compiled mathematical model binaries (`.onnx`) and domain tokenizers are distributed here as compiled release assets.
 
 ---
 
@@ -57,8 +57,8 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 | Model | Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
-| **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0) |
-| **`NioMask`** | Security & Privacy | **1.1M (Exact)** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Active** | [`v0.1.0`](https://github.com/nio-labs/nio-mask/releases/tag/v0.1.0) |
+| **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMask`** | Security & Privacy | **1.1M (Exact)** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Active** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -88,7 +88,7 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 **NioMicro** (`nioxs::nio-micro`) is the flagship decision engine of the Nio ecosystem. It serves as an autonomous, deterministic gatekeeper for pull requests, code changes, security audits, and infrastructure operations.
 
 > [!TIP]
-> Official compiled ONNX model assets for NioMicro are released under [`nio-micro v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0).
+> Compiled ONNX model assets for NioMicro are available on GitHub Releases under [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases).
 
 ### The Modular Domain Cluster Architecture
 
@@ -120,9 +120,9 @@ Each cluster maintains an exact **5,000,000 parameter budget** and runs in-proce
 
 | Cluster | ONNX Binary | Target Domain & Workloads | Key Guards & Enforcement | Status |
 | :--- | :--- | :--- | :--- | :---: |
-| **`sec`** | `nio_micro_sec.onnx` | Security auditing tools (`semgrep`, `nuclei`, `trufflehog`), authentication, cryptographic policies, and credentials | Blocks Golden Ticket exploits, rootkits, private key & token exfiltration, shadow reads | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0))** |
-| **`infra`** | `nio_micro_infra.onnx` | Cloud & infrastructure orchestration (`kubectl`, `terraform`, `docker`, `helm`, AWS/GCP/Azure) | Blocks production scale-to-zero, S3 bucket force wipes, kubeconfig leaks, etcd resets | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.3.0))** |
-| **`base`** | `nio_micro_base.onnx` | Core developer workflows, code modifications, Git operations, package manifests, and unit tests | Policy authorization checking, syntax validation, regression checks | **Released ([`v0.2.0`](https://github.com/nio-labs/nio-micro/releases/tag/v0.2.0))** |
+| **`sec`** | `nio_micro_sec.onnx` | Security auditing tools (`semgrep`, `nuclei`, `trufflehog`), authentication, cryptographic policies, and credentials | Blocks Golden Ticket exploits, rootkits, private key & token exfiltration, shadow reads | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
+| **`infra`** | `nio_micro_infra.onnx` | Cloud & infrastructure orchestration (`kubectl`, `terraform`, `docker`, `helm`, AWS/GCP/Azure) | Blocks production scale-to-zero, S3 bucket force wipes, kubeconfig leaks, etcd resets | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
+| **`base`** | `nio_micro_base.onnx` | Core developer workflows, code modifications, Git operations, package manifests, and unit tests | Policy authorization checking, syntax validation, regression checks | **Released ([`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
 | **`fin`** | `nio_micro_fin.onnx` | Algorithmic trading desks, order gateways (FIX protocol), portfolio risk limits, clearing | Pre-trade risk thresholds, unauthorized shorting defense, tick database protection | In Training |
 | *+ Dozen More* | *Upcoming Clusters* | Specialized engines for Database Migrations, Network/Mesh Topology, OS Kernel/Admin, Web/DOM, Mobile | Domain-bounded policy enforcement per vertical | Roadmap |
 
@@ -170,16 +170,16 @@ SHA256: 4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb
 
 ```bash
 # Download certified Sec 5M ONNX engine (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-micro/releases/download/v0.3.0/nio_micro_sec.onnx"
+curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_sec.onnx"
 
 # Download certified Infra 5M ONNX engine (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-micro/releases/download/v0.3.0/nio_micro_infra.onnx"
+curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_infra.onnx"
 
 # Download domain tokenizer (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-micro/releases/download/v0.3.0/tokenizer.json"
+curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/tokenizer.json"
 
 # Download Contextual Base 5M ONNX engine (v0.2.0)
-curl -LO "https://github.com/nio-labs/nio-micro/releases/download/v0.2.0/nio_micro.onnx" -o nio_micro_base.onnx
+curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/nio_micro.onnx" -o nio_micro_base.onnx
 
 # Verify integrity
 sha256sum nio_micro_sec.onnx nio_micro_infra.onnx tokenizer.json
@@ -216,7 +216,7 @@ nioxs pull nio-micro --cluster sec
   * `SECRET`: AWS keys (`AKIA...`), GitHub PATs (`ghp_...`), OpenAI keys (`sk-...`), Slack tokens (`xoxb-...`), Stripe keys (`sk_live_...`), Private RSA/SSH keys, passwords
   * `PII`: Email addresses, IPv4/IPv6 addresses, basic authentication URIs
   * `HASH` (Preserved): Git commit SHAs, UUIDs, docker digests (**zero false positives**)
-* **Official Release Asset:** [`v0.1.0`](https://github.com/nio-labs/nio-mask/releases/tag/v0.1.0) on [`nio-labs/nio-mask`](https://github.com/nio-labs/nio-mask)
+* **Official Release Asset:** [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases)
 
 ```bash
 # Pull NioMask via Nio CLI
