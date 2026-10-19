@@ -58,7 +58,7 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioMask`** | Security & Privacy | **1.1M (Exact)** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Active** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -203,7 +203,7 @@ nioxs pull nio-micro --cluster sec
 
 ---
 
-## 3. NioMask — Real-Time Secret, Token & PII Stream Redactor (1.1M Exact)
+## 3. NioMask — Real-Time Secret, Token & PII Stream Redactor (1.1M)
 
 **NioMask** (`nioxs::nio-mask`) is the real-time privacy and security redactor of the Nio ecosystem. Embedded directly into terminal stdout/stderr pipes, logging frameworks, and MCP gateway buffers, it sanitizes high-entropy secrets and sensitive PII on the fly in **< 0.2ms** per chunk before data is written to disk or transmitted over the wire.
 
