@@ -1004,3 +1004,13 @@ tr:nth-child(even) td {
   line-height: 1.5;
 }
 
+/* MathJax LaTeX rendering */
+mjx-container {
+  color: inherit !important;
+  font-size: 105% !important;
+  outline: none;
+}
+mjx-container[jax="CHTML"][display="true"] {
+  margin: 0.8em 0;
+}
+

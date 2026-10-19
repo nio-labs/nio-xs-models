@@ -12,6 +12,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
   <link rel="stylesheet" href="style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <!-- MOBILE HEADER -->
@@ -161,7 +174,7 @@
                 <tr>
                   <td><strong>Cost</strong></td>
                   <td>Per-token API pricing &amp; cloud subscriptions</td>
-                  <td><strong>$0.00 forever (Zero API keys needed)</strong></td>
+                  <td><strong>&#36;0.00 forever (Zero API keys needed)</strong></td>
                 </tr>
               </tbody>
             </table>
