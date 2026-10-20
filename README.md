@@ -60,6 +60,7 @@ The **MicroLM (µLM) methodology** represents a fundamental departure: instead o
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Predictive Engine | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioRay`**  | Keystroke Reflex Predator | **0.5B (320M pruned)** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 
 ---
 
@@ -246,6 +247,37 @@ nioxs pull nio-mask --version v0.1.0
 ```bash
 # Pull NioMini via Nio CLI
 nioxs pull nio-mini --version v0.1.0
+```
+
+---
+
+---
+
+## 5. NioRay — Electric Keystroke Reflex Predator (Q4_K_M GGUF)
+
+**NioRay** (`nioxs::nio-ray`) is the first predatory MicroLM in the Nio ecosystem. Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
+
+### Key Specifications & Architecture
+* **Parameters:** **0.49B (~320M active pruned weights)**
+* **Quantization:** `Q4_K_M` GGUF (380 MB single portable binary)
+* **Runtime:** In-Process Native Rust via `candle-core` & `candle-transformers` in `nio-xs`
+* **Inference Latency:** 200+ tok/s (NPU/GPU), immediate prefill (< 20ms) on CPU
+* **Memory Footprint:** < 160 MB resident RAM (pruned) / 380 MB (Q4_K_M)
+* **Specialization:**
+  * Instant function completions, lambdas, regex patterns, and type guards
+  * Keystroke-level reflex completions
+  * Clean ChatML instruction format (`<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`)
+* **Checksums (SHA-256):**
+  * `nio-ray.Q4_K_M.gguf`: `c87a9aeed31e04be1cacf261cf95f0bc17d4706634bd3735ed9e65349b731902`
+  * `tokenizer.json`: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`
+* **Official Release Asset:** [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
+
+```bash
+# Run directly in terminal via NioXS
+nioxs ray "Write a TypeScript function to check if a string is palindrome"
+
+# Or run via Nio client agent
+nio run -m nioxs::nio-ray "Write a TypeScript function to check if a string is palindrome"
 ```
 
 ---
