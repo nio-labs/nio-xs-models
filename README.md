@@ -240,7 +240,7 @@ nioxs pull nio-mask --version v0.1.0
   1. `will_break`: Calibrated binary probability (`0.0` to `1.0`) predicting compilation or test failure
   2. `defect_category`: 5-Class logits (`CLEAN`, `SYNTAX_ERROR`, `TYPE_MISMATCH`, `BORROW_CHECK_FAIL`, `TEST_REGRESSION`)
   3. `risk_score`: Continuous risk score (`0.0` to `1.0`)
-* **Sha256:** `6c24ac5fe5fa5afa39cae7aaff35ffca585c84dc2340d4cc36382f626db4fe25`
+* **Sha256:** `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731`
 * **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0)
 
 ```bash

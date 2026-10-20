@@ -45,10 +45,43 @@ VAR_NAMES = [
 TYPES = ["i32", "i64", "u32", "u64", "usize", "f32", "f64"]
 
 
+def has_unclosed_comment(text: str) -> bool:
+    """Checks whether the text contains an unclosed /* block comment."""
+    i = 0
+    n = len(text)
+    depth = 0
+    while i < n:
+        if text[i] == '"':
+            i += 1
+            while i < n:
+                if text[i] == '\\':
+                    i += 2
+                elif text[i] == '"':
+                    i += 1
+                    break
+                else:
+                    i += 1
+        elif text[i:i + 2] == "//":
+            i += 2
+            while i < n and text[i] != '\n':
+                i += 1
+        elif text[i:i + 2] == "/*":
+            depth += 1
+            i += 2
+        elif text[i:i + 2] == "*/":
+            if depth > 0:
+                depth -= 1
+            i += 2
+        else:
+            i += 1
+    return depth > 0
+
+
 def strip_comments(text: str) -> str:
     """
     Strips Rust comments while preserving string literals (including URLs and comment-like text),
     raw strings, and character literals. Handles nested block comments /* ... /* ... */ ... */.
+    If an unterminated block comment is encountered, it is preserved so lexical errors remain intact.
     If no comments are present, returns original text without corruption.
     """
     res = []
@@ -78,7 +111,6 @@ def strip_comments(text: str) -> str:
                     i += 1
         # 2. Raw string literal r#"..."# or r"..."
         elif text[i] == 'r' and i + 1 < n and (text[i + 1] == '"' or text[i + 1] == '#'):
-            start_r = i
             res.append('r')
             i += 1
             hashes = 0
@@ -97,8 +129,6 @@ def strip_comments(text: str) -> str:
                 else:
                     res.append(text[i:])
                     i = n
-            else:
-                pass
         # 3. Char literal or lifetime
         elif text[i] == "'":
             res.append(text[i])
@@ -128,6 +158,7 @@ def strip_comments(text: str) -> str:
         # 5. Block comment /* ... */
         elif text[i:i + 2] == "/*":
             has_comment = True
+            comment_start = i
             i += 2
             depth = 1
             while i < n and depth > 0:
@@ -139,6 +170,10 @@ def strip_comments(text: str) -> str:
                     i += 2
                 else:
                     i += 1
+            if depth > 0:
+                # Unterminated block comment: preserve it as invalid code!
+                res.append(text[comment_start:n])
+                break
             res.append(" ")
         else:
             res.append(text[i])
@@ -147,13 +182,12 @@ def strip_comments(text: str) -> str:
     if not has_comment:
         return text
 
-    # Clean up excess trailing whitespace from comment removal
     return "".join(res)
 
 
 def generate_clean_sample(sample_idx: int) -> str:
     """Generates 100% compiler-verified valid Rust clean code."""
-    pattern = sample_idx % 10
+    pattern = sample_idx % 14
     fn_name = random.choice(FN_NAMES) + f"_{sample_idx}"
     v1 = random.choice(VAR_NAMES)
     v2 = random.choice([v for v in VAR_NAMES if v != v1 and v != "param_delta"])
@@ -222,13 +256,29 @@ def generate_clean_sample(sample_idx: int) -> str:
     elif pattern == 8:
         # Minimal identity function (addresses Finding 3)
         return f"pub fn {fn_name}({v1}: {t1}) -> {t1} {{\n    {v1}\n}}"
-    else:
+    elif pattern == 9:
         # Minimal constant / zero function (addresses Finding 3)
         return f"pub fn {fn_name}() -> {t1} {{\n    {val_lit}\n}}"
+    elif pattern == 10:
+        # fn main() with string literal and printing (addresses Finding 3)
+        urls = ["https://example.org", "https://crates.io", "https://rust-lang.org"]
+        url = urls[sample_idx % len(urls)]
+        return f"fn main() {{\n    let s = \"{url}\";\n    println!(\"{{}}\", s);\n}}"
+    elif pattern == 11:
+        # Simple fn main()
+        return "fn main() {}"
+    elif pattern == 12:
+        # fn main() with multiple variables and valid assignments
+        lines = [f"let x{k} = {k};" for k in range(sample_idx % 8 + 2)]
+        body = "\n    ".join(lines)
+        return f"fn main() {{\n    {body}\n    let answer: u32 = 42;\n    println!(\"{{}}\", answer);\n}}"
+    else:
+        # UTF-8 text with valid type assignments
+        return f"fn main() {{\n    let txt = \"hello world {sample_idx}\";\n    let good: u32 = 1;\n    let out: u32 = good;\n    println!(\"{{}} {{}}\", txt, out);\n}}"
 
 
 def generate_syntax_error_sample(sample_idx: int) -> str:
-    pattern = sample_idx % 6
+    pattern = sample_idx % 8
     fn_name = random.choice(FN_NAMES) + f"_{sample_idx}"
     v1 = random.choice(VAR_NAMES)
     v2 = random.choice([v for v in VAR_NAMES if v != v1])
@@ -244,12 +294,18 @@ def generate_syntax_error_sample(sample_idx: int) -> str:
         return f"pub fn {fn_name}({v1}: {t1}) -> bool {{\n    if ({v1} > 10 && {v1} < 100 {{\n        true\n    }} else {{\n        false\n    }}\n}}"
     elif pattern == 4:
         return f"pub fn {fn_name}({v1}: {t1}) -> {t1} {{\n    let {v2} = {v1} + 10\n    {v2}\n}}"
-    else:
+    elif pattern == 5:
         return f"pub fn {fn_name}() -> &'static str {{\n    let msg = \"broken string literal;\n    msg\n}}"
+    elif pattern == 6:
+        # Unterminated block comment
+        return f"pub fn {fn_name}({v1}: {t1}) -> {t1} {{\n    {v1}\n}} /*"
+    else:
+        # Nested unterminated block comment
+        return f"pub fn {fn_name}({v1}: {t1}) -> {t1} {{\n    {v1}\n}} /* outer /* inner */"
 
 
 def generate_type_mismatch_sample(sample_idx: int) -> str:
-    pattern = sample_idx % 6
+    pattern = sample_idx % 7
     fn_name = random.choice(FN_NAMES) + f"_{sample_idx}"
     v1 = random.choice(VAR_NAMES)
 
@@ -263,11 +319,14 @@ def generate_type_mismatch_sample(sample_idx: int) -> str:
         return f"pub fn {fn_name}() -> String {{\n    let {v1} = 42;\n    {v1}\n}}"
     elif pattern == 4:
         return f"pub fn {fn_name}({v1}: i32, s: &str) -> i32 {{\n    {v1} + s\n}}"
-    else:
+    elif pattern == 5:
         # Long sequence with late active type mismatch
         lines = [f"let x{k} = {k};" for k in range(15)]
         body = "\n    ".join(lines)
         return f"fn main() {{\n    {body}\n    let answer: u32 = \"mismatched_text_{sample_idx}\";\n}}"
+    else:
+        # Variable assignment type mismatch
+        return f"fn main() {{\n    let good: u32 = 1;\n    let fail: &str = \"oops_{sample_idx}\";\n    let out: u32 = fail;\n    println!(\"{{}}\", out);\n}}"
 
 
 def generate_borrow_check_sample(sample_idx: int) -> str:
@@ -347,6 +406,27 @@ def text_to_token_ids(text: str, seq_len: int = MAX_SEQ_LEN) -> np.ndarray:
 
 # --- 3. 32-Dimensional Structural AST Feature Extraction ---
 
+def detect_type_mismatch(text: str) -> bool:
+    """Detects concrete Rust type mismatches in text."""
+    # 1. Direct type mismatch literals: let x: u32 = "text";
+    if re.search(r":\s*(?:u|i)(?:8|16|32|64|128|size)\s*=\s*\"", text):
+        return True
+    if re.search(r":\s*(?:String|&str)\s*=\s*\d+", text):
+        return True
+    # 2. Variable assignments with mismatched declared types
+    var_types = {}
+    for m in re.finditer(r"let\s+(?:mut\s+)?(\w+)\s*:\s*([a-zA-Z0-9_&]+)\s*=", text):
+        var_types[m.group(1)] = m.group(2).strip()
+    for m in re.finditer(r"let\s+(?:mut\s+)?(\w+)\s*:\s*([a-zA-Z0-9_&]+)\s*=\s*(\w+)\s*;", text):
+        target_type = m.group(2).strip()
+        rhs_var = m.group(3).strip()
+        if rhs_var in var_types:
+            orig_type = var_types[rhs_var]
+            if orig_type != target_type:
+                return True
+    return False
+
+
 def extract_ast_features(text: str, seq_len: int = MAX_SEQ_LEN) -> np.ndarray:
     """
     Extracts a 32-dimensional structural AST feature tensor across seq_len positions.
@@ -362,7 +442,8 @@ def extract_ast_features(text: str, seq_len: int = MAX_SEQ_LEN) -> np.ndarray:
     has_empty_assign = "= ;" in effective_text or "=;" in effective_text
     has_double_borrow = bool(re.search(r"&mut\s+(\w+).*&mut\s+\1", effective_text, re.DOTALL))
     has_compiler_err = "error[" in effective_text or "mismatched types" in effective_text or "test result: FAILED" in effective_text
-    has_type_mismatch_syntax = bool(re.search(r":\s*(?:u|i)(?:8|16|32|64|128|size)\s*=\s*\"", effective_text))
+    has_type_mismatch_syntax = detect_type_mismatch(effective_text)
+    has_unclosed_cmt = has_unclosed_comment(text)
 
     chars = list(effective_text[:seq_len])
     for i, ch in enumerate(chars):
@@ -417,7 +498,7 @@ def extract_ast_features(text: str, seq_len: int = MAX_SEQ_LEN) -> np.ndarray:
         if has_double_borrow: feats[i, 28] = 1.0
         if has_assert_false: feats[i, 29] = 1.0
         if has_compiler_err: feats[i, 30] = 1.0
-        if brace_depth != 0 and i == len(chars) - 1: feats[i, 31] = 1.0
+        if (brace_depth != 0 or has_unclosed_cmt) and i == len(chars) - 1: feats[i, 31] = 1.0
 
     return feats
 
@@ -442,13 +523,18 @@ def generate_dataset(num_samples: int = 10000) -> List[Dict]:
         count = 0
         idx = 0
 
-        # Include foundational anchors for category 0 (CLEAN)
+        # Foundational anchors for category 0 (CLEAN)
         if cat_id == 0:
             anchors = [
                 "pub fn add(a: i32, b: i32) -> i32 { a + b }",
+                "pub fn sub(a: i32, b: i32) -> i32 { a - b }",
                 "pub fn identity(x: u32) -> u32 { x }",
                 "pub fn zero() -> u32 { 0 }",
-                "pub fn max_val() -> u64 { 1000u64 }",
+                "fn main() {}",
+                "fn main() { println!(\"Hello, world!\"); }",
+                "fn main() { let s = \"https://example.org\"; println!(\"{}\", s); }",
+                "fn main() { let mut v = vec![1, 2, 3]; v.push(4); println!(\"{:?}\", v); }",
+                "fn main() { let x = 42; println!(\"{}\", x); }",
                 "pub fn is_even(n: i32) -> bool { n % 2 == 0 }",
             ]
             for anchor in anchors:
@@ -463,7 +549,7 @@ def generate_dataset(num_samples: int = 10000) -> List[Dict]:
                         "ast_features": a_feats,
                         "category": 0,
                         "will_break": 0.0,
-                        "risk_score": 0.04,
+                        "risk_score": 0.03,
                     })
                     count += 1
 
@@ -481,7 +567,7 @@ def generate_dataset(num_samples: int = 10000) -> List[Dict]:
 
             will_break = 0.0 if cat_id == 0 else 1.0
             if cat_id == 0:
-                risk_score = float(np.random.uniform(0.01, 0.10))
+                risk_score = float(np.random.uniform(0.01, 0.08))
             else:
                 risk_score = float(np.random.uniform(0.70, 0.98))
 
