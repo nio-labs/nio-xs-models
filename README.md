@@ -242,6 +242,7 @@ nioxs pull nio-mask --version v0.1.0
   3. `risk_score`: Continuous risk score (`0.0` to `1.0`)
 * **Sha256:** `c5408116f987416bdfd07db3bf7e13c335cad5106ef44dc8f23cbaf6b0b8ffad`
 * **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0)
+* **Training Pipeline:** Trainable via Google Colab T4 GPU: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nio-labs/nio-xs-models/blob/main/models/nio-mini/colab/NioMini_Training.ipynb) (see [`models/nio-mini/colab`](models/nio-mini/colab/README.md))
 
 ```bash
 # Pull NioMini via Nio CLI
