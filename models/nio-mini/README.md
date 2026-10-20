@@ -1,6 +1,6 @@
 # NioMini — Pre-emptive Defect Forecaster (7.1M)
 
-`NioMini` is a pre-execution quality and defect prediction MicroLM. It evaluates code diffs and AST feature projections to forecast build breakages, syntax errors, borrow checker conflicts, and test regressions before running full CI suites.
+`NioMini` is a pre-execution quality and defect prediction MicroLM (µLM). It evaluates code diffs and AST feature projections to forecast build breakages, syntax errors, borrow checker conflicts, and test regressions before running full CI suites.
 
 ---
 

@@ -6,21 +6,21 @@ Training datasets, raw curriculums, and internal training pipelines remain 100% 
 
 ---
 
-## What is a MicroLM? (Micro Learning Model)
+## What is a MicroLM (µLM)? (Micro Learning Model)
 
 > [!NOTE]  
-> **MicroLM stands for Micro Learning Model — NOT Language Model.**
+> **MicroLM (µLM) stands for Micro Learning Model — NOT Language Model.**
 
 Modern AI is often equated with monolithic, multi-billion parameter generative Large Language Models (LLMs) that attempt to do everything through unstructured conversational prose.
 
-The **MicroLM methodology** represents a fundamental departure: instead of relying on slow, resource-heavy, and hallucination-prone generative models, Nio develops **compact, task-dedicated Micro Learning Models** engineered for specific operational disciplines.
+The **MicroLM (µLM) methodology** represents a fundamental departure: instead of relying on slow, resource-heavy, and hallucination-prone generative models, Nio develops **compact, task-dedicated Micro Learning Models (µLMs)** engineered for specific operational disciplines.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        THE MICRO LEARNING MODEL (MicroLM) PARADIGM                     │
+│                        THE MICRO LEARNING MODEL (MicroLM / µLM) PARADIGM               │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 
-        [ Generative Chatbot LLM ]                  [ Nio MicroLM ]
+        [ Generative Chatbot LLM ]                  [ Nio MicroLM (µLM) ]
   Scope:       General-purpose conversational text   Task-dedicated neural intelligence
   Footprint:   7B to 400B+ parameters                Compact edge parameter budgets (e.g. 5M)
   Execution:   Cloud data centers (GPU clusters)     Local edge execution (standard CPU / NPU)
@@ -30,25 +30,25 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
   Reliability: Hallucination & stochastic drift      Mathematically bounded, calibrated models
 ```
 
-### The 4 Universal Principles of the MicroLM Methodology
+### The 4 Universal Principles of the MicroLM (µLM) Methodology
 
 1. **Task-Dedicated Neural Intelligence:**  
-   Rather than asking a general chatbot to guess answers through prompting, a Micro Learning Model is trained with targeted domain loss functions (e.g. multi-task cross-entropy and regression loss) to produce exact, calibrated outputs without conversational fluff.
+   Rather than asking a general chatbot to guess answers through prompting, a Micro Learning Model (µLM) is trained with targeted domain loss functions (e.g. multi-task cross-entropy and regression loss) to produce exact, calibrated outputs without conversational fluff.
 
 2. **Purpose-Engineered Artifacts:**  
-   MicroLMs do not output chatty paragraphs that require regex parsing. They output exact, structured operational payloads:
+   MicroLMs (µLMs) do not output chatty paragraphs that require regex parsing. They output exact, structured operational payloads:
    - Discrete policy verdicts (`approve` / `reject` or `safe` / `unsafe`).
    - Calibrated continuous confidence scores (`0.00` to `1.00`).
    - Stance, polarity, and attention attribution tokens.
 
 3. **Edge-Native Economics & Zero Egress:**  
-   Every MicroLM is compiled to standard ONNX to execute **in-process** via native Rust on ordinary user devices:
+   Every MicroLM (µLM) is compiled to standard ONNX to execute **in-process** via native Rust on ordinary user devices:
    - Runs on standard laptop CPUs, edge servers, and mobile devices (Apple Silicon, Snapdragon, Raspberry Pi).
    - Instant response times (sub-5ms) without network roundtrips.
    - Complete privacy: code, diffs, and private data never leave `127.0.0.1`.
 
 4. **Exact Mathematical Budgeting & Sovereignty:**  
-   Every parameter in a MicroLM must earn its place. Models are engineered to exact, bounded capacities (e.g. `NioMicro` has exactly 5,000,000 parameters per cluster) to guarantee low latency and predictable resident memory.
+   Every parameter in a MicroLM (µLM) must earn its place. Models are engineered to exact, bounded capacities (e.g. `NioMicro` has exactly 5,000,000 parameters per cluster) to guarantee low latency and predictable resident memory.
 
 ---
 
@@ -65,7 +65,7 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 
 ## 1. NioNano — Command Triage & Intent Reflex (~0.5M)
 
-**NioNano** is the embedded, sub-0.1ms assist layer in the MicroLM family. It acts as the very first line of defense inside developer terminals, IDE extensions, and CLI processes.
+**NioNano** is the embedded, sub-0.1ms assist layer in the MicroLM (µLM) family. It acts as the very first line of defense inside developer terminals, IDE extensions, and CLI processes.
 
 ### Key Specifications & Architecture
 * **Status:** **Active & Embedded in Nio Core** (`nio-xs/crates/nano/src/model.rs`)
@@ -252,7 +252,7 @@ nioxs pull nio-mini --version v0.1.0
 
 ## Repository Architecture
 
-This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM family:
+This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM (µLM) family:
 
 * **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
   * [`crates/nio-nano-runtime`](crates/nio-nano-runtime): Sub-0.1ms command intent reflex & AST triage model
