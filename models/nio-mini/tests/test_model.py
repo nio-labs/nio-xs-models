@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts")))
 
 import torch
-from model import NioMiniConfig, NioMiniDefectForecaster, NUM_CLASSES, VOCAB_SIZE
+from mini_model import NioMiniConfig, NioMiniDefectForecaster, NUM_CLASSES, VOCAB_SIZE
 
 
 def test_model_parameter_count():

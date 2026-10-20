@@ -7,8 +7,8 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts")))
 
 import numpy as np
-from dataset_generator import generate_dataset, text_to_token_ids, extract_ast_features, LABELS
-from infer import NioMiniPredictor
+from mini_dataset_generator import generate_dataset, text_to_token_ids, extract_ast_features, LABELS, MAX_SEQ_LEN
+from mini_infer import NioMiniPredictor
 
 
 def test_dataset_generator():
@@ -22,8 +22,8 @@ def test_dataset_generator():
         assert "will_break" in s
         assert "risk_score" in s
         assert s["category"] in range(5)
-        assert s["input_ids"].shape == (128,)
-        assert s["ast_features"].shape == (128, 32)
+        assert s["input_ids"].shape == (MAX_SEQ_LEN,)
+        assert s["ast_features"].shape == (MAX_SEQ_LEN, 32)
         if s["category"] == 0:
             assert s["will_break"] == 0.0
             assert s["risk_score"] < 0.20

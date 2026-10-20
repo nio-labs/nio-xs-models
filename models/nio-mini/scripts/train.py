@@ -187,6 +187,7 @@ def train_and_export(
         },
         opset_version=17,
         do_constant_folding=True,
+        dynamo=False,
     )
 
     # Clean external data chunks if any
@@ -201,26 +202,35 @@ def train_and_export(
     except Exception as e:
         print(f"[Warning] ONNX check / repack note: {e}")
 
-    # 6. Verify with ONNX Runtime
-    print(f"\n[4/4] Verifying ONNX Runtime Inference...")
-    try:
-        import onnxruntime as ort
-        import numpy as np
+    # 6. Verify with ONNX Runtime (Batch 1 & Dynamic Batch 2)
+    print(f"\n[4/4] Verifying ONNX Runtime Inference & Dynamic Batching...")
+    import onnxruntime as ort
+    import numpy as np
 
-        sess = ort.InferenceSession(onnx_out, providers=["CPUExecutionProvider"])
-        test_ids = np.random.randint(0, 8192, size=(1, 64), dtype=np.int64)
-        test_ast = np.random.randn(1, 64, 32).astype(np.float32)
+    sess = ort.InferenceSession(onnx_out, providers=["CPUExecutionProvider"])
+    
+    # Batch 1
+    test_ids_1 = np.random.randint(0, 8192, size=(1, 128), dtype=np.int64)
+    test_ast_1 = np.random.randn(1, 128, 32).astype(np.float32)
+    res_1 = sess.run(None, {"input_ids": test_ids_1, "ast_features": test_ast_1})
+    assert res_1[0].shape == (1, 1), f"Expected (1, 1), got {res_1[0].shape}"
+    assert res_1[1].shape == (1, 5), f"Expected (1, 5), got {res_1[1].shape}"
+    assert res_1[2].shape == (1, 1), f"Expected (1, 1), got {res_1[2].shape}"
 
-        res = sess.run(None, {"input_ids": test_ids, "ast_features": test_ast})
-        wb, cat, risk = res[0], res[1], res[2]
-        cat_probs = np.exp(cat[0]) / np.sum(np.exp(cat[0]))
-        pred_label = LABEL_NAMES[int(np.argmax(cat_probs))]
+    # Dynamic Batch 2
+    test_ids_2 = np.random.randint(0, 8192, size=(2, 128), dtype=np.int64)
+    test_ast_2 = np.random.randn(2, 128, 32).astype(np.float32)
+    res_2 = sess.run(None, {"input_ids": test_ids_2, "ast_features": test_ast_2})
+    assert res_2[0].shape == (2, 1), f"Expected (2, 1), got {res_2[0].shape}"
+    assert res_2[1].shape == (2, 5), f"Expected (2, 5), got {res_2[1].shape}"
+    assert res_2[2].shape == (2, 1), f"Expected (2, 1), got {res_2[2].shape}"
 
-        print(f"  ONNX Verification Successful!")
-        print(f"  Output Shapes: will_break={wb.shape}, category={cat.shape}, risk={risk.shape}")
-        print(f"  Sample Prediction: Break={wb[0,0]:.3f}, Predicted Label={pred_label}, Risk={risk[0,0]:.3f}")
-    except Exception as e:
-        print(f"[Warning] ONNX runtime test note: {e}")
+    wb, cat, risk = res_1[0], res_1[1], res_1[2]
+    cat_probs = np.exp(cat[0]) / np.sum(np.exp(cat[0]))
+    pred_label = LABEL_NAMES[int(np.argmax(cat_probs))]
+
+    print(f"  ONNX Verification Successful! Dynamic Batching Verified (Batches 1 & 2 passed).")
+    print(f"  Sample Prediction: Break={wb[0,0]:.3f}, Predicted Label={pred_label}, Risk={risk[0,0]:.3f}")
 
     size_mb = os.path.getsize(onnx_out) / (1024 * 1024)
     print(f"\n[NioMini] Model saved successfully: {onnx_out} ({size_mb:.2f} MB)")

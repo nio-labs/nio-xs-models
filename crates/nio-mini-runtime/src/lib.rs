@@ -30,6 +30,7 @@ pub struct DefectVerdict {
     pub risk_score: f32,
     pub confidence: f32,
     pub reason: String,
+    pub backend: String,
 }
 
 pub struct NioMini {
@@ -50,11 +51,12 @@ impl NioMini {
     }
 
     /// Pre-emptively forecasts whether an AST diff or code patch induces defects.
-    /// Uses deep lexical analysis, delimiter balancing, borrow conflict checking,
-    /// type signature validation, and test regression detection.
+    /// Analyzes delimiter balancing, borrow conflicts, type signatures, and test regressions.
     pub fn forecast(&self, diff_hunk: &str) -> DefectVerdict {
+        let code_stripped = strip_comments(diff_hunk);
+
         // 1. Structural Delimiter and Syntax Checking
-        if let Some(syntax_reason) = check_syntax_defects(diff_hunk) {
+        if let Some(syntax_reason) = check_syntax_defects(diff_hunk, &code_stripped) {
             return DefectVerdict {
                 model: self.model_name.clone(),
                 will_break: true,
@@ -63,11 +65,12 @@ impl NioMini {
                 risk_score: 0.95,
                 confidence: 0.96,
                 reason: syntax_reason,
+                backend: "structural_ast_heuristic".to_string(),
             };
         }
 
         // 2. Borrow Checker Defect Forecasting
-        if let Some(borrow_reason) = check_borrow_defects(diff_hunk) {
+        if let Some(borrow_reason) = check_borrow_defects(&code_stripped) {
             return DefectVerdict {
                 model: self.model_name.clone(),
                 will_break: true,
@@ -76,11 +79,12 @@ impl NioMini {
                 risk_score: 0.88,
                 confidence: 0.93,
                 reason: borrow_reason,
+                backend: "structural_ast_heuristic".to_string(),
             };
         }
 
         // 3. Type Mismatch Forecasting
-        if let Some(type_reason) = check_type_defects(diff_hunk) {
+        if let Some(type_reason) = check_type_defects(&code_stripped) {
             return DefectVerdict {
                 model: self.model_name.clone(),
                 will_break: true,
@@ -89,11 +93,12 @@ impl NioMini {
                 risk_score: 0.86,
                 confidence: 0.91,
                 reason: type_reason,
+                backend: "structural_ast_heuristic".to_string(),
             };
         }
 
         // 4. Test Suite Failure & Regression Forecasting
-        if let Some(reg_reason) = check_test_regressions(diff_hunk) {
+        if let Some(reg_reason) = check_test_regressions(&code_stripped) {
             return DefectVerdict {
                 model: self.model_name.clone(),
                 will_break: true,
@@ -102,6 +107,7 @@ impl NioMini {
                 risk_score: 0.85,
                 confidence: 0.90,
                 reason: reg_reason,
+                backend: "structural_ast_heuristic".to_string(),
             };
         }
 
@@ -114,17 +120,97 @@ impl NioMini {
             risk_score: 0.04,
             confidence: 0.95,
             reason: "Code conforms to lexical and structural invariants".to_string(),
+            backend: "structural_ast_heuristic".to_string(),
         }
     }
 }
 
-/// Checks delimiter balancing (braces, brackets, parentheses) and obvious syntax violations.
-fn check_syntax_defects(code: &str) -> Option<String> {
-    // Obvious double semicolon or malformed brackets
-    if code.contains(";;") {
-        return Some("Found extraneous duplicate semicolon (;;)".to_string());
+/// Strips line comments `// ...` and block comments `/* ... */` while preserving code and string literals.
+fn strip_comments(code: &str) -> String {
+    let mut out = String::with_capacity(code.len());
+    let chars: Vec<char> = code.chars().collect();
+    let len = chars.len();
+    let mut i = 0;
+    let mut in_string = false;
+    let mut escaped = false;
+
+    while i < len {
+        let ch = chars[i];
+
+        if in_string {
+            out.push(ch);
+            if escaped {
+                escaped = false;
+            } else if ch == '\\' {
+                escaped = true;
+            } else if ch == '"' {
+                in_string = false;
+            }
+            i += 1;
+            continue;
+        }
+
+        if ch == '"' {
+            in_string = true;
+            out.push(ch);
+            i += 1;
+            continue;
+        }
+
+        if ch == '/' && i + 1 < len {
+            if chars[i + 1] == '/' {
+                // Line comment: skip until newline
+                i += 2;
+                while i < len && chars[i] != '\n' {
+                    i += 1;
+                }
+                out.push(' ');
+                continue;
+            } else if chars[i + 1] == '*' {
+                // Block comment: skip until */
+                i += 2;
+                while i + 1 < len && !(chars[i] == '*' && chars[i + 1] == '/') {
+                    i += 1;
+                }
+                i += 2;
+                out.push(' ');
+                continue;
+            }
+        }
+
+        out.push(ch);
+        i += 1;
     }
 
+    out
+}
+
+/// Checks delimiter balancing and syntax violations on clean stripped code.
+fn check_syntax_defects(raw_code: &str, clean_code: &str) -> Option<String> {
+    // 1. Missing expression after assignment, e.g. "let x = ;" or "let a =;"
+    let mut let_pos = 0;
+    while let Some(idx) = clean_code[let_pos..].find("let ") {
+        let abs_start = let_pos + idx;
+        let rest = &clean_code[abs_start..];
+        let end_idx = rest.find(';').unwrap_or(rest.len());
+        let stmt = rest[..end_idx].trim();
+        if let Some(eq_pos) = stmt.find('=') {
+            let after_eq = stmt[eq_pos + 1..].trim();
+            if after_eq.is_empty() {
+                return Some("Statement missing right-hand expression after '='".to_string());
+            }
+        }
+        let_pos = abs_start + 4;
+    }
+
+    for line in clean_code.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("let ") && !trimmed.ends_with(';') && !trimmed.ends_with('{') {
+            return Some(format!("Statement missing terminating semicolon: '{}'", trimmed));
+        }
+    }
+
+    // 2. Delimiter balancing on raw code
     let mut stack = Vec::new();
     let mut in_string = false;
     let mut in_char = false;
@@ -132,7 +218,7 @@ fn check_syntax_defects(code: &str) -> Option<String> {
     let mut in_line_comment = false;
     let mut in_block_comment = false;
 
-    let chars: Vec<char> = code.chars().collect();
+    let chars: Vec<char> = raw_code.chars().collect();
     let len = chars.len();
     let mut i = 0;
 
@@ -140,9 +226,7 @@ fn check_syntax_defects(code: &str) -> Option<String> {
         let ch = chars[i];
 
         if in_line_comment {
-            if ch == '\n' {
-                in_line_comment = false;
-            }
+            if ch == '\n' { in_line_comment = false; }
             i += 1;
             continue;
         }
@@ -181,7 +265,6 @@ fn check_syntax_defects(code: &str) -> Option<String> {
             continue;
         }
 
-        // Check comment start
         if ch == '/' && i + 1 < len {
             if chars[i + 1] == '/' {
                 in_line_comment = true;
@@ -226,15 +309,6 @@ fn check_syntax_defects(code: &str) -> Option<String> {
         return Some(format!("Unclosed opening delimiter '{}'", unclosed));
     }
 
-    // Missing semicolon pattern e.g. "let result = a + b\n result"
-    for line in code.lines() {
-        let trimmed = line.trim();
-        if trimmed.starts_with("let ") && !trimmed.ends_with(';') && !trimmed.ends_with('{') {
-            // Check if next character or line isn't continuation
-            return Some(format!("Statement missing terminating semicolon: '{}'", trimmed));
-        }
-    }
-
     None
 }
 
@@ -244,41 +318,27 @@ fn check_borrow_defects(code: &str) -> Option<String> {
         return Some("Compiler borrow checker violation recorded in diff hunk".to_string());
     }
 
-    // Detect simultaneous mutable borrow of the same identifier e.g.
-    // let a = &mut data; ... let b = &mut data;
-    // Or &mut data alongside &data
-    let lines: Vec<&str> = code.lines().map(|l| l.trim()).collect();
-    let mut mut_borrows: Vec<(&str, usize)> = Vec::new();
-    let mut shared_borrows: Vec<(&str, usize)> = Vec::new();
+    // Scan all occurrences of &mut <ident> in the code (supporting single-line and multiline)
+    let mut mut_borrows: Vec<String> = Vec::new();
+    let mut pos = 0;
 
-    for (line_idx, line) in lines.iter().enumerate() {
-        if let Some(idx) = line.find("&mut ") {
-            let rest = &line[idx + 5..];
-            let ident = rest.split(|c: char| !c.is_alphanumeric() && c != '_').next().unwrap_or("");
-            if !ident.is_empty() && ident != "self" && ident != "mut" {
-                // Check if already mutably borrowed
-                if mut_borrows.iter().any(|(v, _)| *v == ident) {
-                    return Some(format!("Simultaneous mutable borrow of variable '{}'", ident));
-                }
-                // Check if already shared borrowed
-                if shared_borrows.iter().any(|(v, _)| *v == ident) {
-                    return Some(format!("Cannot borrow '{}' as mutable while also borrowed as immutable", ident));
-                }
-                mut_borrows.push((ident, line_idx));
+    while let Some(idx) = code[pos..].find("&mut ") {
+        let abs_idx = pos + idx + 5;
+        let rest = &code[abs_idx..];
+        let ident: String = rest.chars().take_while(|c| c.is_alphanumeric() || *c == '_').collect();
+        if !ident.is_empty() && ident != "self" && ident != "mut" {
+            if mut_borrows.contains(&ident) {
+                return Some(format!("Simultaneous mutable borrow of variable '{}'", ident));
             }
-        } else if let Some(idx) = line.find('&') {
-            let rest = &line[idx + 1..].trim_start();
-            let ident = rest.split(|c: char| !c.is_alphanumeric() && c != '_').next().unwrap_or("");
-            if !ident.is_empty() && ident != "self" && ident != "mut" {
-                if mut_borrows.iter().any(|(v, _)| *v == ident) {
-                    return Some(format!("Cannot borrow '{}' as immutable while already borrowed as mutable", ident));
-                }
-                shared_borrows.push((ident, line_idx));
-            }
+            mut_borrows.push(ident);
         }
+        pos = abs_idx;
+    }
 
-        // Returning reference to local variable
-        if (line.starts_with("return &") || line.starts_with("&local") || line.starts_with("&mut local")) && line.contains("local") {
+    // Returning reference to local variable
+    for line in code.lines() {
+        let trimmed = line.trim();
+        if (trimmed.starts_with("return &") || trimmed.starts_with("&local") || trimmed.starts_with("&mut local")) && trimmed.contains("local") {
             return Some("Returning reference to local stack variable".to_string());
         }
     }
@@ -286,10 +346,34 @@ fn check_borrow_defects(code: &str) -> Option<String> {
     None
 }
 
-/// Checks for type mismatches, incompatible return types, or compiler type errors.
+/// Checks for type mismatches, incompatible assignments, or return mismatches.
 fn check_type_defects(code: &str) -> Option<String> {
     if code.contains("mismatched types") || code.contains("expected `") || code.contains("expected type") {
         return Some("Type signature mismatch detected in patch".to_string());
+    }
+
+    // Check incompatible assignments, e.g. `let x: u32 = "text";` or `let x: i32 = "hello";`
+    let int_types = ["u8", "u16", "u32", "u64", "u128", "usize", "i8", "i16", "i32", "i64", "i128", "isize", "f32", "f64"];
+    let mut type_pos = 0;
+    while let Some(idx) = code[type_pos..].find("let ") {
+        let abs_start = type_pos + idx;
+        let rest = &code[abs_start..];
+        let end_idx = rest.find(';').unwrap_or(rest.len());
+        let stmt = rest[..end_idx].trim();
+        if stmt.contains(':') && stmt.contains('=') {
+            for t in &int_types {
+                let pat = format!(": {} =", t);
+                let pat_space = format!(": {}  =", t);
+                let pat_nospace = format!(":{}=", t);
+                if (stmt.contains(&pat) || stmt.contains(&pat_space) || stmt.contains(&pat_nospace)) && stmt.contains('"') {
+                    return Some(format!("Assigning string literal to numeric variable of type '{}'", t));
+                }
+            }
+            if (stmt.contains(": String =") || stmt.contains(": &str =")) && stmt.chars().any(|c| c.is_ascii_digit()) && !stmt.contains('"') {
+                return Some("Assigning non-string literal to string variable".to_string());
+            }
+        }
+        type_pos = abs_start + 4;
     }
 
     // Incompatible return types, e.g. fn foo() -> u64 { return -1; }
@@ -297,7 +381,6 @@ fn check_type_defects(code: &str) -> Option<String> {
         return Some("Returning negative literal from unsigned integer function".to_string());
     }
 
-    // Returning integer from String function or vice versa
     if (code.contains("-> String") || code.contains("-> &str")) && (code.contains("return 42;") || code.contains("Ok(42)")) {
         return Some("Returning integer literal from string-returning function".to_string());
     }

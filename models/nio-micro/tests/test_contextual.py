@@ -1,8 +1,13 @@
 import json
+import sys
 from pathlib import Path
 import tempfile
 import unittest
 from types import SimpleNamespace
+
+micro_dir = str(Path(__file__).resolve().parents[1])
+if micro_dir not in sys.path:
+    sys.path.insert(0, micro_dir)
 
 import numpy as np
 
