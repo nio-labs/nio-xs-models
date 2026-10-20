@@ -58,7 +58,7 @@ The **MicroLM methodology** represents a fundamental departure: instead of relyi
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Predictive Engine | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
@@ -217,7 +217,8 @@ nioxs pull nio-micro --cluster sec
   * `SECRET`: AWS keys (`AKIA...`), GitHub PATs (`ghp_...`), OpenAI keys (`sk-...`), Slack tokens (`xoxb-...`), Stripe keys (`sk_live_...`), Private RSA/SSH keys, passwords
   * `PII`: Email addresses, IPv4/IPv6 addresses, basic authentication URIs
   * `HASH` (Preserved): Git commit SHAs, UUIDs, docker digests (**zero false positives**)
-* **Official Release Asset:** [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases)
+* **Source Repository:** [`nio-labs/nio-mask`](https://github.com/nio-labs/nio-mask)
+* **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) ([`nio_mask.onnx`](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx))
 
 ```bash
 # Pull NioMask via Nio CLI
