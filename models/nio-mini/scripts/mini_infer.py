@@ -1,6 +1,7 @@
 """
 NioMini Inference Engine (~7.1M Parameter Pre-emptive Defect Forecaster)
 Evaluates code diffs or source snippets and predicts build breaks, defect categories, and calibrated risk.
+Supports dynamic sequence lengths and long-code evaluation without active code truncation.
 """
 
 import os
@@ -10,7 +11,7 @@ import argparse
 import json
 import numpy as np
 
-from mini_dataset_generator import text_to_token_ids, extract_ast_features, MAX_SEQ_LEN
+from mini_dataset_generator import text_to_token_ids, extract_ast_features, strip_comments, MAX_SEQ_LEN
 from mini_model import LABEL_NAMES
 
 
@@ -66,21 +67,54 @@ class NioMiniPredictor:
     def predict(self, code_diff: str) -> dict:
         """
         Predict defect likelihood, category, and risk score for given code or diff hunk.
+        Handles long code through dynamic sequence lengths or multi-window evaluation.
         """
-        token_ids = text_to_token_ids(code_diff, MAX_SEQ_LEN)
-        ast_features = extract_ast_features(code_diff, MAX_SEQ_LEN)
+        effective_text = strip_comments(code_diff)
+        eff_len = len(effective_text)
 
         if self.session is not None:
-            input_ids = np.expand_dims(token_ids, axis=0).astype(np.int64)
-            ast_feats = np.expand_dims(ast_features, axis=0).astype(np.float32)
+            # Build input tensors supporting dynamic sequence lengths up to 512
+            if eff_len + 2 <= 512:
+                target_len = max(64, min(512, ((eff_len + 2 + 15) // 16) * 16))
+                token_ids = text_to_token_ids(effective_text, target_len)
+                ast_features = extract_ast_features(effective_text, target_len)
+                input_ids = np.expand_dims(token_ids, axis=0).astype(np.int64)
+                ast_feats = np.expand_dims(ast_features, axis=0).astype(np.float32)
+            else:
+                # Windows for very large code files (> 512 chars)
+                win_size = 512
+                stride = 256
+                windows_ids = []
+                windows_feats = []
+                for start in range(0, eff_len, stride):
+                    chunk = effective_text[start:start + win_size]
+                    if not chunk:
+                        break
+                    windows_ids.append(text_to_token_ids(chunk, win_size))
+                    windows_feats.append(extract_ast_features(chunk, win_size))
+                tail_chunk = effective_text[-win_size:]
+                windows_ids.append(text_to_token_ids(tail_chunk, win_size))
+                windows_feats.append(extract_ast_features(tail_chunk, win_size))
+                input_ids = np.stack(windows_ids, axis=0).astype(np.int64)
+                ast_feats = np.stack(windows_feats, axis=0).astype(np.float32)
 
             outputs = self.session.run(
                 None,
                 {"input_ids": input_ids, "ast_features": ast_feats}
             )
-            will_break_prob = float(outputs[0][0, 0])
-            cat_logits = outputs[1][0]
-            risk_score = float(outputs[2][0, 0])
+            will_break_probs = outputs[0][:, 0]
+            cat_logits_batch = outputs[1]
+            risk_scores = outputs[2][:, 0]
+
+            # Aggregate across windows: if any window detects a break, choose the most severe defect
+            if np.any(will_break_probs >= 0.50):
+                sel_idx = int(np.argmax(will_break_probs))
+            else:
+                sel_idx = int(np.argmin(will_break_probs))
+
+            will_break_prob = float(will_break_probs[sel_idx])
+            cat_logits = cat_logits_batch[sel_idx]
+            risk_score = float(risk_scores[sel_idx])
 
             # Softmax on categories
             exp_logits = np.exp(cat_logits - np.max(cat_logits))
@@ -89,11 +123,12 @@ class NioMiniPredictor:
             confidence = float(cat_probs[pred_cat_idx])
             pred_cat = LABEL_NAMES[pred_cat_idx]
             category_distribution = {LABEL_NAMES[i]: round(float(cat_probs[i]), 4) for i in range(len(LABEL_NAMES))}
+            model_backend = "onnx"
         else:
             # High-fidelity structural fallback
             balanced = is_balanced(code_diff)
-            has_syntax_kw = any(err in code_diff for err in ["let result = a + b\n", "if (val >= min && val <= max {"])
-            
+            has_syntax_kw = any(err in code_diff for err in ["let result = a + b\n", "if (val >= min && val <= max {"]) or "= ;" in code_diff
+
             # Borrow checker conflicts
             has_double_borrow = bool(re.search(r"&mut\s+(\w+).*&mut\s+\1", code_diff, re.DOTALL)) or \
                                 bool(re.search(r"&mut\s+(\w+).*&\s*\1", code_diff, re.DOTALL)) or \
@@ -103,7 +138,8 @@ class NioMiniPredictor:
             # Type mismatches
             has_type_mismatch = "mismatched types" in code_diff or "expected `" in code_diff or \
                                 ("-> u64" in code_diff and "return -1" in code_diff) or \
-                                ("-> String" in code_diff and "42" in code_diff)
+                                ("-> String" in code_diff and "42" in code_diff) or \
+                                bool(re.search(r":\s*(?:u|i)(?:8|16|32|64|128|size)\s*=\s*\"", effective_text))
 
             # Test regressions / broken panics
             has_test_regression = "assert!(false)" in code_diff or \
@@ -138,6 +174,7 @@ class NioMiniPredictor:
                 confidence = 0.95
 
             category_distribution = {cat: (1.0 if cat == pred_cat else 0.0) for cat in LABEL_NAMES}
+            model_backend = "structural_ast_heuristic"
 
         will_break = will_break_prob >= 0.50
 
@@ -149,47 +186,40 @@ class NioMiniPredictor:
             "risk_score": round(risk_score, 4),
             "confidence": round(confidence, 4),
             "category_distribution": category_distribution,
-            "model_backend": "onnx" if self.session is not None else "heuristic_fallback",
+            "model_backend": model_backend,
         }
 
 
 def main():
-    parser = argparse.ArgumentParser(description="NioMini Defect Forecaster Inference")
-    parser.add_argument("--model", type=str, default="nio-mini.onnx", help="Path to ONNX model file")
-    parser.add_argument("--input", type=str, default=None, help="Diff or code snippet to analyze")
-    parser.add_argument("--json", action="store_true", help="Output strictly as JSON")
+    parser = argparse.ArgumentParser(description="NioMini Pre-emptive Defect Forecaster")
+    parser.add_argument("--code", type=str, help="Rust source code or diff snippet")
+    parser.add_argument("--file", type=str, help="Path to file to analyze")
+    parser.add_argument("--model", type=str, default="nio-mini.onnx", help="Path to ONNX model")
+    parser.add_argument("--json", action="store_true", help="Output JSON format")
+
     args = parser.parse_args()
 
-    predictor = NioMiniPredictor(args.model)
-
-    if args.input:
-        code_input = args.input
+    content = ""
+    if args.code:
+        content = args.code
+    elif args.file:
+        with open(args.file, "r", encoding="utf-8") as f:
+            content = f.read()
     else:
-        if sys.stdin.isatty():
-            code_input = "pub fn add(a: i32, b: i32) -> i32 {\n    let mut x = &mut a;\n    let y = &mut a;\n    x + y\n}"
-        else:
-            code_input = sys.stdin.read()
+        content = sys.stdin.read()
 
-    verdict = predictor.predict(code_input)
+    predictor = NioMiniPredictor(args.model)
+    result = predictor.predict(content)
 
     if args.json:
-        print(json.dumps(verdict, indent=2))
+        print(json.dumps(result, indent=2))
     else:
-        status_symbol = "❌ BREAK" if verdict["will_break"] else "✅ CLEAN"
-        print("=" * 60)
-        print(f" NioMini Defect Forecast: {status_symbol}")
-        print("=" * 60)
-        print(f" Verdict:          {'WILL BREAK' if verdict['will_break'] else 'CLEAN / SAFE'}")
-        print(f" Break Likelihood: {verdict['break_probability'] * 100:.1f}%")
-        print(f" Primary Defect:   {verdict['category']}")
-        print(f" Risk Score:       {verdict['risk_score']:.2f}")
-        print(f" Confidence:       {verdict['confidence'] * 100:.1f}%")
-        print(f" Engine Backend:   {verdict['model_backend']}")
-        print(" Distribution:")
-        for cat, prob in verdict["category_distribution"].items():
-            bar = "█" * int(prob * 20)
-            print(f"   {cat:<18}: {prob * 100:5.1f}% | {bar}")
-        print("=" * 60)
+        status = "BREAK DETECTED" if result["will_break"] else "CLEAN"
+        print(f"[{status}] (Break Prob: {result['break_probability']:.2f}, Risk: {result['risk_score']:.2f})")
+        print(f"Category: {result['category']} (Confidence: {result['confidence']:.2f})")
+        print("Category Distribution:")
+        for cat, prob in result["category_distribution"].items():
+            print(f"  {cat:<20}: {prob:.4f}")
 
 
 if __name__ == "__main__":

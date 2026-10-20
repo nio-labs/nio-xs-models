@@ -202,28 +202,26 @@ def train_and_export(
     except Exception as e:
         print(f"[Warning] ONNX check / repack note: {e}")
 
-    # 6. Verify with ONNX Runtime (Batch 1 & Dynamic Batch 2)
-    print(f"\n[4/4] Verifying ONNX Runtime Inference & Dynamic Batching...")
+    # 6. Verify with ONNX Runtime (Dynamic Batches & Dynamic Sequence Lengths)
+    print(f"\n[4/4] Verifying ONNX Runtime Dynamic Batches & Sequence Lengths...")
     import onnxruntime as ort
     import numpy as np
 
     sess = ort.InferenceSession(onnx_out, providers=["CPUExecutionProvider"])
     
-    # Batch 1
+    # Test matrix of dynamic batches and dynamic sequence lengths
+    for b in [1, 2, 3]:
+        for seq_len in [64, 128, 256, 512]:
+            test_ids = np.random.randint(0, 8192, size=(b, seq_len), dtype=np.int64)
+            test_ast = np.random.randn(b, seq_len, 32).astype(np.float32)
+            res = sess.run(None, {"input_ids": test_ids, "ast_features": test_ast})
+            assert res[0].shape == (b, 1), f"Expected ({b}, 1), got {res[0].shape}"
+            assert res[1].shape == (b, 5), f"Expected ({b}, 5), got {res[1].shape}"
+            assert res[2].shape == (b, 1), f"Expected ({b}, 1), got {res[2].shape}"
+
     test_ids_1 = np.random.randint(0, 8192, size=(1, 128), dtype=np.int64)
     test_ast_1 = np.random.randn(1, 128, 32).astype(np.float32)
     res_1 = sess.run(None, {"input_ids": test_ids_1, "ast_features": test_ast_1})
-    assert res_1[0].shape == (1, 1), f"Expected (1, 1), got {res_1[0].shape}"
-    assert res_1[1].shape == (1, 5), f"Expected (1, 5), got {res_1[1].shape}"
-    assert res_1[2].shape == (1, 1), f"Expected (1, 1), got {res_1[2].shape}"
-
-    # Dynamic Batch 2
-    test_ids_2 = np.random.randint(0, 8192, size=(2, 128), dtype=np.int64)
-    test_ast_2 = np.random.randn(2, 128, 32).astype(np.float32)
-    res_2 = sess.run(None, {"input_ids": test_ids_2, "ast_features": test_ast_2})
-    assert res_2[0].shape == (2, 1), f"Expected (2, 1), got {res_2[0].shape}"
-    assert res_2[1].shape == (2, 5), f"Expected (2, 5), got {res_2[1].shape}"
-    assert res_2[2].shape == (2, 1), f"Expected (2, 1), got {res_2[2].shape}"
 
     wb, cat, risk = res_1[0], res_1[1], res_1[2]
     cat_probs = np.exp(cat[0]) / np.sum(np.exp(cat[0]))

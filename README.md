@@ -240,7 +240,7 @@ nioxs pull nio-mask --version v0.1.0
   1. `will_break`: Calibrated binary probability (`0.0` to `1.0`) predicting compilation or test failure
   2. `defect_category`: 5-Class logits (`CLEAN`, `SYNTAX_ERROR`, `TYPE_MISMATCH`, `BORROW_CHECK_FAIL`, `TEST_REGRESSION`)
   3. `risk_score`: Continuous risk score (`0.0` to `1.0`)
-* **Sha256:** `a3782589d823cd1fdad9b95ac75ac3bc7b58da3c41024b5257f5d58f7755b70f`
+* **Sha256:** `6c24ac5fe5fa5afa39cae7aaff35ffca585c84dc2340d4cc36382f626db4fe25`
 * **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0)
 * **Training Pipeline:** Trainable via Google Colab T4 GPU: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nio-labs/nio-xs-models/blob/main/models/nio-mini/colab/NioMini_Training.ipynb) (see [`models/nio-mini/colab`](models/nio-mini/colab/README.md))
 

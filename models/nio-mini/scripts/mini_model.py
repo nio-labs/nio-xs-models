@@ -52,9 +52,64 @@ class NioMiniConfig:
         self.dropout = dropout
 
 
+class DynamicMultiheadAttention(nn.Module):
+    """
+    Explicit multi-head attention supporting genuinely dynamic sequence lengths
+    without baking static sequence dimensions into ONNX Reshape ops.
+    """
+    def __init__(self, d_model: int = 256, num_heads: int = 8):
+        super().__init__()
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.head_dim = d_model // num_heads
+
+        self.in_proj = nn.Linear(d_model, 3 * d_model)
+        self.out_proj = nn.Linear(d_model, d_model)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        B, L, _ = x.shape
+        qkv = self.in_proj(x)
+        qkv = qkv.view(B, L, 3, self.num_heads, self.head_dim)
+        q = qkv[:, :, 0].permute(0, 2, 1, 3)  # (B, num_heads, L, head_dim)
+        k = qkv[:, :, 1].permute(0, 2, 1, 3)
+        v = qkv[:, :, 2].permute(0, 2, 1, 3)
+
+        scale = 1.0 / math.sqrt(self.head_dim)
+        attn_scores = torch.matmul(q, k.transpose(-2, -1)) * scale
+        attn_weights = F.softmax(attn_scores, dim=-1)
+        context = torch.matmul(attn_weights, v)  # (B, num_heads, L, head_dim)
+        context = context.permute(0, 2, 1, 3).reshape(B, L, self.d_model)
+        return self.out_proj(context)
+
+
+class DynamicTransformerBlock(nn.Module):
+    """
+    Transformer encoder block with norm-first residual architecture.
+    Matches PyTorch TransformerEncoderLayer parameter count exactly.
+    """
+    def __init__(self, d_model: int = 256, num_heads: int = 8, d_ff: int = 1024, dropout: float = 0.1):
+        super().__init__()
+        self.norm1 = nn.LayerNorm(d_model)
+        self.attn = DynamicMultiheadAttention(d_model, num_heads)
+        self.norm2 = nn.LayerNorm(d_model)
+        self.ffn = nn.Sequential(
+            nn.Linear(d_model, d_ff),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(d_ff, d_model),
+            nn.Dropout(dropout),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x + self.attn(self.norm1(x))
+        x = x + self.ffn(self.norm2(x))
+        return x
+
+
 class NioMiniDefectForecaster(nn.Module):
     """
     NioMini: Exactly 7,100,000 Parameter AST Diff & Defect Forecasting Transformer.
+    Fully supports dynamic batch sizes and dynamic sequence lengths in ONNX.
     """
     def __init__(self, config: NioMiniConfig = None):
         super().__init__()
@@ -66,16 +121,15 @@ class NioMiniDefectForecaster(nn.Module):
         self.pos_embedding = nn.Embedding(config.max_seq_len, config.d_model)
         self.ast_feature_proj = nn.Linear(config.ast_feature_dim, config.d_model)
 
-        encoder_layer = nn.TransformerEncoderLayer(
-            d_model=config.d_model,
-            nhead=config.num_heads,
-            dim_feedforward=config.d_ff,
-            dropout=config.dropout,
-            activation="gelu",
-            batch_first=True,
-            norm_first=True
-        )
-        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=config.num_layers)
+        self.layers = nn.ModuleList([
+            DynamicTransformerBlock(
+                d_model=config.d_model,
+                num_heads=config.num_heads,
+                d_ff=config.d_ff,
+                dropout=config.dropout,
+            )
+            for _ in range(config.num_layers)
+        ])
         self.norm = nn.LayerNorm(config.d_model)
 
         # Multi-Head Outputs calibrated to hit exactly 7,100,000 parameters
@@ -102,13 +156,15 @@ class NioMiniDefectForecaster(nn.Module):
 
     def forward(self, input_ids: torch.Tensor, ast_features: torch.Tensor = None):
         B, L = input_ids.shape
-        pos_idx = torch.arange(L, device=input_ids.device).unsqueeze(0).repeat(B, 1)
+        pos_idx = torch.arange(L, device=input_ids.device).unsqueeze(0).expand(B, L)
         x = self.token_embedding(input_ids) + self.pos_embedding(pos_idx)
         if ast_features is not None:
             x = x + self.ast_feature_proj(ast_features)
 
-        feat = self.transformer(x)
-        pooled = self.norm(feat[:, 0, :])  # [CLS] representation
+        for layer in self.layers:
+            x = layer(x)
+
+        pooled = self.norm(x[:, 0, :])  # [CLS] representation
 
         will_break = self.break_head(pooled)
         category_logits = self.category_head(pooled)
