@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "crates/nio-mask-runtime",
+    "crates/nio-micro-runtime",
+    "crates/nio-mini-runtime",
+]
+resolver = "2"

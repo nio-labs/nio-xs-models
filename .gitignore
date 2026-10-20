@@ -1,10 +1,22 @@
-# Private training datasets and scripts (never committed)
-*.jsonl
+# Rust build artifacts
+target/
+Cargo.lock
+
+# Model binaries (distributed via GitHub Releases)
+*.onnx
 *.pt
 *.bin
 *.ckpt
+
+# Python
 *.venv/
+.venv/
 __pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Datasets
+*.jsonl
 
 # Temporary files
 .DS_Store

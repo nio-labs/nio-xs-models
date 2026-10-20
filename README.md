@@ -250,7 +250,29 @@ nioxs pull nio-mini --version v0.1.0
 
 ---
 
+## Repository Architecture
+
+This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM family:
+
+* **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
+  * [`crates/nio-mask-runtime`](crates/nio-mask-runtime): Sub-0.2ms byte-stream secret, API key & PII redactor
+  * [`crates/nio-micro-runtime`](crates/nio-micro-runtime): In-process contextual policy arbiter (sec, infra, base)
+  * [`crates/nio-mini-runtime`](crates/nio-mini-runtime): Sub-5ms pre-emptive defect & compile break forecaster
+* **`models/`**: PyTorch neural network architectures, training scripts, and export pipelines
+  * `models/nio-mask`: Byte-level Conv-Transformer definition, pattern guards & export
+  * `models/nio-micro`: Multi-cluster policy decision architectures & evaluation
+  * `models/nio-mini`: AST defect prediction model pipeline
+  * `models/nio-nano`: Reference intent reflex model architecture
+* **`docs/`**: Official documentation portal & interactive model registry
+
+---
+
 ## License
 
-The compiled model weights are distributed under the [MIT License](LICENSE).  
-Internal training datasets, synthetic curriculums, and data generators are private and proprietary to Nio Labs.
+This repository is licensed under the [Business Source License 1.1](LICENSE) (BSL 1.1).
+
+* **Non-Production & Internal Production Use**: Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.
+* **Commercial Protection Clause**: You may not offer the Licensed Work to third parties as a competing hosted, managed, or cloud service without a commercial license from Nio Labs.
+* **Automatic Open Source Transition**: On **October 20, 2030** (four years from publication), this code automatically converts to the **Apache License, Version 2.0**.
+
+For commercial licensing inquiries or enterprise deployments, contact `licensing@nio-labs.com`.

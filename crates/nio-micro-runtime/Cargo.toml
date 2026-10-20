@@ -1,0 +1,16 @@
+[package]
+name = "nio-micro-runtime"
+version = "0.3.0"
+edition = "2021"
+description = "High-performance Rust runtime for NioMicro (Sub-2ms Decision Model)"
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+thiserror = "1.0"
+
+[[bin]]
+name = "nio-micro-cli"
+path = "src/main.rs"
