@@ -276,4 +276,4 @@ This repository is licensed under the [Business Source License 1.1](LICENSE) (BS
 * **Commercial Protection Clause**: You may not offer the Licensed Work to third parties as a competing hosted, managed, or cloud service without a commercial license from Nio Labs.
 * **Automatic Open Source Transition**: On **October 20, 2030** (four years from publication), this code automatically converts to the **Apache License, Version 2.0**.
 
-For commercial licensing inquiries or enterprise deployments, contact `licensing@nio-labs.com`.
+For commercial licensing inquiries or enterprise deployments, contact `dev@n-o.me`.
