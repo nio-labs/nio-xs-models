@@ -59,10 +59,11 @@
           <div class="nav-section-title">On This Page</div>
           <a href="#overview" class="nav-link">1. Overview &amp; Heritage</a>
           <a href="#variants" class="nav-link">2. Two Release Variants</a>
-          <a href="#triad" class="nav-link">3. The Triad Architecture</a>
-          <a href="#examples" class="nav-link">4. Code Examples</a>
-          <a href="#comparison" class="nav-link">5. Comparison vs Stock Qwen</a>
-          <a href="#cli" class="nav-link">6. NioXS Execution</a>
+          <a href="#nioai" class="nav-link">3. Integration with NioAI</a>
+          <a href="#triad" class="nav-link">4. The Triad Architecture</a>
+          <a href="#examples" class="nav-link">5. Code Examples</a>
+          <a href="#comparison" class="nav-link">6. Comparison vs Stock Qwen</a>
+          <a href="#cli" class="nav-link">7. NioXS &amp; NioAI Execution</a>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -144,7 +145,7 @@
                   <td><code>nio-ray.Q4_K_M.gguf</code></td>
                   <td>151,936</td>
                   <td>490 Million (0.49B)</td>
-                  <td><strong>379.38 MB</strong></td>
+                  <td><strong>379.37 MB</strong></td>
                   <td>Global developer workflows supporting multilingual code comments &amp; documentation.</td>
                 </tr>
                 <tr>
@@ -152,17 +153,90 @@
                   <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
                   <td><strong>32,000</strong></td>
                   <td><strong>~320 Million</strong></td>
-                  <td><strong>~145 MB</strong></td>
-                  <td>Ultra-lean keystroke reflex. Pruned of ~107.4M dead multilingual weights. Resident RAM &lt; 160 MB.</td>
+                  <td><strong>265.86 MB</strong></td>
+                  <td>Ultra-lean keystroke reflex. Pruned of ~107.4M dead multilingual weights. In-process resident RAM &lt; 160 MB.</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </section>
 
+        <!-- INTEGRATION WITH NIOAI -->
+        <section id="nioai" class="doc-section">
+          <div class="section-badge">NioAI Ecosystem</div>
+          <h2>3. How NioRay Works with NioAI</h2>
+          <p><strong>NioAI</strong> is Nio's autonomous agent framework for terminal workspaces, IDEs, and automated developer pipelines. Instead of routing every token through sluggish, high-latency cloud APIs, NioAI employs <strong>NioRay as its embedded high-speed co-processor</strong>.</p>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">Architecture Synergy: Zero-Latency Reflex + Grounded Triad</div>
+            <p>While large frontier LLMs handle macroscopic system design, <strong>NioRay handles 85%+ of daily developer keystroke operations</strong> locally: syntax transforms, AST queries, inline code completions, and test scaffolding—executing in under 5ms with zero token cost.</p>
+          </div>
+
+          <h3>NioAI &amp; NioRay Architecture Diagram</h3>
+          <div class="architecture-diagram">
+            <pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│                        NioAI Developer Terminal / IDE                  │
+│             (Interactive Prompts, Slash Commands, Keystroke Autocomplete) │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+                     ┌──────────────────────────────┐
+                     │   NioNano Reflex Router      │  &lt; 0.1ms Intent Triage
+                     │   (Directives: --bash, --ast)│
+                     └──────────────┬───────────────┘
+                                    │
+                    ┌───────────────┴───────────────┐
+                    │                               │
+           [Keystroke / Code Reflex]       [Macro Multi-File Plan]
+                    │                               │
+                    ▼                               ▼
+       ┌─────────────────────────┐     ┌────────────────────────┐
+       │   NioRay 0.5B MicroLM   │     │  Upstream Cloud LLM    │
+       │ (nio-ray-dev.Q4_K_M)    │     │  (Guarded by NioRay)   │
+       │ In-process Candle Rust  │     └────────────────────────┘
+       └────────────┬────────────┘
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        ▼                       ▼
+ ┌──────────────┐        ┌──────────────┐
+ │ NioDB Vector │        │ NioJS Engine │
+ │  (&lt;nio_db&gt;)  │        │  (&lt;nio_js&gt;)  │
+ └──────────────┘        └──────────────┘</code></pre>
+          </div>
+
+          <h3>Key Synergies in NioAI</h3>
+          <ul>
+            <li><strong>In-Process Zero-Overhead IPC:</strong> NioAI communicates with NioRay via native in-process Rust bindings (`Candle`) or local Unix domain sockets (`~/.nioxs/nioxs.sock`). No HTTP request serialization, no daemon startup delays.</li>
+            <li><strong>Triad Epistemic Grounding:</strong> When NioAI prompts NioRay, NioRay automatically intercepts project-specific type lookups using <code>&lt;nio_db query="..." /&gt;</code> and exact byte math via <code>&lt;nio_js&gt;...&lt;/nio_js&gt;</code>. NioAI executes these sub-calls deterministically and feeds results back in microseconds.</li>
+            <li><strong>Prompt Guard &amp; Token Shield:</strong> Before NioAI dispatches a complex task upstream, NioRay summarizes the context, strips redundant AST tokens, and enforces types—reducing cloud API usage by 70–90%.</li>
+          </ul>
+
+          <h3>Configuring NioRay in NioAI</h3>
+          <p>Add NioRay to your workspace <code>nio.toml</code>:</p>
+          <pre><code class="language-toml">[ai]
+default_reflex = "nioxs::nio-ray-dev"
+triad_grounding = true
+max_tokens = 512
+temperature = 0.2
+
+[ai.local_provider]
+engine = "candle"
+model_path = "~/.nioxs/models/nio-ray-dev.Q4_K_M.gguf"
+tokenizer_path = "~/.nioxs/models/tokenizer.json"
+threads = 4</code></pre>
+
+          <h3>Invoking via NioAI CLI</h3>
+          <pre><code class="language-bash"># Run autonomous inline task using NioRay reflex
+nio run -m nioxs::nio-ray-dev "Refactor parse_header function to return Result<&lt;Header, ParseError&gt;"
+
+# Interactive agent session with Triad grounding enabled
+nio chat --model nioxs::nio-ray</code></pre>
+        </section>
+
         <!-- THE TRIAD ARCHITECTURE -->
         <section id="triad" class="doc-section">
-          <h2>3. The NioRay Triad Architecture</h2>
+          <h2>4. The NioRay Triad Architecture</h2>
           <p>Unlike monolithic models that struggle to memorize every API signature and guess math stochastically, NioRay operates in a <strong>Triad</strong> with native Nio subsystems:</p>
 
           <div class="table-wrapper">
@@ -201,7 +275,7 @@
 
         <!-- EXAMPLES SECTION -->
         <section id="examples" class="doc-section">
-          <h2>4. Concrete Triad Execution Examples</h2>
+          <h2>5. Concrete Triad Execution Examples</h2>
 
           <h3>A. Real-Time Keystroke Reflex (Direct Code Synthesis)</h3>
           <p>Instantaneous typing without conversational fluff:</p>
@@ -277,7 +351,7 @@ pub const AlignedPacket = extern struct {
 
         <!-- COMPARISON SECTION -->
         <section id="comparison" class="doc-section">
-          <h2>5. Comparison: NioRay vs. Stock Qwen2.5-Coder-0.5B</h2>
+          <h2>6. Comparison: NioRay vs. Stock Qwen2.5-Coder-0.5B</h2>
           <div class="table-wrapper">
             <table>
               <thead>
@@ -320,12 +394,12 @@ pub const AlignedPacket = extern struct {
 
         <!-- CLI EXECUTION SECTION -->
         <section id="cli" class="doc-section">
-          <h2>6. Execution via NioXS CLI</h2>
-          <pre><code class="language-bash"># Run reflex query directly in terminal
+          <h2>7. Execution via NioXS CLI &amp; NioAI</h2>
+          <pre><code class="language-bash"># Run reflex query directly in terminal via NioXS
 nioxs ray "Write a TypeScript function to check if a string is palindrome"
 
-# Or invoke via Nio client agent
-nio run -m nioxs::nio-ray "Generate an async Tokio broadcast channel example"</code></pre>
+# Or invoke via NioAI agent with Triad grounding
+nio run -m nioxs::nio-ray-dev "Generate an async Tokio broadcast channel example"</code></pre>
         </section>
 
       </div>

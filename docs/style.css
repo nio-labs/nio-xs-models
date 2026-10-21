@@ -176,22 +176,32 @@ body {
   display: block;
   padding: 6px 12px;
   color: var(--text-secondary);
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 12.5px;
   border-radius: 6px;
   transition: all 0.15s ease;
   font-weight: 500;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link:focus {
   color: var(--text-primary);
   background-color: var(--bg-tertiary);
+  text-decoration: none !important;
 }
 
 .nav-link.active {
   color: var(--accent-color);
   background-color: var(--accent-glow);
   font-weight: 600;
+  text-decoration: none !important;
+}
+
+.sidebar a,
+.sidebar a:hover,
+.sidebar a:focus,
+.sidebar a:visited {
+  text-decoration: none !important;
 }
 
 .sidebar-footer {
@@ -372,27 +382,47 @@ pre,
 pre[class*="language-"],
 code[class*="language-"],
 .token {
-  font-family: 'Google Sans Code', ui-monospace, monospace !important;
+  font-family: 'Google Sans Code', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }
 
-code:not([class*="language-"]) {
-  font-size: 13.5px;
+:not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
   background-color: var(--bg-secondary);
   color: #0969da;
-  padding: 2px 6px;
+  padding: 2.5px 6.5px;
   border-radius: 4px;
   border: 1px solid var(--border-color);
+  font-weight: 500;
+  white-space: break-spaces;
 }
 
+pre,
 pre[class*="language-"] {
-  font-size: 13.5px !important;
-  background-color: #f6f8fa !important;
-  border: 1px solid #d0d7de !important;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  background-color: var(--code-bg, #f6f8fa) !important;
+  color: var(--text-primary, #1f2328) !important;
+  border: 1px solid var(--border-color, #d0d7de) !important;
   border-radius: 8px !important;
-  padding: 16px !important;
-  margin-bottom: 20px !important;
-  overflow-x: auto;
-  color: #1f2328 !important;
+  padding: 16px 20px !important;
+  margin-top: 12px !important;
+  margin-bottom: 24px !important;
+  overflow-x: auto !important;
+  display: block !important;
+}
+
+pre code,
+pre[class*="language-"] code {
+  background: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  display: block !important;
+  border-radius: 0 !important;
 }
 
 /* High-Contrast Syntax Colors */

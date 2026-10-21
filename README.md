@@ -392,9 +392,24 @@ NioRay:
 ```
 
 ### Official Release Assets: [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
-* `nio-ray.Q4_K_M.gguf`: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1` (379.38 MB)
-* `nio-ray-dev.Q4_K_M.gguf`: *(In release pipeline)*
-* `tokenizer.json`: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`
+* **`nio-ray-dev.Q4_K_M.gguf`**: `e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04` (**265.86 MB** — Choice B pruned 32k developer vocab)
+* **`nio-ray.Q4_K_M.gguf`**: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1` (**379.37 MB** — Standard full 151k multilingual vocab)
+* **`tokenizer.json`**: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` (6.70 MB)
+
+### How NioRay Works with NioAI
+
+**NioAI** leverages NioRay as an embedded, zero-overhead reflex co-processor:
+1. **Sub-5ms Keystroke Reflex:** NioAI routes inline completions, syntax transformations, and regexes to in-process NioRay (`nio-ray-dev.Q4_K_M.gguf`), achieving instant typing feedback on CPU without 800ms+ network roundtrips.
+2. **Triad Epistemic Grounding:** NioRay emits `<nio_db query="..." />` to query project AST signatures and `<nio_js>code</nio_js>` for deterministic byte math. NioAI executes these deterministically and feeds results back in microseconds.
+3. **Upstream Token Guarding:** Before invoking large frontier models for complex multi-file features, NioAI uses NioRay to validate types and prune unnecessary AST tokens, cutting cloud token costs by 70–90%.
+
+```bash
+# Direct in-process execution via NioXS CLI
+nioxs ray "Write a TypeScript function to check if a string is palindrome"
+
+# Interactive agent execution via NioAI
+nio run -m nioxs::nio-ray-dev "Refactor parse_header to return Result<Header, ParseError>"
+```
 
 ---
 

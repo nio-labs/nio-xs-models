@@ -65,7 +65,7 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Production Models</div>
-          <a href="nano.html" class="nav-link">4. NioNano (~0.5M) &amp; Directives (--)</a>
+          <a href="nano.html" class="nav-link">4. NioNano (~0.5M)</a>
           <a href="ray.html" class="nav-link">5. NioRay (0.5B / ~320M)</a>
           <a href="micro.html" class="nav-link">6. NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">7. NioMask (1.1M)</a>
@@ -337,15 +337,22 @@
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
-            <div class="callout-title">⚡ Zero-Token Directives (--) Feature</div>
-            <p>NioNano supports instant CLI directives starting with <code>--</code> (e.g. <code>--bash &lt;cmd&gt;</code>, <code>--tools &lt;task&gt;</code>, <code>--definitions &lt;sym&gt;</code>, <code>--code guard</code>). These bypass all LLMs in &lt; 0.05ms with 0 tokens spent. <a href="nano.html#directives"><strong>Explore the full NioNano Directives Documentation &amp; Examples →</strong></a></p>
+            <div class="callout-title">⚡ Zero-Token Directives (--) System</div>
+            <p>NioNano supports instant CLI directives starting with <code>--</code>. These bypass all generative models, executing in &lt; 0.05ms with 0 tokens spent:</p>
+            <ul style="margin: 8px 0 12px 20px;">
+              <li><code>--bash &lt;cmd&gt;</code> — Runs deterministic terminal commands (e.g. <code>--bash cargo check</code>) without disrupting context.</li>
+              <li><code>--tools &lt;task&gt;</code> — Triggers local Python plugins (e.g. <code>--tools generate favicon from logo.svg</code>).</li>
+              <li><code>--callers &lt;symbol&gt;</code> / <code>--ast &lt;file&gt;</code> — Sub-millisecond syntax navigation across workspace files.</li>
+              <li><code>--code guard &lt;task&gt;</code> — Pre-checks types &amp; AST definitions before delegating to upstream agents.</li>
+            </ul>
+            <p><a href="nano.html#directives"><strong>Explore the full NioNano Dedicated Page &amp; Directives Guide →</strong></a></p>
           </div>
         </section>
 
         <!-- 5. NIORAY -->
         <section id="nioray" class="doc-section">
           <div class="section-badge">Keystroke Reflex Predator</div>
-          <h2>5. NioRay — In-Process Keystroke Reflex Predator (0.5B / ~320M)</h2>
+          <h2>5. NioRay — In-Process Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h2>
           <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. Built for instant inline completions, regexes, lambdas, and type guards, it executes natively via Rust Candle kernels with sub-5ms TTFT.</p>
 
           <div class="spec-grid">
@@ -357,18 +364,28 @@
             <div class="spec-card">
               <div class="spec-title">Standard Variant</div>
               <div class="spec-value">nio-ray.Q4_K_M</div>
-              <div class="spec-sub">379 MB | Full 151k Vocab</div>
+              <div class="spec-sub">379.37 MB | Full 151k Vocab</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Dev Variant (Choice B)</div>
               <div class="spec-value">nio-ray-dev.Q4_K_M</div>
-              <div class="spec-sub">~145 MB | Pruned 32k Dev Vocab</div>
+              <div class="spec-sub">265.86 MB | Pruned 32k Dev Vocab</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Inference Speed</div>
               <div class="spec-value">180 – 220+ tok/s</div>
               <div class="spec-sub">In-Process CPU (&lt; 5ms TTFT)</div>
             </div>
+          </div>
+
+          <div class="callout callout-tip" style="margin-top: 24px;">
+            <div class="callout-title">🌊 How NioRay Works with NioAI</div>
+            <p><strong>NioAI</strong> pairs NioRay with your daily workflow as an embedded local co-processor:
+              <br>• <strong>Sub-5ms Keystroke Reflex:</strong> NioAI intercepts inline code edits and terminal prompts, delegating syntax completions to local NioRay rather than waiting 800ms+ for cloud APIs.
+              <br>• <strong>Triad Grounding:</strong> NioRay autonomously emits <code>&lt;nio_db query="..." /&gt;</code> for AST type lookups and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic byte math.
+              <br>• <strong>Upstream Token Shield:</strong> NioRay pre-validates tasks and strips redundant context before NioAI escalates complex multi-file refactors upstream, saving 70–90% in token costs.
+              <br><a href="ray.html#nioai"><strong>Read the Dedicated NioRay &amp; NioAI Integration Guide →</strong></a>
+            </p>
           </div>
 
           <div class="callout callout-note" style="margin-top: 24px;">
@@ -547,6 +564,20 @@
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
+                  <td>NioRay Dev (Choice B Pruned 32k)</td>
+                  <td>265.86 MiB</td>
+                  <td><code>e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev.Q4_K_M.gguf">Download v0.4.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio-ray.Q4_K_M.gguf</code></td>
+                  <td>NioRay Standard (Full 151k Vocab)</td>
+                  <td>379.37 MiB</td>
+                  <td><code>f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray.Q4_K_M.gguf">Download v0.4.0</a></td>
+                </tr>
                 <tr>
                   <td><code>nio_micro_sec.onnx</code></td>
                   <td>NioMicro 5M (Security Cluster)</td>
