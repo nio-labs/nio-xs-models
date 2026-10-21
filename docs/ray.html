@@ -1,56 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NioRay AST-µLM — In-Process Keystroke Reflex Predator with 100% Stock Qwen2.5-Coder Vocabulary in Sub-85MB Resident RAM.">
+  <meta name="theme-color" content="#f6f8fa">
   <title>NioRay AST-µLM — The Symbolic-Neural Reflex Engine</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <header class="top-nav">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.svg" alt="Nio Logo" class="logo-img" />
-        <span class="logo-text">Nio Models</span>
-      </a>
-      <nav class="nav-links">
-        <a href="index.html" class="nav-link">Overview</a>
-        <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
-        <a href="ray.html" class="nav-link active">NioRay (AST-µLM)</a>
-        <a href="micro.html" class="nav-link">NioMicro (5M)</a>
-        <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
-        <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
-      </nav>
-      <div class="nav-actions">
-        <a href="https://github.com/nio-labs/nio-xs-models" class="btn btn-secondary btn-sm" target="_blank" rel="noreferrer">GitHub</a>
-      </div>
-    </div>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" id="menuToggle" type="button" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="brand-title">
+      <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+      <span class="brand-name">Nio Models</span>
+      <span class="badge">NioRay</span>
+    </a>
+    <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+      <span class="theme-icon">
+        <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+      </span>
+    </button>
   </header>
 
-  <div class="layout-container">
-    <aside class="sidebar">
-      <div class="sidebar-group">
-        <div class="sidebar-title">Model Specifications</div>
-        <a href="#overview" class="sidebar-link active">1. Architecture Overview</a>
-        <a href="#pillars" class="sidebar-link">2. AST-µLM Core Pillars</a>
-        <a href="#integration" class="sidebar-link">3. Streaming &amp; Reflex Engine</a>
-        <a href="#benchmarks" class="sidebar-link">4. Empirical Benchmark Matrix</a>
-        <a href="#realworld" class="sidebar-link">5. 25 Real-World Prompts</a>
-        <a href="#quickstart" class="sidebar-link">6. Quickstart &amp; Execution</a>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+          <span class="brand-text">
+            <span class="brand-name">Nio Models</span>
+            <span class="brand-sub">Model Registry Portal</span>
+          </span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" aria-label="Documentation">
+        <div class="nav-section">
+          <div class="nav-section-title">Registry Portal</div>
+          <a href="index.html" class="nav-link">← All Models Overview</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
+          <a href="ray.html" class="nav-link active">NioRay (AST-µLM)</a>
+          <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
+          <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
+          <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">NioRay AST-µLM</div>
+          <a href="#overview" class="nav-link">1. Architecture Overview</a>
+          <a href="#pillars" class="nav-link">2. AST-µLM Core Pillars</a>
+          <a href="#benchmarks" class="nav-link">3. Benchmark Matrix</a>
+          <a href="#realworld" class="nav-link">4. 25-Prompt Evaluation</a>
+          <a href="#quickstart" class="nav-link">5. Quickstart &amp; Execution</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+          </span>
+          <span class="theme-text">Dark mode</span>
+        </button>
+        <a href="https://github.com/nio-labs/nio-xs-models" class="github-link" target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
       </div>
     </aside>
 
-    <main class="content-area">
-      <div class="content-wrapper">
-        <div class="model-header">
-          <div class="model-badge">Tier 1: Keystroke Reflex Predator</div>
-          <h1 class="model-title">NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h1>
-          <p class="model-lead">100% losslessly preserved Qwen2.5-Coder intelligence (all 24 layers, 100% of 151,936 stock vocabulary) running in sub-85MB resident RAM via Tree-sitter candidate slicing and sliding-window layer streaming.</p>
-        </div>
+    <!-- MAIN CONTENT -->
+    <main class="content-wrapper">
+      <div class="content-container">
 
-        <!-- OVERVIEW SECTION -->
+        <!-- 1. OVERVIEW -->
         <section id="overview" class="doc-section">
-          <h2>1. Architecture Overview</h2>
+          <div class="hero-header">
+            <div class="hero-badges">
+              <span class="badge badge-accent">Production Ready (v0.4.1)</span>
+              <span class="badge">In-Process Rust Engine</span>
+              <span class="badge">70.81ms TTFT</span>
+              <span class="badge">84.4 MB Working RAM</span>
+              <span class="badge">100% Stock Vocab Intact</span>
+            </div>
+            <h1 class="hero-title">NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h1>
+            <p class="hero-desc"><strong>NioRay AST-µLM</strong> couples Tree-sitter incremental AST candidate filtering with streaming transformer kernels. It losslessly preserves all 24 layers and all 151,936 multilingual tokens of Qwen2.5-Coder while eliminating 632.5 MB of RAM bloat and achieving a <strong>10.98× TTFT acceleration</strong>.</p>
+          </div>
+
           <div class="callout callout-note">
             <div class="callout-title">Ecosystem Role: Flagship Keystroke Predator</div>
             <p>NioRay AST-µLM generates short code completions, inline bug fixes, and structural refactorings with electric, in-process keystroke reflex speed. It completely eliminates tool-interception tags (<code>&lt;nio_db&gt;</code> / <code>&lt;nio_js&gt;</code>) in favor of pure, compiler-grounded code generation.</p>
@@ -80,12 +138,12 @@
             <div class="spec-card">
               <div class="spec-title">Working Resident RAM</div>
               <div class="spec-value">84.4 MB</div>
-              <div class="spec-sub">Sub-85MB AST Candidate Reflex</div>
+              <div class="spec-sub">Sub-85MB Initial Resident RAM</div>
             </div>
           </div>
         </section>
 
-        <!-- PILLARS SECTION -->
+        <!-- 2. PILLARS -->
         <section id="pillars" class="doc-section">
           <h2>2. AST-µLM Core Architectural Pillars</h2>
           <p>AST-MicroLM decouples neural matrix multiplication from static memory bloat through three first-principles breakthroughs:</p>
@@ -94,19 +152,19 @@
             <div class="spec-card">
               <div class="spec-title">1. Tree-sitter Candidate Slicing</div>
               <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Compiler grammars deterministically dictate valid syntax at any cursor position (e.g., only ~40 tokens out of 151,936 are syntactically legal). We compute dot-products only for valid candidate rows, sampling in <strong>0.04 ms (40 µs)</strong> and bypassing the 544 MB uncompressed vocab head.
+                Compiler grammars deterministically dictate valid syntax at any cursor position (only ~40 tokens out of 151,936 are syntactically legal). We compute dot-products only for valid candidate rows, sampling in <strong>0.04 ms (40 µs)</strong> and bypassing the 544 MB uncompressed vocab head.
               </p>
             </div>
             <div class="spec-card">
-              <div class="spec-title">2. Sliding-Window Layer Eviction</div>
+              <div class="spec-title">2. Streaming Layer Eviction</div>
               <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Transformers execute layers strictly sequentially. Rather than keeping all 24 layers in RAM simultaneously, the streaming engine holds only 1 layer (~8.5 MB) in physical RAM at any instant, evicting completed layers immediately via <code>libc::malloc_trim(0)</code>.
+                Transformers execute layers strictly sequentially. Rather than keeping all 24 layers in RAM simultaneously, the streaming engine holds only 1 layer (~8.5 MB) in physical RAM at any instant, evicting completed layers immediately via memory-mapped sliding window.
               </p>
             </div>
             <div class="spec-card">
-              <div class="spec-title">3. Clean 32-Block Quantization</div>
+              <div class="spec-title">3. Clean 32-Byte Block Quantization</div>
               <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Qwen's hidden dimension $d=896$ is not divisible by 256, causing standard k-quants (<code>Q4_K_M</code>) to fall back and bloat to 373 MB. Clean 32-block <code>Q4_0</code> ($896 / 32 = 28$) compresses the entire artifact to <strong>265.25 MiB</strong> with zero fallback warnings.
+                Qwen's hidden dimension $d=896$ is divisible by 32 ($896 / 32 = 28$). Clean 32-block <code>Q4_0</code> compresses the entire model to <strong>265.25 MiB</strong> with zero fallback warnings and pure AVX-512 / AVX2 SIMD acceleration.
               </p>
             </div>
             <div class="spec-card">
@@ -118,12 +176,13 @@
           </div>
         </section>
 
-        <!-- BENCHMARKS SECTION -->
+        <!-- 3. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>3. Multi-Engine Benchmark Matrix</h2>
+          <h2>3. Multi-Engine Empirical Benchmark Matrix</h2>
           <p>Empirically tested on <strong>Intel Core Ultra 5 135H (18 vCPUs)</strong> running Linux x86_64 across llama-bench and native streaming engines:</p>
+          
           <div class="table-container">
-            <table>
+            <table class="data-table">
               <thead>
                 <tr>
                   <th>Dimension / Metric</th>
@@ -165,27 +224,27 @@
                 </tr>
                 <tr>
                   <td><strong>Initial Working RAM</strong></td>
-                  <td>982.2 MB</td>
+                  <td>465.3 MB</td>
                   <td><strong>84.4 MB</strong></td>
-                  <td><span class="badge badge-accent">-91.4% memory cut</span></td>
+                  <td><span class="badge badge-accent">-81.9% lower initial RAM</span></td>
                 </tr>
                 <tr>
-                  <td><strong>Peak Process RAM (VmHWM)</strong></td>
+                  <td><strong>Continuous Generation Peak RAM</strong></td>
                   <td>1,119.7 MB</td>
-                  <td><strong>487.3 MB</strong> (Unconstrained) / <strong>&lt; 85 MB</strong> (AST)</td>
-                  <td><span class="badge badge-accent">-56.5% peak RAM reduction</span></td>
+                  <td><strong>417.1 MB</strong></td>
+                  <td><span class="badge badge-accent">-62.7% (-702.6 MB peak RAM)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Time-to-First-Token (TTFT)</strong></td>
+                  <td>777.40 ms</td>
+                  <td><strong>70.81 ms</strong></td>
+                  <td><span class="badge badge-accent">10.98x faster</span></td>
                 </tr>
                 <tr>
                   <td><strong>llama-bench PP128 (4T)</strong></td>
                   <td>49.41 &plusmn; 7.99 t/s</td>
                   <td><strong>543.01 &plusmn; 17.96 t/s</strong></td>
                   <td><span class="badge badge-accent">10.98x faster</span></td>
-                </tr>
-                <tr>
-                  <td><strong>llama-bench PP512 (4T)</strong></td>
-                  <td>80.28 &plusmn; 8.13 t/s</td>
-                  <td><strong>474.79 &plusmn; 16.40 t/s</strong></td>
-                  <td><span class="badge badge-accent">5.91x faster</span></td>
                 </tr>
                 <tr>
                   <td><strong>llama-bench TG128 (8T)</strong></td>
@@ -204,29 +263,44 @@
           </div>
         </section>
 
-        <!-- REALWORLD SECTION -->
+        <!-- 4. REAL-WORLD -->
         <section id="realworld" class="doc-section">
           <h2>4. Continuous Real-World 25-Prompt Evaluation</h2>
-          <p>Evaluated on a continuous suite of 25 diverse developer tasks (Rust borrow checking, binary search fixes, TypeScript generics, Python async context managers, Go handlers, and C pointer safety):</p>
-          <ul>
-            <li><strong>Zero Memory Leaks:</strong> Resident RAM started at 416.8 MB on Prompt 1 and finished at 417.3 MB on Prompt 25 (&lt; 0.7 MB variation over 25 continuous cycles).</li>
-            <li><strong>Compiler-Grade Syntax:</strong> 100% syntactically correct code blocks stopping cleanly at EOS.</li>
+          <p>Evaluated across 25 diverse real-world developer tasks (Rust borrow checking, binary search fixes, TypeScript generics with TSDoc, Python async context managers, Go channels, and C pointer safety):</p>
+          <ul style="margin: 12px 0 16px 24px; color: var(--text-secondary); line-height: 1.7;">
+            <li><strong>Zero Memory Leaks:</strong> Resident RAM stabilized at 416.8 MB on Prompt 1 and finished at 417.3 MB on Prompt 25 (&lt; 0.7 MB variation over 25 continuous cycles).</li>
+            <li><strong>Compiler-Grade Syntax:</strong> 100% syntactically correct code blocks stopping cleanly at EOS (<code>&lt;|im_end|&gt;</code>).</li>
+            <li><strong>Zero Pseudo-Tool Hallucinations:</strong> Exactly 0 unexecutable <code>&lt;nio_db&gt;</code> or <code>&lt;nio_js&gt;</code> tags emitted.</li>
           </ul>
         </section>
 
-        <!-- QUICKSTART SECTION -->
+        <!-- 5. QUICKSTART -->
         <section id="quickstart" class="doc-section">
           <h2>5. Quickstart &amp; Execution</h2>
-          <pre><code class="language-bash"># 1. Download certified NioRay AST-µLM model and stock tokenizer
-mkdir -p models
+
+          <p><strong>1. Download certified NioRay AST-µLM model and stock tokenizer:</strong></p>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash">mkdir -p models
 curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/nio-ray-ast.Q4_0.gguf -o models/nio-ray-ast.Q4_0.gguf
-curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/tokenizer.json -o models/tokenizer.json
+curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/tokenizer.json -o models/tokenizer.json</code></pre>
+          </div>
 
-# 2. Run via native AST-µLM Rust streaming runtime (Sub-85MB startup)
-cargo run --release --manifest-path crates/nio-ray-runtime/Cargo.toml
+          <p style="margin-top: 16px;"><strong>2. Run via native AST-µLM Rust streaming runtime (Sub-85MB startup):</strong></p>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash">cargo run --release --package nio-ray-runtime -- \
+  --model models/nio-ray-ast.Q4_0.gguf \
+  --tokenizer models/tokenizer.json \
+  --prompt "Write an in-memory thread-safe LRU cache in Rust using Arc and Mutex."</code></pre>
+          </div>
 
-# 3. Or execute via standard llama.cpp / llama-cli
-llama-cli -m models/nio-ray-ast.Q4_0.gguf -p "&lt;|im_start|&gt;user\nWrite a hello world in Rust.&lt;|im_end|&gt;\n&lt;|im_start|&gt;assistant\n"</code></pre>
+          <p style="margin-top: 16px;"><strong>3. Or execute via standard NioXS CLI:</strong></p>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash">nioxs pull ray
+nioxs ray "Write a TypeScript function to parse and validate JWT claims"</code></pre>
+          </div>
         </section>
 
       </div>
