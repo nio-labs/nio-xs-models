@@ -506,7 +506,7 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
               <div class="spec-sub">379.37 MB | Full 151k Vocab</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Dev Variant (Choice B)</div>
+              <div class="spec-title">Dev Variant</div>
               <div class="spec-value">nio-ray-dev.Q4_K_M</div>
               <div class="spec-sub">265.86 MB | Pruned 32k Dev Vocab</div>
             </div>
@@ -524,13 +524,13 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
               <br>• <strong>Triad Grounding:</strong> NioRay autonomously emits <code>&lt;nio_db query="..." /&gt;</code> for AST type lookups and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic byte math.
               <br>• <strong>Upstream Token Shield:</strong> NioRay pre-validates tasks and strips redundant context before NioAI escalates complex multi-file refactors upstream, saving 70–90% in token costs.
             </p>
-            <pre><code class="language-bash"># Pull NioRay into local cache (Choice B 32k pruned Dev model)
+            <pre><code class="language-bash"># Pull NioRay into local cache (32k pruned Dev model)
 nioxs pull nio-ray --variant dev
 
 # Direct in-process keystroke reflex via NioXS CLI (< 5ms TTFT)
 nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
 
-# Autonomous zero-token task execution via NioAI CLI (Choice B Dev variant)
+# Autonomous zero-token task execution via NioAI CLI (Dev variant)
 nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"
 
 # Epistemic Triad execution with AST grounding
@@ -750,7 +750,7 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
               <tbody>
                 <tr>
                   <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
-                  <td>NioRay Dev (Choice B Pruned 32k)</td>
+                  <td>NioRay Dev (Pruned 32k Vocab)</td>
                   <td>265.86 MiB</td>
                   <td><code>e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev.Q4_K_M.gguf">Download v0.4.0</a></td>
@@ -833,7 +833,7 @@ sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.o
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code># Pull NioRay Dev (Choice B 32k pruned, 266 MB)
+            <pre><code># Pull NioRay Dev (32k pruned, 266 MB)
 nioxs pull nio-ray --variant dev
 
 # Pull NioMicro Policy Clusters (Security &amp; Infra)
@@ -880,7 +880,7 @@ nio "--bash cargo test --lib --locked"</code></pre>
             <pre><code class="language-bash"># Keystroke reflex synthesis via NioXS CLI
 nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
 
-# Autonomous zero-token task execution in NioAI (Choice B 32k pruned Dev model)
+# Autonomous zero-token task execution in NioAI (32k pruned Dev model)
 nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"</code></pre>
           </div>
 

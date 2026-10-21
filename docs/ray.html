@@ -116,7 +116,7 @@
             <div class="spec-card">
               <div class="spec-title">Parameter Scale</div>
               <div class="spec-value">0.49B / ~320M</div>
-              <div class="spec-sub">Choice B dev vocabulary pruning</div>
+              <div class="spec-sub">Dev vocabulary pruning</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Inference Speed</div>
@@ -158,7 +158,7 @@
                   <td>Global developer workflows supporting multilingual code comments &amp; documentation.</td>
                 </tr>
                 <tr>
-                  <td><strong>NioRay Dev (Choice B)</strong></td>
+                  <td><strong>NioRay Dev</strong></td>
                   <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
                   <td><strong>32,000</strong></td>
                   <td><strong>~320 Million</strong></td>
@@ -315,7 +315,7 @@ pub fn sse_router(tx: tokio::sync::broadcast::Sender<String>) -> Router {
 }</code></pre>
 
           <h3>B. Ultra-Lean In-Process Reflex via NioAI (`nio run -m nioxs::nio-ray-dev`)</h3>
-          <p>Executed using the Choice B 32k pruned developer model (resident RAM &lt; 160MB):</p>
+          <p>Executed using the 32k pruned developer model (resident RAM &lt; 160MB):</p>
           <pre><code class="language-bash"># Run zero-token agent reflex task in NioAI
 nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims without third-party dependencies"</code></pre>
           <pre><code class="language-typescript">/*
@@ -419,7 +419,7 @@ pub const AlignedPacket = extern struct {
                 <tr>
                   <td><strong>Resident RAM</strong></td>
                   <td>850 MB – 1,100 MB (Go/C++ Daemon)</td>
-                  <td><strong>&lt; 160 MB</strong> (Choice B in-process)</td>
+                  <td><strong>&lt; 160 MB</strong> (Dev in-process)</td>
                 </tr>
                 <tr>
                   <td><strong>Time To First Token</strong></td>
@@ -449,7 +449,7 @@ pub const AlignedPacket = extern struct {
         <!-- CLI EXECUTION SECTION -->
         <section id="cli" class="doc-section">
           <h2>7. Execution via NioXS CLI &amp; NioAI</h2>
-          <pre><code class="language-bash"># Pull NioRay Dev (Choice B 32k pruned, 266 MB - Recommended for laptops)
+          <pre><code class="language-bash"># Pull NioRay Dev (32k pruned, 266 MB - Recommended for laptops)
 nioxs pull nio-ray --variant dev
 
 # Or pull Standard Full-Vocab variant (151k multilingual vocab, 379 MB)

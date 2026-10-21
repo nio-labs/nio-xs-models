@@ -416,10 +416,10 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 * **Base Architecture**: Fine-tuned from **`Qwen/Qwen2.5-Coder-0.5B-Instruct`** (24 Transformer layers, $d_{\text{model}} = 896$, 14 query heads, 2 KV heads).
 * **Two Production Variants**:
   1. **Standard Full-Vocab (`nio-ray.Q4_K_M.gguf`)**: Full 151,936 multilingual vocabulary (379.38 MB), supporting international teams and multilingual comments.
-  2. **Choice B Dev-Pruned (`nio-ray-dev.Q4_K_M.gguf`)**: Pruned to a 32,000 developer vocabulary (English, code keywords for Rust, Zig, TS/JS, Python, Go, and byte fallbacks). Eliminates ~107.4 million dead dictionary parameters, fitting inside **< 160 MB resident RAM** and optimized for CPU L3 cache residency.
+  2. **Dev-Pruned (`nio-ray-dev.Q4_K_M.gguf`)**: Pruned to a 32,000 developer vocabulary (English, code keywords for Rust, Zig, TS/JS, Python, Go, and byte fallbacks). Eliminates ~107.4 million dead dictionary parameters, fitting inside **< 160 MB resident RAM** and optimized for CPU L3 cache residency.
 
 ### Key Specifications
-* **Parameters:** **0.49B (Standard) / ~320M (Choice B `nio-ray-dev`)**
+* **Parameters:** **0.49B (Standard) / ~320M (Dev `nio-ray-dev`)**
 * **Quantization:** `Q4_K_M` GGUF (Single portable binary)
 * **Runtime:** In-Process Native Rust via `candle-core` & `candle-transformers` in `nio-xs`
 * **Inference Latency:** 200+ tok/s (NPU/GPU), immediate prefill (< 5ms TTFT) on standard CPU
@@ -477,7 +477,7 @@ NioRay:
 ```
 
 ### Official Release Assets: [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
-* **`nio-ray-dev.Q4_K_M.gguf`**: `e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04` (**265.86 MB** — Choice B pruned 32k developer vocab)
+* **`nio-ray-dev.Q4_K_M.gguf`**: `e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04` (**265.86 MB** — 32k pruned developer vocab)
 * **`nio-ray.Q4_K_M.gguf`**: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1` (**379.37 MB** — Standard full 151k multilingual vocab)
 * **`tokenizer.json`**: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` (6.70 MB)
 
@@ -491,7 +491,7 @@ NioRay:
 ### Execution via NioXS & NioAI CLI
 
 ```bash
-# 1. Pull NioRay into local cache (Choice B 32k pruned Dev model - Recommended)
+# 1. Pull NioRay into local cache (32k pruned Dev model - Recommended)
 nioxs pull nio-ray --variant dev
 
 # Or pull Standard Full-Vocab variant (151k multilingual vocab)
