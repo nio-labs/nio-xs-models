@@ -268,7 +268,7 @@ nioxs pull nio-mini --version v0.1.0
   * Keystroke-level reflex completions
   * Clean ChatML instruction format (`<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`)
 * **Checksums (SHA-256):**
-  * `nio-ray.Q4_K_M.gguf`: `c87a9aeed31e04be1cacf261cf95f0bc17d4706634bd3735ed9e65349b731902`
+  * `nio-ray.Q4_K_M.gguf`: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1`
   * `tokenizer.json`: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`
 * **Official Release Asset:** [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
 
