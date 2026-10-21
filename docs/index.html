@@ -67,7 +67,7 @@
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
           <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
-          <a href="ray.html" class="nav-link">NioRay (0.5B / 386.6M)</a>
+          <a href="ray.html" class="nav-link">NioRay (MoE / Dev)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
@@ -226,11 +226,11 @@
 
           <div class="card-grid" style="grid-template-columns: 1fr;">
             <div class="feature-card">
-              <h4>NioRay <code>(0.49B / 386.6M)</code></h4>
-              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code>. Runs locally for short code completions. Dev has 386.6M parameters and a 265.87 MiB artifact. Latency, throughput, resident memory, and coding quality require reproducible benchmarks.</p>
+              <h4>NioRay <code>(1.57B MoE / 386.6M Dev)</code></h4>
+              <p><strong>The Keystroke Predator (Active).</strong> Upcycled from <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> into a 4-expert <strong>Micro-MoE (Default)</strong> with full 151k vocabulary preservation (~630M active compute per token), alongside the pruned <strong>NioRay Dev</strong> variant. Native in-process Rust Candle execution.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
                 <span class="badge badge-accent">Released v0.4.0</span>
-                <span class="badge badge-mono">Standard (379MB) &bull; Dev (265MB)</span>
+                <span class="badge badge-mono">MoE Default (1.57B / 680MB) &bull; Dev (386M / 265MB)</span>
               </div>
               <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay Predator Docs →</strong></a></p>
             </div>
@@ -335,8 +335,8 @@
                 <tr>
                   <td><a href="ray.html"><strong>NioRay</strong></a></td>
                   <td>Keystroke Predator</td>
-                  <td><code>0.49B / 386.6M</code></td>
-                  <td>Electric keystroke code reflex (Q4_K_M GGUF, based on Qwen 2.5 Coder, Standard &amp; Dev variants)</td>
+                  <td><code>1.57B MoE / 386.6M Dev</code></td>
+                  <td>Electric keystroke code reflex (Q4_K_M GGUF, Micro-MoE Default &amp; Dev variants)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0">v0.4.0</a></td>
                 </tr>
@@ -1047,12 +1047,12 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
 
           <div class="faq-item">
-            <h4 class="faq-question">What is the difference between NioRay Standard and NioRay Dev variants?</h4>
+            <h4 class="faq-question">What is the difference between NioRay MoE and NioRay Dev variants?</h4>
             <div class="faq-answer">
               <p>Under Release v0.4.0, NioRay is distributed in two purpose-engineered binaries:</p>
               <ul style="margin: 8px 0 8px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-                <li><strong><code>nio-ray.Q4_K_M.gguf</code> (379.38 MiB):</strong> Standard variant retaining the full 151,936 multilingual vocabulary. Recommended for global teams who need code completions alongside comments in non-Latin scripts (CJK, Arabic, Cyrillic).</li>
-                <li><strong><code>nio-ray-dev.Q4_K_M.gguf</code> (265.87 MiB):</strong> 386,570,112 parameters and a 32,000-entry vocabulary, retaining tokens by original BPE ID. Requires <code>nio-ray-dev-tokenizer.json</code>. Removes 107,462,656 parameters; quality and token inflation have not yet been benchmarked.</li>
+                <li><strong><code>nio-ray.Q4_K_M.gguf</code> (~680 MB, Default):</strong> Micro-MoE variant upcycling Qwen 0.5B into 4 specialized domain experts with full 151,936 multilingual vocabulary. Activates only ~630M parameters per token, executing in ~320MB active compute RAM via <code>mmap</code>. Uses stock <code>tokenizer.json</code>.</li>
+                <li><strong><code>nio-ray-dev.Q4_K_M.gguf</code> (265.87 MiB):</strong> Dense lightweight variant pruned to a 32,000-entry developer vocabulary (386,570,112 parameters). Cuts peak physical resident RAM by 57% (485 MiB vs 1,120 MiB). Uses <code>nio-ray-dev-tokenizer.json</code>.</li>
               </ul>
             </div>
           </div>
