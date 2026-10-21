@@ -146,32 +146,35 @@
         <!-- 2. PILLARS -->
         <section id="pillars" class="doc-section">
           <h2>2. AST-µLM Core Architectural Pillars</h2>
-          <p>AST-MicroLM decouples neural matrix multiplication from static memory bloat through three first-principles breakthroughs:</p>
+          <p>AST-MicroLM decouples neural matrix multiplication from static memory bloat through four first-principles breakthroughs:</p>
 
-          <div class="spec-grid">
-            <div class="spec-card">
-              <div class="spec-title">1. Tree-sitter Candidate Slicing</div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Compiler grammars deterministically dictate valid syntax at any cursor position (only ~40 tokens out of 151,936 are syntactically legal). We compute dot-products only for valid candidate rows, sampling in <strong>0.04 ms (40 µs)</strong> and bypassing the 544 MB uncompressed vocab head.
-              </p>
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>1. Tree-sitter Candidate Slicing</h4>
+              <p>Compiler grammars deterministically dictate valid syntax at any cursor position (only ~40 tokens out of 151,936 are syntactically legal). We compute dot-products only for valid candidate rows, sampling in <strong>0.04 ms (40 µs)</strong> and bypassing the 544 MB uncompressed vocab head.</p>
+              <span class="badge badge-accent">40 µs Reflex &bull; Bypasses 544MB Head</span>
             </div>
-            <div class="spec-card">
-              <div class="spec-title">2. Streaming Layer Eviction</div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Transformers execute layers strictly sequentially. Rather than keeping all 24 layers in RAM simultaneously, the streaming engine holds only 1 layer (~8.5 MB) in physical RAM at any instant, evicting completed layers immediately via memory-mapped sliding window.
-              </p>
+
+            <div class="feature-card">
+              <div class="card-icon">🌊</div>
+              <h4>2. Streaming Layer Eviction</h4>
+              <p>Transformers execute layers strictly sequentially. Rather than keeping all 24 layers in RAM simultaneously, the streaming engine holds only 1 layer (~8.5 MB) in physical RAM at any instant, evicting completed layers immediately via memory-mapped sliding window.</p>
+              <span class="badge badge-accent">~8.5 MB Active Layer Window</span>
             </div>
-            <div class="spec-card">
-              <div class="spec-title">3. Clean 32-Byte Block Quantization</div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Qwen's hidden dimension $d=896$ is divisible by 32 ($896 / 32 = 28$). Clean 32-block <code>Q4_0</code> compresses the entire model to <strong>265.25 MiB</strong> with zero fallback warnings and pure AVX-512 / AVX2 SIMD acceleration.
-              </p>
+
+            <div class="feature-card">
+              <div class="card-icon">📐</div>
+              <h4>3. Clean 32-Byte Block Quantization</h4>
+              <p>Qwen's hidden dimension $d=896$ is divisible by 32 ($896 / 32 = 28$). Clean 32-block <code>Q4_0</code> compresses the entire model to <strong>265.25 MiB</strong> with zero fallback warnings and pure AVX-512 / AVX2 SIMD acceleration.</p>
+              <span class="badge badge-accent">265.25 MiB &bull; 0% Fallback Overhead</span>
             </div>
-            <div class="spec-card">
-              <div class="spec-title">4. Standalone &amp; Air-Gapped</div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-                Pure freestanding Rust binary using direct memory-mapped SIMD kernels. Zero external dependencies, no Python server, no <code>niodb</code>, no <code>niojs</code>, and zero cloud API keys.
-              </p>
+
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h4>4. Standalone &amp; Air-Gapped</h4>
+              <p>Pure freestanding Rust binary using direct memory-mapped SIMD kernels. Zero external dependencies, no Python server, no <code>niodb</code>, no <code>niojs</code>, and zero cloud API keys.</p>
+              <span class="badge badge-accent">Zero Daemons &bull; 100% In-Process</span>
             </div>
           </div>
         </section>
