@@ -183,11 +183,11 @@
         <!-- 3. NIOAI INTEGRATION -->
         <section id="nioai" class="doc-section">
           <h2>3. Integration with NioAI</h2>
-          <p><strong>NioAI</strong> is Nio's autonomous agent framework for terminal workspaces, IDEs, and local developer workflows. Rather than burning money and incurring 1,500ms latency routing every keystroke to remote cloud models, NioAI uses <strong>NioRay AST-µLM as its embedded in-process co-processor</strong>.</p>
+          <p><strong>NioAI</strong> is Nio's autonomous agent framework for terminal workspaces, IDEs, and local developer workflows. NioAI uses <strong>NioRay AST-µLM as its embedded in-process co-processor</strong> for instant keystroke reflexes and code synthesis.</p>
 
           <div class="callout callout-tip">
-            <div class="callout-title">The Division of Labor: Instant Keystroke Reflex vs Cloud Monoliths</div>
-            <p>NioAI delegates 70%–80% of routine coding tasks (inline autocompletes, function implementations, unit tests, and compiler diagnostic fixes) directly to NioRay running in-process on standard CPUs, reserving expensive cloud models exclusively for macro repository architecture.</p>
+            <div class="callout-title">Zero Cloud Egress: 100% In-Process Sovereign Reflex</div>
+            <p>NioAI routes code synthesis, inline autocompletes, function implementations, unit tests, and compiler diagnostic fixes directly to NioRay running in-process on standard CPUs with zero network requests, zero latency drag, and zero cloud API fees.</p>
           </div>
 
           <div class="table-container">
@@ -196,28 +196,26 @@
 │         (Interactive Prompts, Keystroke Autocomplete, Diagnostics)     │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
+                                    │ Direct In-Process Query
                                     ▼
-                     ┌──────────────────────────────┐
-                     │   NioNano Directive Router   │  &lt; 0.05ms Zero-Token Lexical Triage
-                     │   (Directives: --bash, --ast)│
-                     └──────────────┬───────────────┘
+       ┌─────────────────────────────────────────────────────────┐
+       │               NioRay AST-µLM Engine Core                │
+       │   (nio-ray-ast.Q4_0.gguf • 70.81ms TTFT • 84.4MB RAM)   │
+       └────────────────────────────┬────────────────────────────┘
                                     │
-                    ┌───────────────┴───────────────┐
-                    │                               │
-        [Keystroke / Inline Reflex]       [Macro Repository Plan]
-                    │                               │
-                    ▼                               ▼
-       ┌─────────────────────────┐     ┌────────────────────────┐
-       │   NioRay AST-µLM        │     │  Upstream Cloud LLM    │
-       │ (nio-ray-ast.Q4_0.gguf) │     │  (Guarded &amp; Sanitized) │
-       │ 70.81ms TTFT • 84.4MB   │     └────────────────────────┘
-       └────────────┬────────────┘
-                    │
-                    ▼
-       ┌─────────────────────────┐
-       │ Tree-sitter AST Filter  │  40 µs Grammar-Masked Reflex
-       │ Verified Syntax Output  │  Zero Tool Hallucination Tags
-       └─────────────────────────┘</code></pre>
+                                    │ Streaming Tensor Logits
+                                    ▼
+       ┌─────────────────────────────────────────────────────────┐
+       │             Tree-sitter Incremental AST Filter          │
+       │     (Sub-40µs Grammar Masking • Zero Tool Tags)         │
+       └────────────────────────────┬────────────────────────────┘
+                                    │
+                                    │ Verified Compiler-Grade Code
+                                    ▼
+       ┌─────────────────────────────────────────────────────────┐
+       │                   Instant Inline Output                 │
+       │         (Zero Network Delay • 100% Air-Gapped)          │
+       └─────────────────────────────────────────────────────────┘</code></pre>
           </div>
 
           <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">NioAI Workflow Example</h3>
