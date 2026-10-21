@@ -122,7 +122,7 @@
 
           <div class="callout callout-note">
             <div class="callout-title">The Role of This Registry</div>
-            <p>Training curriculums, synthetic datasets, and raw training pipelines remain strictly private to Nio Labs. This repository acts as the authoritative, cryptographically verified distribution point for compiled production binaries (<code>.gguf</code>, <code>.onnx</code>, embedded Rust weights) and domain tokenizers used by <strong>NioXS</strong>, <strong>NioAI</strong>, and edge runtimes.</p>
+            <p>This repository acts as the authoritative, cryptographically verified distribution point for compiled production binaries (<code>.gguf</code>, <code>.onnx</code>, embedded Rust weights) and domain tokenizers used by <strong>NioXS</strong>, <strong>NioAI</strong>, and edge runtimes.</p>
           </div>
         </section>
 
@@ -524,7 +524,10 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
               <br>• <strong>Triad Grounding:</strong> NioRay autonomously emits <code>&lt;nio_db query="..." /&gt;</code> for AST type lookups and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic byte math.
               <br>• <strong>Upstream Token Shield:</strong> NioRay pre-validates tasks and strips redundant context before NioAI escalates complex multi-file refactors upstream, saving 70–90% in token costs.
             </p>
-            <pre><code class="language-bash"># Direct in-process keystroke reflex via NioXS CLI
+            <pre><code class="language-bash"># Pull NioRay into local cache (Choice B 32k pruned Dev model)
+nioxs pull nio-ray --variant dev
+
+# Direct in-process keystroke reflex via NioXS CLI (< 5ms TTFT)
 nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
 
 # Autonomous zero-token task execution via NioAI CLI (Choice B Dev variant)

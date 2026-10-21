@@ -1,8 +1,6 @@
 # Nio Models — Official MicroLM (µLM) Model Registry
 
-This repository serves as the official distribution hub for compiled, production-ready neural models (**Nio Models**) used across the **Nio** and **NioXS** edge ecosystem in **GGUF**, **ONNX**, and **In-Process Rust** formats.
-
-Training datasets, raw curriculums, and internal training pipelines remain 100% private. Only compiled mathematical model binaries (`.gguf`, `.onnx`, embedded Rust tensors) and domain tokenizers are distributed here as compiled release assets.
+This repository serves as the official distribution hub for compiled, verified neural model binaries (`.gguf`, `.onnx`, embedded Rust tensors) and domain tokenizers used across the **Nio** and **NioXS** edge ecosystem in **GGUF**, **ONNX**, and **In-Process Rust** formats.
 
 ---
 
@@ -439,10 +437,12 @@ nioxs ray "Write a TypeScript function to check if a string is palindrome"
 ```
 **NioRay Output:**
 ```typescript
+/*
 <think>
 Fast two-pointer check for alphanumeric characters.
 </think>
-```
+*/
+
 export function isPalindrome(str: string): boolean {
   const clean = str.toLowerCase().replace(/[^a-z0-9]/g, '');
   let left = 0, right = clean.length - 1;
@@ -452,12 +452,11 @@ export function isPalindrome(str: string): boolean {
   }
   return true;
 }
-```<|im_end|>
 ```
 
 #### 2. Epistemic Memory Delegation (`<nio_db query="..." />`)
 When NioRay needs verified crate signatures or project AST symbols, it emits `<nio_db>` to query the local index in `< 0.05ms`:
-```
+```text
 User: "Create an Axum 0.8 router with health check."
 NioRay:
 <think>Need verified signature for axum::serve and TcpListener in Axum 0.8.</think>
@@ -468,7 +467,7 @@ NioRay:
 
 #### 3. Deterministic Compute Delegation (`<nio_js>...</nio_js>`)
 When NioRay needs struct alignment, bitmasks, or byte offsets, it emits `<nio_js>` for exact calculation in `< 0.01ms`:
-```
+```text
 User: "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig."
 NioRay:
 <think>Delegate alignment arithmetic to NioJS to avoid token calculation errors.</think>
@@ -489,11 +488,19 @@ NioRay:
 2. **Triad Epistemic Grounding:** NioRay emits `<nio_db query="..." />` to query project AST signatures and `<nio_js>code</nio_js>` for deterministic byte math. NioAI executes these deterministically and feeds results back in microseconds.
 3. **Upstream Token Guarding:** Before invoking large frontier models for complex multi-file features, NioAI uses NioRay to validate types and prune unnecessary AST tokens, cutting cloud token costs by 70–90%.
 
+### Execution via NioXS & NioAI CLI
+
 ```bash
-# Direct in-process execution via NioXS CLI
+# 1. Pull NioRay into local cache (Choice B 32k pruned Dev model - Recommended)
+nioxs pull nio-ray --variant dev
+
+# Or pull Standard Full-Vocab variant (151k multilingual vocab)
+nioxs pull nio-ray
+
+# 2. Direct in-process keystroke reflex via NioXS CLI (< 5ms TTFT)
 nioxs ray "Write a TypeScript function to check if a string is palindrome"
 
-# Interactive agent execution via NioAI
+# 3. Interactive agent execution via NioAI with AST grounding
 nio run -m nioxs::nio-ray-dev "Refactor parse_header to return Result<Header, ParseError>"
 ```
 

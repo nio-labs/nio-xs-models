@@ -11,6 +11,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <!-- MOBILE HEADER -->
@@ -278,10 +291,10 @@ nio chat --model nioxs::nio-ray</code></pre>
           <p>Instantaneous code synthesis without conversational greeting or explanation fluff:</p>
           <pre><code class="language-bash"># Direct in-process keystroke reflex (< 5ms TTFT)
 nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"</code></pre>
-          <pre><code class="language-rust"><think>
-Direct Server-Sent Events route using axum::response::sse::Event and tokio_stream.
-</think>
-```rust
+          <pre><code class="language-rust">// <think>
+// Direct Server-Sent Events route using axum::response::sse::Event and tokio_stream.
+// </think>
+
 use axum::{
     response::sse::{Event, KeepAlive, Sse},
     routing::get,
@@ -299,17 +312,18 @@ pub fn sse_router(tx: tokio::sync::broadcast::Sender<String>) -> Router {
         });
         Sse::new(stream).keep_alive(KeepAlive::default())
     }))
-}
-```<|im_end|></code></pre>
+}</code></pre>
 
           <h3>B. Ultra-Lean In-Process Reflex via NioAI (`nio run -m nioxs::nio-ray-dev`)</h3>
           <p>Executed using the Choice B 32k pruned developer model (resident RAM &lt; 160MB):</p>
           <pre><code class="language-bash"># Run zero-token agent reflex task in NioAI
 nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims without third-party dependencies"</code></pre>
-          <pre><code class="language-typescript"><think>
+          <pre><code class="language-typescript">/*
+<think>
 Pure web-crypto base64url decoding and JSON payload parsing.
 </think>
-```typescript
+*/
+
 export interface JwtClaims {
   sub: string;
   exp: number;
@@ -328,25 +342,24 @@ export function parseJwtClaims(token: string): JwtClaims {
     throw new Error("JWT token has expired");
   }
   return claims;
-}
-```<|im_end|></code></pre>
+}</code></pre>
 
           <h3>C. Epistemic Memory Delegation via NioDB (`<nio_db>`)</h3>
           <p>When verified crate signatures are required, NioAI intercepts NioRay's <code>&lt;nio_db&gt;</code> query and returns exact AST ground truth in &lt; 0.05ms:</p>
           <pre><code class="language-bash"># Run grounded agent synthesis via NioAI
 nio run -m nioxs::nio-ray "Create an Axum 0.8 router with health check and graceful shutdown"</code></pre>
-          <pre><code class="language-rust">NioRay Co-Process Stream:
-<think>
-Need verified signature for axum::serve and TcpListener in Axum 0.8.
-</think>
-<nio_db query="axum::serve" />
-<nio_db_result>
-pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error>
-</nio_db_result>
-<think>
-Signature verified. Bind TcpListener to port 3000 and return Router with shutdown signal.
-</think>
-```rust
+          <pre><code class="language-rust">// NioRay Co-Process Stream:
+// <think>
+// Need verified signature for axum::serve and TcpListener in Axum 0.8.
+// </think>
+// <nio_db query="axum::serve" />
+// <nio_db_result>
+// pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error>
+// </nio_db_result>
+// <think>
+// Signature verified. Bind TcpListener to port 3000 and return Router with shutdown signal.
+// </think>
+
 use axum::{routing::get, Router};
 use tokio::net::TcpListener;
 
@@ -360,25 +373,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .await?;
     Ok(())
-}
-```<|im_end|></code></pre>
+}</code></pre>
 
           <h3>D. Deterministic Compute Delegation via NioJS (`<nio_js>`)</h3>
           <p>Struct alignment padding and byte math are offloaded to NioJS for exact evaluation, preventing token math errors:</p>
           <pre><code class="language-bash"># Execute exact memory layout reflex via NioXS CLI
 nioxs ray "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig"</code></pre>
-          <pre><code class="language-zig">NioRay Co-Process Stream:
-<think>
-Delegate alignment arithmetic to NioJS to avoid token calculation errors.
-</think>
-<nio_js>const align = 8; const offset = 3; return (align - (offset % align)) % align;</nio_js>
-<nio_js_result>
-5
-</nio_js_result>
-<think>
-Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.
-</think>
-```zig
+          <pre><code class="language-zig">// NioRay Co-Process Stream:
+// <think>
+// Delegate alignment arithmetic to NioJS to avoid token calculation errors.
+// </think>
+// <nio_js>const align = 8; const offset = 3; return (align - (offset % align)) % align;</nio_js>
+// <nio_js_result>5</nio_js_result>
+// <think>
+// Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.
+// </think>
+
 const std = @import("std");
 
 pub const AlignedPacket = extern struct {
@@ -390,8 +400,7 @@ pub const AlignedPacket = extern struct {
         std.debug.assert(@sizeOf(AlignedPacket) == 16);
         std.debug.assert(@alignOf(AlignedPacket) == 8);
     }
-};
-```<|im_end|></code></pre>
+};</code></pre>
         </section>
 
         <!-- COMPARISON SECTION -->
@@ -440,7 +449,13 @@ pub const AlignedPacket = extern struct {
         <!-- CLI EXECUTION SECTION -->
         <section id="cli" class="doc-section">
           <h2>7. Execution via NioXS CLI &amp; NioAI</h2>
-          <pre><code class="language-bash"># Run reflex query directly in terminal via NioXS
+          <pre><code class="language-bash"># Pull NioRay Dev (Choice B 32k pruned, 266 MB - Recommended for laptops)
+nioxs pull nio-ray --variant dev
+
+# Or pull Standard Full-Vocab variant (151k multilingual vocab, 379 MB)
+nioxs pull nio-ray
+
+# Run reflex query directly in terminal via NioXS (< 5ms TTFT)
 nioxs ray "Write a TypeScript function to check if a string is palindrome"
 
 # Or invoke via NioAI agent with Triad grounding
