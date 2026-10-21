@@ -1,8 +1,8 @@
-# Nio Models — Official ONNX Model Registry
+# Nio Models — Official MicroLM (µLM) Model Registry
 
-This repository serves as the official distribution hub for compiled, production-ready neural models (**Nio Models**) used across the **Nio** and **NioXS** edge ecosystem.
+This repository serves as the official distribution hub for compiled, production-ready neural models (**Nio Models**) used across the **Nio** and **NioXS** edge ecosystem in **GGUF**, **ONNX**, and **In-Process Rust** formats.
 
-Training datasets, raw curriculums, and internal training pipelines remain 100% private. Only compiled mathematical model binaries (`.onnx`) and domain tokenizers are distributed here as compiled release assets.
+Training datasets, raw curriculums, and internal training pipelines remain 100% private. Only compiled mathematical model binaries (`.gguf`, `.onnx`, embedded Rust tensors) and domain tokenizers are distributed here as compiled release assets.
 
 ---
 

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nio Models — Official ONNX Model Registry for NioNano, NioMicro, NioMask, and NioMini Micro Learning Models (MicroLM / µLM).">
+  <meta name="description" content="Nio Models — Official Model Registry for NioNano, NioRay, NioMicro, NioMask, and NioMini Micro Learning Models (MicroLM / µLM) in GGUF, ONNX, and In-Process Rust formats.">
   <meta name="theme-color" content="#f6f8fa">
-  <title>Nio Models — Official ONNX Model Registry</title>
+  <title>Nio Models — Official MicroLM (µLM) Model Registry</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@
           <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
           <span class="brand-text">
             <span class="brand-name">Nio Models</span>
-            <span class="brand-sub">Official ONNX Registry</span>
+            <span class="brand-sub">MicroLM &amp; Neural Registry</span>
           </span>
         </a>
       </div>
@@ -106,22 +106,22 @@
         <section id="overview" class="doc-section">
           <div class="hero-header">
             <div class="hero-badges">
-              <span class="badge badge-accent">Registry v0.3.0</span>
-              <span class="badge">ONNX Standard</span>
-              <span class="badge">Edge In-Process</span>
-              <span class="badge">Sub-5ms Latency</span>
+              <span class="badge badge-accent">Registry v0.4.0</span>
+              <span class="badge">GGUF &bull; ONNX &bull; In-Process Rust</span>
+              <span class="badge">Sub-5ms Reflex</span>
+              <span class="badge">Zero Cloud Egress</span>
             </div>
             <h1 class="hero-title">Deterministic Edge Intelligence. Zero Cloud Egress.</h1>
-            <p class="hero-desc">The official release registry for compiled <strong>Nio Micro Learning Models (MicroLM / µLM)</strong>. Built specifically for local developer tooling, autonomous policy gates, high-speed intent routing, and real-time stream redaction.</p>
+            <p class="hero-desc">The official release registry for compiled <strong>Nio Micro Learning Models (MicroLM / µLM)</strong>. Built specifically for local developer tooling, autonomous policy gates, high-speed keystroke reflexes, and real-time stream redaction across <strong>GGUF, ONNX, and In-Process Rust</strong> formats.</p>
             <div class="capsule-actions">
               <a class="capsule-button" href="#matrix">Explore Models →</a>
-              <a class="capsule-button capsule-button-secondary" href="https://github.com/nio-labs/nio-xs-models/releases" target="_blank" rel="noreferrer">GitHub Releases (v0.3.0)</a>
+              <a class="capsule-button capsule-button-secondary" href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0" target="_blank" rel="noreferrer">GitHub Releases (v0.4.0)</a>
             </div>
           </div>
 
           <div class="callout callout-note">
             <div class="callout-title">The Role of This Registry</div>
-            <p>Training curriculums, synthetic datasets, and raw training pipelines remain strictly private to Nio Labs. This repository acts as the authoritative, cryptographically verified distribution point for compiled production binaries (<code>.onnx</code>) and domain tokenizers used by <strong>NioXS</strong>, <strong>NioCLI</strong>, and edge runtimes.</p>
+            <p>Training curriculums, synthetic datasets, and raw training pipelines remain strictly private to Nio Labs. This repository acts as the authoritative, cryptographically verified distribution point for compiled production binaries (<code>.gguf</code>, <code>.onnx</code>, embedded Rust weights) and domain tokenizers used by <strong>NioXS</strong>, <strong>NioAI</strong>, and edge runtimes.</p>
           </div>
         </section>
 
@@ -717,27 +717,91 @@ nioxs models list</code></pre>
           </div>
 
           <h3>B. Universal Model Execution Matrix via NioXS &amp; NioAI</h3>
-          <div class="code-wrapper">
-            <button class="copy-btn" type="button">Copy</button>
-            <pre><code># 1. NioNano Directives: Zero-token AST symbol lookup &amp; shell execution
+          <p>Every engine in the MicroLM family is executed natively through <code>nioxs</code> (tensor runtime) or <code>nio</code> (agent workspace). Below is the practical execution matrix with real terminal inputs and structured outputs:</p>
+
+          <!-- 1. NioNano -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>⚡ 1. NioNano (~0.5M) — Directives &amp; Intent Reflex</h4>
+              <span class="badge badge-accent">&lt; 0.05ms &bull; In-Process Rust</span>
+            </div>
+            <p>Direct zero-token terminal shortcuts and AST navigation executing without touching cloud LLMs:</p>
+            <pre><code class="language-bash"># Sub-millisecond AST caller search across all crates
 nio "--callers RayEngine"
-nio "--bash cargo test --lib"
 
-# 2. NioRay Keystroke Reflex: Direct in-process code generation (&lt; 5ms)
+# Shell directive without disrupting interactive session state
+nio "--bash cargo test --lib --locked"</code></pre>
+            <pre><code class="language-text">[NioNano Reflex (&lt; 0.08ms)] Found 3 caller references for 'RayEngine':
+  • crates/provider/src/main.rs:41: let engine = nioxs_engine::RayEngine::new()?;
+  • crates/provider/src/lib.rs:188: let engine = RayEngine::new()?;</code></pre>
+          </div>
+
+          <!-- 2. NioRay -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>🌊 2. NioRay (0.5B / ~320M) — Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h4>
+              <span class="badge badge-accent">&lt; 5ms TTFT &bull; GGUF Q4_K_M</span>
+            </div>
+            <p>Instant code synthesis with zero network latency, running 100% in-process via Candle Rust kernels:</p>
+            <pre><code class="language-bash"># Keystroke reflex synthesis via NioXS CLI
 nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
-nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"
 
-# 3. NioMicro Policy Gate: Real-time security &amp; infrastructure guard
+# Autonomous zero-token task execution in NioAI (Choice B 32k pruned Dev model)
+nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"</code></pre>
+          </div>
+
+          <!-- 3. NioMicro -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>🛡️ 3. NioMicro (5.0M / Cluster) — Contextual Policy Gate</h4>
+              <span class="badge badge-accent">&lt; 3.2ms &bull; ONNX Runtime</span>
+            </div>
+            <p>Deterministic policy gates evaluating security boundaries and cloud infrastructure actions:</p>
+            <pre><code class="language-bash"># Audit code diffs for SQL injection &amp; auth bypasses before committing
 nioxs micro sec --diff "SELECT * FROM users WHERE id = '" + id + "'"
-nioxs micro infra "kubectl delete namespace production"
 
-# 4. NioMask Stream Scrubber: Sanitize stdout pipes &amp; pre-commit diffs
+# Intercept destructive cloud mutations in production environments
+nioxs micro infra "kubectl delete namespace production --cascade=foreground"</code></pre>
+            <pre><code class="language-json">{
+  "verdict": "REJECT",
+  "confidence": 0.998,
+  "risk_score": 0.984,
+  "reason": "Unsanitized dynamic string interpolation detected in SQL statement"
+}</code></pre>
+          </div>
+
+          <!-- 4. NioMask -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>🔒 4. NioMask (1.1M) — Real-Time Stream Redactor</h4>
+              <span class="badge badge-accent">&lt; 0.2ms/KB &bull; Byte Conv-Transformer</span>
+            </div>
+            <p>Scrub API keys, credentials, and PII from stdout/stderr pipes and git staging areas:</p>
+            <pre><code class="language-bash"># Scrub terminal logs &amp; environment streams in real-time
 cat .env | nioxs mask
-git diff --cached | nioxs mask --fail-on-secrets
 
-# 5. NioMini Defect Forecaster: Pre-emptive compile &amp; test break prediction
+# Git pre-commit security hook (aborts commit if unredacted secrets found)
+git diff --cached | nioxs mask --fail-on-secrets</code></pre>
+          </div>
+
+          <!-- 5. NioMini -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>🔮 5. NioMini (7.1M) — Pre-Emptive Defect Forecaster</h4>
+              <span class="badge badge-accent">&lt; 4.8ms &bull; Graph AST Transformer</span>
+            </div>
+            <p>Predict compilation breaks, borrow-checker errors, and test regressions before running heavy build tools:</p>
+            <pre><code class="language-bash"># Pre-flight borrow-checker and syntax validation
 nioxs mini "fn process(data: &amp;mut Vec&lt;u8&gt;) { let r = &amp;data; data.push(1); }"
-nio run -m nioxs::nio-mini --predict-tests --diff "git diff src/"</code></pre>
+
+# Forecast test suite regressions on pending git diffs in NioAI
+nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
+            <pre><code class="language-json">{
+  "will_break": true,
+  "break_probability": 0.984,
+  "category": "BORROW_CHECK_FAIL",
+  "reason": "Cannot borrow `*data` as mutable because it is also borrowed as immutable"
+}</code></pre>
           </div>
         </section>
 
