@@ -72,9 +72,10 @@
           <div class="nav-section-title">NioRay AST-µLM</div>
           <a href="#overview" class="nav-link">1. Architecture Overview</a>
           <a href="#pillars" class="nav-link">2. AST-µLM Core Pillars</a>
-          <a href="#benchmarks" class="nav-link">3. Benchmark Matrix</a>
-          <a href="#realworld" class="nav-link">4. 25-Prompt Evaluation</a>
-          <a href="#quickstart" class="nav-link">5. Quickstart &amp; Execution</a>
+          <a href="#nioai" class="nav-link">3. Integration with NioAI</a>
+          <a href="#benchmarks" class="nav-link">4. Benchmark Matrix</a>
+          <a href="#realworld" class="nav-link">5. 25-Prompt Evaluation</a>
+          <a href="#quickstart" class="nav-link">6. Quickstart &amp; Execution</a>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -179,9 +180,65 @@
           </div>
         </section>
 
-        <!-- 3. BENCHMARKS -->
+        <!-- 3. NIOAI INTEGRATION -->
+        <section id="nioai" class="doc-section">
+          <h2>3. Integration with NioAI</h2>
+          <p><strong>NioAI</strong> is Nio's autonomous agent framework for terminal workspaces, IDEs, and local developer workflows. Rather than burning money and incurring 1,500ms latency routing every keystroke to remote cloud models, NioAI uses <strong>NioRay AST-µLM as its embedded in-process co-processor</strong>.</p>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">The Division of Labor: Instant Keystroke Reflex vs Cloud Monoliths</div>
+            <p>NioAI delegates 70%–80% of routine coding tasks (inline autocompletes, function implementations, unit tests, and compiler diagnostic fixes) directly to NioRay running in-process on standard CPUs, reserving expensive cloud models exclusively for macro repository architecture.</p>
+          </div>
+
+          <div class="table-container">
+            <pre style="margin: 0; padding: 20px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.5; color: var(--text-primary); background: var(--bg-secondary);"><code>┌────────────────────────────────────────────────────────────────────────┐
+│                   NioAI Terminal Workspace / IDE Agent                 │
+│         (Interactive Prompts, Keystroke Autocomplete, Diagnostics)     │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+                     ┌──────────────────────────────┐
+                     │   NioNano Directive Router   │  &lt; 0.05ms Zero-Token Lexical Triage
+                     │   (Directives: --bash, --ast)│
+                     └──────────────┬───────────────┘
+                                    │
+                    ┌───────────────┴───────────────┐
+                    │                               │
+        [Keystroke / Inline Reflex]       [Macro Repository Plan]
+                    │                               │
+                    ▼                               ▼
+       ┌─────────────────────────┐     ┌────────────────────────┐
+       │   NioRay AST-µLM        │     │  Upstream Cloud LLM    │
+       │ (nio-ray-ast.Q4_0.gguf) │     │  (Guarded &amp; Sanitized) │
+       │ 70.81ms TTFT • 84.4MB   │     └────────────────────────┘
+       └────────────┬────────────┘
+                    │
+                    ▼
+       ┌─────────────────────────┐
+       │ Tree-sitter AST Filter  │  40 µs Grammar-Masked Reflex
+       │ Verified Syntax Output  │  Zero Tool Hallucination Tags
+       └─────────────────────────┘</code></pre>
+          </div>
+
+          <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">NioAI Workflow Example</h3>
+          <p>Developers invoke NioRay AST-µLM directly within NioAI agent sessions or headless CI triage pipelines:</p>
+
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash"># Run autonomous inline task synthesis via NioAI
+nio run -m nioxs::nio-ray-ast "Write an Axum SSE route broadcasting Redis pub/sub streams"
+
+# Pipe failing compiler diagnostics directly to NioRay for instant repair
+cargo check 2&gt;&amp;1 | nio fix -m nioxs::nio-ray-ast
+
+# Stream zero-token AST completions in your local IDE editor
+nio complete --lang rust --file src/auth.rs --line 42</code></pre>
+          </div>
+        </section>
+
+        <!-- 4. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>3. Multi-Engine Empirical Benchmark Matrix</h2>
+          <h2>4. Multi-Engine Empirical Benchmark Matrix</h2>
           <p>Empirically tested on <strong>Intel Core Ultra 5 135H (18 vCPUs)</strong> running Linux x86_64 across llama-bench and native streaming engines:</p>
           
           <div class="table-container">
@@ -266,9 +323,9 @@
           </div>
         </section>
 
-        <!-- 4. REAL-WORLD -->
+        <!-- 5. REAL-WORLD -->
         <section id="realworld" class="doc-section">
-          <h2>4. Continuous Real-World 25-Prompt Evaluation</h2>
+          <h2>5. Continuous Real-World 25-Prompt Evaluation</h2>
           <p>Evaluated across 25 diverse real-world developer tasks (Rust borrow checking, binary search fixes, TypeScript generics with TSDoc, Python async context managers, Go channels, and C pointer safety):</p>
           <ul style="margin: 12px 0 16px 24px; color: var(--text-secondary); line-height: 1.7;">
             <li><strong>Zero Memory Leaks:</strong> Resident RAM stabilized at 416.8 MB on Prompt 1 and finished at 417.3 MB on Prompt 25 (&lt; 0.7 MB variation over 25 continuous cycles).</li>
@@ -277,9 +334,9 @@
           </ul>
         </section>
 
-        <!-- 5. QUICKSTART -->
+        <!-- 6. QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>5. Quickstart &amp; Execution</h2>
+          <h2>6. Quickstart &amp; Execution</h2>
 
           <p><strong>1. Download certified NioRay AST-µLM model and stock tokenizer:</strong></p>
           <div class="code-wrapper">
