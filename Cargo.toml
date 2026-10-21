@@ -4,5 +4,6 @@ members = [
     "crates/nio-micro-runtime",
     "crates/nio-mini-runtime",
     "crates/nio-nano-runtime",
+    "crates/nio-ray-runtime",
 ]
 resolver = "2"
