@@ -60,28 +60,29 @@
         <div class="nav-section">
           <div class="nav-section-title">Introduction</div>
           <a href="#overview" class="nav-link active">1. Overview</a>
-          <a href="#microlm" class="nav-link">2. The MicroLM (µLM) Paradigm</a>
-          <a href="#matrix" class="nav-link">3. Production Matrix</a>
+          <a href="#microlm" class="nav-link">2. The MicroLM Paradigm</a>
+          <a href="#engines-overview" class="nav-link">3. Engine Overview &amp; Predator Fleet</a>
+          <a href="#matrix" class="nav-link">4. Production Matrix</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">Production Models</div>
-          <a href="nano.html" class="nav-link">4. NioNano (~0.5M)</a>
-          <a href="ray.html" class="nav-link">5. NioRay (0.5B / ~320M)</a>
-          <a href="micro.html" class="nav-link">6. NioMicro (5.0M)</a>
-          <a href="mask.html" class="nav-link">7. NioMask (1.1M)</a>
-          <a href="mini.html" class="nav-link">8. NioMini (7.1M)</a>
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="nano.html" class="nav-link">⚡ NioNano (~0.5M)</a>
+          <a href="ray.html" class="nav-link">🌊 NioRay (0.5B / ~320M)</a>
+          <a href="micro.html" class="nav-link">🛡️ NioMicro (5.0M)</a>
+          <a href="mask.html" class="nav-link">🔒 NioMask (1.1M)</a>
+          <a href="mini.html" class="nav-link">🔮 NioMini (7.1M)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Distribution &amp; Code</div>
-          <a href="#releases" class="nav-link">8. Releases &amp; Hashes</a>
-          <a href="#quickstart" class="nav-link">9. CLI Quickstart</a>
-          <a href="#rust-runtime" class="nav-link">10. Rust Runtime</a>
-          <a href="#python-runtime" class="nav-link">11. Python Runtime</a>
+          <a href="#releases" class="nav-link">10. Releases &amp; Hashes</a>
+          <a href="#quickstart" class="nav-link">11. CLI Quickstart</a>
+          <a href="#rust-runtime" class="nav-link">12. Rust Runtime</a>
+          <a href="#python-runtime" class="nav-link">13. Python Runtime</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Ecosystem</div>
-          <a href="#benchmarks" class="nav-link">12. Edge Benchmarks</a>
-          <a href="#faq" class="nav-link">13. Technical FAQ</a>
+          <a href="#benchmarks" class="nav-link">14. Edge Benchmarks</a>
+          <a href="#faq" class="nav-link">15. Technical FAQ</a>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -207,9 +208,139 @@
           </div>
         </section>
 
-        <!-- 3. PRODUCTION MATRIX -->
+        <!-- 3. ENGINE OVERVIEW & THE PREDATOR FLEET -->
+        <section id="engines-overview" class="doc-section">
+          <div class="section-badge">Taxonomy &amp; Architectural Hierarchy</div>
+          <h2>3. Overview of All Nio Engines &amp; The Predator Fleet</h2>
+          <p>The Nio ecosystem rejects monolithic, one-size-fits-all chatbot models. In a local-first engineering environment, asking an undifferentiated 70B parameter model to format a line of code or check an AST introduces unacceptable latency (800ms–3,000ms), huge RAM waste, and security risks.</p>
+          <p>Instead, Nio coordinates a specialized hierarchy across <strong>four distinct engine tiers</strong>, combining task-dedicated Micro Learning Models (MicroLMs) with high-speed in-process <strong>Generative Predators</strong>:</p>
+
+          <!-- TIER 1: THE PREDATOR FLEET -->
+          <div style="margin: 28px 0 16px 0;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="badge badge-accent">Tier 1: The Predator Fleet</span>
+              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Generative Keystroke &amp; Reasoning Predators</span>
+            </div>
+            <p><strong>The Predator Fleet</strong> comprises Nio's in-process generative intelligence engines. In nature, apex predators strike with sensory reflexes, laser focus, and minimum wasted motion. In developer environments, our predators hunt down <strong>keystroke latency, context bloat, cloud waiting times, and repetitive cognitive toil</strong>:</p>
+          </div>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🌊</div>
+              <h4>NioRay <code>(0.49B / ~320M)</code></h4>
+              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code>. Embedded in developer CPU cache with <strong>sub-5ms TTFT</strong> and 200+ tok/s throughput. Strikes on every developer keystroke to synthesize lambdas, pattern matches, type guards, regexes, and route scaffolds with zero cloud roundtrips.</p>
+              <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="badge badge-accent">Released v0.4.0</span>
+                <span class="badge badge-mono">Standard (379MB) &bull; Dev (265MB)</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay Predator Docs →</strong></a></p>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">👑</div>
+              <h4>NioApex <code>(1.5B)</code></h4>
+              <p><strong>The Sovereign Crown Reasoning Predator.</strong> Distilled from DeepSeek-R1 with multi-step internal <code>&lt;think&gt;</code> token tree search. Hunts down multi-file architectural refactorings, algorithmic bottlenecks, and formal proofs locally on developer workstations.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-mono">Reasoning Predator &bull; Coming Soon</span>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">🦈</div>
+              <h4>NioManta <code>(1.05B)</code></h4>
+              <p><strong>The Conversational Coding Predator.</strong> High-speed streaming paired-programming predator engineered for sustained conversational code design, terminal workflows, and long-horizon multi-crate evolution.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-mono">Dialogue Predator &bull; Coming Soon</span>
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>NioCuda &amp; NioViper</h4>
+              <p><strong>Tactical Swarm &amp; Wearable Predators.</strong> <code>NioCuda</code> orchestrates autonomous parallel agent swarms in under 160MB RAM. <code>NioViper</code> is an ultra-compact sub-50MB wearable reflex predator for IoT and constrained edge hardware.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-mono">Swarm &amp; Embedded &bull; Research</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIER 2: SENSORY & ASSIST LAYER -->
+          <div style="margin: 36px 0 16px 0;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="badge">Tier 2: System Assist &amp; Sensory Layer</span>
+              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Intent Routing &amp; Directives</span>
+            </div>
+            <p>The sensory nervous system that intercepts developer commands before generative tokens or network roundtrips are wasted:</p>
+          </div>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>NioNano <code>(~0.5M)</code></h4>
+              <p><strong>Intent Reflex &amp; Directive Router.</strong> In-process Rust feature engine operating in <strong>&lt; 0.1ms (sub-100 microseconds)</strong>. Intercepts zero-token directives (<code>--bash</code>, <code>--tools</code>, <code>--code</code>, <code>--callers</code>) and routes developer prompts into deterministic operational actions.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-accent">Active in Core Rust</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="nano.html"><strong>Read Dedicated NioNano Docs →</strong></a></p>
+            </div>
+          </div>
+
+          <!-- TIER 3: SECURITY & DECISION GATES -->
+          <div style="margin: 36px 0 16px 0;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="badge">Tier 3: Security &amp; Policy Decision Gates</span>
+              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Autonomous Policy Arbiters &amp; Scrubbers</span>
+            </div>
+            <p>Mathematical gatekeepers that guarantee data sovereignty, block destructive actions, and verify code diffs with zero human fatigue:</p>
+          </div>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h4>NioMicro <code>(5.0M / Cluster)</code></h4>
+              <p><strong>Domain-Clustered Policy Arbiter.</strong> 4-layer bidirectional Transformer running in <strong>&lt; 5ms</strong>. Partitioned into independent 5M clusters (<code>sec</code>, <code>infra</code>, <code>base</code>, <code>fin</code>) to approve/reject terminal commands and output continuous risk calibrations.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-accent">Released v0.3.0</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="micro.html"><strong>Read Dedicated NioMicro Docs →</strong></a></p>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">🔒</div>
+              <h4>NioMask <code>(1.1M)</code></h4>
+              <p><strong>Real-Time Byte-Stream Redactor.</strong> Character-level and BPE byte-stream neural scrubber operating in <strong>&lt; 0.2ms</strong>. Redacts API tokens, SSH keys, passwords, and private IP addresses directly in memory before terminal display, disk logging, or upstream transmission.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-accent">Released v0.3.0</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="mask.html"><strong>Read Dedicated NioMask Docs →</strong></a></p>
+            </div>
+          </div>
+
+          <!-- TIER 4: PREDICTIVE DEFECT & QUALITY -->
+          <div style="margin: 36px 0 16px 0;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <span class="badge">Tier 4: Predictive Defect &amp; Quality Layer</span>
+              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Pre-emptive Error Forecasting</span>
+            </div>
+            <p>Proactive neural radar evaluating code diffs before compilation or test suites execute:</p>
+          </div>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🔮</div>
+              <h4>NioMini <code>(7.1M)</code></h4>
+              <p><strong>Pre-emptive Defect Forecaster.</strong> Bidirectional AST encoder operating in <strong>&lt; 5ms</strong>. Evaluates proposed diffs to predict whether changes will trigger compiler errors, lifetime violations, or test suite regressions before slow build cycles start.</p>
+              <div style="margin-top: 10px;">
+                <span class="badge badge-accent">Released v0.3.0</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="mini.html"><strong>Read Dedicated NioMini Docs →</strong></a></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. PRODUCTION MATRIX -->
         <section id="matrix" class="doc-section">
-          <h2>3. Available Production Models Matrix</h2>
+          <h2>4. Available Production Models Matrix</h2>
           <p>The following MicroLM (µLM) engines are compiled, verified, and officially distributed through this registry:</p>
 
           <div class="table-wrapper">
@@ -270,10 +401,10 @@
           </div>
         </section>
 
-        <!-- 4. NIONANO -->
+        <!-- 5. NIONANO -->
         <section id="nionano" class="doc-section">
           <div class="section-badge">Assist &amp; Triage Layer</div>
-          <h2>4. NioNano — Command Triage &amp; Intent Reflex (~0.5M)</h2>
+          <h2>5. NioNano — Command Triage &amp; Intent Reflex (~0.5M)</h2>
           <p><strong>NioNano</strong> is the embedded reflex layer of the Nio ecosystem. Embedded directly into native Rust binaries with zero external runtime dependencies, it acts as the initial filter in developer terminals, IDE extensions, and CLI daemons.</p>
 
           <h3>Technical Specifications</h3>
@@ -357,10 +488,10 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
           </div>
         </section>
 
-        <!-- 5. NIORAY -->
+        <!-- 6. NIORAY -->
         <section id="nioray" class="doc-section">
           <div class="section-badge">Keystroke Reflex Predator</div>
-          <h2>5. NioRay — In-Process Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h2>
+          <h2>6. NioRay — In-Process Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h2>
           <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. Built for instant inline completions, regexes, lambdas, and type guards, it executes natively via Rust Candle kernels with sub-5ms TTFT.</p>
 
           <div class="spec-grid">
@@ -405,10 +536,10 @@ nio run -m nioxs::nio-ray "Create an Axum 0.8 router with health check and grace
           </div>
         </section>
 
-        <!-- 5. NIOMICRO -->
+        <!-- 7. NIOMICRO -->
         <section id="niomicro" class="doc-section">
           <div class="section-badge">Policy &amp; Decision Gate</div>
-          <h2>5. NioMicro — Domain-Clustered Decision Engine (5.0M / Cluster)</h2>
+          <h2>7. NioMicro — Domain-Clustered Decision Engine (5.0M / Cluster)</h2>
           <p><strong>NioMicro</strong> (<code>nioxs::nio-micro</code>) is the flagship decision engine of Nio. It serves as an autonomous, deterministic gatekeeper for code diffs, command executions, pull requests, and infrastructure operations.</p>
 
           <h3>The Modular Domain Cluster Architecture</h3>
@@ -469,10 +600,10 @@ nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"<
           </div>
         </section>
 
-        <!-- 6. NIOMASK -->
+        <!-- 8. NIOMASK -->
         <section id="niomask" class="doc-section">
           <div class="section-badge">Stream Security &amp; Privacy</div>
-          <h2>6. NioMask — Real-Time Secret &amp; PII Stream Redactor (1.1M)</h2>
+          <h2>8. NioMask — Real-Time Secret &amp; PII Stream Redactor (1.1M)</h2>
           <p><strong>NioMask</strong> (<code>nioxs::nio-mask</code>) is the real-time privacy filter of the Nio ecosystem. Embedded directly into terminal stdout/stderr pipes, logging frameworks, and MCP gateway buffers, it sanitizes high-entropy secrets and sensitive PII in <strong>&lt; 0.2ms</strong> per chunk before data is written to disk or transmitted over the network.</p>
           <p>Source implementation and runtime engine: <a href="https://github.com/nio-labs/nio-mask" target="_blank" rel="noreferrer"><strong>github.com/nio-labs/nio-mask</strong></a>.</p>
 
@@ -535,10 +666,10 @@ nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp
           </div>
         </section>
 
-        <!-- 7. NIOMINI -->
+        <!-- 9. NIOMINI -->
         <section id="niomini" class="doc-section">
           <div class="section-badge">Predictive Engine &amp; Defect Forecaster</div>
-          <h2>7. NioMini — Pre-emptive Defect Forecaster (7.1M)</h2>
+          <h2>9. NioMini — Pre-emptive Defect Forecaster (7.1M)</h2>
           <p><strong>NioMini</strong> (<code>nioxs::nio-mini</code>) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing <code>cargo test</code> or triggering CI builds.</p>
 
           <h3>Architecture &amp; Mathematical Budget</h3>
@@ -597,9 +728,9 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
           </div>
         </section>
 
-        <!-- 8. RELEASES & HASHES -->
+        <!-- 10. RELEASES & HASHES -->
         <section id="releases" class="doc-section">
-          <h2>8. Certified Releases &amp; Integrity Checksums</h2>
+          <h2>10. Certified Releases &amp; Integrity Checksums</h2>
           <p>Every compiled ONNX binary and tokenizer distributed through this registry is cryptographically verified with SHA-256 checksums.</p>
 
           <div class="table-wrapper">
@@ -691,9 +822,9 @@ sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.o
           </div>
         </section>
 
-        <!-- 9. CLI QUICKSTART -->
+        <!-- 11. CLI QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>9. Quickstart with NioXS &amp; Nio CLI</h2>
+          <h2>11. Quickstart with NioXS &amp; Nio CLI</h2>
           <p>The Nio ecosystem provides two coordinated CLI binaries: <strong><code>nioxs</code></strong> (native edge tensor runtime) and <strong><code>nio</code></strong> (agent workspace orchestrator). Models are automatically downloaded, verified, and cached in <code>~/.nioxs/models</code>:</p>
 
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
@@ -805,9 +936,9 @@ nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/li
           </div>
         </section>
 
-        <!-- 10. RUST RUNTIME -->
+        <!-- 12. RUST RUNTIME -->
         <section id="rust-runtime" class="doc-section">
-          <h2>10. Native Rust In-Process Integration</h2>
+          <h2>12. Native Rust In-Process Integration</h2>
           <p>Load and execute models with sub-5ms latency using the native Rust <code>ort</code> (ONNX Runtime) crate:</p>
 
           <div class="code-wrapper">
@@ -831,9 +962,9 @@ fn main() -> anyhow::Result<()> {
           </div>
         </section>
 
-        <!-- 11. PYTHON RUNTIME -->
+        <!-- 13. PYTHON RUNTIME -->
         <section id="python-runtime" class="doc-section">
-          <h2>11. Python ONNX Runtime Integration</h2>
+          <h2>13. Python ONNX Runtime Integration</h2>
           <p>Execute models in Python environments with <code>onnxruntime</code>:</p>
 
           <div class="code-wrapper">
@@ -863,9 +994,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
         </section>
 
-        <!-- 12. BENCHMARKS -->
+        <!-- 14. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>12. Edge Latency Benchmarks</h2>
+          <h2>14. Edge Latency Benchmarks</h2>
           <p>All benchmarks performed on standard commodity laptop CPU (Intel Core Ultra / Apple Silicon M-series) without GPU acceleration:</p>
 
           <div class="table-wrapper">
@@ -934,9 +1065,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
         </section>
 
-        <!-- 13. FAQ -->
+        <!-- 15. FAQ -->
         <section id="faq" class="doc-section">
-          <h2>13. Frequently Asked Questions</h2>
+          <h2>15. Frequently Asked Questions</h2>
 
           <div class="faq-item">
             <h4 class="faq-question">Why distribute ONNX instead of raw PyTorch checkpoints?</h4>

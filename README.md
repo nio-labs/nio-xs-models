@@ -52,15 +52,51 @@ The **MicroLM (µLM) methodology** represents a fundamental departure: instead o
 
 ---
 
+## The Nio Engine Taxonomy & The Predator Fleet
+
+Nio coordinates a multi-tiered hierarchy of specialized edge models rather than routing all tasks to slow, resource-heavy generalist chatbots:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                              THE NIO ENGINE HIERARCHY                                  │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                        │
+│  [ TIER 1: THE PREDATOR FLEET ]  ──► Keystroke & Reasoning Predators                  │
+│    • NioRay (0.49B / ~320M)      ──► Keystroke Predator (< 5ms TTFT, Qwen 2.5 Coder)   │
+│    • NioApex (1.5B)              ──► Crown Reasoning Predator (DeepSeek-R1 Distilled)   │
+│    • NioManta (1.05B)            ──► Conversational Dialogue & Multi-Turn Coder        │
+│    • NioCuda & NioViper          ──► Tactical Swarm (< 160MB) & Sub-50MB Wearable     │
+│                                                                                        │
+│  [ TIER 2: SYSTEM ASSIST & SENSORY ]                                                   │
+│    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
+│                                                                                        │
+│  [ TIER 3: SECURITY & DECISION GATES ]                                                 │
+│    • NioMicro (5.0M / Cluster)   ──► Domain Policy Arbiter (sec, infra, base, fin)     │
+│    • NioMask (1.1M)              ──► Real-Time Stream Redactor & Secret Scrubber       │
+│                                                                                        │
+│  [ TIER 4: PREDICTIVE DEFECT & QUALITY ]                                               │
+│    • NioMini (7.1M)              ──► Pre-emptive Defect, AST & Regression Forecaster   │
+│                                                                                        │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Why "The Predator Fleet"?
+In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
+* **`NioRay` (The Keystroke Predator):** Strikes on developer keystrokes in `< 5ms` TTFT directly from CPU cache, instantly completing lambdas, type guards, regexes, and route scaffolds before cloud APIs can negotiate TLS.
+* **`NioApex` (The Crown Reasoning Predator):** Distilled from DeepSeek-R1 with internal multi-step `<think>` token tree exploration for local architectural synthesis and complex system refactoring.
+* **`NioManta` (The Dialogue Predator):** High-speed streaming paired-programming predator for multi-file workspace design.
+
+---
+
 ## Available Production Models
 
-| Model | Role | Parameters | Specialization & Output Artifact | Status | Official Release |
+| Model | Ecosystem Tier & Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
-| **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
-| **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
-| **`NioMini`** | Predictive Engine | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioRay`**  | Keystroke Reflex Predator | **0.49B / ~320M** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF, based on Qwen 2.5 Coder) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
+| **`NioRay`**  | **Tier 1: Keystroke Predator** | **0.49B / ~320M** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF, based on Qwen 2.5 Coder) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
+| **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -373,7 +409,10 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ## 5. NioRay — Electric Keystroke Reflex Predator (Based on Qwen 2.5 Coder)
 
-**NioRay** (`nioxs::nio-ray`) is the first predatory MicroLM in the Nio ecosystem. Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
+**NioRay** (`nioxs::nio-ray`) is the flagship Keystroke Predator in the **Nio Predator Fleet** (alongside reasoning predator **NioApex** and dialogue predator **NioManta**). Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
+
+> [!NOTE]
+> **Role in the Predator Fleet:** Nio's predators aggressively hunt latency. While NioApex tackles deep multi-file reasoning and NioManta handles interactive paired programming, NioRay relentlessly hunts keystroke latency: operating with **< 5ms TTFT** directly inside CPU cache to complete functions, pattern matches, type guards, and regexes without waiting for cloud handshakes.
 
 ### Foundational Architecture & Heritage
 * **Base Architecture**: Fine-tuned from **`Qwen/Qwen2.5-Coder-0.5B-Instruct`** (24 Transformer layers, $d_{\text{model}} = 896$, 14 query heads, 2 KV heads).
