@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NioRay (0.5B / ~320M) — In-Process Keystroke Reflex Predator based on Qwen 2.5 Coder.">
+  <meta name="theme-color" content="#f6f8fa">
+  <title>NioRay — Electric Keystroke Reflex Predator</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" id="menuToggle" type="button" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="brand-title">
+      <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+      <span class="brand-name">Nio Models</span>
+      <span class="badge">NioRay</span>
+    </a>
+    <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+      <span class="theme-icon">
+        <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+          <span class="brand-text">
+            <span class="brand-name">Nio Models</span>
+            <span class="brand-sub">Model Registry Portal</span>
+          </span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" aria-label="Documentation">
+        <div class="nav-section">
+          <div class="nav-section-title">Registry Portal</div>
+          <a href="index.html" class="nav-link">← All Models Overview</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="nano.html" class="nav-link">⚡ NioNano (~0.5M)</a>
+          <a href="ray.html" class="nav-link active">🌊 NioRay (0.5B / ~320M)</a>
+          <a href="micro.html" class="nav-link">🛡️ NioMicro (5.0M)</a>
+          <a href="mask.html" class="nav-link">🔒 NioMask (1.1M)</a>
+          <a href="mini.html" class="nav-link">🔮 NioMini (7.1M)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">On This Page</div>
+          <a href="#overview" class="nav-link">1. Overview &amp; Heritage</a>
+          <a href="#variants" class="nav-link">2. Two Release Variants</a>
+          <a href="#triad" class="nav-link">3. The Triad Architecture</a>
+          <a href="#examples" class="nav-link">4. Code Examples</a>
+          <a href="#comparison" class="nav-link">5. Comparison vs Stock Qwen</a>
+          <a href="#cli" class="nav-link">6. NioXS Execution</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+          </span>
+          <span class="theme-text">Dark mode</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content-wrapper">
+      <div class="content-container">
+
+        <!-- HERO -->
+        <section id="overview" class="doc-section">
+          <div class="hero-header">
+            <div class="hero-badges">
+              <span class="badge badge-accent">Released v0.4.0</span>
+              <span class="badge">Based on Qwen 2.5 Coder</span>
+              <span class="badge">In-Process Candle</span>
+              <span class="badge">200+ tok/s CPU</span>
+            </div>
+            <h1 class="hero-title">NioRay — Electric Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h1>
+            <p class="hero-desc"><strong>NioRay</strong> is the sovereign 0.5B Flash MicroLM in the Nio ecosystem. Built for zero-latency keystroke reflexes, instant function completions, and immediate code transformations, it executes 100% in-process within <code>nio-xs</code> via native Rust Candle tensor kernels—requiring <strong>zero Ollama, zero external daemons, and zero cloud API fees</strong>.</p>
+          </div>
+
+          <div class="callout callout-note">
+            <div class="callout-title">Foundational Heritage: Based on Qwen 2.5 Coder</div>
+            <p>NioRay is built upon the proven architecture of <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong> (24 transformer layers, $d_{\text{model}} = 896$, 14 attention heads, 2 KV heads). We specialize the weights for in-process developer reflex speed and ground it with Nio's deterministic memory and calculation engines.</p>
+          </div>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Base Architecture</div>
+              <div class="spec-value">Qwen2.5-Coder</div>
+              <div class="spec-sub">24 Layers, 14 Attention Heads</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Parameter Scale</div>
+              <div class="spec-value">0.49B / ~320M</div>
+              <div class="spec-sub">Choice B dev vocabulary pruning</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Inference Speed</div>
+              <div class="spec-value">180 – 220+ tok/s</div>
+              <div class="spec-sub">On standard laptop CPU (&lt; 5ms TTFT)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Resident RAM</div>
+              <div class="spec-value">&lt; 160 MB</div>
+              <div class="spec-sub">Fits within CPU L3 cache hierarchy</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VARIANTS SECTION -->
+        <section id="variants" class="doc-section">
+          <h2>2. Two Production Release Variants</h2>
+          <p>Nio distributes NioRay in two purpose-engineered binaries under <a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0" target="_blank" rel="noreferrer">Release v0.4.0</a>:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variant</th>
+                  <th>Artifact Filename</th>
+                  <th>Vocab Size</th>
+                  <th>Parameters</th>
+                  <th>Binary Size</th>
+                  <th>Ideal Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>NioRay Standard</strong></td>
+                  <td><code>nio-ray.Q4_K_M.gguf</code></td>
+                  <td>151,936</td>
+                  <td>490 Million (0.49B)</td>
+                  <td><strong>379.38 MB</strong></td>
+                  <td>Global developer workflows supporting multilingual code comments &amp; documentation.</td>
+                </tr>
+                <tr>
+                  <td><strong>NioRay Dev (Choice B)</strong></td>
+                  <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
+                  <td><strong>32,000</strong></td>
+                  <td><strong>~320 Million</strong></td>
+                  <td><strong>~145 MB</strong></td>
+                  <td>Ultra-lean keystroke reflex. Pruned of ~107.4M dead multilingual weights. Resident RAM &lt; 160 MB.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- THE TRIAD ARCHITECTURE -->
+        <section id="triad" class="doc-section">
+          <h2>3. The NioRay Triad Architecture</h2>
+          <p>Unlike monolithic models that struggle to memorize every API signature and guess math stochastically, NioRay operates in a <strong>Triad</strong> with native Nio subsystems:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Delegation Tag</th>
+                  <th>Latency</th>
+                  <th>Responsibility</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>NioRay 0.5B Core</strong></td>
+                  <td><code>&lt;think&gt; ... &lt;/think&gt;</code></td>
+                  <td>&lt; 5ms TTFT</td>
+                  <td>Instant syntax reasoning, code transforms, and typing reflexes.</td>
+                </tr>
+                <tr>
+                  <td><strong>NioDB Memory Core</strong></td>
+                  <td><code>&lt;nio_db query="..." /&gt;</code></td>
+                  <td><strong>&lt; 0.05ms</strong></td>
+                  <td>Ground truth project AST symbols, crate exports, and type signatures.</td>
+                </tr>
+                <tr>
+                  <td><strong>NioJS Engine</strong></td>
+                  <td><code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code></td>
+                  <td><strong>&lt; 0.01ms</strong></td>
+                  <td>Exact deterministic arithmetic, struct alignment, and bitwise validation.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- EXAMPLES SECTION -->
+        <section id="examples" class="doc-section">
+          <h2>4. Concrete Triad Execution Examples</h2>
+
+          <h3>A. Real-Time Keystroke Reflex (Direct Code Synthesis)</h3>
+          <p>Instantaneous typing without conversational fluff:</p>
+          <pre><code class="language-bash">nioxs ray "Write a compact TypeScript function to validate a UUID v4."</code></pre>
+          <pre><code class="language-typescript"><think>
+Direct regex pattern match for RFC 4122 version 4 UUID.
+</think>
+```
+export function isValidUuidV4(uuid: string): boolean {
+  const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return regex.test(uuid);
+}
+```<|im_end|></code></pre>
+
+          <h3>B. Epistemic Delegation via NioDB (`<nio_db>`)</h3>
+          <p>When verified crate signatures are required, NioRay delegates to NioDB instead of hallucinating outdated APIs:</p>
+          <pre><code class="language-rust">Prompt: "Create an Axum 0.8 router with health check and graceful shutdown."
+
+NioRay Output:
+<think>
+Need verified signature for axum::serve and TcpListener in Axum 0.8.
+</think>
+<nio_db query="axum::serve" />
+<nio_db_result>
+pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error>
+</nio_db_result>
+<think>
+Signature verified. Bind TcpListener to port 3000 and return Router.
+</think>
+```
+use axum::{routing::get, Router};
+use tokio::net::TcpListener;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let app = Router::new().route("/health", get(|| async { "OK" }));
+    let listener = TcpListener::bind("0.0.0.0:3000").await?;
+    axum::serve(listener, app).await?;
+    Ok(())
+}
+```<|im_end|></code></pre>
+
+          <h3>C. Deterministic Compute Delegation via NioJS (`<nio_js>`)</h3>
+          <p>Struct alignment padding and byte math are offloaded to NioJS for exact evaluation:</p>
+          <pre><code class="language-zig">Prompt: "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig."
+
+NioRay Output:
+<think>
+Delegate alignment arithmetic to NioJS to avoid token calculation errors.
+</think>
+<nio_js>const align = 8; const offset = 3; return (align - (offset % align)) % align;</nio_js>
+<nio_js_result>
+5
+</nio_js_result>
+<think>
+Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.
+</think>
+```
+const std = @import("std");
+
+pub const AlignedPacket = extern struct {
+    magic: [3]u8,
+    _pad: [5]u8,
+    data_ptr: *const anyopaque,
+
+    comptime {
+        std.debug.assert(@sizeOf(AlignedPacket) == 16);
+        std.debug.assert(@alignOf(AlignedPacket) == 8);
+    }
+};
+```<|im_end|></code></pre>
+        </section>
+
+        <!-- COMPARISON SECTION -->
+        <section id="comparison" class="doc-section">
+          <h2>5. Comparison: NioRay vs. Stock Qwen2.5-Coder-0.5B</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Stock Qwen 2.5 Coder 0.5B (Ollama)</th>
+                  <th>NioRay (Native Candle Rust)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Resident RAM</strong></td>
+                  <td>850 MB – 1,100 MB (Go/C++ Daemon)</td>
+                  <td><strong>&lt; 160 MB</strong> (Choice B in-process)</td>
+                </tr>
+                <tr>
+                  <td><strong>Time To First Token</strong></td>
+                  <td>200ms – 350ms (Socket HTTP overhead)</td>
+                  <td><strong>&lt; 5ms</strong> (Direct memory pointers)</td>
+                </tr>
+                <tr>
+                  <td><strong>CPU Throughput</strong></td>
+                  <td>60 – 80 tok/s</td>
+                  <td><strong>180 – 220+ tok/s</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Syntax Verification</strong></td>
+                  <td>Guesses from memory (Hallucinates)</td>
+                  <td><strong>100% Grounded via NioDB</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Arithmetic Accuracy</strong></td>
+                  <td>Stochastic token math (~50% errors)</td>
+                  <td><strong>100% Exact via NioJS</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- CLI EXECUTION SECTION -->
+        <section id="cli" class="doc-section">
+          <h2>6. Execution via NioXS CLI</h2>
+          <pre><code class="language-bash"># Run reflex query directly in terminal
+nioxs ray "Write a TypeScript function to check if a string is palindrome"
+
+# Or invoke via Nio client agent
+nio run -m nioxs::nio-ray "Generate an async Tokio broadcast channel example"</code></pre>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

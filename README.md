@@ -56,11 +56,11 @@ The **MicroLM (µLM) methodology** represents a fundamental departure: instead o
 
 | Model | Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
-| **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, command shortcuts & heuristic intent routing | Active | In Nio core |
+| **`NioNano`** | Assist Layer | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
 | **`NioMicro`**| Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Predictive Engine | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioRay`**  | Keystroke Reflex Predator | **0.5B (320M pruned)** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`NioRay`**  | Keystroke Reflex Predator | **0.49B / ~320M** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF, based on Qwen 2.5 Coder) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 
 ---
 
@@ -82,6 +82,77 @@ The **MicroLM (µLM) methodology** represents a fundamental departure: instead o
   5. `run_checks` — Test suite execution, compiler linting, and formatting
   6. `clarify` — Intent ambiguity requiring interactive developer clarification
   7. `unsupported` — Out-of-bounds or invalid system requests
+
+### NioNano Directives (`--`) — Zero-Token Terminal Shortcuts
+
+When user input begins with a double hyphen (`--`), NioNano instantly bypasses all generative models in `< 0.05ms`, parsing deterministic control directives without consuming a single token:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                      NIONANO DIRECTIVE ROUTER                          │
+└────────────────────────────────────────────────────────────────────────┘
+
+  Developer Input: "--bash cargo test"
+          │
+          ▼ (< 0.05ms)
+  [ NioNano Regex & Lexical Interceptor ]
+          ├─ Starts with "--bash:" / "--bash"   ──► Local Subprocess Execution
+          ├─ Starts with "--tools:" / "--tools"  ──► Python Tool Manager & Plugins
+          ├─ Starts with "--definitions"         ──► Sub-0.05ms Tree-sitter AST Lookup
+          ├─ Starts with "--code" / "--code!"   ──► Upstream LLM / Guarded Route
+          └─ Natural Language (no directive)    ──► Naive Bayes Intent Classifier
+```
+
+#### Directive Reference & Examples:
+
+1. **`--bash <command>` / `--bash: <command>`**  
+   Executes terminal shell commands directly within the active session without context loss or switching windows.
+   ```bash
+   # Check compiler diagnostics without leaving TUI
+   --bash cargo check --locked
+   
+   # Inspect uncommitted git diffs
+   --bash git diff --stat
+   ```
+
+2. **`--tools <task>` / `--tools: <task>`**  
+   Specialized Python plugin execution manager with user consent on first download.
+   ```bash
+   # Generate favicon from vector SVG
+   --tools generate favicon from logo.svg
+   
+   # Extract color palette from stylesheets
+   --tools extract color palette from docs/style.css
+   
+   # List installed plugins
+   --tools list
+   ```
+
+3. **`--definitions`, `--references`, `--callers`, `--implementations <symbol>`**  
+   Instant, sub-millisecond AST symbol navigation over the project's dependency index without firing an LLM.
+   ```bash
+   # Find everywhere 'RayEngine' is called
+   --callers RayEngine
+   
+   # Jump to definition of 'ActiveTurns'
+   --definitions ActiveTurns
+   
+   # Find all trait implementations for 'ModelWeights'
+   --implementations ModelWeights
+   ```
+
+4. **`--code <request>` & `--code guard <request>` (or `--code!`)**  
+   Explicit consultation with an upstream frontier LLM, bundling relevant context. When `guard` or `!` is specified, NioNano pre-validates all referenced symbols against project AST before allowing the prompt through.
+   ```bash
+   # Consult upstream LLM with project context bundled
+   --code add retry logic with exponential backoff to HTTP client
+   
+   # Guarded mode: verified against existing crate types
+   --code guard refactor router to use Axum 0.8 serve
+   ```
+
+5. **`--helm`, `--with-helm`, `--no-helm`**  
+   Toggles deep reasoning profile and chain-of-thought `<think>` traces on demand.
 
 ---
 
@@ -253,32 +324,77 @@ nioxs pull nio-mini --version v0.1.0
 
 ---
 
-## 5. NioRay — Electric Keystroke Reflex Predator (Q4_K_M GGUF)
+## 5. NioRay — Electric Keystroke Reflex Predator (Based on Qwen 2.5 Coder)
 
 **NioRay** (`nioxs::nio-ray`) is the first predatory MicroLM in the Nio ecosystem. Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
 
-### Key Specifications & Architecture
-* **Parameters:** **0.49B (~320M active pruned weights)**
-* **Quantization:** `Q4_K_M` GGUF (380 MB single portable binary)
+### Foundational Architecture & Heritage
+* **Base Architecture**: Fine-tuned from **`Qwen/Qwen2.5-Coder-0.5B-Instruct`** (24 Transformer layers, $d_{\text{model}} = 896$, 14 query heads, 2 KV heads).
+* **Two Production Variants**:
+  1. **Standard Full-Vocab (`nio-ray.Q4_K_M.gguf`)**: Full 151,936 multilingual vocabulary (379.38 MB), supporting international teams and multilingual comments.
+  2. **Choice B Dev-Pruned (`nio-ray-dev.Q4_K_M.gguf`)**: Pruned to a 32,000 developer vocabulary (English, code keywords for Rust, Zig, TS/JS, Python, Go, and byte fallbacks). Eliminates ~107.4 million dead dictionary parameters, fitting inside **< 160 MB resident RAM** and optimized for CPU L3 cache residency.
+
+### Key Specifications
+* **Parameters:** **0.49B (Standard) / ~320M (Choice B `nio-ray-dev`)**
+* **Quantization:** `Q4_K_M` GGUF (Single portable binary)
 * **Runtime:** In-Process Native Rust via `candle-core` & `candle-transformers` in `nio-xs`
-* **Inference Latency:** 200+ tok/s (NPU/GPU), immediate prefill (< 20ms) on CPU
-* **Memory Footprint:** < 160 MB resident RAM (pruned) / 380 MB (Q4_K_M)
-* **Specialization:**
-  * Instant function completions, lambdas, regex patterns, and type guards
-  * Keystroke-level reflex completions
-  * Clean ChatML instruction format (`<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`)
-* **Checksums (SHA-256):**
-  * `nio-ray.Q4_K_M.gguf`: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1`
-  * `tokenizer.json`: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`
-* **Official Release Asset:** [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
+* **Inference Latency:** 200+ tok/s (NPU/GPU), immediate prefill (< 5ms TTFT) on standard CPU
+* **Memory Footprint:** < 160 MB resident RAM (`nio-ray-dev`) / 380 MB (`nio-ray`)
+* **Prompt Format:** Standard ChatML (`<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`)
 
+### The Triad Delegation Architecture & Examples
+
+NioRay never wastes neural weights memorizing API signatures or doing stochastic mental arithmetic:
+
+#### 1. Instant Keystroke Reflex (Direct Code Synthesis)
+Immediate typed code without conversational chatter:
 ```bash
-# Run directly in terminal via NioXS
 nioxs ray "Write a TypeScript function to check if a string is palindrome"
-
-# Or run via Nio client agent
-nio run -m nioxs::nio-ray "Write a TypeScript function to check if a string is palindrome"
 ```
+**NioRay Output:**
+```typescript
+<think>
+Fast two-pointer check for alphanumeric characters.
+</think>
+```
+export function isPalindrome(str: string): boolean {
+  const clean = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+  let left = 0, right = clean.length - 1;
+  while (left < right) {
+    if (clean[left] !== clean[right]) return false;
+    left++; right--;
+  }
+  return true;
+}
+```<|im_end|>
+```
+
+#### 2. Epistemic Memory Delegation (`<nio_db query="..." />`)
+When NioRay needs verified crate signatures or project AST symbols, it emits `<nio_db>` to query the local index in `< 0.05ms`:
+```
+User: "Create an Axum 0.8 router with health check."
+NioRay:
+<think>Need verified signature for axum::serve and TcpListener in Axum 0.8.</think>
+<nio_db query="axum::serve" />
+<nio_db_result>pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error></nio_db_result>
+<think>Signature verified. Bind TcpListener to port 3000.</think>
+```
+
+#### 3. Deterministic Compute Delegation (`<nio_js>...</nio_js>`)
+When NioRay needs struct alignment, bitmasks, or byte offsets, it emits `<nio_js>` for exact calculation in `< 0.01ms`:
+```
+User: "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig."
+NioRay:
+<think>Delegate alignment arithmetic to NioJS to avoid token calculation errors.</think>
+<nio_js>const align = 8; const offset = 3; return (align - (offset % align)) % align;</nio_js>
+<nio_js_result>5</nio_js_result>
+<think>Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.</think>
+```
+
+### Official Release Assets: [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
+* `nio-ray.Q4_K_M.gguf`: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1` (379.38 MB)
+* `nio-ray-dev.Q4_K_M.gguf`: *(In release pipeline)*
+* `tokenizer.json`: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`
 
 ---
 

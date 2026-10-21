@@ -65,10 +65,11 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Production Models</div>
-          <a href="#nionano" class="nav-link">4. NioNano (~0.5M)</a>
-          <a href="#niomicro" class="nav-link">5. NioMicro (5.0M)</a>
-          <a href="#niomask" class="nav-link">6. NioMask (1.1M)</a>
-          <a href="#niomini" class="nav-link">7. NioMini (7.1M)</a>
+          <a href="nano.html" class="nav-link">4. NioNano (~0.5M) &amp; Directives (--)</a>
+          <a href="ray.html" class="nav-link">5. NioRay (0.5B / ~320M)</a>
+          <a href="micro.html" class="nav-link">6. NioMicro (5.0M)</a>
+          <a href="mask.html" class="nav-link">7. NioMask (1.1M)</a>
+          <a href="mini.html" class="nav-link">8. NioMini (7.1M)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Distribution &amp; Code</div>
@@ -225,15 +226,23 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><a href="#nionano"><strong>NioNano</strong></a></td>
+                  <td><a href="nano.html"><strong>NioNano</strong></a></td>
                   <td>Intent Reflex</td>
                   <td><code>~0.5M</code></td>
-                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics</td>
+                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics &amp; directives (--)</td>
                   <td><span class="badge badge-accent">Active in Core</span></td>
                   <td>Native in NioXS</td>
                 </tr>
                 <tr>
-                  <td><a href="#niomicro"><strong>NioMicro</strong></a></td>
+                  <td><a href="ray.html"><strong>NioRay</strong></a></td>
+                  <td>Keystroke Predator</td>
+                  <td><code>0.49B / ~320M</code></td>
+                  <td>Electric keystroke code reflex (Q4_K_M GGUF, based on Qwen 2.5 Coder, Standard &amp; Dev variants)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0">v0.4.0</a></td>
+                </tr>
+                <tr>
+                  <td><a href="micro.html"><strong>NioMicro</strong></a></td>
                   <td>Decision Engine</td>
                   <td><code>5.0M / cluster</code></td>
                   <td>Multi-head policy arbiter: contextual verdicts (approve/reject), sentiment, continuous risk</td>
@@ -241,7 +250,7 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
                 </tr>
                 <tr>
-                  <td><a href="#niomask"><strong>NioMask</strong></a></td>
+                  <td><a href="mask.html"><strong>NioMask</strong></a></td>
                   <td>Security &amp; Privacy</td>
                   <td><code>1.1M</code></td>
                   <td>Real-time byte stream secret, API key &amp; PII redactor (&lt; 0.2ms)</td>
@@ -249,7 +258,7 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
                 </tr>
                 <tr>
-                  <td><a href="#niomini"><strong>NioMini</strong></a></td>
+                  <td><a href="mini.html"><strong>NioMini</strong></a></td>
                   <td>Predictive Engine</td>
                   <td><code>7.1M</code></td>
                   <td>Pre-emptive defect forecaster: build break, regression &amp; syntax prediction (&lt; 5ms)</td>
@@ -325,6 +334,46 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <div class="callout callout-tip" style="margin-top: 24px;">
+            <div class="callout-title">⚡ Zero-Token Directives (--) Feature</div>
+            <p>NioNano supports instant CLI directives starting with <code>--</code> (e.g. <code>--bash &lt;cmd&gt;</code>, <code>--tools &lt;task&gt;</code>, <code>--definitions &lt;sym&gt;</code>, <code>--code guard</code>). These bypass all LLMs in &lt; 0.05ms with 0 tokens spent. <a href="nano.html#directives"><strong>Explore the full NioNano Directives Documentation &amp; Examples →</strong></a></p>
+          </div>
+        </section>
+
+        <!-- 5. NIORAY -->
+        <section id="nioray" class="doc-section">
+          <div class="section-badge">Keystroke Reflex Predator</div>
+          <h2>5. NioRay — In-Process Keystroke Reflex Predator (0.5B / ~320M)</h2>
+          <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. Built for instant inline completions, regexes, lambdas, and type guards, it executes natively via Rust Candle kernels with sub-5ms TTFT.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Base Architecture</div>
+              <div class="spec-value">Qwen 2.5 Coder</div>
+              <div class="spec-sub">24 Layers, 14 Attention Heads</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Standard Variant</div>
+              <div class="spec-value">nio-ray.Q4_K_M</div>
+              <div class="spec-sub">379 MB | Full 151k Vocab</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Dev Variant (Choice B)</div>
+              <div class="spec-value">nio-ray-dev.Q4_K_M</div>
+              <div class="spec-sub">~145 MB | Pruned 32k Dev Vocab</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Inference Speed</div>
+              <div class="spec-value">180 – 220+ tok/s</div>
+              <div class="spec-sub">In-Process CPU (&lt; 5ms TTFT)</div>
+            </div>
+          </div>
+
+          <div class="callout callout-note" style="margin-top: 24px;">
+            <div class="callout-title">The NioRay Triad: Offloading Memory &amp; Math</div>
+            <p>NioRay delegates symbol lookups to <code>&lt;nio_db query="..." /&gt;</code> (&lt; 0.05ms) and deterministic arithmetic to <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> (&lt; 0.01ms), achieving 100% verified accuracy without weight bloat. <a href="ray.html"><strong>Read the Dedicated NioRay Guide with Triad Code Examples →</strong></a></p>
           </div>
         </section>
 

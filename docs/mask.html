@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NioMask (1.1M) — Sub-0.2ms Byte-Stream Secret &amp; PII Redactor.">
+  <meta name="theme-color" content="#f6f8fa">
+  <title>NioMask (1.1M) — Byte-Stream Redactor</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" id="menuToggle" type="button" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="brand-title">
+      <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+      <span class="brand-name">Nio Models</span>
+      <span class="badge">NioMask</span>
+    </a>
+    <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+      <span class="theme-icon">
+        <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+          <span class="brand-text">
+            <span class="brand-name">Nio Models</span>
+            <span class="brand-sub">Model Registry Portal</span>
+          </span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" aria-label="Documentation">
+        <div class="nav-section">
+          <div class="nav-section-title">Registry Portal</div>
+          <a href="index.html" class="nav-link">← All Models Overview</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="nano.html" class="nav-link">⚡ NioNano (~0.5M)</a>
+          <a href="ray.html" class="nav-link">🌊 NioRay (0.5B / ~320M)</a>
+          <a href="micro.html" class="nav-link">🛡️ NioMicro (5.0M)</a>
+          <a href="mask.html" class="nav-link active">🔒 NioMask (1.1M)</a>
+          <a href="mini.html" class="nav-link">🔮 NioMini (7.1M)</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+          </span>
+          <span class="theme-text">Dark mode</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="content-wrapper">
+      <div class="content-container">
+        <section id="overview" class="doc-section">
+          <div class="hero-header">
+            <div class="hero-badges">
+              <span class="badge badge-accent">Released v0.3.0</span>
+              <span class="badge">Byte-Level Conv-Transformer</span>
+              <span class="badge">&lt; 0.2ms Latency</span>
+              <span class="badge">1.1M Parameters</span>
+            </div>
+            <h1 class="hero-title">NioMask — Real-Time Byte-Stream Redactor (1.1M)</h1>
+            <p class="hero-desc"><strong>NioMask</strong> is a byte-level 1.1M neural scrubber that sanitizes API keys, bearer tokens, passwords, and PII from terminal streams, stdout, and network egress payloads in sub-0.2ms.</p>
+          </div>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameter Budget</div>
+              <div class="spec-value">1,100,000</div>
+              <div class="spec-sub">Byte Conv-Transformer</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Latency</div>
+              <div class="spec-value">&lt; 0.2ms</div>
+              <div class="spec-sub">Per 1KB stream chunk</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Throughput</div>
+              <div class="spec-value">12.5 MB/s</div>
+              <div class="spec-sub">Single CPU thread</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Regex Dependency</div>
+              <div class="spec-value">Zero Regex</div>
+              <div class="spec-sub">Resistant to ReDoS vulnerabilities</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="examples" class="doc-section">
+          <h2>Stream Redaction Example</h2>
+          <pre><code class="language-bash"># Raw incoming payload:
+"Connecting with AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY and auth=Bearer eyJhbGciOi..."
+
+# NioMask Output (< 0.15ms):
+"Connecting with AWS_SECRET_ACCESS_KEY=[REDACTED_AWS_SECRET] and auth=Bearer [REDACTED_JWT_TOKEN]"</code></pre>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
