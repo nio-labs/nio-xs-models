@@ -60,7 +60,7 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                        │
 │  [ TIER 1: THE PREDATOR FLEET ]  ──► Keystroke Reflex Predator                         │
-│    • NioRay (0.49B / ~320M)      ──► Keystroke Predator (< 5ms TTFT, Qwen 2.5 Coder)   │
+│    • NioRay (0.49B / 386.6M)      ──► Local code completion (Qwen 2.5 Coder)   │
 │                                                                                        │
 │  [ TIER 2: SYSTEM ASSIST & SENSORY ]                                                   │
 │    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
@@ -77,7 +77,7 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 
 ### Why "The Predator Fleet"?
 In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
-* **`NioRay` (The Keystroke Predator):** Strikes on developer keystrokes in `< 5ms` TTFT directly from CPU cache, instantly completing lambdas, type guards, regexes, and route scaffolds before cloud APIs can negotiate TLS.
+* **`NioRay` (The Keystroke Predator):** Generates short code completions locally using Qwen 2.5 Coder weights. Latency and memory depend on hardware, context length, and runtime; reproducible benchmarks are pending.
 
 ---
 
@@ -86,7 +86,7 @@ In nature, apex predators hunt with immediate sensory reflexes, acute focus, and
 | Model | Ecosystem Tier & Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
-| **`NioRay`**  | **Tier 1: Keystroke Predator** | **0.49B / ~320M** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF, based on Qwen 2.5 Coder) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`NioRay`**  | **Tier 1: Keystroke Predator** | **0.49B / 386.6M** | Electric keystroke code reflex & in-process synthesis (Q4_K_M GGUF, based on Qwen 2.5 Coder) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 | **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -402,102 +402,44 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ## 5. NioRay — Electric Keystroke Reflex Predator (Based on Qwen 2.5 Coder)
 
-**NioRay** (`nioxs::nio-ray`) is the flagship Keystroke Predator in the **Nio Predator Fleet**. Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
+**NioRay** is a local coding model fine-tuned from `Qwen/Qwen2.5-Coder-0.5B-Instruct`, distributed as Q4_K_M GGUF weights for in-process Rust Candle execution.
 
-> [!NOTE]
-> **Role in the Predator Fleet:** Nio's predators aggressively hunt latency. NioRay relentlessly hunts keystroke latency: operating with **< 5ms TTFT** directly inside CPU cache to complete functions, pattern matches, type guards, and regexes without waiting for cloud handshakes.
+### Verified v0.4.0 specifications
 
-### Foundational Architecture & Heritage
-* **Base Architecture**: Fine-tuned from **`Qwen/Qwen2.5-Coder-0.5B-Instruct`** (24 Transformer layers, $d_{\text{model}} = 896$, 14 query heads, 2 KV heads).
-* **Two Production Variants**:
-  1. **Standard Full-Vocab (`nio-ray.Q4_K_M.gguf`)**: Full 151,936 multilingual vocabulary (379.38 MB), supporting international teams and multilingual comments.
-  2. **Dev-Pruned (`nio-ray-dev.Q4_K_M.gguf`)**: Pruned to a 32,000 developer vocabulary (English, code keywords for Rust, Zig, TS/JS, Python, Go, and byte fallbacks). Eliminates ~107.4 million dead dictionary parameters, fitting inside **< 160 MB resident RAM** and optimized for CPU L3 cache residency.
+| Variant | Parameters | Vocabulary | Artifact size | Matching external tokenizer |
+| :--- | ---: | ---: | ---: | :--- |
+| Standard | 494,032,768 | 151,936 | 397,807,552 bytes (379.38 MiB) | `tokenizer.json` |
+| Dev | 386,570,112 | 32,000 | 278,780,480 bytes (265.87 MiB) | `nio-ray-dev-tokenizer.json` |
 
-### Key Specifications
-* **Parameters:** **0.49B (Standard) / ~320M (Dev `nio-ray-dev`)**
-* **Quantization:** `Q4_K_M` GGUF (Single portable binary)
-* **Runtime:** In-Process Native Rust via `candle-core` & `candle-transformers` in `nio-xs`
-* **Inference Latency:** 200+ tok/s (NPU/GPU), immediate prefill (< 5ms TTFT) on standard CPU
-* **Memory Footprint:** < 160 MB resident RAM (`nio-ray-dev`) / 380 MB (`nio-ray`)
-* **Prompt Format:** Standard ChatML (`<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`)
+Dev removes 107,462,656 parameters and reduces the file size by about 30%. Its pruning retains the first 31,978 BPE tokens by original ID and remaps 22 special tokens. This is vocabulary truncation, not selection using a developer corpus. Token inflation and coding quality relative to Standard have not yet been benchmarked.
 
-### The Triad Delegation Architecture & Examples
+**Performance status:** TTFT, tokens/second, and resident memory have not been established by reproducible release benchmarks. Previous sub-5ms, 180–220+ tok/s CPU, under-160MB RAM, and whole-model L3-cache claims are withdrawn. File size is not resident memory; runtime allocations, KV cache, and context length also affect memory usage. No measured task-coverage or cloud-token-savings percentage is available.
 
-NioRay never wastes neural weights memorizing API signatures or doing stochastic mental arithmetic:
+### Tokenizer compatibility
 
-#### 1. Instant Keystroke Reflex (Direct Code Synthesis)
-Immediate typed code without conversational chatter:
-```bash
-nioxs ray "Write a TypeScript function to check if a string is palindrome"
-```
-**NioRay Output:**
-```typescript
-/*
-<think>
-Fast two-pointer check for alphanumeric characters.
-</think>
-*/
+The two variants require different external tokenizers. Standard's `tokenizer.json` is incompatible with Dev: ChatML `<|im_end|>` is ID 151645 for Standard and 31980 for Dev. GGUF-aware runtimes may instead use the tokenizer embedded in each GGUF. The NioXS Candle loader uses an external tokenizer and must validate it against the model vocabulary.
 
-export function isPalindrome(str: string): boolean {
-  const clean = str.toLowerCase().replace(/[^a-z0-9]/g, '');
-  let left = 0, right = clean.length - 1;
-  while (left < right) {
-    if (clean[left] !== clean[right]) return false;
-    left++; right--;
-  }
-  return true;
-}
-```
-
-#### 2. Epistemic Memory Delegation (`<nio_db query="..." />`)
-When NioRay needs verified crate signatures or project AST symbols, it emits `<nio_db>` to query the local index in `< 0.05ms`:
-```text
-User: "Create an Axum 0.8 router with health check."
-NioRay:
-<think>Need verified signature for axum::serve and TcpListener in Axum 0.8.</think>
-<nio_db query="axum::serve" />
-<nio_db_result>pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error></nio_db_result>
-<think>Signature verified. Bind TcpListener to port 3000.</think>
-```
-
-#### 3. Deterministic Compute Delegation (`<nio_js>...</nio_js>`)
-When NioRay needs struct alignment, bitmasks, or byte offsets, it emits `<nio_js>` for exact calculation in `< 0.01ms`:
-```text
-User: "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig."
-NioRay:
-<think>Delegate alignment arithmetic to NioJS to avoid token calculation errors.</think>
-<nio_js>const align = 8; const offset = 3; return (align - (offset % align)) % align;</nio_js>
-<nio_js_result>5</nio_js_result>
-<think>Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.</think>
-```
-
-### Official Release Assets: [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0)
-* **`nio-ray-dev.Q4_K_M.gguf`**: `e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04` (**265.86 MB** — 32k pruned developer vocab)
-* **`nio-ray.Q4_K_M.gguf`**: `f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1` (**379.37 MB** — Standard full 151k multilingual vocab)
-* **`tokenizer.json`**: `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` (6.70 MB)
-
-### How NioRay Works with NioAI
-
-**NioAI** leverages NioRay as an embedded, zero-overhead reflex co-processor:
-1. **Sub-5ms Keystroke Reflex:** NioAI routes inline completions, syntax transformations, and regexes to in-process NioRay (`nio-ray-dev.Q4_K_M.gguf`), achieving instant typing feedback on CPU without 800ms+ network roundtrips.
-2. **Triad Epistemic Grounding:** NioRay emits `<nio_db query="..." />` to query project AST signatures and `<nio_js>code</nio_js>` for deterministic byte math. NioAI executes these deterministically and feeds results back in microseconds.
-3. **Upstream Token Guarding:** Before invoking large frontier models for complex multi-file features, NioAI uses NioRay to validate types and prune unnecessary AST tokens, cutting cloud token costs by 70–90%.
-
-### Execution via NioXS & NioAI CLI
+Download the matching Dev pair into your model directory:
 
 ```bash
-# 1. Pull NioRay into local cache (32k pruned Dev model - Recommended)
-nioxs pull nio-ray --variant dev
+mkdir -p models
+curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev.Q4_K_M.gguf -o models/nio-ray-dev.Q4_K_M.gguf
+curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev-tokenizer.json -o models/nio-ray-dev-tokenizer.json
 
-# Or pull Standard Full-Vocab variant (151k multilingual vocab)
-nioxs pull nio-ray
-
-# 2. Direct in-process keystroke reflex via NioXS CLI (< 5ms TTFT)
-nioxs ray "Write a TypeScript function to check if a string is palindrome"
-
-# 3. Interactive agent execution via NioAI with AST grounding
-nio run -m nioxs::nio-ray-dev "Refactor parse_header to return Result<Header, ParseError>"
+# Select this pair when running a NioXS build with the corrected Candle loader.
+export NIOXS_RAY_MODEL="$PWD/models/nio-ray-dev.Q4_K_M.gguf"
+export NIOXS_TOKENIZER="$PWD/models/nio-ray-dev-tokenizer.json"
 ```
+
+The prompt format is ChatML: `<|im_start|>user\n...<|im_end|>\n<|im_start|>assistant\n`.
+
+### Tool delegation
+
+Training examples use `<nio_db query="..." />` for project lookups and `<nio_js>...</nio_js>` for calculations. These are an integration protocol: the host must implement interception, execution, and result feedback. The standalone Candle generator does not execute these tags. Retrieval and deterministic calculation can support generated code, but do not guarantee its syntax, types, or correctness. Validate output with the compiler and tests.
+
+### Release integrity
+
+See [`models/nio-ray/release-manifest.json`](models/nio-ray/release-manifest.json) for exact byte sizes, parameter counts, and SHA-256 hashes, and the [v0.4.0 release](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) for downloads. Existing model weights and the Standard tokenizer are unchanged. The Dev tokenizer can be reproduced and checked against GGUF metadata using [`prepare_tokenizer.py`](models/nio-ray/scripts/prepare_tokenizer.py).
 
 ---
 

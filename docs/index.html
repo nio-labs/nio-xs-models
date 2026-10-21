@@ -67,7 +67,7 @@
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
           <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
-          <a href="ray.html" class="nav-link">NioRay (0.5B / ~320M)</a>
+          <a href="ray.html" class="nav-link">NioRay (0.5B / 386.6M)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
@@ -226,8 +226,8 @@
 
           <div class="card-grid" style="grid-template-columns: 1fr;">
             <div class="feature-card">
-              <h4>NioRay <code>(0.49B / ~320M)</code></h4>
-              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code>. Embedded in developer CPU cache with <strong>sub-5ms TTFT</strong> and 200+ tok/s throughput. Strikes on every developer keystroke to synthesize lambdas, pattern matches, type guards, regexes, and route scaffolds with zero cloud roundtrips.</p>
+              <h4>NioRay <code>(0.49B / 386.6M)</code></h4>
+              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code>. Runs locally for short code completions. Dev has 386.6M parameters and a 265.87 MiB artifact. Latency, throughput, resident memory, and coding quality require reproducible benchmarks.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
                 <span class="badge badge-accent">Released v0.4.0</span>
                 <span class="badge badge-mono">Standard (379MB) &bull; Dev (265MB)</span>
@@ -335,7 +335,7 @@
                 <tr>
                   <td><a href="ray.html"><strong>NioRay</strong></a></td>
                   <td>Keystroke Predator</td>
-                  <td><code>0.49B / ~320M</code></td>
+                  <td><code>0.49B / 386.6M</code></td>
                   <td>Electric keystroke code reflex (Q4_K_M GGUF, based on Qwen 2.5 Coder, Standard &amp; Dev variants)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0">v0.4.0</a></td>
@@ -450,7 +450,7 @@ nio "--callers RayEngine"
 # Pre-validate types and AST definitions before upstream LLM consultation
 nio "--code guard refactor router to use Axum 0.8 graceful shutdown"
 
-# Natural language intent triage via NioXS CLI (< 0.1ms)
+# Natural language intent triage via NioXS CLI (&lt; 0.1ms)
 nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
             <p><a href="nano.html"><strong>Explore the full NioNano Dedicated Page &amp; Directives Guide →</strong></a></p>
           </div>
@@ -460,7 +460,7 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
         <section id="nioray" class="doc-section">
           <div class="section-badge">Keystroke Reflex Predator</div>
           <h2>6. NioRay — In-Process Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h2>
-          <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. Built for instant inline completions, regexes, lambdas, and type guards, it executes natively via Rust Candle kernels with sub-5ms TTFT.</p>
+          <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. Targets short code completions via Rust Candle kernels. Reproducible performance and quality benchmarks are pending.</p>
 
           <div class="spec-grid">
             <div class="spec-card">
@@ -471,38 +471,23 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
             <div class="spec-card">
               <div class="spec-title">Standard Variant</div>
               <div class="spec-value">nio-ray.Q4_K_M</div>
-              <div class="spec-sub">379.37 MB | Full 151k Vocab</div>
+              <div class="spec-sub">379.38 MiB | Full 151k Vocab</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Dev Variant</div>
               <div class="spec-value">nio-ray-dev.Q4_K_M</div>
-              <div class="spec-sub">265.86 MB | Pruned 32k Dev Vocab</div>
+              <div class="spec-sub">265.87 MiB | Truncated 32k Vocab</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Inference Speed</div>
-              <div class="spec-value">180 – 220+ tok/s</div>
-              <div class="spec-sub">In-Process CPU (&lt; 5ms TTFT)</div>
+              <div class="spec-value">Benchmark pending</div>
+              <div class="spec-sub">Latency, throughput, and resident memory unverified</div>
             </div>
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
             <div class="callout-title">🌊 How NioRay Works with NioAI &amp; Execution Examples</div>
-            <p><strong>NioAI</strong> pairs NioRay with your daily workflow as an embedded local co-processor:
-              <br>• <strong>Sub-5ms Keystroke Reflex:</strong> NioAI intercepts inline code edits and terminal prompts, delegating syntax completions to local NioRay rather than waiting 800ms+ for cloud APIs.
-              <br>• <strong>Triad Grounding:</strong> NioRay autonomously emits <code>&lt;nio_db query="..." /&gt;</code> for AST type lookups and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic byte math.
-              <br>• <strong>Upstream Token Shield:</strong> NioRay pre-validates tasks and strips redundant context before NioAI escalates complex multi-file refactors upstream, saving 70–90% in token costs.
-            </p>
-            <pre><code class="language-bash"># Pull NioRay into local cache (32k pruned Dev model)
-nioxs pull nio-ray --variant dev
-
-# Direct in-process keystroke reflex via NioXS CLI (< 5ms TTFT)
-nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
-
-# Autonomous zero-token task execution via NioAI CLI (Dev variant)
-nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"
-
-# Epistemic Triad execution with AST grounding
-nio run -m nioxs::nio-ray "Create an Axum 0.8 router with health check and graceful shutdown"</code></pre>
+            <p>Dev retains the first 31,978 BPE tokens by original ID plus 22 remapped special tokens. This is not developer-corpus token selection. Use <code>nio-ray-dev-tokenizer.json</code> with Dev and <code>tokenizer.json</code> with Standard. The standalone Candle generator does not execute tool-delegation tags; a host integration is required. No measured task-coverage or cloud-token savings is available.</p>
             <p><a href="ray.html"><strong>Read the Dedicated NioRay Guide with Full Code Outputs →</strong></a></p>
           </div>
         </section>
@@ -719,16 +704,23 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                 <tr>
                   <td><code>nio-ray-dev.Q4_K_M.gguf</code></td>
                   <td>NioRay Dev (Pruned 32k Vocab)</td>
-                  <td>265.86 MiB</td>
+                  <td>265.87 MiB</td>
                   <td><code>e207e6a72807628d9034e800ace5180170e56a3bf54580170e2124aed146aa04</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev.Q4_K_M.gguf">Download v0.4.0</a></td>
                 </tr>
                 <tr>
                   <td><code>nio-ray.Q4_K_M.gguf</code></td>
                   <td>NioRay Standard (Full 151k Vocab)</td>
-                  <td>379.37 MiB</td>
+                  <td>379.38 MiB</td>
                   <td><code>f52f5bc4f933eb6455d852b1de6316c9086c03fe676cbb1432dde939365494e1</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray.Q4_K_M.gguf">Download v0.4.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio-ray-dev-tokenizer.json</code></td>
+                  <td>NioRay Dev only (32k vocabulary)</td>
+                  <td>1,297,635 bytes</td>
+                  <td><code>c8a034fb2f7ad2484fc3010a73152fade6d48372ae322745fbf2c71e064effb1</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-dev-tokenizer.json">Download v0.4.0</a></td>
                 </tr>
                 <tr>
                   <td><code>nio_micro_sec.onnx</code></td>
@@ -841,8 +833,8 @@ nio "--bash cargo test --lib --locked"</code></pre>
           <!-- 2. NioRay -->
           <div class="feature-card" style="margin-bottom: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <h4>🌊 2. NioRay (0.5B / ~320M) — Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h4>
-              <span class="badge badge-accent">&lt; 5ms TTFT &bull; GGUF Q4_K_M</span>
+              <h4>🌊 2. NioRay (0.5B / 386.6M) — Keystroke Reflex Predator (Based on Qwen 2.5 Coder)</h4>
+              <span class="badge badge-accent">GGUF Q4_K_M &bull; Benchmarks pending</span>
             </div>
             <p>Instant code synthesis with zero network latency, running 100% in-process via Candle Rust kernels:</p>
             <pre><code class="language-bash"># Keystroke reflex synthesis via NioXS CLI
@@ -917,16 +909,16 @@ nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/li
             <pre><code>use ort::{Environment, SessionBuilder, Value};
 use std::sync::Arc;
 
-fn main() -> anyhow::Result<()> {
+fn main() -&gt; anyhow::Result&lt;()&gt; {
     // 1. Initialize in-process ONNX Runtime environment
     let environment = Arc::new(Environment::builder().with_name("NioRuntime").build()?);
 
-    // 2. Load compiled NioMicro Security Cluster (< 35 MB RAM)
-    let session = SessionBuilder::new(&environment)?
+    // 2. Load compiled NioMicro Security Cluster (&lt; 35 MB RAM)
+    let session = SessionBuilder::new(&amp;environment)?
         .with_intra_threads(1)?
         .with_model_from_file("~/.nioxs/models/nio_micro_sec.onnx")?;
 
-    // 3. Prepare inputs and execute in < 5ms
+    // 3. Prepare inputs and execute in &lt; 5ms
     println!("NioMicro loaded successfully into native process memory!");
     Ok(())
 }</code></pre>
@@ -1048,9 +1040,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
 
           <div class="faq-item">
-            <h4 class="faq-question">Why is NioRay based on Qwen 2.5 Coder, and how does it achieve sub-5ms latency on CPUs?</h4>
+            <h4 class="faq-question">What performance has been verified for NioRay?</h4>
             <div class="faq-answer">
-              <p><strong>Qwen 2.5 Coder 0.5B Instruct</strong> is widely recognized as the premier sub-billion parameter coding architecture (24 transformer layers, 14 query heads). Rather than running it through heavy Python frameworks or Ollama HTTP daemons (which add 200ms–350ms in socket serialization overhead and require ~1GB resident RAM), Nio compiles and executes NioRay directly inside native Rust Candle kernels with direct memory pointers. This achieves <strong>&lt; 5ms Time To First Token (TTFT)</strong> and throughputs of <strong>180–220+ tok/s</strong> on standard laptop CPUs, requiring under 160 MB resident RAM.</p>
+              <p>NioRay uses Qwen2.5-Coder weights with 24 transformer layers and 14 attention heads, executed locally via Candle. No reproducible release benchmark establishes TTFT, tokens/second, or resident RAM. Previous sub-5ms, 180–220+ tok/s CPU, under-160MB RAM, and whole-model L3-cache claims are withdrawn. Artifact size is not resident memory.</p>
             </div>
           </div>
 
@@ -1059,8 +1051,8 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
             <div class="faq-answer">
               <p>Under Release v0.4.0, NioRay is distributed in two purpose-engineered binaries:</p>
               <ul style="margin: 8px 0 8px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-                <li><strong><code>nio-ray.Q4_K_M.gguf</code> (379.37 MB):</strong> Standard variant retaining the full 151,936 multilingual vocabulary. Recommended for global teams who need code completions alongside comments in non-Latin scripts (CJK, Arabic, Cyrillic).</li>
-                <li><strong><code>nio-ray-dev.Q4_K_M.gguf</code> (265.86 MB):</strong> Developer-specialized variant pruned to a 32,000 token vocabulary focused purely on English and programming languages (Rust, Zig, TypeScript, JavaScript, Python, Go, Bash). By shedding ~107.4 million dead multilingual weights, it reduces memory to <strong>&lt; 160 MB</strong>, fitting directly inside the CPU's L3 cache hierarchy for maximum reflex speed.</li>
+                <li><strong><code>nio-ray.Q4_K_M.gguf</code> (379.38 MiB):</strong> Standard variant retaining the full 151,936 multilingual vocabulary. Recommended for global teams who need code completions alongside comments in non-Latin scripts (CJK, Arabic, Cyrillic).</li>
+                <li><strong><code>nio-ray-dev.Q4_K_M.gguf</code> (265.87 MiB):</strong> 386,570,112 parameters and a 32,000-entry vocabulary, retaining tokens by original BPE ID. Requires <code>nio-ray-dev-tokenizer.json</code>. Removes 107,462,656 parameters; quality and token inflation have not yet been benchmarked.</li>
               </ul>
             </div>
           </div>
@@ -1081,12 +1073,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           </div>
 
           <div class="faq-item">
-            <h4 class="faq-question">How does NioRay prevent hallucinations and math errors via the Epistemic Triad?</h4>
+            <h4 class="faq-question">How does NioRay use tool delegation?</h4>
             <div class="faq-answer">
-              <p>Monolithic generative models often fail when writing systems code because they hallucinate crate type signatures and perform stochastic token arithmetic. NioRay uses the <strong>Epistemic Triad</strong> delegation:
-              <br>• When exact API signatures or struct definitions are required, NioRay emits <code>&lt;nio_db query="..." /&gt;</code> to query the local project AST in &lt; 0.05ms.
-              <br>• When memory alignment, byte offsets, or bitmask arithmetic are required, NioRay emits <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic JavaScript runtime calculation in &lt; 0.01ms.
-              <br>This guarantees mathematical and type-level correctness with zero stochastic drift.</p>
+              <p>Training examples include <code>&lt;nio_db query="..." /&gt;</code> and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> tags for lookups and calculations. A host must implement interception, execution, and result feedback; the standalone Candle generator does not execute these tags. Tools can support generation but do not guarantee syntax, type correctness, or correct tool selection. Delegation latency has not been benchmarked.</p>
             </div>
           </div>
 
