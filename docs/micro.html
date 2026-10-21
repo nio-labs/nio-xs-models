@@ -140,19 +140,49 @@
         </section>
 
         <section id="examples" class="doc-section">
-          <h2>Concrete Decision Evaluation Example</h2>
-          <pre><code class="language-bash"># Evaluate destructive shell command
-curl -s -X POST http://127.0.0.1:7460/v1/decide \
-  -H "Content-Type: application/json" \
-  -d '{"action": "rm -rf /var/log/*", "cluster": "infra"}'
+          <h2>Concrete Decision Evaluation Examples via NioXS &amp; NioAI</h2>
+          <p>Every NioMicro cluster runs locally via the <code>nioxs</code> edge runtime or as an embedded policy gate inside <code>nio</code> (NioAI CLI). No external web servers or curl commands are required.</p>
 
-# Structured Multi-Head Output:
-{
+          <h3>A. Security Cluster: SQL Injection &amp; Auth Bypass Detection (`nioxs micro sec`)</h3>
+          <p>Run instant security policy checks against proposed code diffs or commit hunks:</p>
+          <pre><code class="language-bash"># Audit a code change before committing
+nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"</code></pre>
+          <pre><code class="language-json">{
+  "model": "nioxs::nio-micro-sec",
+  "cluster": "security",
   "verdict": "REJECT",
   "confidence": 0.998,
-  "risk_score": 0.994,
+  "risk_score": 0.984,
   "polarity": "NEGATIVE",
-  "reason": "Destructive wildcard deletion against system directory"
+  "reason": "Unsanitized dynamic string interpolation detected in SQL statement (CWE-89)"
+}</code></pre>
+
+          <h3>B. Infrastructure Cluster: Destructive Cloud &amp; Host Guard (`nioxs micro infra`)</h3>
+          <p>Intercept high-risk shell commands and cloud mutations in terminals and automated scripts:</p>
+          <pre><code class="language-bash"># Evaluate destructive production infrastructure command
+nioxs micro infra "kubectl delete namespace production --cascade=foreground"</code></pre>
+          <pre><code class="language-json">{
+  "model": "nioxs::nio-micro-infra",
+  "cluster": "infrastructure",
+  "verdict": "REJECT",
+  "confidence": 0.994,
+  "risk_score": 0.991,
+  "polarity": "NEGATIVE",
+  "reason": "Direct recursive namespace deletion targeting production environment scope"
+}</code></pre>
+
+          <h3>C. NioAI Autonomous Pre-Execution Gate (`nio run --guard`)</h3>
+          <p>NioAI uses NioMicro to validate planned agent actions before executing tool calls:</p>
+          <pre><code class="language-bash"># NioAI checks proposed workspace clean command
+nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
+          <pre><code class="language-json">{
+  "model": "nioxs::nio-micro-base",
+  "cluster": "base_policy",
+  "verdict": "APPROVE",
+  "confidence": 0.987,
+  "risk_score": 0.042,
+  "polarity": "POSITIVE",
+  "reason": "Safe scoped build artifact cache eviction within workspace bounds"
 }</code></pre>
         </section>
       </div>

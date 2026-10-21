@@ -104,20 +104,48 @@
         </section>
 
         <section id="examples" class="doc-section">
-          <h2>Defect Forecasting CLI Example</h2>
-          <pre><code class="language-bash"># Run pre-emptive inspection on proposed diff
-nioxs-mini-cli "fn process(data: &mut Vec<u8>) { let ref1 = &data; data.push(1); println!(\"{:?}\", ref1); }"
+          <h2>Pre-Emptive Defect Forecasting Examples via NioXS &amp; NioAI</h2>
+          <p>NioMini executes via <code>nioxs mini</code> or as an embedded pre-flight check in <code>nio</code> (NioAI CLI) to forecast compilation breaks and test regressions before running heavy compiler pipelines.</p>
 
-# Structured Output (< 5ms):
-{
+          <h3>A. Pre-Flight Borrow-Check &amp; Syntax Analysis (`nioxs mini`)</h3>
+          <p>Inspect code diffs or snippets in microseconds to detect Rust borrow-checker conflicts before compiling:</p>
+          <pre><code class="language-bash"># Run pre-emptive inspection on proposed Rust function
+nioxs mini "fn process(data: &mut Vec<u8>) { let ref1 = &data; data.push(1); println!(\"{:?}\", ref1); }"</code></pre>
+          <pre><code class="language-json">{
   "model": "nioxs::nio-mini",
   "will_break": true,
   "break_probability": 0.984,
-  "category": "BorrowCheckFail",
+  "category": "BORROW_CHECK_FAIL",
   "risk_score": 0.92,
   "confidence": 0.99,
   "reason": "Cannot borrow `*data` as mutable because it is also borrowed as immutable"
 }</code></pre>
+
+          <h3>B. Test Suite Regression Forecasting in NioAI (`nio run -m nioxs::nio-mini`)</h3>
+          <p>NioAI uses NioMini to evaluate whether a proposed code change will break existing unit tests across the workspace:</p>
+          <pre><code class="language-bash"># NioAI checks if refactor introduces regressions in test suite
+nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
+          <pre><code class="language-json">{
+  "model": "nioxs::nio-mini",
+  "will_break": true,
+  "break_probability": 0.887,
+  "category": "TEST_REGRESSION",
+  "risk_score": 0.84,
+  "predicted_failing_targets": [
+    "crates/router/tests/test_shutdown.rs::test_graceful_drain"
+  ],
+  "reason": "Removed timeout channel polling induces deadlock in test_graceful_drain"
+}</code></pre>
+
+          <h3>C. Zero-Cost CI/CD Pre-Flight Gate (`nioxs mini check`)</h3>
+          <p>Run instant quality gates on pull request patches before triggering multi-machine GitHub Actions matrices:</p>
+          <pre><code class="language-bash"># Execute sub-5ms PR triage in CI pipeline
+nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
+          <pre><code class="language-text">✔ [NioMini Pre-Flight Gate] Analyzed 4 files (328 lines changed) in 4.2ms.
+  • Category: CLEAN (Break Probability: 0.03)
+  • Type Compatibility: 100%
+  • Test Safety Index: 0.98
+Status: APPROVED — Proceeding to release compilation matrix.</code></pre>
         </section>
       </div>
     </main>

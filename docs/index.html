@@ -337,15 +337,23 @@
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
-            <div class="callout-title">⚡ Zero-Token Directives (--) System</div>
-            <p>NioNano supports instant CLI directives starting with <code>--</code>. These bypass all generative models, executing in &lt; 0.05ms with 0 tokens spent:</p>
-            <ul style="margin: 8px 0 12px 20px;">
-              <li><code>--bash &lt;cmd&gt;</code> — Runs deterministic terminal commands (e.g. <code>--bash cargo check</code>) without disrupting context.</li>
-              <li><code>--tools &lt;task&gt;</code> — Triggers local Python plugins (e.g. <code>--tools generate favicon from logo.svg</code>).</li>
-              <li><code>--callers &lt;symbol&gt;</code> / <code>--ast &lt;file&gt;</code> — Sub-millisecond syntax navigation across workspace files.</li>
-              <li><code>--code guard &lt;task&gt;</code> — Pre-checks types &amp; AST definitions before delegating to upstream agents.</li>
-            </ul>
-            <p><a href="nano.html#directives"><strong>Explore the full NioNano Dedicated Page &amp; Directives Guide →</strong></a></p>
+            <div class="callout-title">⚡ Zero-Token Directives (--) System via NioAI CLI</div>
+            <p>NioNano intercepts directives starting with <code>--</code> in &lt; 0.05ms, executing deterministic actions with 0 generative tokens spent:</p>
+            <pre><code class="language-bash"># Run compiler checks without disrupting interactive context
+nio "--bash cargo check --locked"
+
+# Execute local Python workspace automation plugin
+nio "--tools generate-favicons src/assets/logo.svg"
+
+# Instant AST symbol search across workspace crates
+nio "--callers RayEngine"
+
+# Pre-validate types and AST definitions before upstream LLM consultation
+nio "--code guard refactor router to use Axum 0.8 graceful shutdown"
+
+# Natural language intent triage via NioXS CLI (< 0.1ms)
+nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
+            <p><a href="nano.html"><strong>Explore the full NioNano Dedicated Page &amp; Directives Guide →</strong></a></p>
           </div>
         </section>
 
@@ -379,18 +387,21 @@
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
-            <div class="callout-title">🌊 How NioRay Works with NioAI</div>
+            <div class="callout-title">🌊 How NioRay Works with NioAI &amp; Execution Examples</div>
             <p><strong>NioAI</strong> pairs NioRay with your daily workflow as an embedded local co-processor:
               <br>• <strong>Sub-5ms Keystroke Reflex:</strong> NioAI intercepts inline code edits and terminal prompts, delegating syntax completions to local NioRay rather than waiting 800ms+ for cloud APIs.
               <br>• <strong>Triad Grounding:</strong> NioRay autonomously emits <code>&lt;nio_db query="..." /&gt;</code> for AST type lookups and <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> for deterministic byte math.
               <br>• <strong>Upstream Token Shield:</strong> NioRay pre-validates tasks and strips redundant context before NioAI escalates complex multi-file refactors upstream, saving 70–90% in token costs.
-              <br><a href="ray.html#nioai"><strong>Read the Dedicated NioRay &amp; NioAI Integration Guide →</strong></a>
             </p>
-          </div>
+            <pre><code class="language-bash"># Direct in-process keystroke reflex via NioXS CLI
+nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
 
-          <div class="callout callout-note" style="margin-top: 24px;">
-            <div class="callout-title">The NioRay Triad: Offloading Memory &amp; Math</div>
-            <p>NioRay delegates symbol lookups to <code>&lt;nio_db query="..." /&gt;</code> (&lt; 0.05ms) and deterministic arithmetic to <code>&lt;nio_js&gt;code&lt;/nio_js&gt;</code> (&lt; 0.01ms), achieving 100% verified accuracy without weight bloat. <a href="ray.html"><strong>Read the Dedicated NioRay Guide with Triad Code Examples →</strong></a></p>
+# Autonomous zero-token task execution via NioAI CLI (Choice B Dev variant)
+nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"
+
+# Epistemic Triad execution with AST grounding
+nio run -m nioxs::nio-ray "Create an Axum 0.8 router with health check and graceful shutdown"</code></pre>
+            <p><a href="ray.html"><strong>Read the Dedicated NioRay Guide with Full Code Outputs →</strong></a></p>
           </div>
         </section>
 
@@ -443,6 +454,19 @@
               </ol>
             </li>
           </ul>
+
+          <div class="callout callout-tip" style="margin-top: 18px;">
+            <div class="callout-title">CLI Policy Execution Examples (NioXS &amp; NioAI)</div>
+            <pre><code class="language-bash"># 1. Audit SQL queries &amp; auth boundaries before committing (Security Cluster)
+nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"
+
+# 2. Prevent destructive cloud mutations in production (Infra Cluster)
+nioxs micro infra "kubectl delete namespace production --cascade=foreground"
+
+# 3. Autonomous agent action validation in NioAI CLI
+nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
+            <p><a href="micro.html"><strong>Read the Dedicated NioMicro Page with JSON Verdict Outputs →</strong></a></p>
+          </div>
         </section>
 
         <!-- 6. NIOMASK -->
@@ -496,6 +520,19 @@
               </tbody>
             </table>
           </div>
+
+          <div class="callout callout-tip" style="margin-top: 18px;">
+            <div class="callout-title">CLI Stream Redaction Examples (NioXS &amp; NioAI)</div>
+            <pre><code class="language-bash"># 1. Real-time pipe scrubbing for environment files and terminal logs
+cat .env | nioxs mask
+
+# 2. Git pre-commit security gate (blocks commit if unredacted secrets found)
+git diff --cached | nioxs mask --fail-on-secrets
+
+# 3. Automatic context sanitization in NioAI agent workflows
+nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"</code></pre>
+            <p><a href="mask.html"><strong>Read the Dedicated NioMask Page with Full Pipe Examples →</strong></a></p>
+          </div>
         </section>
 
         <!-- 7. NIOMINI -->
@@ -544,6 +581,19 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <div class="callout callout-tip" style="margin-top: 18px;">
+            <div class="callout-title">CLI Defect Forecasting Examples (NioXS &amp; NioAI)</div>
+            <pre><code class="language-bash"># 1. Detect Rust borrow-check errors &amp; lifetime violations before compiling
+nioxs mini "fn process(data: &amp;mut Vec&lt;u8&gt;) { let r = &amp;data; data.push(1); }"
+
+# 2. Forecast test suite regressions on pending git diffs in NioAI
+nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"
+
+# 3. Sub-5ms PR pre-flight gate for CI pipelines
+nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
+            <p><a href="mini.html"><strong>Read the Dedicated NioMini Page with Structured Payloads →</strong></a></p>
           </div>
         </section>
 
@@ -644,24 +694,50 @@ sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.o
         <!-- 9. CLI QUICKSTART -->
         <section id="quickstart" class="doc-section">
           <h2>9. Quickstart with NioXS &amp; Nio CLI</h2>
-          <p>Nio CLI automatically discovers, pulls, and caches models in <code>~/.nioxs/models</code>:</p>
+          <p>The Nio ecosystem provides two coordinated CLI binaries: <strong><code>nioxs</code></strong> (native edge tensor runtime) and <strong><code>nio</code></strong> (agent workspace orchestrator). Models are automatically downloaded, verified, and cached in <code>~/.nioxs/models</code>:</p>
 
+          <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code># Pull NioMicro Security Cluster
-nioxs pull nio-micro --cluster sec
+            <pre><code># Pull NioRay Dev (Choice B 32k pruned, 266 MB)
+nioxs pull nio-ray --variant dev
 
-# Pull NioMicro Infrastructure Cluster
+# Pull NioMicro Policy Clusters (Security &amp; Infra)
+nioxs pull nio-micro --cluster sec
 nioxs pull nio-micro --cluster infra
 
-# Pull NioMask Stream Redactor
-nioxs pull nio-mask --version v0.1.0
+# Pull NioMask Stream Redactor (&lt; 0.2ms)
+nioxs pull nio-mask
 
-# Pull NioMini Pre-emptive Defect Forecaster
-nioxs pull nio-mini --version v0.1.0
+# Pull NioMini Defect Forecaster (&lt; 5ms)
+nioxs pull nio-mini
 
-# Verify local model cache
+# Inspect locally verified model cache &amp; checksums
 nioxs models list</code></pre>
+          </div>
+
+          <h3>B. Universal Model Execution Matrix via NioXS &amp; NioAI</h3>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code># 1. NioNano Directives: Zero-token AST symbol lookup &amp; shell execution
+nio "--callers RayEngine"
+nio "--bash cargo test --lib"
+
+# 2. NioRay Keystroke Reflex: Direct in-process code generation (&lt; 5ms)
+nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"
+nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims"
+
+# 3. NioMicro Policy Gate: Real-time security &amp; infrastructure guard
+nioxs micro sec --diff "SELECT * FROM users WHERE id = '" + id + "'"
+nioxs micro infra "kubectl delete namespace production"
+
+# 4. NioMask Stream Scrubber: Sanitize stdout pipes &amp; pre-commit diffs
+cat .env | nioxs mask
+git diff --cached | nioxs mask --fail-on-secrets
+
+# 5. NioMini Defect Forecaster: Pre-emptive compile &amp; test break prediction
+nioxs mini "fn process(data: &amp;mut Vec&lt;u8&gt;) { let r = &amp;data; data.push(1); }"
+nio run -m nioxs::nio-mini --predict-tests --diff "git diff src/"</code></pre>
           </div>
         </section>
 

@@ -154,6 +154,26 @@ When user input begins with a double hyphen (`--`), NioNano instantly bypasses a
 5. **`--helm`, `--with-helm`, `--no-helm`**  
    Toggles deep reasoning profile and chain-of-thought `<think>` traces on demand.
 
+### Execution via NioAI & NioXS CLI
+
+```bash
+# 1. Run shell directives in NioAI without spending generative tokens
+nio "--bash cargo test --lib --locked"
+
+# 2. Trigger workspace plugin tools
+nio "--tools generate-favicons src/assets/logo.svg"
+
+# 3. Sub-millisecond AST symbol lookup
+nio "--callers RayEngine"
+
+# 4. Symbol-guarded upstream agent request
+nio "--code guard refactor router to use Axum 0.8 serve"
+
+# 5. Natural language intent triage via NioXS (< 0.1ms)
+nioxs nano "where is NioMaskConfig defined in the repository?"
+# Output: {"action": "search_code", "symbol": "NioMaskConfig", "confidence": 0.992}
+```
+
 ---
 
 ## 2. NioMicro — Domain-Clustered Decision Engine (5.0M / Cluster)
@@ -258,20 +278,24 @@ curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/nio
 sha256sum nio_micro_sec.onnx nio_micro_infra.onnx tokenizer.json
 ```
 
-### Using with NioXS & Nio CLI
+### Execution via NioXS & NioAI CLI
 
-Place the downloaded cluster engines into your local NioXS model cache:
 ```bash
-mkdir -p ~/.nioxs/models
-mv nio_micro_sec.onnx ~/.nioxs/models/
-mv nio_micro_infra.onnx ~/.nioxs/models/
-mv nio_micro_base.onnx ~/.nioxs/models/
-mv tokenizer.json ~/.nioxs/models/
-```
-
-Or pull directly via the Nio CLI:
-```bash
+# 1. Pull model clusters
 nioxs pull nio-micro --cluster sec
+nioxs pull nio-micro --cluster infra
+
+# 2. Audit SQL queries & auth boundaries via NioXS Security Cluster
+nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"
+# Output: {"verdict": "REJECT", "risk_score": 0.984, "reason": "Unsanitized dynamic SQL string interpolation"}
+
+# 3. Intercept destructive infrastructure and cloud operations
+nioxs micro infra "kubectl delete namespace production --cascade=foreground"
+# Output: {"verdict": "REJECT", "risk_score": 0.991, "reason": "Direct recursive production namespace wipe"}
+
+# 4. Autonomous agent pre-execution validation in NioAI
+nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"
+# Output: {"verdict": "APPROVE", "risk_score": 0.042, "reason": "Safe scoped build cache eviction"}
 ```
 
 ---
@@ -292,9 +316,20 @@ nioxs pull nio-micro --cluster sec
 * **Source Repository:** [`nio-labs/nio-mask`](https://github.com/nio-labs/nio-mask)
 * **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) ([`nio_mask.onnx`](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx))
 
+### Execution via NioXS & NioAI CLI
+
 ```bash
-# Pull NioMask via Nio CLI
-nioxs pull nio-mask --version v0.1.0
+# 1. Pull NioMask via Nio CLI
+nioxs pull nio-mask
+
+# 2. Real-time pipe scrubbing for environment files, credentials, and terminal logs
+cat .env | nioxs mask
+
+# 3. Git pre-commit security gate (blocks commit with non-zero exit code if secrets leak)
+git diff --cached | nioxs mask --fail-on-secrets
+
+# 4. Context & telemetry buffer scrubber in NioAI agent workflows
+nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"
 ```
 
 ---
@@ -315,9 +350,21 @@ nioxs pull nio-mask --version v0.1.0
 * **Sha256:** `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731`
 * **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0)
 
+### Execution via NioXS & NioAI CLI
+
 ```bash
-# Pull NioMini via Nio CLI
-nioxs pull nio-mini --version v0.1.0
+# 1. Pull NioMini via Nio CLI
+nioxs pull nio-mini
+
+# 2. Sub-5ms Rust borrow-check & lifetime violation prediction before compiling
+nioxs mini "fn process(data: &mut Vec<u8>) { let r = &data; data.push(1); }"
+# Output: {"will_break": true, "break_probability": 0.984, "category": "BORROW_CHECK_FAIL", "risk_score": 0.92}
+
+# 3. Forecast test suite regressions on pending git diffs in NioAI
+nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"
+
+# 4. Zero-cost CI/CD pre-flight gate on pull request patches
+nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 ```
 
 ---

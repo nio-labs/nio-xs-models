@@ -104,12 +104,40 @@
         </section>
 
         <section id="examples" class="doc-section">
-          <h2>Stream Redaction Example</h2>
-          <pre><code class="language-bash"># Raw incoming payload:
-"Connecting with AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY and auth=Bearer eyJhbGciOi..."
+          <h2>Stream Redaction Examples via NioXS &amp; NioAI</h2>
+          <p>NioMask runs as an in-process Unix pipe filter, terminal stream scrubber, or pre-flight hook inside <code>nioxs</code> and <code>nio</code> (NioAI CLI).</p>
 
-# NioMask Output (< 0.15ms):
-"Connecting with AWS_SECRET_ACCESS_KEY=[REDACTED_AWS_SECRET] and auth=Bearer [REDACTED_JWT_TOKEN]"</code></pre>
+          <h3>A. Real-Time Terminal Pipe Redaction (`cat | nioxs mask`)</h3>
+          <p>Scrub secrets and credentials on the fly before dumping terminal logs or piping to external tools:</p>
+          <pre><code class="language-bash"># Pipe environment configuration or logs directly through NioMask
+cat .env | nioxs mask</code></pre>
+          <pre><code class="language-text"># NioMask Output (< 0.18ms per KB chunk):
+DATABASE_URL=postgres://app_user:[REDACTED_PASSWORD]@db.internal:5432/production
+AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_ACCESS_KEY=[REDACTED_AWS_SECRET]
+GITHUB_TOKEN=[REDACTED_GITHUB_PAT]
+STRIPE_SECRET_KEY=[REDACTED_STRIPE_KEY]
+JWT_SIGNING_SECRET=[REDACTED_HIGH_ENTROPY_KEY]</code></pre>
+
+          <h3>B. Git Pre-Commit Hook Security Gate (`nioxs mask --check`)</h3>
+          <p>Enforce zero-leak policy on staged git commits. Exits with non-zero status code if unredacted secrets are detected:</p>
+          <pre><code class="language-bash"># Run pre-commit secret leak guard
+git diff --cached | nioxs mask --fail-on-secrets</code></pre>
+          <pre><code class="language-text">❌ [NioMask Security Gate] Unsanitized secrets detected in staged diff:
+  • src/config.rs:14: Stripe API secret key ('sk_live_...') detected!
+  • tests/fixtures.json:28: OpenAI token ('sk-proj-...') detected!
+Aborting commit. Sanitize secrets or use environment variables.</code></pre>
+
+          <h3>C. NioAI Context &amp; Telemetry Sanitizer (`nio run --sanitize`)</h3>
+          <p>NioAI automatically pipes all tool outputs, command results, and MCP payloads through NioMask before passing them to agents or telemetry buffers:</p>
+          <pre><code class="language-bash"># NioAI scrubs command output before context injection
+nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"</code></pre>
+          <pre><code class="language-json">{
+  "sanitized": true,
+  "redacted_tokens": 1,
+  "elapsed_microseconds": 142,
+  "payload": "curl -H 'Authorization: Bearer [REDACTED_GITHUB_PAT]' https://api.github.com/user"
+}</code></pre>
         </section>
       </div>
     </main>

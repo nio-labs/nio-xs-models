@@ -275,26 +275,71 @@ nio chat --model nioxs::nio-ray</code></pre>
 
         <!-- EXAMPLES SECTION -->
         <section id="examples" class="doc-section">
-          <h2>5. Concrete Triad Execution Examples</h2>
+          <h2>5. Concrete Triad Execution Examples via NioXS &amp; NioAI</h2>
+          <p>All examples below execute 100% in-process via <code>nioxs ray</code> (direct C-bindings / Candle Rust) or <code>nio run -m nioxs::...</code> (NioAI agent runner). No external daemons or cloud keys required.</p>
 
-          <h3>A. Real-Time Keystroke Reflex (Direct Code Synthesis)</h3>
-          <p>Instantaneous typing without conversational fluff:</p>
-          <pre><code class="language-bash">nioxs ray "Write a compact TypeScript function to validate a UUID v4."</code></pre>
-          <pre><code class="language-typescript"><think>
-Direct regex pattern match for RFC 4122 version 4 UUID.
+          <h3>A. Real-Time Keystroke Reflex via NioXS CLI (`nioxs ray`)</h3>
+          <p>Instantaneous code synthesis without conversational greeting or explanation fluff:</p>
+          <pre><code class="language-bash"># Direct in-process keystroke reflex (< 5ms TTFT)
+nioxs ray "Write an Axum SSE streaming route that broadcasts Redis pub/sub messages"</code></pre>
+          <pre><code class="language-rust"><think>
+Direct Server-Sent Events route using axum::response::sse::Event and tokio_stream.
 </think>
-```
-export function isValidUuidV4(uuid: string): boolean {
-  const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  return regex.test(uuid);
+```rust
+use axum::{
+    response::sse::{Event, KeepAlive, Sse},
+    routing::get,
+    Router,
+};
+use futures::stream::Stream;
+use std::convert::Infallible;
+use tokio_stream::wrappers::BroadcastStream;
+
+pub fn sse_router(tx: tokio::sync::broadcast::Sender<String>) -> Router {
+    Router::new().route("/events", get(move || {
+        let rx = tx.subscribe();
+        let stream = BroadcastStream::new(rx).filter_map(|res| async move {
+            res.ok().map(|msg| Ok::<_, Infallible>(Event::default().data(msg)))
+        });
+        Sse::new(stream).keep_alive(KeepAlive::default())
+    }))
 }
 ```<|im_end|></code></pre>
 
-          <h3>B. Epistemic Delegation via NioDB (`<nio_db>`)</h3>
-          <p>When verified crate signatures are required, NioRay delegates to NioDB instead of hallucinating outdated APIs:</p>
-          <pre><code class="language-rust">Prompt: "Create an Axum 0.8 router with health check and graceful shutdown."
+          <h3>B. Ultra-Lean In-Process Reflex via NioAI (`nio run -m nioxs::nio-ray-dev`)</h3>
+          <p>Executed using the Choice B 32k pruned developer model (resident RAM &lt; 160MB):</p>
+          <pre><code class="language-bash"># Run zero-token agent reflex task in NioAI
+nio run -m nioxs::nio-ray-dev "Write a TypeScript function to parse and validate JWT claims without third-party dependencies"</code></pre>
+          <pre><code class="language-typescript"><think>
+Pure web-crypto base64url decoding and JSON payload parsing.
+</think>
+```typescript
+export interface JwtClaims {
+  sub: string;
+  exp: number;
+  [key: string]: unknown;
+}
 
-NioRay Output:
+export function parseJwtClaims(token: string): JwtClaims {
+  const parts = token.split('.');
+  if (parts.length !== 3) throw new Error("Invalid JWT token format");
+  const payloadBase64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+  const jsonStr = decodeURIComponent(
+    atob(payloadBase64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+  );
+  const claims = JSON.parse(jsonStr) as JwtClaims;
+  if (claims.exp && claims.exp * 1000 < Date.now()) {
+    throw new Error("JWT token has expired");
+  }
+  return claims;
+}
+```<|im_end|></code></pre>
+
+          <h3>C. Epistemic Memory Delegation via NioDB (`<nio_db>`)</h3>
+          <p>When verified crate signatures are required, NioAI intercepts NioRay's <code>&lt;nio_db&gt;</code> query and returns exact AST ground truth in &lt; 0.05ms:</p>
+          <pre><code class="language-bash"># Run grounded agent synthesis via NioAI
+nio run -m nioxs::nio-ray "Create an Axum 0.8 router with health check and graceful shutdown"</code></pre>
+          <pre><code class="language-rust">NioRay Co-Process Stream:
 <think>
 Need verified signature for axum::serve and TcpListener in Axum 0.8.
 </think>
@@ -303,9 +348,9 @@ Need verified signature for axum::serve and TcpListener in Axum 0.8.
 pub async fn serve<M, S>(tcp_listener: tokio::net::TcpListener, make_service: M) -> Result<(), std::io::Error>
 </nio_db_result>
 <think>
-Signature verified. Bind TcpListener to port 3000 and return Router.
+Signature verified. Bind TcpListener to port 3000 and return Router with shutdown signal.
 </think>
-```
+```rust
 use axum::{routing::get, Router};
 use tokio::net::TcpListener;
 
@@ -313,16 +358,20 @@ use tokio::net::TcpListener;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new().route("/health", get(|| async { "OK" }));
     let listener = TcpListener::bind("0.0.0.0:3000").await?;
-    axum::serve(listener, app).await?;
+    axum::serve(listener, app)
+        .with_graceful_shutdown(async {
+            tokio::signal::ctrl_c().await.ok();
+        })
+        .await?;
     Ok(())
 }
 ```<|im_end|></code></pre>
 
-          <h3>C. Deterministic Compute Delegation via NioJS (`<nio_js>`)</h3>
-          <p>Struct alignment padding and byte math are offloaded to NioJS for exact evaluation:</p>
-          <pre><code class="language-zig">Prompt: "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig."
-
-NioRay Output:
+          <h3>D. Deterministic Compute Delegation via NioJS (`<nio_js>`)</h3>
+          <p>Struct alignment padding and byte math are offloaded to NioJS for exact evaluation, preventing token math errors:</p>
+          <pre><code class="language-bash"># Execute exact memory layout reflex via NioXS CLI
+nioxs ray "Calculate struct alignment padding for a 3-byte header followed by a 64-bit pointer in Zig"</code></pre>
+          <pre><code class="language-zig">NioRay Co-Process Stream:
 <think>
 Delegate alignment arithmetic to NioJS to avoid token calculation errors.
 </think>
@@ -333,7 +382,7 @@ Delegate alignment arithmetic to NioJS to avoid token calculation errors.
 <think>
 Padding is 5 bytes. Total struct size is 16 bytes. Write Zig struct.
 </think>
-```
+```zig
 const std = @import("std");
 
 pub const AlignedPacket = extern struct {

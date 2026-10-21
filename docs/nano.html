@@ -179,43 +179,62 @@
 
         <!-- EXAMPLES SECTION -->
         <section id="examples" class="doc-section">
-          <h2>3. Concrete Directive Usage Examples</h2>
+          <h2>3. Concrete Directive Usage Examples via NioAI &amp; NioXS</h2>
+          <p>Directives can be executed either directly in terminal commands via <code>nio</code> (NioAI CLI) or within interactive developer sessions, as well as inspected via <code>nioxs nano</code>.</p>
 
           <h3>A. In-Session Shell Execution (`--bash`)</h3>
-          <p>Run compilation checks or git status without leaving your interactive coding session:</p>
-          <pre><code class="language-bash"># Check workspace compilation without losing conversation state
-developer> --bash cargo check --locked
+          <p>Run compilation checks, git status, or build commands without leaving conversation state or spending LLM tokens:</p>
+          <pre><code class="language-bash"># Run via NioAI CLI
+nio "--bash cargo check --locked"
 
-[NioNano Reflex (< 0.05ms) -> Direct Execution]
+# Or in interactive Nio session:
+developer> --bash git status -s</code></pre>
+          <pre><code class="language-text">[NioNano Reflex (< 0.05ms) -> Direct Subprocess Execution]
     Checking nioxs-engine v0.4.0 (/home/mn/nio-labs/nio-xs/crates/engine)
-    Finished `dev` profile [unoptimized + debuginfo] in 0.82s</code></pre>
+    Finished `dev` profile [unoptimized + debuginfo] in 0.82s
+M crates/engine/src/lib.rs
+?? crates/engine/src/reflex.rs</code></pre>
 
           <h3>B. Local Python Plugin Tools (`--tools`)</h3>
-          <p>Execute specialized utilities without writing boilerplate scripts:</p>
-          <pre><code class="language-bash">developer> --tools generate favicon from logo.svg
-
-[NioNano Plugin Manager]
+          <p>Execute custom workspace automation scripts and utilities with zero overhead:</p>
+          <pre><code class="language-bash"># Trigger plugin tool via NioAI
+nio "--tools generate-favicons src/assets/logo.svg"</code></pre>
+          <pre><code class="language-text">[NioNano Plugin Manager (< 0.08ms)]
+✔ Loaded plugin: asset_generator.py
 ✔ Generated assets/favicon.ico (16x16, 32x32, 48x48)
-✔ Generated assets/apple-touch-icon.png (180x180)</code></pre>
+✔ Generated assets/apple-touch-icon.png (180x180)
+0 tokens consumed. Total execution time: 14ms.</code></pre>
 
-          <h3>C. Sub-Millisecond AST Symbol Navigation</h3>
-          <p>Find definitions and callers in your project instantly:</p>
-          <pre><code class="language-bash">developer> --callers RayEngine
-
-[NioNano AST Navigation (< 0.08ms)]
+          <h3>C. Sub-Millisecond AST Symbol Navigation (`--callers` / `--definitions`)</h3>
+          <p>Find callers, implementations, and type definitions across the entire workspace instantaneously:</p>
+          <pre><code class="language-bash"># Locate all caller references across crates
+nio "--callers RayEngine"</code></pre>
+          <pre><code class="language-text">[NioNano AST Navigation (< 0.08ms)]
 Found 3 caller references for 'RayEngine':
   • crates/provider/src/main.rs:41: let engine = nioxs_engine::RayEngine::new()?;
   • crates/provider/src/lib.rs:188: let engine = RayEngine::new()?;
   • crates/nio-engine-test/src/main.rs:24: let mut model = ModelWeights::from_gguf(...);</code></pre>
 
           <h3>D. Guarded Upstream Consultation (`--code guard`)</h3>
-          <p>Ensures that proposed changes are pre-checked against project type signatures before calling the upstream model:</p>
-          <pre><code class="language-bash">developer> --code guard refactor router to use Axum 0.8 graceful shutdown
-
-[NioNano Guard Gate]
+          <p>Ensures that proposed architectural changes are pre-checked against project type signatures before calling the upstream model:</p>
+          <pre><code class="language-bash"># NioAI checks local AST symbols before escalating upstream
+nio "--code guard refactor router to use Axum 0.8 graceful shutdown"</code></pre>
+          <pre><code class="language-text">[NioNano Guard Gate]
 ✔ Checked AST symbols: axum::serve, tokio::net::TcpListener
 ✔ Context bundled: 412 tokens
 ✔ Passing validated payload to upstream engine...</code></pre>
+
+          <h3>E. Natural Language Intent Triage (`nioxs nano`)</h3>
+          <p>When prompts don't use <code>--</code>, NioNano's classifier maps natural language developer questions to deterministic caller actions in sub-100µs:</p>
+          <pre><code class="language-bash"># Classify natural language developer prompt
+nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
+          <pre><code class="language-json">{
+  "action": "search_code",
+  "symbol": "NioMaskConfig",
+  "confidence": 0.992,
+  "elapsed_microseconds": 74,
+  "suggested_command": "git grep 'struct NioMaskConfig' src/"
+}</code></pre>
         </section>
 
         <!-- HEURISTICS SECTION -->
