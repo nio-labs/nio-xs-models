@@ -1,0 +1,36 @@
+{
+  "release": "v0.5.0",
+  "model_name": "NioViper",
+  "codename": "Abyssal Striker",
+  "base_model": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+  "layers": 8,
+  "hidden_dimension": 896,
+  "vocabulary_size": 32000,
+  "quantization": "Q4_0",
+  "block_size": 32,
+  "hardware_target": "Sub-49MB Peak RAM, Low-End CPU / Edge / Air-Gapped Daemons",
+  "assets": [
+    {
+      "name": "nio-viper-ast.Q4_0.gguf",
+      "size_bytes": 100984640,
+      "sha256": "2e7df31bbe90a39e33b363d24085c2d04d7df6519909f27387e8b55b6d36ed32",
+      "format": "GGUF (Q4_0)",
+      "parameters": 148692992,
+      "vocabulary_size": 32000,
+      "external_tokenizer": "nio-viper-tokenizer.json"
+    },
+    {
+      "name": "nio-viper-tokenizer.json",
+      "size_bytes": 1297635,
+      "sha256": "c8a034fb2f7ad2484fc3010a73152fade6d48372ae322745fbf2c71e064effb1",
+      "format": "JSON (BPE)"
+    }
+  ],
+  "performance": {
+    "engine_ready_rss_mb": 38.10,
+    "peak_resident_ram_mb": 42.03,
+    "prefill_latency_ms": 940.4,
+    "decode_throughput_tps": 15.62,
+    "ast_candidate_sampling_us": 18
+  }
+}
