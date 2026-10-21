@@ -115,8 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 5. Active Link Scroll Spy
+  // 5. Active Link Scroll Spy (only for in-page hash links)
   // ==========================================
+  const hashLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
   const observerOptions = {
     root: null,
     rootMargin: '-20% 0px -70% 0px',
@@ -127,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id');
-        links.forEach(link => {
+        hashLinks.forEach(link => {
           if (link.getAttribute('href') === `#${id}`) {
             link.classList.add('active');
           } else {

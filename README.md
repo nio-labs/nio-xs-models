@@ -59,11 +59,8 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 │                              THE NIO ENGINE HIERARCHY                                  │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                        │
-│  [ TIER 1: THE PREDATOR FLEET ]  ──► Keystroke & Reasoning Predators                  │
+│  [ TIER 1: THE PREDATOR FLEET ]  ──► Keystroke Reflex Predator                         │
 │    • NioRay (0.49B / ~320M)      ──► Keystroke Predator (< 5ms TTFT, Qwen 2.5 Coder)   │
-│    • NioApex (1.5B)              ──► Crown Reasoning Predator (DeepSeek-R1 Distilled)   │
-│    • NioManta (1.05B)            ──► Conversational Dialogue & Multi-Turn Coder        │
-│    • NioCuda & NioViper          ──► Tactical Swarm (< 160MB) & Sub-50MB Wearable     │
 │                                                                                        │
 │  [ TIER 2: SYSTEM ASSIST & SENSORY ]                                                   │
 │    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
@@ -81,8 +78,6 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 ### Why "The Predator Fleet"?
 In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
 * **`NioRay` (The Keystroke Predator):** Strikes on developer keystrokes in `< 5ms` TTFT directly from CPU cache, instantly completing lambdas, type guards, regexes, and route scaffolds before cloud APIs can negotiate TLS.
-* **`NioApex` (The Crown Reasoning Predator):** Distilled from DeepSeek-R1 with internal multi-step `<think>` token tree exploration for local architectural synthesis and complex system refactoring.
-* **`NioManta` (The Dialogue Predator):** High-speed streaming paired-programming predator for multi-file workspace design.
 
 ---
 
@@ -407,10 +402,10 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ## 5. NioRay — Electric Keystroke Reflex Predator (Based on Qwen 2.5 Coder)
 
-**NioRay** (`nioxs::nio-ray`) is the flagship Keystroke Predator in the **Nio Predator Fleet** (alongside reasoning predator **NioApex** and dialogue predator **NioManta**). Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
+**NioRay** (`nioxs::nio-ray`) is the flagship Keystroke Predator in the **Nio Predator Fleet**. Built for zero-latency keystroke reflexes, compact snippet generation, and immediate code transformations, it runs 100% in-process within `nio-xs` using pure Rust tensor kernels (Candle), requiring zero Ollama, zero external llama.cpp daemons, and zero cloud API fees.
 
 > [!NOTE]
-> **Role in the Predator Fleet:** Nio's predators aggressively hunt latency. While NioApex tackles deep multi-file reasoning and NioManta handles interactive paired programming, NioRay relentlessly hunts keystroke latency: operating with **< 5ms TTFT** directly inside CPU cache to complete functions, pattern matches, type guards, and regexes without waiting for cloud handshakes.
+> **Role in the Predator Fleet:** Nio's predators aggressively hunt latency. NioRay relentlessly hunts keystroke latency: operating with **< 5ms TTFT** directly inside CPU cache to complete functions, pattern matches, type guards, and regexes without waiting for cloud handshakes.
 
 ### Foundational Architecture & Heritage
 * **Base Architecture**: Fine-tuned from **`Qwen/Qwen2.5-Coder-0.5B-Instruct`** (24 Transformer layers, $d_{\text{model}} = 896$, 14 query heads, 2 KV heads).
