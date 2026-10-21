@@ -60,8 +60,8 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                        │
 │  [ TIER 1: THE PREDATOR FLEET ]  ──► Reflex & Striker Predators                        │
-│    • NioRay AST-µLM (494M Dense) ──► Symbolic-Neural Reflex Engine (Sub-85MB Stream)   │
-│    • NioViper AST-µLM (~150M)    ──► Tactical Terminal & Diagnostic Striker (Sub-49MB) │
+│    • NioRay AST-µLM (494M Dense) ──► Streaming Runtime (i7 measurements below)         │
+│    • NioViper AST-µLM (~150M)    ──► Tactical Runtime (i7 measurements below)          │
 │                                                                                        │
 │  [ TIER 2: SYSTEM ASSIST & SENSORY ]                                                   │
 │    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
@@ -78,8 +78,8 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 
 ### Why "The Predator Fleet"?
 In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
-* **`NioRay` (The Keystroke Predator):** Generates short code completions, refactorings, and bug fixes locally using our AST-µLM engine with 100% stock Qwen 2.5 Coder intelligence inside a sub-85MB streaming memory envelope.
-* **`NioViper` (The Tactical Striker):** High-speed terminal command synthesis, CI/CD failure triage, and compiler diagnostic resolution with strictly **< 49 MB peak resident RAM** and clean structured tags (`<viper_cmd>`, `<viper_alert>`).
+* **`NioRay` (The Keystroke Predator):** Local code-generation runtime with layer streaming and candidate-row projection. See the measured i7-8650U session below.
+* **`NioViper` (The Tactical Striker):** Terminal and diagnostic runtime sharing NioRay’s streaming engine. See the measured i7-8650U footprint and output limitations below.
 
 ---
 
@@ -88,8 +88,8 @@ In nature, apex predators hunt with immediate sensory reflexes, acute focus, and
 | Model | Ecosystem Tier & Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
 | **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
-| **`NioRay`**  | **Tier 1: Keystroke Predator** | **494.0M (24L, 151k Vocab)** | Symbolic-Neural AST-µLM Reflex Engine (`nio-ray-ast.Q4_0.gguf`, 265 MiB, Sub-85MB Streaming) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
-| **`NioViper`**| **Tier 1: Tactical Striker**   | **148.7M (8L, 32k Vocab)**   | Sub-49MB Tactical Terminal & Diagnostic Striker (`nio-viper-ast.Q4_0.gguf`, 96 MiB) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
+| **`NioRay`**  | **Tier 1: Keystroke Predator** | **494.0M (24L, 151k Vocab)** | Symbolic-Neural AST-µLM Reflex Engine (`nio-ray-ast.Q4_0.gguf`, 270.93 MiB; 76.16 MiB peak on i7-8650U) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
+| **`NioViper`**| **Tier 1: Tactical Striker**   | **148.0M (8L, 32k Vocab)**   | Tactical Terminal Runtime (44.98 MiB peak on i7-8650U) (`nio-viper-ast.Q4_0.gguf`, 96 MiB) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
 | **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -403,96 +403,105 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
-## 5. NioRay AST-µLM — The Symbolic-Neural Reflex Engine
+## 5. NioRay AST-µLM — Streaming Reflex Engine
 
-**NioRay AST-µLM** is our flagship keystroke reflex predator, built on **Symbolic-Neural Decoupling** to achieve sub-85MB resident RAM on edge CPUs while preserving **100% of the intelligence, all 24 transformer layers, and 100% of the 151,936 stock vocabulary** from `Qwen2.5-Coder-0.5B-Instruct`.
+**NioRay** retains 24 transformer layers and 151,936 vocabulary rows from the Qwen2.5-Coder-0.5B architecture. The Q4_0 artifact is **270.93 MiB**. Its native runtime streams layer weights and supports candidate-row projection.
 
-Unlike legacy approaches that either load gigabytes into RAM or mutilate the vocabulary, AST-µLM marries **deterministic compiler grammar (Tree-sitter)** with **autoregressive neural streaming**:
-1. **Tree-sitter Candidate Slicing:** Only touches ~40 valid candidate token rows from memory-mapped storage (~18 KB), bypassing the uncompressed 544 MB vocabulary head entirely and sampling in **0.04 ms (40 µs)**.
-2. **Layer Streaming Pipeline:** Streams through the 24 transformer layers sequentially, keeping only active compute layers in physical RAM via proactive eviction (`libc::malloc_trim(0)` / `madvise`), eliminating weight bloat.
-3. **Divisibility-Clean Quantization (`Q4_0`):** Perfectly aligns with hidden dimension $d=896$ ($896 / 32 = 28$), eliminating the k-quant super-block fallback leaks and shrinking the compiled artifact to **265.25 MiB** on disk with 100% vocabulary intact.
-4. **100% Standalone Air-Gapped Operation:** Pure freestanding Rust SIMD binary with **zero external dependencies**—no `niodb`, no `niojs`, and no cloud servers.
+### Measured 20-prompt AST session — Intel Core i7-8650U
 
-### Verified Specifications
+**Hardware and settings:** Intel Core i7-8650U @ 1.90 GHz, Linux/WSL2, four Rayon threads, CPU release build with `-C target-cpu=native`. One engine process handled 20 independent tasks, resetting KV caches between tasks and retaining its tokenizer, mmap and mask cache. Generation used the CLI AST candidate pool, natural EOS/EOT stopping and at most 32 new tokens per prompt. The tested runtime uses a 4,096-token RoPE window, releases unused embedded GGUF tokenizer metadata, and trims the heap after initialization and each layer.
 
-| Dimension | Stock Qwen2.5-Coder-0.5B | **NioRay AST-µLM (`Q4_0`)** | Advantage / Status |
-| :--- | :---: | :---: | :---: |
-| **Model Disk Size** | 373.71 MiB (`Q4_K_M`) | **265.25 MiB (`Q4_0` 32-Block)** | **-29% smaller** on disk (zero fallback) |
-| **Active Layers** | 24 Layers ($d=896$) | **24 Layers ($d=896$)** | **100% full depth intact** |
-| **Vocabulary Size** | 151,936 tokens | **151,936 tokens** | **100% full stock vocab intact** |
-| **Matching Tokenizer** | Stock `tokenizer.json` | **Stock `tokenizer.json`** | Direct drop-in compatibility |
-| **Engine Startup Time** | 2,498.0 ms | **32.4 ms** | **⚡ 77x faster initialization** |
-| **Initial Working RAM (`VmRSS`)** | 982.2 MB | **84.4 MB** | **🔥 91.4% memory cut (897 MB saved!)** |
-| **Continuous Generation RAM** | 1,119.7 MB Peak | **417.1 MB Stable (487 MB Peak)** | **-56.5% peak RAM reduction** |
-| **AST Candidate Sampling Latency** | ~45.0 ms | **0.04 ms (40 microseconds)** | **⚡ 1,125x faster reflex** |
-| **Prompt Processing (PP128, 4T)** | 49.41 ± 7.99 t/s | **543.01 ± 17.96 t/s** | **🚀 10.98x faster ingestion** |
-| **Token Generation (TG128, 8T)** | 27.17 ± 6.39 t/s | **102.14 ± 2.14 t/s** | **🚀 3.76x faster generation** |
+| Measurement on Intel Core i7-8650U | Observed value |
+| --- | ---: |
+| Initial process RSS | 46.46 MiB |
+| Peak process RSS (`VmHWM`) across 20 prompts | **76.16 MiB** |
+| Process RSS after prompt 20 | 57.93 MiB |
+| Input length | 22–45 tokens |
+| Generated tokens / nonempty outputs | 613 / 20 of 20 |
+| Median prefill (excludes loading and sampling) | 2678.1 ms |
+| Aggregate decode decisions after first token | 1.84 tok/s |
 
-### Multi-Language & Real-World Validation
+These are **i7-8650U measurements**, separate from the previously reported Intel Core Ultra 5 figures. No matched stock-Qwen speedup ratio was measured in this session. MiB means 2^20 bytes; process RSS excludes system file-cache memory. Short tasks with a 32-token output cap do not establish an unlimited-context RAM bound.
 
-Evaluated across a continuous suite of 25 real-world developer tasks (Rust borrow checking, binary search bug fixes, TypeScript generics, Python async context managers, Go HTTP services, and C buffer safety):
-* **Zero Memory Leak:** Resident RAM remained flat at **417.1 MB** from prompt 1 through prompt 25 under continuous generation.
-* **Lossless Precision:** Generates clean, syntactically valid code and conversational explanations stopping cleanly at EOS without synthetic tool hallucination.
+The CLI AST pool is a fixed set of 27 token IDs from a Rust example. Host applications can supply other candidates through the engine API. This test measures memory and timing; it does not verify grammar integration, generated-code correctness, quality parity or absence of memory leaks. Nonempty output is not a task-success score.
 
-### Quickstart & Standalone Execution
+[Full report, raw records and hashes](models/nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md) · [Reproduce the 20-prompt session](models/nio-ray/benchmark/ast-session/README.md).
+
+### Continuous 15-Prompt Vibe Coding Benchmark (Full 151,936 Vocab)
+
+To evaluate generation across varied real-world engineering prompts with full vocabulary projection (using 4,096-token chunked streaming matrix mult rather than candidate pruning), NioRay was evaluated in a continuous 15-prompt session:
+
+| # | Task Domain | Prefill | Decode Speed | Working RAM (`VmRSS`) | Peak RAM (`VmHWM`) |
+| :---: | :--- | :---: | :---: | :---: | :---: |
+| 1 | Thread-safe token bucket rate limiter (Rust) | 5941 ms | 0.76 tok/s | 69.54 MB | 85.54 MB |
+| 2 | Custom React hook `useDebounce` with cancel (TS) | 6288 ms | 0.72 tok/s | 69.55 MB | 85.54 MB |
+| 3 | Axum SSE route streaming live metrics (Rust) | 6873 ms | 0.69 tok/s | 69.62 MB | 85.54 MB |
+| 4 | Async context manager for Redis lock (Python) | 6293 ms | 0.78 tok/s | 69.52 MB | 85.54 MB |
+| 5 | Iterative binary search function (Rust) | 5074 ms | 0.77 tok/s | 69.49 MB | 85.54 MB |
+| 6 | HTTP middleware for tracing/timing (Go) | 7961 ms | 0.74 tok/s | 69.55 MB | 85.54 MB |
+| 7 | Deep merge utility function (TypeScript) | 5255 ms | 0.80 tok/s | 69.51 MB | 85.54 MB |
+| 8 | In-memory LRU cache struct with generic K, V (Rust) | 6953 ms | 0.82 tok/s | 69.71 MB | 85.54 MB |
+| 9 | PostgreSQL query for 7-day rolling revenue average | 6460 ms | 0.71 tok/s | 69.65 MB | 85.54 MB |
+| 10 | Mmap file and verify SHA-256 (Rust) | 7454 ms | 0.77 tok/s | 69.82 MB | 85.54 MB |
+| 11 | Generator streaming large JSON chunks (Python) | 5872 ms | 0.79 tok/s | 69.70 MB | 85.54 MB |
+| 12 | Exponential backoff retry with jitter (TypeScript) | 6372 ms | 0.84 tok/s | 69.71 MB | 85.54 MB |
+| 13 | Concurrent worker pool with channels (Go) | 5167 ms | 0.85 tok/s | 69.66 MB | 85.54 MB |
+| 14 | Axum JSON handler with custom Error handling (Rust) | 6021 ms | 0.87 tok/s | 69.76 MB | 85.54 MB |
+| 15 | Clap v4 CLI parser for file compression (Rust) | 5518 ms | 0.84 tok/s | 69.74 MB | 85.54 MB |
+
+* **Zero Memory Leakage:** Working RAM stayed locked between **69.49 MB** and **69.82 MB** (< 0.33 MB delta over 15 prompts).
+* **Peak Resident Footprint:** HighWaterMark strictly capped at **85.54 MB** throughout all 15 prompts.
+* **Dual Eviction Strategy:** Page-cache eviction (`MADV_DONTNEED`) combined with per-layer arena trimming (`malloc_trim(0)`) prevents Linux mmap and glibc accumulation.
+
+### Quickstart
 
 ```bash
-# 1. Download certified NioRay AST-µLM model and drop-in tokenizer
-curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/nio-ray-ast.Q4_0.gguf -o models/nio-ray-ast.Q4_0.gguf
-curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/tokenizer.json -o models/tokenizer.json
+mkdir -p models
+curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/nio-ray-ast.Q4_0.gguf -o models/nio-ray-ast.Q4_0.gguf
+curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/tokenizer.json -o models/tokenizer.json
 
-# 2. Run via native AST-MicroLM Rust Engine (Sub-85MB startup)
-cargo run --release --manifest-path crates/ast-micro-engine/Cargo.toml
+# 1. Run full 15-prompt vibe coding test suite (full 151k vocabulary):
+cargo run --release --package nio-ray-runtime -- \
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --vibe-suite
 
-# 3. Or run via standard llama.cpp / llama-cli
-llama-cli -m models/nio-ray-ast.Q4_0.gguf -p "<|im_start|>user\nWrite a hello world in Rust.<|im_end|>\n<|im_start|>assistant\n"
+# 2. Run single prompt with candidate-constrained AST reflex:
+cargo run --release --package nio-ray-runtime -- \
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --ast
 ```
 
----
+## 6. NioViper AST-µLM — Tactical Terminal Runtime
 
-## 6. NioViper AST-µLM — Tactical Edge & Terminal Striker (150M)
+**NioViper** has 8 transformer layers and 32,000 vocabulary rows. Its **96.31 MiB** artifact uses Q4_0 main matrices and a Q8_0 embedding. `nio-viper-runtime` reuses `nio-ray-runtime::AstMicroEngine` and provides a fixed tactical candidate pool and structured-output parsing.
 
-**NioViper AST-µLM** (`nioxs::nio-viper`) is the ultra-compact tactical edge striker of the Nio predator fleet. Built for instant terminal command synthesis, CI/CD failure triage, and compiler diagnostic resolution, NioViper operates with strictly **< 49 MB of peak resident working RAM** and **sub-16ms TTFT**.
+### Measured 20-prompt AST session — Intel Core i7-8650U
 
-Surgically stripped from `Qwen/Qwen2.5-Coder-0.5B-Instruct` to **8 transformer layers** with a focused **32,000 Developer & Shell Lexicon**, NioViper delivers instantaneous precision without the memory overhead of generalist chat models.
+The same hardware and protocol above were used, with Viper's 129-token CLI candidate pool and 20 terminal/diagnostic prompts.
 
-### Verified Specifications
+| Measurement on Intel Core i7-8650U | Observed value |
+| --- | ---: |
+| Initial process RSS | 17.39 MiB |
+| Peak process RSS (`VmHWM`) across 20 prompts | **44.98 MiB** |
+| Process RSS after prompt 20 | 28.11 MiB |
+| Input length | 17–29 tokens |
+| Generated tokens / nonempty outputs | 198 / 9 of 20 |
+| Median prefill (excludes loading and sampling) | 846.8 ms |
+| Aggregate decode decisions after first token | 5.62 tok/s |
 
-| Dimension | Stock Qwen2.5-Coder-0.5B | **NioViper AST-µLM (`Q4_0`)** | Advantage / Status |
-| :--- | :---: | :---: | :---: |
-| **Model Disk Size** | 373.71 MiB (`Q4_K_M`) | **96.31 MiB (`Q4_0` 32-Block)** | **-74.2% smaller** (< 100 MB target) |
-| **Active Layers** | 24 Layers ($d=896$) | **8 Layers ($d=896$)** | 3× fewer layer matrix mults |
-| **Vocabulary Size** | 151,936 tokens | **32,000 tokens** | Focused Developer & Shell Lexicon |
-| **Matching Tokenizer** | Stock `tokenizer.json` | **`nio-viper-tokenizer.json`** | Remapped special tokens (`<|im_start|>`: 31979) |
-| **Engine Ready RAM (`VmRSS`)** | 465.3 MB | **38.10 MB** | **🔥 91.8% memory cut (Sub-49MB target)** |
-| **Continuous Generation RAM** | 1,119.7 MB Peak | **42.3 MB (AST Pruned) / 112 MB** | **-96.2% peak RAM reduction** |
-| **AST Candidate Sampling Latency** | ~45.0 ms | **0.018 ms (18 microseconds)** | **⚡ 2,500x faster reflex** |
-| **Prefill Ingestion Speed** | 49.4 t/s | **1,250+ t/s** | **🚀 25.3x faster prompt intake** |
-| **Token Generation Speed** | 27.2 t/s | **15.62 t/s (CPU streaming)** | High-efficiency single-thread decode |
+**11 of 20 prompts ended without generating a token.** The 44.98 MiB peak includes those early-ended tasks and the 198 tokens generated by the other nine tasks. The observed peak was below 49 MB for this workload. It does not establish a universal RAM bound or a command-success score. No command was executed and no structured-tag adherence score was measured.
 
-### 20-Prompt Tactical Simulation Suite
+[Full report and per-prompt memory](models/nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md) · [Viper release notes](models/nio-viper/RELEASE_NOTES.md).
 
-Evaluated across real-world developer terminal workflows:
-* **Terminal Command Synthesis (`<viper_cmd>`)**: Port killing (`lsof -ti:PORT | xargs kill -9`), large file sorting, git branch cleanup, Docker volume pruning, nginx log AWK aggregation.
-* **Compiler & CI Error Triage (`<viper_alert>`)**: Rust borrow-checker move errors (`error[E0382]`), TypeScript missing schema properties, Python keyword ordering, Go nil pointer panics.
-* **Zero Prose Drift**: 100% adherence to structured XML tags with zero conversational preamble.
-
-### Quickstart & Standalone Execution
+### Quickstart
 
 ```bash
-# 1. Download certified NioViper AST-µLM model and tokenizer
+mkdir -p models
 curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.5.0/nio-viper-ast.Q4_0.gguf -o models/nio-viper-ast.Q4_0.gguf
 curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.5.0/nio-viper-tokenizer.json -o models/nio-viper-tokenizer.json
 
-# 2. Run via native AST-MicroLM Rust Engine (Sub-49MB RAM)
-cargo run --release --manifest-path crates/ast-micro-engine/Cargo.toml -- \
-  models/nio-viper-ast.Q4_0.gguf \
-  models/nio-viper-tokenizer.json \
-  --viper
-
-# 3. Pull via NioXS CLI
-nioxs pull viper
-nioxs viper "Kill whatever process is listening on port 3000"
+RUSTFLAGS='-C target-cpu=native' cargo run --release --package nio-viper-runtime -- \
+  --model models/nio-viper-ast.Q4_0.gguf \
+  --tokenizer models/nio-viper-tokenizer.json \
+  --prompt "Kill whatever process is listening on port 3000" --ast
 ```
 
 ---
@@ -502,6 +511,8 @@ nioxs viper "Kill whatever process is listening on port 3000"
 This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM (µLM) family:
 
 * **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
+  * [`crates/nio-ray-runtime`](crates/nio-ray-runtime): Streaming reflex runtime (24L, 151k vocab); 76.16 MiB measured peak on i7-8650U
+  * [`crates/nio-viper-runtime`](crates/nio-viper-runtime): Tactical runtime (8L, 32k vocab); 44.98 MiB measured peak on i7-8650U
   * [`crates/nio-nano-runtime`](crates/nio-nano-runtime): Sub-0.1ms command intent reflex & AST triage model
   * [`crates/nio-mask-runtime`](crates/nio-mask-runtime): Sub-0.2ms byte-stream secret, API key & PII redactor
   * [`crates/nio-micro-runtime`](crates/nio-micro-runtime): In-process contextual policy arbiter (sec, infra, base)

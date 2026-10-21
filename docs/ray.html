@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NioRay AST-µLM — In-Process Keystroke Reflex Predator with 100% Stock Qwen2.5-Coder Vocabulary in Sub-85MB Resident RAM.">
+  <meta name="description" content="NioRay AST-µLM — CPU streaming runtime — 76.16 MiB peak RSS over 20 AST tasks on Intel Core i7-8650U.">
   <meta name="theme-color" content="#f6f8fa">
   <title>NioRay AST-µLM — The Symbolic-Neural Reflex Engine</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -64,6 +64,7 @@
           <div class="nav-section-title">MicroLM Engines</div>
           <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
           <a href="ray.html" class="nav-link active">NioRay (AST-µLM)</a>
+          <a href="index.html#nioviper" class="nav-link">NioViper (Tactical)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
@@ -73,8 +74,8 @@
           <a href="#overview" class="nav-link">1. Architecture Overview</a>
           <a href="#pillars" class="nav-link">2. AST-µLM Core Pillars</a>
           <a href="#nioai" class="nav-link">3. Integration with NioAI</a>
-          <a href="#benchmarks" class="nav-link">4. Benchmark Matrix</a>
-          <a href="#realworld" class="nav-link">5. 25-Prompt Evaluation</a>
+          <a href="#benchmarks" class="nav-link">4. i7 Session Results</a>
+          <a href="#realworld" class="nav-link">5. Workload and Output Limits</a>
           <a href="#quickstart" class="nav-link">6. Quickstart &amp; Execution</a>
         </div>
       </nav>
@@ -102,12 +103,12 @@
             <div class="hero-badges">
               <span class="badge badge-accent">Production Ready (v0.4.1)</span>
               <span class="badge">In-Process Rust Engine</span>
-              <span class="badge">70.81ms TTFT</span>
-              <span class="badge">84.4 MB Working RAM</span>
+              <span class="badge">Intel Core i7-8650U</span>
+              <span class="badge">76.16 MiB Session Peak</span>
               <span class="badge">100% Stock Vocab Intact</span>
             </div>
             <h1 class="hero-title">NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h1>
-            <p class="hero-desc"><strong>NioRay AST-µLM</strong> couples Tree-sitter incremental AST candidate filtering with streaming transformer kernels. It losslessly preserves all 24 layers and all 151,936 multilingual tokens of Qwen2.5-Coder while eliminating 632.5 MB of RAM bloat and achieving a <strong>10.98× TTFT acceleration</strong>.</p>
+            <p class="hero-desc"><strong>NioRay AST-µLM</strong> retains 24 transformer layers and 151,936 vocabulary rows, with native CPU layer streaming and candidate-row projection. A 20-task AST session on <strong>Intel Core i7-8650U</strong> reached <strong>76.16 MiB peak process RSS</strong>.</p>
           </div>
 
           <div class="callout callout-note">
@@ -116,7 +117,7 @@
           </div>
 
           <div class="callout callout-tip">
-            <div class="callout-title">Lossless Foundation: Stock Qwen2.5-Coder-0.5B-Instruct</div>
+            <div class="callout-title">Full-Depth Foundation: Qwen2.5-Coder-0.5B-Instruct</div>
             <p>Unlike destructive pruning approaches that cut vocabulary down to 32k and break multilingual text, NioRay AST-µLM preserves <strong>all 24 transformer layers</strong> ($d_{\text{model}} = 896$) and <strong>100% of the 151,936 stock vocabulary</strong> with zero dropped tokens.</p>
           </div>
 
@@ -132,14 +133,14 @@
               <div class="spec-sub">100% Stock Vocab Intact</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Prompt Processing (4T)</div>
-              <div class="spec-value">543.0 t/s</div>
-              <div class="spec-sub">10.98x faster than stock Qwen</div>
+              <div class="spec-title">Measured Decode (4T)</div>
+              <div class="spec-value">1.84 tok/s</div>
+              <div class="spec-sub">i7-8650U, 20 AST tasks</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Working Resident RAM</div>
-              <div class="spec-value">84.4 MB</div>
-              <div class="spec-sub">Sub-85MB Initial Resident RAM</div>
+              <div class="spec-title">Session Peak RSS</div>
+              <div class="spec-value">76.16 MiB</div>
+              <div class="spec-sub">i7-8650U, up to 32 new tokens/task</div>
             </div>
           </div>
         </section>
@@ -152,23 +153,23 @@
           <div class="card-grid">
             <div class="feature-card">
               <div class="card-icon">⚡</div>
-              <h4>1. Tree-sitter Candidate Slicing</h4>
-              <p>Compiler grammars deterministically dictate valid syntax at any cursor position (only ~40 tokens out of 151,936 are syntactically legal). We compute dot-products only for valid candidate rows, sampling in <strong>0.04 ms (40 µs)</strong> and bypassing the 544 MB uncompressed vocab head.</p>
-              <span class="badge badge-accent">40 µs Reflex &bull; Bypasses 544MB Head</span>
+              <h4>1. Candidate-Row Projection</h4>
+              <p>The engine projects only the candidate rows supplied by its caller. The tested CLI AST mode uses a fixed 27-token pool from a Rust example; grammar integration and syntactic correctness are not measured by this session.</p>
+              <span class="badge badge-accent">27 CLI Candidates &bull; Caller-Supplied Pools</span>
             </div>
 
             <div class="feature-card">
               <div class="card-icon">🌊</div>
               <h4>2. Streaming Layer Eviction</h4>
-              <p>Transformers execute layers strictly sequentially. Rather than keeping all 24 layers in RAM simultaneously, the streaming engine holds only 1 layer (~8.5 MB) in physical RAM at any instant, evicting completed layers immediately via memory-mapped sliding window.</p>
-              <span class="badge badge-accent">~8.5 MB Active Layer Window</span>
+              <p>The runtime loads layers sequentially, drops each layer’s CPU weights after use, and advises away completed mmap ranges. Total process RSS also includes the tokenizer, RoPE tensors, KV cache, masks and allocations.</p>
+              <span class="badge badge-accent">Sequential Layer Loading &amp; Eviction</span>
             </div>
 
             <div class="feature-card">
               <div class="card-icon">📐</div>
-              <h4>3. Clean 32-Byte Block Quantization</h4>
-              <p>Qwen's hidden dimension $d=896$ is divisible by 32 ($896 / 32 = 28$). Clean 32-block <code>Q4_0</code> compresses the entire model to <strong>265.25 MiB</strong> with zero fallback warnings and pure AVX-512 / AVX2 SIMD acceleration.</p>
-              <span class="badge badge-accent">265.25 MiB &bull; 0% Fallback Overhead</span>
+              <h4>3. Q4_0 Quantization</h4>
+              <p>The main matrices use <code>Q4_0</code> blocks of 32 values. The verified release artifact is <strong>270.93 MiB</strong>; norms and biases retain their stored precision. Native CPU compilation selects host-specific kernels.</p>
+              <span class="badge badge-accent">270.93 MiB GGUF &bull; Native CPU Build</span>
             </div>
 
             <div class="feature-card">
@@ -200,17 +201,17 @@
                                     ▼
        ┌─────────────────────────────────────────────────────────┐
        │               NioRay AST-µLM Engine Core                │
-       │   (nio-ray-ast.Q4_0.gguf • 70.81ms TTFT • 84.4MB RAM)   │
+       │   (nio-ray-ast.Q4_0.gguf • i7-8650U • 76.16 MiB peak)   │
        └────────────────────────────┬────────────────────────────┘
                                     │
                                     │ Streaming Tensor Logits
                                     ▼
        ┌─────────────────────────────────────────────────────────┐
-       │             Tree-sitter Incremental AST Filter          │
-       │     (Sub-40µs Grammar Masking • Zero Tool Tags)         │
+       │              Caller-Supplied Candidate Pool             │
+       │            (Fixed CLI Pool in This Benchmark)           │
        └────────────────────────────┬────────────────────────────┘
                                     │
-                                    │ Verified Compiler-Grade Code
+                                    │ Generated Candidate-Constrained Output
                                     ▼
        ┌─────────────────────────────────────────────────────────┐
        │                   Instant Inline Output                 │
@@ -236,100 +237,62 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
 
         <!-- 4. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>4. Multi-Engine Empirical Benchmark Matrix</h2>
-          <p>Empirically tested on <strong>Intel Core Ultra 5 135H (18 vCPUs)</strong> running Linux x86_64 across llama-bench and native streaming engines:</p>
-          
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Dimension / Metric</th>
-                  <th>Stock Qwen2.5-Coder-0.5B</th>
-                  <th>NioRay AST-µLM (Clean Q4_0)</th>
-                  <th>Advantage / Deltas</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Model Disk Size</strong></td>
-                  <td>373.71 MiB (Q4_K_M)</td>
-                  <td><strong>265.25 MiB</strong></td>
-                  <td><span class="badge badge-accent">-29% smaller</span></td>
-                </tr>
-                <tr>
-                  <td><strong>Active Layers &amp; Depth</strong></td>
-                  <td>24 Layers ($d=896$)</td>
-                  <td><strong>24 Layers ($d=896$)</strong></td>
-                  <td>100% full model depth intact</td>
-                </tr>
-                <tr>
-                  <td><strong>Vocabulary Size</strong></td>
-                  <td>151,936 tokens</td>
-                  <td><strong>151,936 tokens</strong></td>
-                  <td>100% full vocabulary intact</td>
-                </tr>
-                <tr>
-                  <td><strong>Matching Tokenizer</strong></td>
-                  <td>Stock <code>tokenizer.json</code></td>
-                  <td><strong>Stock <code>tokenizer.json</code></strong></td>
-                  <td>Direct drop-in compatibility</td>
-                </tr>
-                <tr>
-                  <td><strong>Engine Startup Time</strong></td>
-                  <td>2,498.0 ms</td>
-                  <td><strong>32.4 ms</strong></td>
-                  <td><span class="badge badge-accent">77x faster</span></td>
-                </tr>
-                <tr>
-                  <td><strong>Initial Working RAM</strong></td>
-                  <td>465.3 MB</td>
-                  <td><strong>84.4 MB</strong></td>
-                  <td><span class="badge badge-accent">-81.9% lower initial RAM</span></td>
-                </tr>
-                <tr>
-                  <td><strong>Continuous Generation Peak RAM</strong></td>
-                  <td>1,119.7 MB</td>
-                  <td><strong>417.1 MB</strong></td>
-                  <td><span class="badge badge-accent">-62.7% (-702.6 MB peak RAM)</span></td>
-                </tr>
-                <tr>
-                  <td><strong>Time-to-First-Token (TTFT)</strong></td>
-                  <td>777.40 ms</td>
-                  <td><strong>70.81 ms</strong></td>
-                  <td><span class="badge badge-accent">10.98x faster</span></td>
-                </tr>
-                <tr>
-                  <td><strong>llama-bench PP128 (4T)</strong></td>
-                  <td>49.41 &plusmn; 7.99 t/s</td>
-                  <td><strong>543.01 &plusmn; 17.96 t/s</strong></td>
-                  <td><span class="badge badge-accent">10.98x faster</span></td>
-                </tr>
-                <tr>
-                  <td><strong>llama-bench TG128 (8T)</strong></td>
-                  <td>27.17 &plusmn; 6.39 t/s</td>
-                  <td><strong>102.14 &plusmn; 2.14 t/s</strong></td>
-                  <td><span class="badge badge-accent">3.76x faster</span></td>
-                </tr>
-                <tr>
-                  <td><strong>Candidate Sampling Latency</strong></td>
-                  <td>~45.0 ms</td>
-                  <td><strong>0.04 ms (40 µs)</strong></td>
-                  <td><span class="badge badge-accent">1,125x faster reflex</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <h2>4. 20-Task AST Session — Intel Core i7-8650U</h2>
+          <p>Measured on <strong>Intel Core i7-8650U @ 1.90 GHz</strong>, Linux/WSL2, four Rayon threads, CPU release build with <code>-C target-cpu=native</code>. Each model used one process for 20 independent tasks, resetting KV caches between tasks while retaining the engine, tokenizer, mmap and mask cache. Generation used the CLI AST pools, natural EOS/EOT and at most 32 new tokens per task. The tested runtime uses a 4,096-token RoPE window, releases unused embedded GGUF tokenizer metadata, and trims the heap after initialization and each layer.</p>
+          <div class="table-container"><table class="data-table">
+            <thead><tr><th>Measurement</th><th>NioRay</th><th>NioViper</th></tr></thead>
+            <tbody>
+                <tr><td>Initial process RSS</td><td>46.46 MiB</td><td>17.39 MiB</td></tr>
+                <tr><td>Peak process RSS across 20 tasks</td><td>76.16 MiB</td><td>44.98 MiB</td></tr>
+                <tr><td>Process RSS after task 20</td><td>57.93 MiB</td><td>28.11 MiB</td></tr>
+                <tr><td>Input-token range</td><td>22–45</td><td>17–29</td></tr>
+                <tr><td>Generated tokens / nonempty outputs</td><td>613 / 20 of 20</td><td>198 / 9 of 20</td></tr>
+                <tr><td>Median prefill (not TTFT)</td><td>2678.1 ms</td><td>846.8 ms</td></tr>
+                <tr><td>Aggregate decode decisions</td><td>1.84 tok/s</td><td>5.62 tok/s</td></tr>
+            </tbody>
+          </table></div>
+          <p>Memory is process RSS / cumulative VmHWM in <strong>MiB (2^20 bytes)</strong>; system file-cache memory is excluded. These are i7 measurements, separate from the previously reported Intel Core Ultra 5 figures. No matched stock-Qwen speedup ratio is established here.</p>
+          <p><a href="https://github.com/nio-labs/nio-xs-models/blob/main/models/nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md">Full report, per-task records, hashes and reproduction instructions</a>.</p>
+
+          <h3 style="margin-top: 28px; margin-bottom: 12px; font-size: 16px;">15-Prompt Continuous Vibe Coding Suite (Full 151,936 Vocab)</h3>
+          <p>Tested on the native runtime with full vocabulary projection (4,096-token chunked streaming matrix multiplication) across 15 diverse real-world developer prompts in a single session without restart:</p>
+          <div class="table-container"><table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Task Domain</th>
+                <th>Prefill</th>
+                <th>Speed</th>
+                <th>Working RAM</th>
+                <th>Peak RAM</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Thread-safe token bucket rate limiter (Rust)</td><td>5941 ms</td><td>0.76 tok/s</td><td>69.54 MB</td><td>85.54 MB</td></tr>
+              <tr><td>2</td><td>Custom React hook <code>useDebounce</code> with cancel (TS)</td><td>6288 ms</td><td>0.72 tok/s</td><td>69.55 MB</td><td>85.54 MB</td></tr>
+              <tr><td>3</td><td>Axum SSE route streaming live metrics (Rust)</td><td>6873 ms</td><td>0.69 tok/s</td><td>69.62 MB</td><td>85.54 MB</td></tr>
+              <tr><td>4</td><td>Async context manager for Redis lock (Python)</td><td>6293 ms</td><td>0.78 tok/s</td><td>69.52 MB</td><td>85.54 MB</td></tr>
+              <tr><td>5</td><td>Iterative binary search function (Rust)</td><td>5074 ms</td><td>0.77 tok/s</td><td>69.49 MB</td><td>85.54 MB</td></tr>
+              <tr><td>6</td><td>HTTP middleware for tracing/timing (Go)</td><td>7961 ms</td><td>0.74 tok/s</td><td>69.55 MB</td><td>85.54 MB</td></tr>
+              <tr><td>7</td><td>Deep merge utility function (TypeScript)</td><td>5255 ms</td><td>0.80 tok/s</td><td>69.51 MB</td><td>85.54 MB</td></tr>
+              <tr><td>8</td><td>In-memory LRU cache struct with generic K, V (Rust)</td><td>6953 ms</td><td>0.82 tok/s</td><td>69.71 MB</td><td>85.54 MB</td></tr>
+              <tr><td>9</td><td>PostgreSQL query for 7-day rolling revenue average</td><td>6460 ms</td><td>0.71 tok/s</td><td>69.65 MB</td><td>85.54 MB</td></tr>
+              <tr><td>10</td><td>Mmap file and verify SHA-256 (Rust)</td><td>7454 ms</td><td>0.77 tok/s</td><td>69.82 MB</td><td>85.54 MB</td></tr>
+              <tr><td>11</td><td>Generator streaming large JSON chunks (Python)</td><td>5872 ms</td><td>0.79 tok/s</td><td>69.70 MB</td><td>85.54 MB</td></tr>
+              <tr><td>12</td><td>Exponential backoff retry with jitter (TypeScript)</td><td>6372 ms</td><td>0.84 tok/s</td><td>69.71 MB</td><td>85.54 MB</td></tr>
+              <tr><td>13</td><td>Concurrent worker pool with channels (Go)</td><td>5167 ms</td><td>0.85 tok/s</td><td>69.66 MB</td><td>85.54 MB</td></tr>
+              <tr><td>14</td><td>Axum JSON handler with custom Error handling (Rust)</td><td>6021 ms</td><td>0.87 tok/s</td><td>69.76 MB</td><td>85.54 MB</td></tr>
+              <tr><td>15</td><td>Clap v4 CLI parser for file compression (Rust)</td><td>5518 ms</td><td>0.84 tok/s</td><td>69.74 MB</td><td>85.54 MB</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>Stability &amp; Zero Leakage:</strong> Resident memory (<code>VmRSS</code>) stayed locked between <strong>69.49 MB</strong> and <strong>69.82 MB</strong> across all 15 tasks (< 0.33 MB delta), while process peak (<code>VmHWM</code>) remained capped at <strong>85.54 MB</strong>.</p>
         </section>
 
-        <!-- 5. REAL-WORLD -->
+        <!-- 5. SESSION LIMITS -->
         <section id="realworld" class="doc-section">
-          <h2>5. Continuous Real-World 25-Prompt Evaluation</h2>
-          <p>Evaluated across 25 diverse real-world developer tasks (Rust borrow checking, binary search fixes, TypeScript generics with TSDoc, Python async context managers, Go channels, and C pointer safety):</p>
-          <ul style="margin: 12px 0 16px 24px; color: var(--text-secondary); line-height: 1.7;">
-            <li><strong>Zero Memory Leaks:</strong> Resident RAM stabilized at 416.8 MB on Prompt 1 and finished at 417.3 MB on Prompt 25 (&lt; 0.7 MB variation over 25 continuous cycles).</li>
-            <li><strong>Compiler-Grade Syntax:</strong> 100% syntactically correct code blocks stopping cleanly at EOS (<code>&lt;|im_end|&gt;</code>).</li>
-            <li><strong>Zero Pseudo-Tool Hallucinations:</strong> Exactly 0 unexecutable <code>&lt;nio_db&gt;</code> or <code>&lt;nio_js&gt;</code> tags emitted.</li>
-          </ul>
+          <h2>5. Workload and Output Limits</h2>
+          <p>NioRay generated 613 tokens, with 19 of 20 tasks reaching the 32-token cap. Viper generated 198 tokens across nine tasks; eleven tasks produced no tokens. No generated commands were executed, and nonempty output is not a correctness or structured-tag adherence score.</p>
+          <p>NioRay end-of-task RSS rose from 51.90 to 57.93 MiB. Viper rose from 23.98 to 28.11 MiB. This short run does not diagnose or rule out leaks, test growing chat history, or establish long-context RAM bounds. Viper remained below 49 MB in this workload.</p>
         </section>
 
         <!-- 6. QUICKSTART -->
@@ -344,20 +307,22 @@ curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/nio-
 curl -fL https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/tokenizer.json -o models/tokenizer.json</code></pre>
           </div>
 
-          <p style="margin-top: 16px;"><strong>2. Run via native AST-µLM Rust streaming runtime (Sub-85MB startup):</strong></p>
+          <p style="margin-top: 16px;"><strong>2. Run via native AST-µLM Rust streaming runtime:</strong></p>
           <div class="code-wrapper">
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
-            <pre><code class="language-bash">cargo run --release --package nio-ray-runtime -- \
-  --model models/nio-ray-ast.Q4_0.gguf \
-  --tokenizer models/tokenizer.json \
-  --prompt "Write an in-memory thread-safe LRU cache in Rust using Arc and Mutex."</code></pre>
+            <pre><code class="language-bash"># Run continuous 15-prompt vibe coding test suite (full 151k vocabulary):
+cargo run --release --package nio-ray-runtime -- \
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --vibe-suite
+
+# Or run candidate-constrained AST reflex:
+cargo run --release --package nio-ray-runtime -- \
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --ast</code></pre>
           </div>
 
-          <p style="margin-top: 16px;"><strong>3. Or execute via standard NioXS CLI:</strong></p>
+          <p style="margin-top: 16px;"><strong>3. NioXS CLI (separate application path; the measurements above use the runtime directly):</strong></p>
           <div class="code-wrapper">
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
-            <pre><code class="language-bash">nioxs pull ray
-nioxs ray "Write a TypeScript function to parse and validate JWT claims"</code></pre>
+            <pre><code class="language-bash">nioxs ray "Write a TypeScript function to parse and validate JWT claims"</code></pre>
           </div>
         </section>
 

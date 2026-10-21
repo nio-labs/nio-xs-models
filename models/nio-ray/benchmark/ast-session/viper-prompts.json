@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "title": "Port 3000 Kill",
+    "prompt": "Kill whatever process is listening on port 3000"
+  },
+  {
+    "id": 2,
+    "title": "Large Files Search",
+    "prompt": "Find all files larger than 100MB in /var/log and sort by size"
+  },
+  {
+    "id": 3,
+    "title": "Rust E0382 Moved Value",
+    "prompt": "CI Failure: error[E0382]: use of moved value `config`"
+  },
+  {
+    "id": 4,
+    "title": "TS Interface Property Mismatch",
+    "prompt": "TypeScript error: Property 'user_id' does not exist on type 'SessionData'"
+  },
+  {
+    "id": 5,
+    "title": "Docker System Prune",
+    "prompt": "Delete all stopped docker containers and unused volumes"
+  },
+  {
+    "id": 6,
+    "title": "Git Unpushed Commits",
+    "prompt": "Show active git branch commits not yet pushed to origin"
+  },
+  {
+    "id": 7,
+    "title": "Nginx Top IPs",
+    "prompt": "Extract top 10 IP addresses by request count from nginx access.log"
+  },
+  {
+    "id": 8,
+    "title": "Git Soft Reset",
+    "prompt": "Revert the last git commit but keep changes unstaged"
+  },
+  {
+    "id": 9,
+    "title": "Port 8080 Kill",
+    "prompt": "Kill process on port 8080"
+  },
+  {
+    "id": 10,
+    "title": "Recent Logs Search",
+    "prompt": "Find all .log files modified in the last 24 hours in /var/log"
+  },
+  {
+    "id": 11,
+    "title": "Docker Image & Cache Prune",
+    "prompt": "Docker prune all unused images and build cache"
+  },
+  {
+    "id": 12,
+    "title": "Git Revert Commit",
+    "prompt": "Git undo pushed commit without changing history on other branches"
+  },
+  {
+    "id": 13,
+    "title": "Git Clean Merged Branches",
+    "prompt": "Delete all git branches that have already been merged into main"
+  },
+  {
+    "id": 14,
+    "title": "Listening Ports & PIDs",
+    "prompt": "Check open listening ports and associated PIDs"
+  },
+  {
+    "id": 15,
+    "title": "High Memory Process Search",
+    "prompt": "Find all processes consuming more than 1GB of resident memory"
+  },
+  {
+    "id": 16,
+    "title": "Rust Mutability Error",
+    "prompt": "Rust error: cannot borrow immutable local variable `data` as mutable"
+  },
+  {
+    "id": 17,
+    "title": "Python Keyword Argument Error",
+    "prompt": "Python syntax error: SyntaxError: positional argument follows keyword argument"
+  },
+  {
+    "id": 18,
+    "title": "Recursive Secret Search",
+    "prompt": "Search recursively for string 'SECRET_KEY' in current directory"
+  },
+  {
+    "id": 19,
+    "title": "Continuous Memory Monitor",
+    "prompt": "Show system memory usage in megabytes continuously every 2 seconds"
+  },
+  {
+    "id": 20,
+    "title": "Golang Nil Pointer Panic",
+    "prompt": "CI Failure: Golang panic: runtime error: invalid memory address or nil pointer dereference"
+  }
+]

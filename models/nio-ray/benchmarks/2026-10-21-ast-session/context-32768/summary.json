@@ -1,0 +1,51 @@
+{
+  "hardware": "Intel Core i7-8650U @ 1.90GHz",
+  "os": "Linux / WSL2",
+  "threads": 4,
+  "build": "release, -C target-cpu=native",
+  "prompts_per_model": 20,
+  "max_new_tokens_per_prompt": 32,
+  "mode": "CLI AST candidate pools, greedy selection, natural EOS/EOT",
+  "session": "One process/model; KV reset between independent prompts; engine, tokenizer, mmap and masks retained",
+  "memory_unit": "MiB (2^20 bytes)",
+  "models": {
+    "ray": {
+      "initial_rss_mib": 84.59765625,
+      "initial_hwm_mib": 84.59765625,
+      "peak_rss_mib": 118.07421875,
+      "first_prompt_rss_mib": 85.57421875,
+      "final_rss_mib": 99.6484375,
+      "prompt_tokens_min": 22,
+      "prompt_tokens_max": 45,
+      "generated_tokens": 613,
+      "nonempty_outputs": 20,
+      "empty_outputs": 0,
+      "eos_stops": 1,
+      "length_stops": 19,
+      "median_prefill_ms": 2443.3898065,
+      "aggregate_decode_tps": 2.7076767763595773,
+      "decode_steps": 594,
+      "wall_seconds": 272.689987316,
+      "candidate_count": 27
+    },
+    "viper": {
+      "initial_rss_mib": 38.18359375,
+      "initial_hwm_mib": 42.1171875,
+      "peak_rss_mib": 65.7265625,
+      "first_prompt_rss_mib": 44.703125,
+      "final_rss_mib": 48.8515625,
+      "prompt_tokens_min": 17,
+      "prompt_tokens_max": 29,
+      "generated_tokens": 198,
+      "nonempty_outputs": 9,
+      "empty_outputs": 11,
+      "eos_stops": 15,
+      "length_stops": 5,
+      "median_prefill_ms": 730.698365,
+      "aggregate_decode_tps": 6.4138758431777685,
+      "decode_steps": 193,
+      "wall_seconds": 47.260523764,
+      "candidate_count": 129
+    }
+  }
+}

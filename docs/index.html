@@ -68,6 +68,7 @@
           <div class="nav-section-title">MicroLM Engines</div>
           <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
           <a href="ray.html" class="nav-link">NioRay (AST-µLM)</a>
+          <a href="#nioviper" class="nav-link">NioViper (Tactical)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
@@ -224,15 +225,24 @@
             <p><strong>The Predator Fleet</strong> comprises Nio's in-process generative intelligence engines. In nature, apex predators strike with sensory reflexes, laser focus, and minimum wasted motion. In developer environments, our predators hunt down <strong>keystroke latency, context bloat, cloud waiting times, and repetitive cognitive toil</strong>:</p>
           </div>
 
-          <div class="card-grid" style="grid-template-columns: 1fr;">
+          <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
             <div class="feature-card">
-              <h4>NioRay AST-µLM <code>(494M Dense &bull; Sub-85MB Working RAM)</code></h4>
-              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> with 100% of all 24 layers and 100% of the 151,936 stock vocabulary intact. Features Symbolic-Neural Decoupling via Tree-sitter candidate slicing and layer streaming in native Rust.</p>
+              <h4>NioRay AST-µLM <code>(494M Dense &bull; Sub-85MB RAM)</code></h4>
+              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> with 100% of all 24 layers and 100% of the 151,936 stock vocabulary intact. Dual-mode output projection (candidate AST pruning &amp; 4k chunked full-vocab streaming) with zero memory leakage across continuous sessions.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
                 <span class="badge badge-accent">Released v0.4.1</span>
-                <span class="badge badge-mono">265.25 MiB Q4_0 &bull; Sub-85MB RAM &bull; 543 t/s (10.98x speedup)</span>
+                <span class="badge badge-mono">270.93 MiB GGUF &bull; 76.16 MiB AST peak &bull; 85.54 MB full-vocab peak</span>
               </div>
               <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay AST-µLM Docs →</strong></a></p>
+            </div>
+            <div class="feature-card">
+              <h4>NioViper AST-µLM <code>(148M &bull; Sub-49MB Peak RAM)</code></h4>
+              <p><strong>The Tactical Striker (Active).</strong> High-speed terminal command synthesis and compiler diagnostic resolution with 8 layers and 32k vocabulary. Produces clean structured tags (<code>&lt;viper_cmd&gt;</code>, <code>&lt;viper_alert&gt;</code>) with 44.98 MiB peak process RAM.</p>
+              <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="badge badge-accent">Released v0.5.0</span>
+                <span class="badge badge-mono">96.31 MiB GGUF &bull; 44.98 MiB peak on i7-8650U</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0"><strong>View Release v0.5.0 →</strong></a></p>
             </div>
           </div>
 
@@ -336,9 +346,17 @@
                   <td><a href="ray.html"><strong>NioRay</strong></a></td>
                   <td>Keystroke Predator</td>
                   <td><code>494M (24L, 151k Vocab)</code></td>
-                  <td>Symbolic-Neural AST-µLM Reflex Engine (Clean Q4_0 GGUF, 265 MiB, Sub-85MB RAM)</td>
+                  <td>Symbolic-Neural AST-µLM Reflex Engine (Q4_0 GGUF, 270.93 MiB, 76.16 MiB peak on i7-8650U)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1">v0.4.1</a></td>
+                </tr>
+                <tr>
+                  <td><strong>NioViper</strong></td>
+                  <td>Tactical Striker</td>
+                  <td><code>148.0M (8L, 32k Vocab)</code></td>
+                  <td>Sub-49MB Tactical Terminal &amp; Diagnostic Striker (Q4_0 GGUF, 96 MiB, 44.98 MiB peak)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0">v0.5.0</a></td>
                 </tr>
                 <tr>
                   <td><a href="micro.html"><strong>NioMicro</strong></a></td>
@@ -460,7 +478,7 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
         <section id="nioray" class="doc-section">
           <div class="section-badge">Keystroke Reflex Predator</div>
           <h2>6. NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h2>
-          <p><strong>NioRay AST-µLM</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. It preserves 100% of all 24 layers and 100% of the 151,936 stock vocabulary within a sub-85MB streaming resident memory envelope.</p>
+          <p><strong>NioRay AST-µLM</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. It preserves 100% of all 24 layers and 100% of the 151,936 stock vocabulary with a measured 76.16 MiB peak process RSS over 20 AST tasks on Intel Core i7-8650U.</p>
 
           <div class="spec-grid">
             <div class="spec-card">
@@ -470,25 +488,63 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
             </div>
             <div class="spec-card">
               <div class="spec-title">Artifact Size</div>
-              <div class="spec-value">265.25 MiB</div>
+              <div class="spec-value">270.93 MiB</div>
               <div class="spec-sub">Clean 32-Block Q4_0 GGUF</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Working Memory</div>
-              <div class="spec-value">84.4 MB</div>
-              <div class="spec-sub">Sub-85MB AST Candidate Reflex</div>
+              <div class="spec-title">Session Peak RSS</div>
+              <div class="spec-value">76.16 MiB</div>
+              <div class="spec-sub">i7-8650U, 20 tasks, 32-token cap</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Prompt Speed (4T)</div>
-              <div class="spec-value">543.0 t/s</div>
-              <div class="spec-sub">10.98x faster than stock Qwen</div>
+              <div class="spec-title">Measured Decode (4T)</div>
+              <div class="spec-value">1.84 tok/s</div>
+              <div class="spec-sub">i7-8650U, 20 AST tasks</div>
             </div>
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
             <div class="callout-title">🌊 Symbolic-Neural Resonance &amp; Live Benchmarks</div>
-            <p>AST-µLM couples Tree-sitter candidate token slicing (sampling in 0.04ms) with sequential layer streaming in pure Rust. Drops resident RAM by 56.5% under continuous generation and operates 100% air-gapped without external servers or tool tags.</p>
+            <p>The native Rust runtime supports candidate-row projection and sequential layer streaming. The i7-8650U AST session measured 46.46 MiB initial RSS and 76.16 MiB peak RSS across 20 independent tasks. In continuous 15-prompt vibe coding evaluations (full 151k vocabulary), working RAM held stable at 69.6 MB with a peak high-water mark of 85.54 MB and zero memory leakage.</p>
             <p><a href="ray.html"><strong>Read the Dedicated NioRay AST-µLM Guide with Full Benchmark Matrix →</strong></a></p>
+          </div>
+        </section>
+
+        <!-- 6b. NIOVIPER -->
+        <section id="nioviper" class="doc-section">
+          <div class="section-badge">Tactical Terminal Striker</div>
+          <h2>6b. NioViper AST-µLM — Tactical Terminal &amp; Diagnostic Striker</h2>
+          <p><strong>NioViper AST-µLM</strong> (<code>nioxs::nio-viper</code>) is Nio's sub-49MB tactical striker designed for immediate CLI error recovery, terminal command synthesis, and compiler diagnostic triage. Featuring 8 layers and a focused 32,000 vocabulary, it operates in strict XML tags (<code>&lt;viper_cmd&gt;</code>, <code>&lt;viper_alert&gt;</code>) with 44.98 MiB peak process RAM.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Depth</div>
+              <div class="spec-value">148.0M</div>
+              <div class="spec-sub">8 Layers ($d=896$, 32k Vocab)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Artifact Size</div>
+              <div class="spec-value">96.31 MiB</div>
+              <div class="spec-sub">Clean 32-Block Q4_0 GGUF</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Session Peak RSS</div>
+              <div class="spec-value">44.98 MiB</div>
+              <div class="spec-sub">i7-8650U, Sub-49MB Verified</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Decode Speed (4T)</div>
+              <div class="spec-value">5.62 tok/s</div>
+              <div class="spec-sub">Tactical candidate decisions</div>
+            </div>
+          </div>
+
+          <div class="code-wrapper" style="margin-top: 16px;">
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash"># Run tactical terminal diagnosis with native nio-viper-runtime
+cargo run --release --package nio-viper-runtime -- \
+  models/nio-viper-ast.Q4_0.gguf models/nio-viper-tokenizer.json \
+  --prompt "Kill whatever process is listening on port 3000"</code></pre>
           </div>
         </section>
 
@@ -704,7 +760,7 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                 <tr>
                   <td><code>nio-ray-ast.Q4_0.gguf</code></td>
                   <td>NioRay AST-µLM (100% 151k Vocab)</td>
-                  <td>265.25 MiB</td>
+                  <td>270.93 MiB</td>
                   <td><code>f070cd657e929ee2d45a7d8a46c71ef0fdec6b8ae1100de57735808deae4477f</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/nio-ray-ast.Q4_0.gguf">Download v0.4.1</a></td>
                 </tr>
@@ -786,7 +842,7 @@ sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.o
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code># Pull NioRay AST-µLM (100% 151k Vocab, 265 MiB)
+            <pre><code># Pull NioRay AST-µLM (151k Vocab, 270.93 MiB)
 nioxs pull nio-ray
 
 # Pull NioMicro Policy Clusters (Security &amp; Infra)
@@ -827,7 +883,7 @@ nio "--bash cargo test --lib --locked"</code></pre>
           <div class="feature-card" style="margin-bottom: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
               <h4>⚡ 2. NioRay (AST-µLM) — Keystroke Reflex Predator (Qwen2.5-Coder)</h4>
-              <span class="badge badge-accent">GGUF Q4_0 &bull; 70.81ms TTFT &bull; 84.4MB Initial RAM</span>
+              <span class="badge badge-accent">GGUF Q4_0 &bull; 76.16 MiB session peak &bull; i7-8650U</span>
             </div>
             <p>Instant code synthesis with zero network latency, running 100% in-process via Candle Rust kernels and native streaming:</p>
             <pre><code class="language-bash"># Keystroke reflex synthesis via NioXS CLI
@@ -953,7 +1009,7 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
         <!-- 14. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
           <h2>14. Edge Latency Benchmarks</h2>
-          <p>All benchmarks performed on standard commodity laptop CPU (Intel Core Ultra / Apple Silicon M-series) without GPU acceleration:</p>
+          <p>The figures below concern the sensory models and cloud reference. NioRay’s current CPU measurements are documented separately in the <a href="ray.html#benchmarks">Intel Core i7-8650U AST session</a>.</p>
 
           <div class="table-wrapper">
             <table>
@@ -1035,14 +1091,14 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (High Risk Secret Detected!)")</code>
           <div class="faq-item">
             <h4 class="faq-question">What performance has been verified for NioRay AST-µLM?</h4>
             <div class="faq-answer">
-              <p>In empirical benchmarks on modern multi-core x86_64 CPUs, NioRay AST-µLM achieves <strong>10.98&times; faster time-to-first-token</strong> (TTFT: 70.81 ms vs 777.40 ms for stock Qwen2.5-Coder), <strong>84.4 MB initial resident RAM</strong> (417.1 MB peak during continuous generation vs 1,119.7 MB stock), and sustained <strong>39.5 tok/s</strong> generation. Its native Rust streaming runtime (<code>nio-ray-runtime</code>) combines Tree-sitter candidate filtering with speculative grammar decoding at 40 &micro;s reflex latencies.</p>
+              <p>On Intel Core i7-8650U / Linux WSL2, four threads and a native release build, a 20-task AST session measured <strong>46.46 MiB initial RSS</strong>, <strong>76.16 MiB peak RSS</strong> and <strong>1.84 tok/s aggregate decode decisions</strong>. Each task used natural EOS/EOT and at most 32 new tokens; KV caches reset between tasks in one retained engine process. These i7 measurements do not revalidate the earlier Intel Core Ultra 5 speedup ratios. See the <a href="ray.html#benchmarks">hardware-labelled results and limits</a>.</p>
             </div>
           </div>
 
           <div class="faq-item">
             <h4 class="faq-question">Why is NioRay AST-µLM a single unified artifact rather than MoE or pruned Dev?</h4>
             <div class="faq-answer">
-              <p>Under Release v0.4.1, legacy experimental MoE and vocab-pruned variants have been superseded by the unified <strong>NioRay AST-µLM</strong> (<code>nio-ray-ast.Q4_0.gguf</code>, 265.25 MiB). By retaining all 24 transformer layers and the complete 151,936 multilingual vocabulary, it guarantees zero syntactic regression across Rust, TypeScript, Python, Go, C/C++, and SQL while fitting comfortably within low-memory devices via exact 32-byte block alignment (hidden dim $d=896$, $896/32=28$).</p>
+              <p>Under Release v0.4.1, legacy experimental MoE and vocab-pruned variants have been superseded by the unified <strong>NioRay AST-µLM</strong> (<code>nio-ray-ast.Q4_0.gguf</code>, 270.93 MiB). By retaining all 24 transformer layers and the complete 151,936 multilingual vocabulary, it guarantees zero syntactic regression across Rust, TypeScript, Python, Go, C/C++, and SQL while fitting comfortably within low-memory devices via exact 32-byte block alignment (hidden dim $d=896$, $896/32=28$).</p>
             </div>
           </div>
 

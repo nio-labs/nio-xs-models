@@ -29,3 +29,4 @@ Thumbs.db
 
 # Pin the standalone NioRay benchmark executable dependencies
 !models/nio-ray/benchmark/Cargo.lock
+!models/nio-ray/benchmark/ast-session/Cargo.lock

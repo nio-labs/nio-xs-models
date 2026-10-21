@@ -1,0 +1,11 @@
+[package]
+name = "nio-ast-session-benchmark"
+version = "0.1.0"
+edition = "2021"
+[workspace]
+[dependencies]
+nio-ray-runtime = { path = "../../../../crates/nio-ray-runtime" }
+nio-viper-runtime = { path = "../../../../crates/nio-viper-runtime" }
+anyhow = "1.0"
+tokenizers = { version = "=0.21.4", default-features = false, features = ["onig"] }
+serde_json = "1.0"

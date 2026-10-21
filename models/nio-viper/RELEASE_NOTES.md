@@ -1,23 +1,24 @@
-# NioViper v0.5.0 — The Sub-49MB Tactical Edge Striker (AST-µLM)
+# NioViper v0.5.0 — Tactical Terminal Runtime (AST-µLM)
 
-**NioViper** (`nioxs::nio-viper`) is the ultra-compact tactical striker of the Nio predator fleet. Surgically stripped from `Qwen/Qwen2.5-Coder-0.5B-Instruct` down to **8 Transformer Layers** and a high-density **32,000 Developer & Shell Lexicon**, NioViper is engineered specifically for instant terminal command synthesis, CI/CD triage, and compiler diagnostic resolution with strictly **< 49 MB of peak working RAM**.
+NioViper has 8 transformer layers and 32,000 vocabulary rows. The 96.31 MiB GGUF stores Q4_0 main matrices, a Q8_0 embedding, and F32 norms/biases. The runtime shares `nio-ray-runtime::AstMicroEngine` and provides tactical candidate selection and output-tag parsing.
 
----
+## Measured footprint — Intel Core i7-8650U
 
-### 🚀 Key Technical Breakthroughs
+2026-10-21, Linux/WSL2, four Rayon threads, CPU release build with `-C target-cpu=native`. One process handled 20 independent prompts with KV reset between prompts, a retained engine/mmap/mask cache, the fixed 129-token tactical candidate pool, natural EOS/EOT and up to 32 new tokens per prompt. The tested runtime uses a 4,096-token RoPE window, releases unused embedded GGUF tokenizer metadata, and trims the heap after initialization and each layer.
 
-1. **Sub-49MB Working RAM Footprint**:
-   - Engine initialization: **`VmRSS = 38.10 MB`** / **`VmHWM = 42.03 MB`**.
-   - Continuous tactical generation: **`42.3 MB`** peak working memory (vs 1,119.7 MB for stock generalist LLMs — **96.2% RAM reduction**).
-   - Designed to run continuously inside low-memory developer daemons, background shell watchers, edge IoT, and constrained CI runners.
+| Measurement on Intel Core i7-8650U | Observed value |
+| --- | ---: |
+| Initial process RSS | 17.39 MiB |
+| Peak process RSS (`VmHWM`) across 20 prompts | **44.98 MiB** |
+| Process RSS after prompt 20 | 28.11 MiB |
+| Input length | 17–29 tokens |
+| Generated tokens / nonempty outputs | 198 / 9 of 20 |
+| Median prefill (excludes loading and sampling) | 846.8 ms |
+| Aggregate decode decisions after first token | 5.62 tok/s |
 
-2. **Clean 32-Byte Block Quantization (`Q4_0`)**:
-   - The hidden dimension $d=896$ is perfectly divisible by 32 ($896 / 32 = 28$ blocks), achieving 100% clean `Q4_0` quantization with **0% fallback overhead**.
-   - Total model size on disk is **`96.31 MiB`** (strictly under the 100MB threshold, down from 207 MiB).
+Eleven prompts generated no tokens; the other nine generated 198 tokens in total. These are workload-specific i7-8650U observations. They supersede earlier memory figures for this runtime configuration; they do not revalidate the earlier Intel Core Ultra 5 measurements. Prefill is not TTFT. Nonempty output is not command correctness or structured-tag adherence. The session did not execute generated commands or test for memory leaks.
 
-3. **High-Signal Terminal & Diagnostic Triage**:
-   - Distilled on high-value developer intent: bash/zsh command generation, rustc/borrow-checker error triage, TypeScript interface mismatches, Docker management, git triage, and continuous log analysis.
-   - Structured tag execution: 100% adherence to `<viper_cmd>...</viper_cmd>` and `<viper_alert level='...'>...</viper_alert>` tags with zero markdown hallucinations or conversational preamble.
+[Raw records, hashes and per-prompt memory](../nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md) · [Reproduce](../nio-ray/benchmark/ast-session/README.md).
 
 ---
 
@@ -30,22 +31,11 @@
 
 ---
 
-### 💻 Quickstart
+## Quickstart
 
-#### Direct Native Rust Streaming Runtime
 ```bash
-# Clone nio-xs-models and run with native SIMD acceleration
-cargo run --release --package nio-viper-runtime -- \
+RUSTFLAGS='-C target-cpu=native' cargo run --release --package nio-viper-runtime -- \
   --model nio-viper-ast.Q4_0.gguf \
   --tokenizer nio-viper-tokenizer.json \
-  --prompt "Kill whatever process is listening on port 3000"
-```
-
-#### Pull via NioXS CLI
-```bash
-# Pull NioViper into local cache
-nioxs pull viper
-
-# Run immediate tactical shell triage
-nioxs viper "Find all files larger than 100MB in /var/log and sort by size"
+  --prompt "Kill whatever process is listening on port 3000" --ast
 ```
