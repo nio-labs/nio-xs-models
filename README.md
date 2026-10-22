@@ -78,6 +78,9 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 │  [ TIER 4: PREDICTIVE DEFECT & QUALITY ]                                               │
 │    • NioMini (7.1M)              ──► Pre-emptive Defect, AST & Regression Forecaster   │
 │                                                                                        │
+│  [ TIER 5: SOVEREIGN ARCHITECTURE & FLAGSHIP CODING ]                                  │
+│    • NioHydra (7.61B)            ──► Flagship Coding Model (< 500MB Edge / < 1.8GB)    │
+│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -85,6 +88,7 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
 * **`NioRay` (The Keystroke Predator):** 100% full-depth stock Qwen2.5-Coder intelligence (all 24 layers, full 151,936 vocabulary intact) running inside a **sub-86MB streaming memory envelope** on our native runtime (>92% RAM reduction vs stock Qwen's 1.12 GB).
 * **`NioViper` (The Tactical Striker):** Surgical 8-layer edge model with AST candidate reflex running continuously in strictly **< 47 MB peak resident RAM** (>95% RAM cut vs stock Qwen) and producing clean structured XML tags (`<viper_cmd>`, `<viper_alert>`).
+* **`NioHydra` (The Flagship Coding Model):** Sovereign 7.61B whole-repository multi-file coding titan running on our native AST-Micro runtime with **Sub-500MB Ultra-Edge Mode** (95.8% RAM reduction vs Stock Qwen's 9.8 GB) and **Sub-1.8GB Desktop Mode** for local, zero-egress development.
 
 ---
 
@@ -98,6 +102,7 @@ In nature, apex predators hunt with immediate sensory reflexes, acute focus, and
 | **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioHydra`**| **Tier 5: Flagship Coding Model** | **7.61B (28L, 151k Vocab)** | Whole-Repo Architecture & Multi-File Synthesis (< 500MB Edge / < 1.8GB Desktop) | **Planned** | [Specification](https://github.com/nio-labs/nio-ideas/blob/main/NIOHYDRA_PLAN.md) |
 
 ---
 
