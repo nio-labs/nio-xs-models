@@ -66,9 +66,11 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
-          <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
+          <a href="#niocuda" class="nav-link">NioCuda (&lt;160M)</a>
           <a href="ray.html" class="nav-link">NioRay (AST-µLM)</a>
           <a href="#nioviper" class="nav-link">NioViper (Tactical)</a>
+          <a href="#niomanta" class="nav-link">NioManta (Companion)</a>
+          <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
           <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
@@ -341,10 +343,10 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><a href="nano.html"><strong>NioNano</strong></a></td>
-                  <td>Intent Reflex</td>
-                  <td><code>~0.5M</code></td>
-                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics &amp; directives (--)</td>
+                  <td><a href="#niocuda"><strong>NioCuda</strong></a></td>
+                  <td>Swarm Conductor</td>
+                  <td><code>~320.0M</code></td>
+                  <td>Tactical Swarm Conductor &amp; Orchestrator (&lt; 160MB RAM, &lt; 10ms DAG planning, auto-coordinator)</td>
                   <td><span class="badge badge-accent">Active in Core</span></td>
                   <td>Native in NioXS</td>
                 </tr>
@@ -357,12 +359,28 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1">v0.4.1</a></td>
                 </tr>
                 <tr>
-                  <td><strong>NioViper</strong></td>
+                  <td><a href="#nioviper"><strong>NioViper</strong></a></td>
                   <td>Tactical Striker</td>
                   <td><code>148.0M (8L, 32k Vocab)</code></td>
                   <td>Sub-49MB Tactical Terminal &amp; Diagnostic Striker (Q4_0 GGUF, 96.31 MiB, 46.77 MiB peak RAM, &gt;95% RAM cut vs Stock Qwen)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0">v0.5.0</a></td>
+                </tr>
+                <tr>
+                  <td><a href="#niomanta"><strong>NioManta</strong></a></td>
+                  <td>Conversational Companion</td>
+                  <td><code>310.0M (16L, 151k Vocab)</code></td>
+                  <td>Multilingual Pair-Programming &amp; Structured AST Planner (Q4_0 GGUF, 271.76 MiB, 69.32 MB working RAM)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases">v0.5.1</a></td>
+                </tr>
+                <tr>
+                  <td><a href="nano.html"><strong>NioNano</strong></a></td>
+                  <td>Intent Reflex</td>
+                  <td><code>~0.5M</code></td>
+                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics &amp; directives (--)</td>
+                  <td><span class="badge badge-accent">Active in Core</span></td>
+                  <td>Native in NioXS</td>
                 </tr>
                 <tr>
                   <td><a href="micro.html"><strong>NioMicro</strong></a></td>
@@ -617,6 +635,82 @@ nio run -m nioxs::nio-viper "Prune unused docker volumes and dangling images saf
 
 # 5. Automated CI/CD failure pipeline repair
 cargo test 2&gt;&amp;1 | nio triage -m nioxs::nio-viper</code></pre>
+          </div>
+        </section>
+
+        <!-- 6c. NIOMANTA -->
+        <section id="niomanta" class="doc-section">
+          <div class="section-badge">Conversational &amp; AST Companion</div>
+          <h2>6c. NioManta AST-µLM — Mobile &amp; Conversational Companion</h2>
+          <p><strong>NioManta AST-µLM</strong> (<code>nioxs::nio-manta</code>) is Nio's balanced conversational companion and structured AST planner. Retaining 16 transformer layers and the full 151,936 multilingual vocabulary, NioManta provides natural developer dialogues across multiple natural languages and generates deterministic multi-step AST plans (<code>&lt;manta_plan&gt;</code>, <code>&lt;step&gt;</code>) inside <strong>&lt; 110 MB peak RAM</strong> (69.32 MB working set on Intel Core Ultra 5).</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Depth</div>
+              <div class="spec-value">310.0M</div>
+              <div class="spec-sub">16 Layers ($d=896$, 151k Vocab)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Artifact Size</div>
+              <div class="spec-value">271.76 MiB</div>
+              <div class="spec-sub">Clean 32-Block Q4_0 GGUF</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Session Peak RSS</div>
+              <div class="spec-value">90.27 MiB</div>
+              <div class="spec-sub">Working Set: 69.32 MB (&lt; 110MB budget)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Prefill / Decode</div>
+              <div class="spec-value">180+ / 3.55 t/s</div>
+              <div class="spec-sub">Laptop CPU (Zero Cloud Egress)</div>
+            </div>
+          </div>
+
+          <div class="code-wrapper" style="margin-top: 16px;">
+            <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-primary);">Execution via NioXS &amp; Native Rust Runtime</div>
+            <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
+            <pre><code class="language-bash"># 1. Pull NioManta companion model
+nioxs pull manta
+
+# 2. Conversational prompt &amp; multi-step AST planning via NioAI
+nio run -m nioxs::nio-manta "Plan how to implement redis connection pooling in src/db.rs"
+
+# 3. Direct execution via official nio-manta-runtime crate (&lt; 110 MB RAM)
+cargo run --release --package nio-manta-runtime -- \
+  --model models/nio-manta-ast.Q4_0.gguf \
+  --tokenizer models/nio-manta-tokenizer.json \
+  --prompt "Plan how to implement redis connection pooling in src/db.rs" --ast</code></pre>
+          </div>
+        </section>
+
+        <!-- 6d. NIOCUDA -->
+        <section id="niocuda" class="doc-section">
+          <div class="section-badge">Swarm Conductor &amp; Orchestrator</div>
+          <h2>6d. NioCuda — Tactical Swarm Conductor &amp; Air-Traffic Controller</h2>
+          <p><strong>NioCuda</strong> (<code>nioxs::nio-cuda</code>) serves as the sovereign conductor and tactical air-traffic controller of the Nio fleet. Ingesting high-level developer tasks, it constructs optimal multi-agent execution DAGs in <strong>&lt; 10ms</strong> and orchestrates the predator fleet and MicroLM specialists within <strong>&lt; 160 MB resident RAM</strong>.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Budget</div>
+              <div class="spec-value">~320.0M</div>
+              <div class="spec-sub">Vocab-Pruned Choice B (32k Lexicon)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Model Size on Disk</div>
+              <div class="spec-value">~145 MiB</div>
+              <div class="spec-sub">INT4 Q4_K_M GGUF</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Planning Latency</div>
+              <div class="spec-value">&lt; 10 ms</div>
+              <div class="spec-sub">Sub-second local DAG construction</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Resident RAM</div>
+              <div class="spec-value">&lt; 160 MiB</div>
+              <div class="spec-sub">Total Working Footprint on Edge</div>
+            </div>
           </div>
         </section>
 

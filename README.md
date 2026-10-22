@@ -64,11 +64,13 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 │                              THE NIO ENGINE HIERARCHY                                  │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                        │
-│  [ TIER 1: THE PREDATOR FLEET ]  ──► Reflex & Striker Predators                        │
+│  [ TIER 1: THE PREDATOR FLEET & SWARM CONDUCTOR ]                                      │
+│    • NioCuda (~320M)             ──► Tactical Swarm Conductor & Orchestrator (<160MB)  │
 │    • NioRay (494M Dense)         ──► 100% Stock Qwen Full Vocab Reflex (Sub-86MB RAM)  │
 │    • NioViper AST-µLM (~148M)    ──► Tactical Terminal & AST Striker (Sub-47MB RAM)    │
 │                                                                                        │
-│  [ TIER 2: SYSTEM ASSIST & SENSORY ]                                                   │
+│  [ TIER 2: SYSTEM ASSIST & CONVERSATIONAL COMPANION ]                                  │
+│    • NioManta AST-µLM (~310M)    ──► Mobile & Conversational Companion (Sub-110MB RAM) │
 │    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
 │                                                                                        │
 │  [ TIER 3: SECURITY & DECISION GATES ]                                                 │
@@ -83,8 +85,10 @@ Nio coordinates a multi-tiered hierarchy of specialized edge models rather than 
 
 ### Why "The Predator Fleet"?
 In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
+* **`NioCuda` (The Swarm Conductor):** The central heart and tactical air-traffic controller. Ingests high-level developer tasks, constructs optimal multi-agent execution DAGs in under 10ms, and orchestrates the predator fleet and operational MicroLMs within **< 160 MB RAM**.
 * **`NioRay` (The Keystroke Predator):** 100% full-depth stock Qwen2.5-Coder intelligence (all 24 layers, full 151,936 vocabulary intact) running inside a **sub-86MB streaming memory envelope** on our native runtime (>92% RAM reduction vs stock Qwen's 1.12 GB).
 * **`NioViper` (The Tactical Striker):** Surgical 8-layer edge model with AST candidate reflex running continuously in strictly **< 47 MB peak resident RAM** (>95% RAM cut vs stock Qwen) and producing clean structured XML tags (`<viper_cmd>`, `<viper_alert>`).
+* **`NioManta` (The Conversational Glider):** 16-layer balanced companion preserving full 151,936 multilingual vocabulary, delivering rich conversational pair-programming and structured multi-step AST plans (`<manta_plan>`, `<step>`) in **< 110 MB peak RAM** (69.32 MB working set).
 
 ---
 
@@ -92,9 +96,11 @@ In nature, apex predators hunt with immediate sensory reflexes, acute focus, and
 
 | Model | Ecosystem Tier & Role | Parameters | Specialization & Output Artifact | Status | Official Release |
 | :--- | :--- | :---: | :--- | :---: | :--- |
-| **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
+| **`NioCuda`** | **Tier 1: Swarm Conductor**    | **~320.0M (Sub-160MB RAM)**  | Tactical Swarm Conductor & Orchestrator (Sub-10ms DAG planning, auto-coordinator) | **Active** | In Nio core |
 | **`NioRay`**  | **Tier 1: Keystroke Predator** | **494.0M (24L, 151k Vocab)** | 100% Stock Qwen Full Vocab Streaming Engine (`nio-ray-ast.Q4_0.gguf`, 270.93 MiB; < 86 MB RAM) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
 | **`NioViper`**| **Tier 1: Tactical Striker**   | **148.0M (8L, 32k Vocab)**   | Tactical Terminal Striker (46.77 MiB peak RAM; Sub-49MB target met) (`nio-viper-ast.Q4_0.gguf`, 96.31 MiB) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
+| **`NioManta`**| **Tier 2: Conversational Companion** | **310.0M (16L, 151k Vocab)** | Multilingual Pair-Programming & AST Structured Planner (`nio-manta-ast.Q4_0.gguf`, 271.76 MiB; < 110 MB RAM) | **Released** | [`v0.5.1`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
 | **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -524,6 +530,47 @@ cargo run --release --package nio-viper-runtime -- \
 
 ---
 
+## 7. NioManta AST-µLM — Mobile & Conversational Companion (~310M)
+
+**NioManta AST-µLM** (`nioxs::nio-manta`) is the conversational companion and structured AST planner of the Nio ecosystem. Retaining **16 transformer layers** and the complete **151,936 multilingual vocabulary**, NioManta combines natural conversational fluency across English, Spanish, Chinese, Japanese, German, and French with deterministic multi-step AST plan generation (`<manta_plan>`, `<step>`), operating smoothly within **< 110 MB peak RAM** (69.32 MB working RAM on Intel Core Ultra 5).
+
+### Key Architectural Specifications
+* **Architecture:** 16 Layers, Hidden Dimension $d=896$, Full 151,936 Token Multilingual Vocabulary.
+* **Artifact:** `models/nio-manta-ast.Q4_0.gguf` (271.76 MiB, 32-byte block-aligned).
+* **Resident RAM:** **69.32 MB** working working set / **90.27 MB** peak RSS (< 110 MB budget).
+* **Speed:** 180+ tok/s prompt prefill, 3.55 tok/s decode on laptop CPU ($0.00, 100% offline).
+
+### Structured Plan Outputs
+```xml
+<manta_plan task="implement redis connection pooling in rust">
+  <step order="1" action="add_dependency" crate="deadpool-redis" version="0.14" />
+  <step order="2" action="create_module" path="src/pool.rs" />
+  <step order="3" action="implement_helper" symbol="create_redis_pool" />
+  <step order="4" action="verify" command="cargo check" />
+</manta_plan>
+```
+
+### Standalone Rust Runtime Execution
+```bash
+# Direct execution via official nio-manta-runtime crate (< 110 MB RAM)
+cargo run --release --package nio-manta-runtime -- \
+  --model models/nio-manta-ast.Q4_0.gguf \
+  --tokenizer models/nio-manta-tokenizer.json \
+  --prompt "Plan how to implement redis connection pooling in src/db.rs" --ast
+```
+
+---
+
+## 8. NioCuda — Tactical Swarm Conductor & Orchestrator (< 160MB)
+
+**NioCuda** (`nioxs::nio-cuda`) is the flagship swarm conductor and tactical air-traffic controller of the Nio fleet. Ingesting high-level developer intents, NioCuda constructs optimal multi-agent execution DAGs in under 10ms and delegates tasks to the predator fleet (`NioRay`, `NioViper`, `NioManta`, `NioMicro`, `NioMask`, `NioMini`) within **< 160 MB resident RAM**.
+
+* **Role:** Central Heart & Default Conductor of `nioxs` and `nio`.
+* **Planning Latency:** **< 10ms** local DAG construction.
+* **Grammar Enforcement:** 100% Calibrated JSON Schema Grammar & XML bounded tags.
+
+---
+
 ## Repository Architecture
 
 This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM (µLM) family:
@@ -531,6 +578,7 @@ This repository is the unified monorepo housing the source code, model definitio
 * **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
   * [`crates/nio-ray-runtime`](crates/nio-ray-runtime): Streaming reflex runtime (24L, 151k vocab); 76.16 MiB measured peak on i7-8650U
   * [`crates/nio-viper-runtime`](crates/nio-viper-runtime): Tactical runtime (8L, 32k vocab); 44.98 MiB measured peak on i7-8650U
+  * [`crates/nio-manta-runtime`](crates/nio-manta-runtime): Conversational & AST companion runtime (16L, 151k vocab); 69.32 MiB working set (< 110 MB RAM)
   * [`crates/nio-nano-runtime`](crates/nio-nano-runtime): Sub-0.1ms command intent reflex & AST triage model
   * [`crates/nio-mask-runtime`](crates/nio-mask-runtime): Sub-0.2ms byte-stream secret, API key & PII redactor
   * [`crates/nio-micro-runtime`](crates/nio-micro-runtime): In-process contextual policy arbiter (sec, infra, base)
