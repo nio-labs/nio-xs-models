@@ -1,0 +1,31 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  18\nOn-line CPU(s) list:                     0-17\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Core(TM) Ultra 5 135H\nCPU family:                              6\nModel:                                   170\nThread(s) per core:                      2\nCore(s) per socket:                      9\nSocket(s):                               1\nStepping:                                4\nBogoMIPS:                                6374.39\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni vnmi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt flush_l1d arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       Microsoft\nVirtualization type:                     full\nL1d cache:                               432 KiB (9 instances)\nL1i cache:                               576 KiB (9 instances)\nL2 cache:                                18 MiB (9 instances)\nL3 cache:                                18 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-17\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; Enhanced IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "threads": 4,
+  "max_new_tokens": 32,
+  "binary_sha256": "8a784efd17b829f36b92d76bce4aa8570aea785efd5ec7fa507bedeceed5ef9b",
+  "source_sha256": {
+    "crates/nio-ray-runtime/src/lib.rs": "0be564a0613f79f21097759d47b67138fe689848df107754ae734708b4a4d415",
+    "crates/nio-ray-runtime/src/main.rs": "767ff993e1f0429d2830b105ffb0f7c66eb3fe2cd14aa30b8cbac2b34bad2cf2",
+    "crates/nio-viper-runtime/src/lib.rs": "da59040c31b091e10b5ab1a5a80c8df50cb2a08381d65d3a1c8e9a07cc8911d3",
+    "crates/nio-viper-runtime/src/main.rs": "42c0c5dce07f3c107e02c11bacb9866cc5694378455589832c41a7c1e6b6dca9"
+  },
+  "benchmark_source_sha256": "1c771568ed74f0c4c8e23772e75f0891e3d535c363a1c4310dcd326c08a5c4b5",
+  "protocol": "One process/model, 20 independent tasks, KV reset, CLI AST pools, natural EOS, cumulative VmHWM.",
+  "models": [
+    {
+      "name": "viper",
+      "model_sha256": "2e7df31bbe90a39e33b363d24085c2d04d7df6519909f27387e8b55b6d36ed32",
+      "model_bytes": 100984640,
+      "tokenizer_sha256": "c8a034fb2f7ad2484fc3010a73152fade6d48372ae322745fbf2c71e064effb1",
+      "prompts_sha256": "ba8175ea192e29f24bff2d677e8f1713d2b01e5829dbf6b18d31d80fa13c0129"
+    },
+    {
+      "name": "ray",
+      "model_sha256": "f070cd657e929ee2d45a7d8a46c71ef0fdec6b8ae1100de57735808deae4477f",
+      "model_bytes": 284087232,
+      "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "prompts_sha256": "9e87d7172db65b7711eefc9f6e2b79a0d12b4277856a79569d6a5084492d1154"
+    }
+  ]
+}
