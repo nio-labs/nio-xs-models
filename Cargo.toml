@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "crates/nio-cuda-runtime",
     "crates/nio-manta-runtime",
     "crates/nio-mask-runtime",
     "crates/nio-micro-runtime",

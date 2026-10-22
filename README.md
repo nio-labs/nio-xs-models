@@ -567,7 +567,25 @@ cargo run --release --package nio-manta-runtime -- \
 
 * **Role:** Central Heart & Default Conductor of `nioxs` and `nio`.
 * **Planning Latency:** **< 10ms** local DAG construction.
-* **Grammar Enforcement:** 100% Calibrated JSON Schema Grammar & XML bounded tags.
+* **Grammar Enforcement:** 100% Calibrated XML `<cuda_plan>` and `<cuda_dag>` bounded tags.
+* **Architecture:** 16-layer Qwen2.5-Coder sliced transformer ($d=896$, 32-byte SIMD block-aligned).
+* **Native Runtime:** In-process streaming Rust runtime in [`crates/nio-cuda-runtime`](crates/nio-cuda-runtime).
+
+### Release Assets (v0.5.2)
+
+| File | Size | Format | SHA-256 Checksum |
+| :--- | :---: | :---: | :--- |
+| **`nio-cuda-ast.Q4_0.gguf`** | **271.76 MiB** | GGUF (`Q4_0`) | `09566c2f463dfae5475b2747c4338cf3a9b887f8382a21052766d1f97803c58c` |
+| **`nio-cuda-tokenizer.json`** | **10.89 MiB** | JSON (BPE) | `3fb3240da20c0754d6aa77f959f9f7d4cbdff79cb07f50121898036c54d40454` |
+
+### Quickstart
+
+```bash
+cargo run --release -p nio-cuda-runtime -- \
+  --model models/nio-cuda/nio-cuda-ast.Q4_0.gguf \
+  --tokenizer models/nio-cuda/nio-cuda-tokenizer.json \
+  --prompt "Upgrade password hashing from bcrypt to Argon2id in authentication service"
+```
 
 ---
 
@@ -576,6 +594,7 @@ cargo run --release --package nio-manta-runtime -- \
 This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM (µLM) family:
 
 * **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
+  * [`crates/nio-cuda-runtime`](crates/nio-cuda-runtime): Tactical swarm conductor runtime (16L, 151k vocab, 32-byte SIMD aligned); < 160 MB RAM
   * [`crates/nio-ray-runtime`](crates/nio-ray-runtime): Streaming reflex runtime (24L, 151k vocab); 76.16 MiB measured peak on i7-8650U
   * [`crates/nio-viper-runtime`](crates/nio-viper-runtime): Tactical runtime (8L, 32k vocab); 44.98 MiB measured peak on i7-8650U
   * [`crates/nio-manta-runtime`](crates/nio-manta-runtime): Conversational & AST companion runtime (16L, 151k vocab); 69.32 MiB working set (< 110 MB RAM)
@@ -584,6 +603,7 @@ This repository is the unified monorepo housing the source code, model definitio
   * [`crates/nio-micro-runtime`](crates/nio-micro-runtime): In-process contextual policy arbiter (sec, infra, base)
   * [`crates/nio-mini-runtime`](crates/nio-mini-runtime): Sub-5ms pre-emptive defect & compile break forecaster
 * **`models/`**: PyTorch neural network architectures, training scripts, and export pipelines
+  * `models/nio-cuda`: Conductor dataset generation, Colab training, and quantization scripts
   * `models/nio-mask`: Byte-level Conv-Transformer definition, pattern guards & export
   * `models/nio-micro`: Multi-cluster policy decision architectures & evaluation
   * `models/nio-mini`: AST defect prediction model pipeline

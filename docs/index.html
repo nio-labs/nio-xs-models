@@ -693,13 +693,13 @@ cargo run --release --package nio-manta-runtime -- \
           <div class="spec-grid">
             <div class="spec-card">
               <div class="spec-title">Parameters &amp; Budget</div>
-              <div class="spec-value">~320.0M</div>
-              <div class="spec-sub">Vocab-Pruned Choice B (32k Lexicon)</div>
+              <div class="spec-value">~374.7M</div>
+              <div class="spec-sub">16 Transformer Layers ($d=896$)</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Model Size on Disk</div>
-              <div class="spec-value">~145 MiB</div>
-              <div class="spec-sub">INT4 Q4_K_M GGUF</div>
+              <div class="spec-value">271.76 MiB</div>
+              <div class="spec-sub">Clean 32-byte SIMD Q4_0 GGUF</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Planning Latency</div>
@@ -707,11 +707,43 @@ cargo run --release --package nio-manta-runtime -- \
               <div class="spec-sub">Sub-second local DAG construction</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Resident RAM</div>
-              <div class="spec-value">&lt; 160 MiB</div>
-              <div class="spec-sub">Total Working Footprint on Edge</div>
+              <div class="spec-title">Working RAM</div>
+              <div class="spec-value">~85.7 MiB</div>
+              <div class="spec-sub">&lt; 160 MiB Peak RAM on Edge CPU</div>
             </div>
           </div>
+
+          <h3>Release Assets (v0.5.2)</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>File Asset</th>
+                <th>Size</th>
+                <th>Format</th>
+                <th>SHA-256 Checksum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>nio-cuda-ast.Q4_0.gguf</code></td>
+                <td><strong>271.76 MiB</strong></td>
+                <td>GGUF (Q4_0)</td>
+                <td><code>09566c2f463dfae5475b2747c4338cf3a9b887f8382a21052766d1f97803c58c</code></td>
+              </tr>
+              <tr>
+                <td><code>nio-cuda-tokenizer.json</code></td>
+                <td><strong>10.89 MiB</strong></td>
+                <td>JSON (BPE)</td>
+                <td><code>3fb3240da20c0754d6aa77f959f9f7d4cbdff79cb07f50121898036c54d40454</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Quickstart</h3>
+          <pre><code>cargo run --release -p nio-cuda-runtime -- \
+  --model models/nio-cuda/nio-cuda-ast.Q4_0.gguf \
+  --tokenizer models/nio-cuda/nio-cuda-tokenizer.json \
+  --prompt "Upgrade password hashing from bcrypt to Argon2id in authentication service"</code></pre>
         </section>
 
         <!-- 7. NIOMICRO -->
