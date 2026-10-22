@@ -94,16 +94,16 @@ In nature, apex predators hunt with immediate sensory reflexes, acute focus, and
 
 ## Available Production Models
 
-| Model | Ecosystem Tier & Role | Parameters | Specialization & Output Artifact | Status | Official Release |
-| :--- | :--- | :---: | :--- | :---: | :--- |
-| **`NioCuda`** | **Tier 1: Swarm Conductor**    | **~320.0M (Sub-160MB RAM)**  | Tactical Swarm Conductor & Orchestrator (Sub-10ms DAG planning, auto-coordinator) | **Active** | In Nio core |
-| **`NioRay`**  | **Tier 1: Keystroke Predator** | **494.0M (24L, 151k Vocab)** | 100% Stock Qwen Full Vocab Streaming Engine (`nio-ray-ast.Q4_0.gguf`, 270.93 MiB; < 86 MB RAM) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
-| **`NioViper`**| **Tier 1: Tactical Striker**   | **148.0M (8L, 32k Vocab)**   | Tactical Terminal Striker (46.77 MiB peak RAM; Sub-49MB target met) (`nio-viper-ast.Q4_0.gguf`, 96.31 MiB) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
-| **`NioManta`**| **Tier 2: Conversational Companion** | **310.0M (16L, 151k Vocab)** | Multilingual Pair-Programming & AST Structured Planner (`nio-manta-ast.Q4_0.gguf`, 271.76 MiB; < 110 MB RAM) | **Released** | [`v0.5.1`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioNano`** | Tier 2: Assist & Intent Reflex | ~0.5M | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
-| **`NioMicro`**| Tier 3: Policy Decision Engine | **5.0M / Cluster** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioMask`** | Tier 3: Security & Privacy | **1.1M** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
-| **`NioMini`** | Tier 4: Predictive Quality | **7.1M** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| Model | Ecosystem Tier & Role | Base Model Architecture | Parameters & Footprint | Specialization & Output Artifact | Status | Official Release |
+| :--- | :--- | :--- | :---: | :--- | :---: | :--- |
+| **`NioCuda`** | **Tier 1: Swarm Conductor** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (16L Sliced) | **~374.7M (< 160MB RAM)** | Tactical Swarm Conductor & Orchestrator (Sub-10ms DAG planning, `<cuda_plan>`, `<cuda_dag>`) | **Released** | [`v0.5.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.2) |
+| **`NioRay`**  | **Tier 1: Keystroke Predator** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (24L Dense) | **494.0M (Sub-86MB RAM)** | 100% Stock Qwen Full Vocab Streaming Engine (`nio-ray-ast.Q4_0.gguf`, 270.93 MiB) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
+| **`NioViper`**| **Tier 1: Tactical Striker** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (8L, 32k Pruned) | **148.0M (Sub-49MB RAM)** | Tactical Terminal Striker (46.77 MiB peak RAM; `<viper_cmd>`, `<viper_alert>`) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
+| **`NioManta`**| **Tier 2: Conversational Companion** | `Qwen/Qwen2.5-0.5B-Instruct` (16L Sliced, 151k Vocab) | **~374.7M (< 110MB RAM)** | Multilingual Pair-Programming & AST Structured Planner (`<manta_plan>`, `<step>`) | **Released** | [`v0.5.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.1) |
+| **`NioNano`** | Tier 2: Assist & Intent Reflex | Custom AST Embedding Matrix | **~0.5M (< 0.1MB RAM)** | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
+| **`NioMicro`**| Tier 3: Policy Decision Engine | Custom 4-Cluster Policy MLP | **5.0M (~22MB RAM)** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`NioMask`** | Tier 3: Security & Privacy | Custom Byte-Level Conv-Transformer | **1.1M (~12MB RAM)** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
+| **`NioMini`** | Tier 4: Predictive Quality | Custom AST Tree-BiLSTM | **7.1M (~32MB RAM)** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -535,6 +535,7 @@ cargo run --release --package nio-viper-runtime -- \
 **NioManta AST-µLM** (`nioxs::nio-manta`) is the conversational companion and structured AST planner of the Nio ecosystem. Retaining **16 transformer layers** and the complete **151,936 multilingual vocabulary**, NioManta combines natural conversational fluency across English, Spanish, Chinese, Japanese, German, and French with deterministic multi-step AST plan generation (`<manta_plan>`, `<step>`), operating smoothly within **< 110 MB peak RAM** (69.32 MB working RAM on Intel Core Ultra 5).
 
 ### Key Architectural Specifications
+* **Base Model Architecture:** `Qwen/Qwen2.5-0.5B-Instruct` (general multilingual foundation, depth-sliced to 16 transformer layers).
 * **Architecture:** 16 Layers, Hidden Dimension $d=896$, Full 151,936 Token Multilingual Vocabulary.
 * **Artifact:** `models/nio-manta-ast.Q4_0.gguf` (271.76 MiB, 32-byte block-aligned).
 * **Resident RAM:** **69.32 MB** working working set / **90.27 MB** peak RSS (< 110 MB budget).
@@ -566,6 +567,7 @@ cargo run --release --package nio-manta-runtime -- \
 **NioCuda** (`nioxs::nio-cuda`) is the flagship swarm conductor and tactical air-traffic controller of the Nio fleet. Ingesting high-level developer intents, NioCuda constructs optimal multi-agent execution DAGs in under 10ms and delegates tasks to the predator fleet (`NioRay`, `NioViper`, `NioManta`, `NioMicro`, `NioMask`, `NioMini`) within **< 160 MB resident RAM**.
 
 * **Role:** Central Heart & Default Conductor of `nioxs` and `nio`.
+* **Base Model Architecture:** `Qwen/Qwen2.5-Coder-0.5B-Instruct` (code intelligence & function-calling foundation, depth-sliced to 16 transformer layers).
 * **Planning Latency:** **< 10ms** local DAG construction.
 * **Grammar Enforcement:** 100% Calibrated XML `<cuda_plan>` and `<cuda_dag>` bounded tags.
 * **Architecture:** 16-layer Qwen2.5-Coder sliced transformer ($d=896$, 32-byte SIMD block-aligned).

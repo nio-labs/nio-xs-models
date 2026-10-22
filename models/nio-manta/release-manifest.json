@@ -1,0 +1,36 @@
+{
+  "release": "v0.5.1",
+  "model_name": "NioManta",
+  "codename": "Conversational & AST Companion",
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "layers": 16,
+  "hidden_dimension": 896,
+  "vocabulary_size": 151936,
+  "quantization": "Q4_0",
+  "block_size": 32,
+  "hardware_target": "CPU streaming & AST-Micro native in-process runtime (< 110 MB RAM)",
+  "assets": [
+    {
+      "name": "nio-manta-ast.Q4_0.gguf",
+      "size_bytes": 284962368,
+      "sha256": "56be66f3628768f1f8a71e526da4e06e063554c8c8c50f7f205299d3671a91d2",
+      "format": "GGUF (Q4_0)",
+      "parameters": 374730000,
+      "vocabulary_size": 151936,
+      "external_tokenizer": "nio-manta-tokenizer.json"
+    },
+    {
+      "name": "nio-manta-tokenizer.json",
+      "size_bytes": 7031645,
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "format": "JSON (BPE)"
+    }
+  ],
+  "performance": {
+    "engine_ready_rss_mb": 69.32,
+    "peak_resident_ram_mb": 90.27,
+    "working_ram_mb": 69.32,
+    "architecture": "16-layer Qwen2.5-0.5B-Instruct sliced transformer, 32-byte SIMD block-aligned Q4_0",
+    "runtime_crate": "crates/nio-manta-runtime"
+  }
+}

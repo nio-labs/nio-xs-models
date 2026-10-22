@@ -345,16 +345,16 @@
                 <tr>
                   <td><a href="#niocuda"><strong>NioCuda</strong></a></td>
                   <td>Swarm Conductor</td>
-                  <td><code>~320.0M</code></td>
-                  <td>Tactical Swarm Conductor &amp; Orchestrator (&lt; 160MB RAM, &lt; 10ms DAG planning, auto-coordinator)</td>
-                  <td><span class="badge badge-accent">Active in Core</span></td>
-                  <td>Native in NioXS</td>
+                  <td><code>~374.7M (16L, 151k Vocab)</code></td>
+                  <td>Tactical Swarm Conductor (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> sliced to 16L, &lt; 160MB RAM, &lt; 10ms DAG planning)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.2">v0.5.2</a></td>
                 </tr>
                 <tr>
                   <td><a href="ray.html"><strong>NioRay</strong></a></td>
                   <td>Keystroke Predator</td>
                   <td><code>494M (24L, 151k Vocab)</code></td>
-                  <td>Symbolic-Neural AST-µLM Reflex Engine (Q4_0 GGUF, 270.93 MiB, 77.77 MiB peak RAM, &gt;93% RAM cut vs Stock Qwen)</td>
+                  <td>Symbolic-Neural AST-µLM Reflex Engine (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> 24L Dense, 77.77 MiB peak RAM)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1">v0.4.1</a></td>
                 </tr>
@@ -362,17 +362,17 @@
                   <td><a href="#nioviper"><strong>NioViper</strong></a></td>
                   <td>Tactical Striker</td>
                   <td><code>148.0M (8L, 32k Vocab)</code></td>
-                  <td>Sub-49MB Tactical Terminal &amp; Diagnostic Striker (Q4_0 GGUF, 96.31 MiB, 46.77 MiB peak RAM, &gt;95% RAM cut vs Stock Qwen)</td>
+                  <td>Sub-49MB Tactical Terminal Striker (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> 8L sliced, 46.77 MiB peak RAM)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0">v0.5.0</a></td>
                 </tr>
                 <tr>
                   <td><a href="#niomanta"><strong>NioManta</strong></a></td>
                   <td>Conversational Companion</td>
-                  <td><code>310.0M (16L, 151k Vocab)</code></td>
-                  <td>Multilingual Pair-Programming &amp; Structured AST Planner (Q4_0 GGUF, 271.76 MiB, 69.32 MB working RAM)</td>
+                  <td><code>~374.7M (16L, 151k Vocab)</code></td>
+                  <td>Multilingual Pair-Programming Companion (Base: <code>Qwen/Qwen2.5-0.5B-Instruct</code> 16L sliced, 69.32 MB working RAM)</td>
                   <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases">v0.5.1</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.1">v0.5.1</a></td>
                 </tr>
                 <tr>
                   <td><a href="nano.html"><strong>NioNano</strong></a></td>
@@ -642,12 +642,17 @@ cargo test 2&gt;&amp;1 | nio triage -m nioxs::nio-viper</code></pre>
         <section id="niomanta" class="doc-section">
           <div class="section-badge">Conversational &amp; AST Companion</div>
           <h2>6c. NioManta AST-µLM — Mobile &amp; Conversational Companion</h2>
-          <p><strong>NioManta AST-µLM</strong> (<code>nioxs::nio-manta</code>) is Nio's balanced conversational companion and structured AST planner. Retaining 16 transformer layers and the full 151,936 multilingual vocabulary, NioManta provides natural developer dialogues across multiple natural languages and generates deterministic multi-step AST plans (<code>&lt;manta_plan&gt;</code>, <code>&lt;step&gt;</code>) inside <strong>&lt; 110 MB peak RAM</strong> (69.32 MB working set on Intel Core Ultra 5).</p>
+          <p><strong>NioManta AST-µLM</strong> (<code>nioxs::nio-manta</code>) is Nio's balanced conversational companion and structured AST planner, fine-tuned on top of <strong><code>Qwen/Qwen2.5-0.5B-Instruct</code></strong> (depth-sliced to 16 transformer layers). Retaining the full 151,936 multilingual vocabulary, NioManta provides natural developer dialogues across multiple natural languages and generates deterministic multi-step AST plans (<code>&lt;manta_plan&gt;</code>, <code>&lt;step&gt;</code>) inside <strong>&lt; 110 MB peak RAM</strong> (69.32 MB working set on Intel Core Ultra 5).</p>
 
           <div class="spec-grid">
             <div class="spec-card">
+              <div class="spec-title">Base Model Foundation</div>
+              <div class="spec-value" style="font-size: 15px;">Qwen2.5-0.5B-Instruct</div>
+              <div class="spec-sub">General Multilingual Foundation (16L Sliced)</div>
+            </div>
+            <div class="spec-card">
               <div class="spec-title">Parameters &amp; Depth</div>
-              <div class="spec-value">310.0M</div>
+              <div class="spec-value">~374.7M</div>
               <div class="spec-sub">16 Layers ($d=896$, 151k Vocab)</div>
             </div>
             <div class="spec-card">
@@ -656,14 +661,9 @@ cargo test 2&gt;&amp;1 | nio triage -m nioxs::nio-viper</code></pre>
               <div class="spec-sub">Clean 32-Block Q4_0 GGUF</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Session Peak RSS</div>
-              <div class="spec-value">90.27 MiB</div>
-              <div class="spec-sub">Working Set: 69.32 MB (&lt; 110MB budget)</div>
-            </div>
-            <div class="spec-card">
-              <div class="spec-title">Prefill / Decode</div>
-              <div class="spec-value">180+ / 3.55 t/s</div>
-              <div class="spec-sub">Laptop CPU (Zero Cloud Egress)</div>
+              <div class="spec-title">Session Working RAM</div>
+              <div class="spec-value">69.32 MiB</div>
+              <div class="spec-sub">Peak: 90.27 MB (&lt; 110MB budget)</div>
             </div>
           </div>
 
@@ -688,9 +688,14 @@ cargo run --release --package nio-manta-runtime -- \
         <section id="niocuda" class="doc-section">
           <div class="section-badge">Swarm Conductor &amp; Orchestrator</div>
           <h2>6d. NioCuda — Tactical Swarm Conductor &amp; Air-Traffic Controller</h2>
-          <p><strong>NioCuda</strong> (<code>nioxs::nio-cuda</code>) serves as the sovereign conductor and tactical air-traffic controller of the Nio fleet. Ingesting high-level developer tasks, it constructs optimal multi-agent execution DAGs in <strong>&lt; 10ms</strong> and orchestrates the predator fleet and MicroLM specialists within <strong>&lt; 160 MB resident RAM</strong>.</p>
+          <p><strong>NioCuda</strong> (<code>nioxs::nio-cuda</code>) serves as the sovereign conductor and tactical air-traffic controller of the Nio fleet, fine-tuned on top of <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong> (depth-sliced to 16 transformer layers). Ingesting high-level developer tasks, it constructs optimal multi-agent execution DAGs in <strong>&lt; 10ms</strong> and orchestrates the predator fleet and MicroLM specialists within <strong>&lt; 160 MB resident RAM</strong>.</p>
 
           <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Base Model Foundation</div>
+              <div class="spec-value" style="font-size: 15px;">Qwen2.5-Coder-0.5B-Instruct</div>
+              <div class="spec-sub">Code Intelligence Foundation (16L Sliced)</div>
+            </div>
             <div class="spec-card">
               <div class="spec-title">Parameters &amp; Budget</div>
               <div class="spec-value">~374.7M</div>
@@ -700,11 +705,6 @@ cargo run --release --package nio-manta-runtime -- \
               <div class="spec-title">Model Size on Disk</div>
               <div class="spec-value">271.76 MiB</div>
               <div class="spec-sub">Clean 32-byte SIMD Q4_0 GGUF</div>
-            </div>
-            <div class="spec-card">
-              <div class="spec-title">Planning Latency</div>
-              <div class="spec-value">&lt; 10 ms</div>
-              <div class="spec-sub">Sub-second local DAG construction</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Working RAM</div>
