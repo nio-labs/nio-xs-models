@@ -10,20 +10,8 @@ use tokenizers::Tokenizer;
 fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
     let args: Vec<String> = std::env::args().collect();
     let mut model_path = PathBuf::from("models/nio-manta-ast.Q4_0.gguf");
-    if !model_path.exists() {
-        let alt = PathBuf::from("/home/mn/nio-labs/nio-ideas/models/nio-manta-ast.Q4_0.gguf");
-        if alt.exists() {
-            model_path = alt;
-        }
-    }
 
     let mut tokenizer_path = PathBuf::from("models/tokenizer.json");
-    if !tokenizer_path.exists() {
-        let alt = PathBuf::from("/home/mn/nio-labs/nio-ideas/models/tokenizer.json");
-        if alt.exists() {
-            tokenizer_path = alt;
-        }
-    }
 
     let mut prompt = "Explain the difference between Arc<Mutex<T>> and RwLock<T> in Tokio".to_string();
     let mut is_plan = false;
