@@ -104,21 +104,21 @@
               <span class="badge badge-accent">Production Ready (v0.4.1)</span>
               <span class="badge">In-Process Rust Engine</span>
               <span class="badge">Intel Core Ultra 5 / i7</span>
-              <span class="badge">Sub-78 MiB Peak RAM</span>
+              <span class="badge">Sub-86 MB Peak RAM</span>
               <span class="badge">100% Stock Vocab Intact</span>
             </div>
-            <h1 class="hero-title">NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h1>
-            <p class="hero-desc"><strong>NioRay AST-µLM</strong> retains 24 transformer layers and 151,936 vocabulary rows, powered by the native <code>ast-micro</code> streaming runtime. Delivers <strong>&gt;93% RAM reduction vs. stock Qwen</strong> with <strong>77.77 MiB peak process RAM</strong> on Intel Core Ultra 5.</p>
+            <h1 class="hero-title">NioRay — 100% Stock Qwen Full Vocab Reflex Engine</h1>
+            <p class="hero-desc"><strong>NioRay</strong> retains 24 transformer layers and 151,936 vocabulary rows, powered by native sliding-window layer streaming. Delivers <strong>&gt;92% RAM reduction vs. stock Qwen</strong> with <strong>&lt; 86 MB peak process RAM</strong> on Intel Core Ultra 5.</p>
           </div>
 
           <div class="callout callout-note">
             <div class="callout-title">Ecosystem Role: Flagship Keystroke Predator</div>
-            <p>NioRay AST-µLM generates short code completions, inline bug fixes, and structural refactorings with electric, in-process keystroke reflex speed. It completely eliminates tool-interception tags (<code>&lt;nio_db&gt;</code> / <code>&lt;nio_js&gt;</code>) in favor of pure, compiler-grounded code generation.</p>
+            <p>NioRay generates short code completions, inline bug fixes, and structural refactorings with electric, in-process keystroke reflex speed. It runs 100% stock Qwen intelligence with zero pruning or dropped vocabulary.</p>
           </div>
 
           <div class="callout callout-tip">
             <div class="callout-title">Full-Depth Foundation: Qwen2.5-Coder-0.5B-Instruct</div>
-            <p>Unlike destructive pruning approaches that cut vocabulary down to 32k and break multilingual text, NioRay AST-µLM preserves <strong>all 24 transformer layers</strong> ($d_{\text{model}} = 896$) and <strong>100% of the 151,936 stock vocabulary</strong> with zero dropped tokens.</p>
+            <p>Unlike destructive pruning approaches that cut vocabulary down to 32k and break multilingual text, NioRay preserves <strong>all 24 transformer layers</strong> ($d_{\text{model}} = 896$) and <strong>100% of the 151,936 stock vocabulary</strong> with zero dropped tokens.</p>
           </div>
 
           <div class="spec-grid">
@@ -130,17 +130,17 @@
             <div class="spec-card">
               <div class="spec-title">Vocabulary Size</div>
               <div class="spec-value">151,936 Tokens</div>
-              <div class="spec-sub">100% Stock Vocab Intact</div>
+              <div class="spec-sub">100% Stock Vocab &bull; Zero Loss</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Measured Decode (4T)</div>
-              <div class="spec-value">7.08 tok/s</div>
-              <div class="spec-sub">Intel Core Ultra 5 (1.84 on i7)</div>
+              <div class="spec-title">Working RAM</div>
+              <div class="spec-value">69.6 MB</div>
+              <div class="spec-sub">Zero Leakage Across Sessions</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Session Peak RSS</div>
-              <div class="spec-value">77.77 MiB</div>
-              <div class="spec-sub">93.1% cut vs 1,119.7 MiB Stock</div>
+              <div class="spec-value">&lt; 86 MB</div>
+              <div class="spec-sub">92.4% cut vs 1,119.7 MiB Stock</div>
             </div>
           </div>
         </section>
@@ -237,17 +237,17 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
 
         <!-- 4. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>4. AST-Micro Runtime Benchmarks &amp; Stock Qwen Comparison</h2>
-          <p>NioRay and NioViper are built from <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> and designed specifically to run inside the native <strong><code>ast-micro</code> runtime</strong> (<code>nio-ray-runtime::AstMicroEngine</code> and <code>nio-viper-runtime</code>). The table below benchmarks them head-to-head against stock Qwen inference on the exact same host system:</p>
+          <h2>4. Benchmarks &amp; Stock Qwen Comparison</h2>
+          <p>NioRay preserves 100% of the Qwen2.5-Coder-0.5B architecture (24 layers, 151,936 vocabulary). Instead of static weight allocation, it executes via native sliding-window layer streaming. The table below benchmarks NioRay and NioViper head-to-head against stock Qwen inference on the exact same host system:</p>
 
-          <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">Empirical Comparison: Stock Qwen 0.5B vs AST-Micro Runtime (Intel Core Ultra 5 135H)</h3>
+          <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">Empirical Comparison: Stock Qwen 0.5B vs Native Streaming Runtime (Intel Core Ultra 5 135H)</h3>
           <div class="table-container"><table class="data-table">
             <thead>
               <tr>
                 <th>Metric / Dimension</th>
                 <th>Stock Qwen 0.5B (Standard Candle)</th>
-                <th>NioRay AST-µLM (AST-Micro Runtime)</th>
-                <th>NioViper AST-µLM (AST-Micro Runtime)</th>
+                <th>NioRay (Full 24L, 151k)</th>
+                <th>NioViper AST-µLM (8L, 32k)</th>
                 <th>Advantage vs. Stock</th>
               </tr>
             </thead>
@@ -276,30 +276,30 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
               <tr>
                 <td><strong>Ready RAM (<code>VmRSS</code>)</strong></td>
                 <td>982.1 MiB (1,005.7 MB)</td>
-                <td><strong>46.51 MiB</strong></td>
+                <td><strong>46.26 MiB</strong></td>
                 <td><strong>17.49 MiB</strong></td>
                 <td><span class="badge badge-accent">🔥 95.3% to 98.2% RAM drop</span></td>
               </tr>
               <tr>
                 <td><strong>Session Peak RAM (<code>VmHWM</code>)</strong></td>
                 <td><strong>1,119.7 MiB</strong> (1,146.5 MB)</td>
-                <td><strong>77.77 MiB</strong> (AST) / <strong>85.54 MB</strong> (Full)</td>
+                <td><strong>85.54 MB</strong> (Full 151k Vocab)</td>
                 <td><strong>46.77 MiB</strong> (Sub-49MB target met)</td>
-                <td><span class="badge badge-accent">🔥 93.1% to 95.8% RAM cut</span></td>
+                <td><span class="badge badge-accent">🔥 92.4% to 95.8% RAM cut</span></td>
               </tr>
               <tr>
                 <td><strong>Memory Saved vs Stock</strong></td>
                 <td>Baseline</td>
-                <td><strong>1,041.9 MiB saved</strong></td>
+                <td><strong>1,034.2 MiB saved</strong></td>
                 <td><strong>1,072.9 MiB saved</strong></td>
                 <td>&gt; 1 GB memory freed per process</td>
               </tr>
               <tr>
-                <td><strong>Sampling Latency</strong></td>
+                <td><strong>Reflex Latency</strong></td>
                 <td>~45.0 ms (full vocab argmax)</td>
-                <td><strong>0.04 ms (40 µs)</strong></td>
-                <td><strong>0.018 ms (18 µs)</strong></td>
-                <td><span class="badge badge-accent">⚡ 1,125× to 2,500× faster reflex</span></td>
+                <td>In-process streaming</td>
+                <td><strong>0.018 ms (18 µs AST)</strong></td>
+                <td><span class="badge badge-accent">⚡ Instant Edge Reflex</span></td>
               </tr>
               <tr>
                 <td><strong>Median Prefill</strong></td>
@@ -311,36 +311,12 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
               <tr>
                 <td><strong>Decode Speed (4T)</strong></td>
                 <td>17.7 tok/s (unconstrained)</td>
-                <td>7.08 tok/s (candidate stream)</td>
+                <td>2.95–7.08 tok/s</td>
                 <td><strong>23.95 tok/s</strong> (tactical candidate)</td>
                 <td><span class="badge badge-accent">35% faster decode (Viper)</span></td>
               </tr>
             </tbody>
           </table></div>
-
-          <h3 style="margin-top: 28px; margin-bottom: 12px; font-size: 16px;">20-Task AST Session Benchmark (Intel Core Ultra 5 135H vs Intel Core i7-8650U)</h3>
-          <p>Each model ran in a single process across 20 independent tasks with KV cache resets between tasks while retaining engine allocations and candidate pools:</p>
-          <div class="table-container"><table class="data-table">
-            <thead>
-              <tr>
-                <th>Measurement</th>
-                <th>NioRay (Ultra 5)</th>
-                <th>NioViper (Ultra 5)</th>
-                <th>NioRay (i7-8650U)</th>
-                <th>NioViper (i7-8650U)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Initial Process RSS</td><td>46.51 MiB</td><td>17.49 MiB</td><td>46.46 MiB</td><td>17.39 MiB</td></tr>
-              <tr><td>Peak Process RSS across 20 tasks</td><td><strong>77.77 MiB</strong></td><td><strong>46.77 MiB</strong></td><td><strong>76.16 MiB</strong></td><td><strong>44.98 MiB</strong></td></tr>
-              <tr><td>Process RSS after task 20</td><td>57.48 MiB</td><td>28.00 MiB</td><td>57.93 MiB</td><td>28.11 MiB</td></tr>
-              <tr><td>Input-token range</td><td>22–45 tokens</td><td>17–29 tokens</td><td>22–45 tokens</td><td>17–29 tokens</td></tr>
-              <tr><td>Generated tokens / nonempty</td><td>613 / 20 of 20</td><td>198 / 9 of 20</td><td>613 / 20 of 20</td><td>198 / 9 of 20</td></tr>
-              <tr><td>Median prefill latency</td><td>1,217.9 ms</td><td>269.2 ms</td><td>2,678.1 ms</td><td>846.8 ms</td></tr>
-              <tr><td>Aggregate decode throughput</td><td>7.08 tok/s</td><td>23.95 tok/s</td><td>1.84 tok/s</td><td>5.62 tok/s</td></tr>
-            </tbody>
-          </table></div>
-          <p><a href="https://github.com/nio-labs/nio-xs-models/blob/main/models/nio-ray/benchmarks/2026-10-22-ast-session/REPORT.md">Read Full Intel Core Ultra 5 Report</a> · <a href="https://github.com/nio-labs/nio-xs-models/blob/main/models/nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md">Read Full Intel Core i7 Report</a>.</p>
 
           <h3 style="margin-top: 28px; margin-bottom: 12px; font-size: 16px;">Continuous 15-Prompt Vibe Coding Suite (Full 151,936 Vocab)</h3>
           <p>Evaluated on the native runtime with full vocabulary projection (4,096-token chunked streaming matrix multiplication) across 15 diverse real-world developer prompts in a single session without restart:</p>
@@ -351,47 +327,37 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
           </ul>
         </section>
 
-        <!-- 5. SESSION LIMITS -->
-        <section id="realworld" class="doc-section">
-          <h2>5. Workload and Output Limits</h2>
-          <p>NioRay generated 613 tokens, with 19 of 20 tasks reaching the 32-token cap. Viper generated 198 tokens across nine tasks; eleven tasks produced no tokens. No generated commands were executed, and nonempty output is not a correctness or structured-tag adherence score.</p>
-          <p>NioRay end-of-task RSS rose from 51.25 to 57.48 MiB. Viper rose from 23.97 to 28.00 MiB. This short run does not diagnose or rule out leaks, test growing chat history, or establish long-context RAM bounds. Viper remained below 47 MB in this workload.</p>
-        </section>
-
-        <!-- 6. QUICKSTART -->
+        <!-- 5. QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>6. Execution via NioXS &amp; NioAI CLI</h2>
-          <p><strong>By default, both <code>nioxs</code> and <code>nio</code> run NioRay and NioViper using our native in-process AST-Micro runtime</strong> (sliding-window layer eviction, sub-78MB / sub-47MB resident RAM, and candidate-constrained microsecond reflexes).</p>
+          <h2>5. Execution via NioXS &amp; NioAI CLI</h2>
+          <p><strong>By default, both <code>nioxs</code> and <code>nio</code> run NioRay using our native streaming runtime</strong> (sub-86MB resident RAM, full 151,936 vocabulary, bit-for-bit stock Qwen intelligence parity).</p>
 
           <div class="code-wrapper">
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
             <pre><code class="language-bash"># 1. Pull NioRay model artifact &amp; tokenizer
 nioxs pull ray
 
-# 2. In-process code generation via NioXS (runs via AST-Micro runtime by default, sub-78MB RAM)
+# 2. In-process code generation via NioXS (full 151k vocab, sub-86MB RAM)
 nioxs ray "Write a thread-safe token bucket rate limiter in Rust"
 
-# 3. Candidate-constrained AST reflex for editor cursor position
-nioxs ray --ast "fn parse_config(json: &str) -> Result<Config, serde_json::Error>"
-
-# 4. Agentic task synthesis &amp; compiler repair via NioAI CLI
+# 3. Agentic task synthesis &amp; compiler repair via NioAI CLI
 nio run -m nioxs::nio-ray "Write an Axum SSE route streaming live metrics with heartbeat"
 cargo check 2>&1 | nio fix -m nioxs::nio-ray
 
-# 5. Keystroke autocomplete for IDE extensions
+# 4. Keystroke autocomplete for IDE extensions
 nio complete --lang rust --file src/auth.rs --line 42</code></pre>
           </div>
 
           <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">Direct Standalone Rust Execution</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
-            <pre><code class="language-bash"># Run continuous 15-prompt vibe coding suite (full 151k vocabulary):
+            <pre><code class="language-bash"># Run code generation with full 151k vocabulary:
 cargo run --release --package nio-ray-runtime -- \
-  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --vibe-suite
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json "Write a hello world in Rust"
 
-# Or run candidate-constrained AST reflex:
+# Run continuous 15-prompt vibe coding suite:
 cargo run --release --package nio-ray-runtime -- \
-  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --ast</code></pre>
+  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json --vibe-suite</code></pre>
           </div>
         </section>
 

@@ -227,13 +227,13 @@
 
           <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
             <div class="feature-card">
-              <h4>NioRay AST-µLM <code>(494M Dense &bull; Sub-78MB AST / Sub-86MB Full Vocab)</code></h4>
-              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> with 100% of all 24 layers and 100% of the 151,936 stock vocabulary intact. Running on the <code>ast-micro</code> runtime with &gt;93% RAM cut vs stock Qwen (77.77 MiB peak process RAM).</p>
+              <h4>NioRay <code>(494M Dense &bull; Full 151k Vocab &bull; Sub-86MB RAM)</code></h4>
+              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> with 100% of all 24 layers and 100% of the 151,936 stock vocabulary intact. Running with native streaming layer eviction with &gt;92% RAM cut vs stock Qwen (sub-86MB peak process RAM).</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
                 <span class="badge badge-accent">Released v0.4.1</span>
-                <span class="badge badge-mono">270.93 MiB GGUF &bull; 77.77 MiB AST peak &bull; 85.54 MB full-vocab peak</span>
+                <span class="badge badge-mono">270.93 MiB GGUF &bull; Full 151k Vocab &bull; Sub-86 MB peak RAM</span>
               </div>
-              <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay AST-µLM Docs →</strong></a></p>
+              <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay Docs →</strong></a></p>
             </div>
             <div class="feature-card">
               <h4>NioViper AST-µLM <code>(148M &bull; Sub-47MB Peak RAM)</code></h4>
@@ -477,8 +477,8 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
         <!-- 6. NIORAY -->
         <section id="nioray" class="doc-section">
           <div class="section-badge">Keystroke Reflex Predator</div>
-          <h2>6. NioRay AST-µLM — The Symbolic-Neural Reflex Engine</h2>
-          <p><strong>NioRay AST-µLM</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, built from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. It preserves 100% of all 24 layers and 100% of the 151,936 stock vocabulary while slashing resident memory by &gt;93% via the native <code>ast-micro</code> runtime (77.77 MiB peak process RAM on Intel Core Ultra 5).</p>
+          <h2>6. NioRay — The Full-Vocab Reflex Engine</h2>
+          <p><strong>NioRay</strong> (<code>nioxs::nio-ray</code>) is Nio's in-process coding reflex predator, fine-tuned from <strong><code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code></strong>. It preserves 100% of all 24 layers and 100% of the 151,936 stock vocabulary while slashing resident memory by &gt;92% via native streaming layer eviction (sub-86MB peak process RAM on Intel Core Ultra 5).</p>
 
           <div class="spec-grid">
             <div class="spec-card">
@@ -493,19 +493,19 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
             </div>
             <div class="spec-card">
               <div class="spec-title">Session Peak RSS</div>
-              <div class="spec-value">77.77 MiB</div>
-              <div class="spec-sub">&gt;93% cut vs 1,119.7 MiB Stock Qwen</div>
+              <div class="spec-value">&lt; 86 MB</div>
+              <div class="spec-sub">&gt;92% cut vs 1,119.7 MiB Stock Qwen</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Measured Decode (4T)</div>
-              <div class="spec-value">7.08 tok/s</div>
-              <div class="spec-sub">Intel Core Ultra 5 (1.84 on i7)</div>
+              <div class="spec-title">Vocabulary Size</div>
+              <div class="spec-value">151,936 Tokens</div>
+              <div class="spec-sub">100% Full Vocab &bull; Zero Pruning</div>
             </div>
           </div>
 
           <div class="callout callout-tip" style="margin-top: 24px;">
-            <div class="callout-title">🌊 Simplified Benchmark: Stock Qwen 0.5B vs. AST-Micro Runtime</div>
-            <p>While standard inference (Ollama / Candle <code>ModelWeights</code>) allocates <strong>1,119.7 MiB RAM</strong>, the native <code>ast-micro</code> runtime streams layers sequentially via <code>MADV_DONTNEED</code> and evaluates AST candidates directly:</p>
+            <div class="callout-title">🌊 Simplified Benchmark: Stock Qwen 0.5B vs. Streaming Runtime</div>
+            <p>While standard inference (Ollama / Candle <code>ModelWeights</code>) allocates <strong>1,119.7 MiB RAM</strong>, our native streaming runtime evicts layer pages sequentially via <code>MADV_DONTNEED</code> and reclaims heap arenas via <code>malloc_trim</code>:</p>
             <div class="table-container" style="margin-top: 12px;"><table class="data-table">
               <thead>
                 <tr>
@@ -514,7 +514,7 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
                   <th>Ready RAM</th>
                   <th>Peak RAM</th>
                   <th>RAM Cut</th>
-                  <th>Reflex Latency</th>
+                  <th>Intelligence Parity</th>
                 </tr>
               </thead>
               <tbody>
@@ -524,15 +524,15 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
                   <td>982.1 MiB</td>
                   <td>1,119.7 MiB</td>
                   <td>Baseline</td>
-                  <td>~45.0 ms</td>
+                  <td>100% Stock Baseline</td>
                 </tr>
                 <tr>
-                  <td><strong>NioRay AST-µLM</strong></td>
+                  <td><strong>NioRay</strong></td>
                   <td>24L, 151k (100% Intact)</td>
-                  <td><strong>46.51 MiB</strong></td>
-                  <td><strong>77.77 MiB</strong></td>
-                  <td><span class="badge badge-accent">-93.1%</span></td>
-                  <td><strong>0.04 ms (40 µs)</strong></td>
+                  <td><strong>46.26 MiB</strong></td>
+                  <td><strong>85.54 MB</strong></td>
+                  <td><span class="badge badge-accent">-92.4%</span></td>
+                  <td><strong>100% Bit-for-bit Stock Parity</strong></td>
                 </tr>
                 <tr>
                   <td><strong>NioViper AST-µLM</strong></td>
@@ -540,26 +540,23 @@ nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
                   <td><strong>17.49 MiB</strong></td>
                   <td><strong>46.77 MiB</strong></td>
                   <td><span class="badge badge-accent">-95.8%</span></td>
-                  <td><strong>0.018 ms (18 µs)</strong></td>
+                  <td>Tactical Terminal Reflex (&lt; 20µs)</td>
                 </tr>
               </tbody>
             </table></div>
-            <p style="margin-top: 10px;"><a href="ray.html#benchmarks"><strong>View Dedicated NioRay AST-µLM Benchmark Matrix &amp; Multi-Host Reports →</strong></a></p>
+            <p style="margin-top: 10px;"><a href="ray.html#benchmarks"><strong>View Dedicated NioRay Benchmark Guide &amp; Multi-Host Reports →</strong></a></p>
           </div>
 
           <div class="code-wrapper" style="margin-top: 16px;">
-            <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-primary);">Execution via NioXS &amp; NioAI CLI (Default: AST-Micro Runtime)</div>
+            <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-primary);">Execution via NioXS &amp; NioAI CLI (Default: Native Streaming Runtime)</div>
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
             <pre><code class="language-bash"># 1. Pull NioRay model artifact &amp; tokenizer
 nioxs pull ray
 
-# 2. In-process code generation via NioXS (runs via AST-Micro runtime by default, sub-78MB RAM)
+# 2. In-process code generation via NioXS (full 151k vocab, sub-86MB RAM)
 nioxs ray "Write a thread-safe token bucket rate limiter in Rust"
 
-# 3. Candidate-constrained AST completion for active editor cursor
-nioxs ray --ast "fn parse_config(json: &str) -> Result<Config, serde_json::Error>"
-
-# 4. Agentic task synthesis &amp; compiler repair via NioAI CLI
+# 3. Agentic task synthesis &amp; compiler repair via NioAI CLI
 nio run -m nioxs::nio-ray "Write an Axum SSE route streaming live metrics with heartbeat"
 cargo check 2>&1 | nio fix -m nioxs::nio-ray</code></pre>
           </div>

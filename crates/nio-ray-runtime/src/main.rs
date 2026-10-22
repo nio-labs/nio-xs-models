@@ -24,9 +24,8 @@ fn main() -> Result<()> {
     let tokenizer = Tokenizer::from_file(tokenizer_path).map_err(|e| anyhow!("{e}"))?;
     let mut engine = AstMicroEngine::new(model_path)?;
     let (rss_init, hwm_init) = memory_mb();
-    println!("Engine Initialized: VmRSS = {:.2} MB | VmHWM = {:.2} MB", rss_init, hwm_init);
+    println!("Engine Initialized (Full 151k Vocab): VmRSS = {:.2} MB | VmHWM = {:.2} MB", rss_init, hwm_init);
 
-    let is_ast = args.iter().any(|a| a == "--ast");
     let is_vibe_suite = args.iter().any(|a| a == "--vibe-suite" || a == "--vibe");
     
     let eos = tokenizer.token_to_id("<|im_end|>").unwrap_or(151645);
@@ -79,20 +78,7 @@ fn main() -> Result<()> {
         let prefill_ms = t_pref.elapsed().as_secs_f64() * 1000.0;
         let (_rss_pref, _hwm_pref) = memory_mb();
 
-        let candidate_pool = if is_ast {
-            let sample_text = "fn main() { let mut x = 42; return Ok(()); } \n \"' pub struct enum impl async await";
-            let enc = tokenizer.encode(sample_text, false).map_err(|e| anyhow!("{e}"))?;
-            let mut pool = enc.get_ids().to_vec();
-            pool.push(eos);
-            pool.push(eot);
-            pool.sort_unstable();
-            pool.dedup();
-            Some(pool)
-        } else {
-            None
-        };
-
-        let mut next = engine.next_token(&hidden, candidate_pool.as_deref())?;
+        let mut next = engine.next_token(&hidden, None)?;
         let mut generated = Vec::new();
         let mut decode_times = Vec::new();
 
@@ -111,7 +97,7 @@ fn main() -> Result<()> {
 
             let t_step = Instant::now();
             let step_hidden = engine.forward_stream(&[next], prompt_tokens.len() + step)?;
-            next = engine.next_token(&step_hidden, candidate_pool.as_deref())?;
+            next = engine.next_token(&step_hidden, None)?;
             decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
         }
         println!();
