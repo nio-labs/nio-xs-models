@@ -434,10 +434,14 @@ Evaluated locally on **Intel Core Ultra 5 135H @ 18 vCPUs** (Linux/WSL2, 4 Rayon
 | **Median Prefill** | 729.2 ms (15 tokens) | 1,217.9 ms (22–45 tokens) | **269.2 ms** (17–29 tokens) | **🚀 2.7× faster prefill (Viper)** |
 | **Decode Speed (4T)** | 17.7 tok/s (unconstrained) | 2.95–7.08 tok/s | **23.95 tok/s** (tactical candidate) | **35% faster decode (Viper)** |
 
-#### Continuous Zero-Leakage Generation
+#### Continuous Zero-Leakage Generation & Streaming Architecture
 
-* **Zero Memory Leakage:** In 15-prompt continuous full-vocab vibe coding, resident working RAM stayed locked at **69.6 MB** (< 0.33 MB variance) with peak VmHWM strictly capped at **85.54 MB**.
-* **Sliding-Window Layer Eviction:** Layers stream sequentially via `mmap`; physical frames are evicted via `madvise(..., MADV_DONTNEED)` and heap allocations are reclaimed via `malloc_trim(0)` at layer boundaries.
+* **Zero Memory Leakage:** In continuous full-vocab vibe coding, resident working RAM stays strictly capped at **< 86 MB** (with a hard ceiling < 100 MB across all turns).
+* **Overlapped Pipeline Prefetching:** As layer $N$ executes forward matrix multiplications, layer $N+1$ is asynchronously brought into cache via kernel-level `madvise(..., MADV_WILLNEED)`.
+* **Batch Eviction in Pairs:** Layers are evicted in pairs (`madvise(..., MADV_DONTNEED)`), cutting kernel syscall transitions in half while keeping resident footprint well below 100 MB.
+* **PhraseBuffer SSE Transmission:** Text generation is emitted via an intelligent `PhraseBuffer` grouping tokens into natural 4-word / 32-character clauses, flushing immediately on code blocks (```` ``` ````), newlines, tag boundaries, and sentence-ending punctuation (`. `, `! `, `? `).
+* **Fluid Typewriter Flow in NioAI:** The accompanying `nio` terminal companion renders stream chunks with adaptive character-level micro-pacing, eliminating block-popping for a silky smooth, continuous typing aesthetic.
+* **Speculative Prompt-Lookup Decoding & Prefix Cache:** Accelerates repetitive code blocks by re-using prefix KV caches and speculating n-gram matches directly from context.
 
 ### Execution via NioXS & NioAI CLI
 

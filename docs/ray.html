@@ -167,16 +167,30 @@
 
             <div class="feature-card">
               <div class="card-icon">📐</div>
-              <h4>3. Q4_0 Quantization</h4>
-              <p>The main matrices use <code>Q4_0</code> blocks of 32 values. The verified release artifact is <strong>270.93 MiB</strong>; norms and biases retain their stored precision. Native CPU compilation selects host-specific kernels.</p>
-              <span class="badge badge-accent">270.93 MiB GGUF &bull; Native CPU Build</span>
+              <h4>3. Q4_K_M &amp; Q4_0 Quantization</h4>
+              <p>Supports both <code>Q4_K_M</code> (balanced medium quantization, 373 MiB) and verified release <code>Q4_0</code> (270.93 MiB). Norms and biases retain full stored precision with host-native SIMD kernels.</p>
+              <span class="badge badge-accent">Q4_K_M / Q4_0 &bull; Native CPU SIMD</span>
             </div>
 
             <div class="feature-card">
               <div class="card-icon">🛡️</div>
               <h4>4. Standalone &amp; Air-Gapped</h4>
-              <p>Pure freestanding Rust binary using direct memory-mapped SIMD kernels. Zero external dependencies, no Python server, no <code>niodb</code>, no <code>niojs</code>, and zero cloud API keys.</p>
+              <p>Pure freestanding Rust binary using direct memory-mapped SIMD kernels. Zero external dependencies, no Python server, no external daemons, and zero cloud API keys.</p>
               <span class="badge badge-accent">Zero Daemons &bull; 100% In-Process</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">🌊</div>
+              <h4>5. Overlapped Prefetch &amp; Batch Eviction</h4>
+              <p>As layer $N$ computes forward passes, layer $N+1$ is asynchronously paged in via <code>MADV_WILLNEED</code>. Layers are evicted in pairs, cutting kernel syscalls in half while strictly staying under 100 MB RAM.</p>
+              <span class="badge badge-accent">Overlapped I/O &bull; &lt; 100 MB Hard Cap</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>6. PhraseBuffer &amp; Fluid Typewriter Flow</h4>
+              <p>Emits tokens via an adaptive 4-word / 32-character boundary-aware <code>PhraseBuffer</code>, paired with NioAI's client-side fluid character-level typewriter stream rendering.</p>
+              <span class="badge badge-accent">PhraseBuffer SSE &bull; Fluid Terminal Typing</span>
             </div>
           </div>
         </section>
