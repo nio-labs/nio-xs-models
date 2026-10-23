@@ -74,8 +74,8 @@
           <a href="#overview" class="nav-link">1. Architecture Overview</a>
           <a href="#pillars" class="nav-link">2. AST-µLM Core Pillars</a>
           <a href="#nioai" class="nav-link">3. Integration with NioAI</a>
-          <a href="#benchmarks" class="nav-link">4. i7 Session Results</a>
-          <a href="#realworld" class="nav-link">5. Workload and Output Limits</a>
+          <a href="#streaming" class="nav-link">4. Streaming &amp; Fluid Typewriter</a>
+          <a href="#benchmarks" class="nav-link">5. Stock Qwen Comparison</a>
           <a href="#quickstart" class="nav-link">6. Quickstart &amp; Execution</a>
         </div>
       </nav>
@@ -239,19 +239,55 @@
           <div class="code-wrapper">
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
             <pre><code class="language-bash"># Run autonomous inline task synthesis via NioAI
-nio run -m nioxs::nio-ray-ast "Write an Axum SSE route broadcasting Redis pub/sub streams"
+nio run -m nioxs::nio-ray "Write an Axum SSE route broadcasting Redis pub/sub streams"
 
 # Pipe failing compiler diagnostics directly to NioRay for instant repair
-cargo check 2&gt;&amp;1 | nio fix -m nioxs::nio-ray-ast
+cargo check 2&gt;&amp;1 | nio fix -m nioxs::nio-ray
 
 # Stream zero-token AST completions in your local IDE editor
 nio complete --lang rust --file src/auth.rs --line 42</code></pre>
           </div>
         </section>
 
-        <!-- 4. BENCHMARKS -->
+        <!-- 4. STREAMING ARCHITECTURE -->
+        <section id="streaming" class="doc-section">
+          <h2>4. Streaming Architecture &amp; Fluid Typewriter Flow</h2>
+          <p>NioRay pairs native in-process engine streaming with NioAI's decoupled typewriter terminal renderer to deliver an uninterrupted, zero-flicker typing flow:</p>
+
+          <div class="card-grid">
+            <div class="feature-card">
+              <div class="card-icon">🌊</div>
+              <h4>Overlapped Pipeline Prefetch</h4>
+              <p>As layer $N$ computes attention and MLP feed-forward operations, layer $N+1$ is asynchronously paged into CPU cache via kernel <code>MADV_WILLNEED</code>. Layers are evicted in pairs (<code>MADV_DONTNEED</code>) to cut syscalls in half while strictly staying under 100 MB resident RAM.</p>
+              <span class="badge badge-accent">Overlapped I/O &bull; &lt; 100 MB Ceiling</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h4>Adaptive PhraseBuffer (SSE)</h4>
+              <p>The engine buffers output tokens into cohesive 4-word / 32-character phrases, immediately flushing on code blocks (<code>```</code>), newlines, XML tags, and sentence terminators (<code>. </code>, <code>! </code>, <code>? </code>) to avoid choppy single-token network packet fragmentation.</p>
+              <span class="badge badge-accent">PhraseBuffer SSE &bull; 4 Words / 32 Chars</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">⌨️</div>
+              <h4>Decoupled Fluid Typewriter (NioAI)</h4>
+              <p>NioAI receives SSE chunks asynchronously into an unbounded queue, while an independent typewriter task continuously drains characters to the terminal at 9–13ms cadence. Network packet stalls are bridged seamlessly, producing a hypnotic typewriter effect.</p>
+              <span class="badge badge-accent">Decoupled Queue &bull; Zero Network Stalls</span>
+            </div>
+
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h4>Atomic ANSI Escape Handshake</h4>
+              <p>Color styling (<code>\x1b[38;5;...m</code>), bold, and frame borders are emitted as atomic units with 0ms delay, preventing terminal cursor flickering, line breaks, or escape leakage.</p>
+              <span class="badge badge-accent">Zero Flicker &bull; Clean Terminal Borders</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>4. Benchmarks &amp; Stock Qwen Comparison</h2>
+          <h2>5. Benchmarks &amp; Stock Qwen Comparison</h2>
           <p>NioRay preserves 100% of the Qwen2.5-Coder-0.5B architecture (24 layers, 151,936 vocabulary). Instead of static weight allocation, it executes via native sliding-window layer streaming. The table below benchmarks NioRay and NioViper head-to-head against stock Qwen inference on the exact same host system:</p>
 
           <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">Empirical Comparison: Stock Qwen 0.5B vs Native Streaming Runtime (Intel Core Ultra 5 135H)</h3>
@@ -341,9 +377,9 @@ nio complete --lang rust --file src/auth.rs --line 42</code></pre>
           </ul>
         </section>
 
-        <!-- 5. QUICKSTART -->
+        <!-- 6. QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>5. Execution via NioXS &amp; NioAI CLI</h2>
+          <h2>6. Execution via NioXS &amp; NioAI CLI</h2>
           <p><strong>By default, both <code>nioxs</code> and <code>nio</code> run NioRay using our native streaming runtime</strong> (sub-86MB resident RAM, full 151,936 vocabulary, bit-for-bit stock Qwen intelligence parity).</p>
 
           <div class="code-wrapper">
