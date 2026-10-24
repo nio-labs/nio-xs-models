@@ -1,629 +1,112 @@
 # Nio Models — Official MicroLM (µLM) Model Registry
 
-This repository serves as the official distribution hub for compiled, verified neural model binaries (`.gguf`, `.onnx`, embedded Rust tensors) and domain tokenizers used across the **Nio** and **NioXS** edge ecosystem in **GGUF**, **ONNX**, and **In-Process Rust** formats.
-
-> [!TIP]
-> **Extreme Memory Efficiency (>92% to >95% RAM Reduction):**  
-> Running AI models locally on edge devices shouldn't require gigabytes of RAM. Powered by Nio's in-process streaming layer eviction and chunked projection runtime, **NioRay** runs full 24-layer Stock Qwen code intelligence in strictly **< 86 MB peak RAM** (vs 1,120 MB for Stock Qwen — **92.4% reduction**), while **NioViper** executes tactical terminal reflexes in **< 47 MB peak RAM** (**95.8% reduction**).
+Official model registry and distribution hub for compiled, mathematically verified neural model binaries (`.gguf`, `.onnx`) and specialized domain tokenizers powering the **Nio** and **NioXS** edge developer ecosystem.
 
 ---
 
-## What is a MicroLM (µLM)? (Micro Learning Model)
+## ⚡ The MicroLM (µLM) Philosophy
 
-> [!NOTE]  
+> [!IMPORTANT]
 > **MicroLM (µLM) stands for Micro Learning Model — NOT Language Model.**
-
-Modern AI is often equated with monolithic, multi-billion parameter generative Large Language Models (LLMs) that attempt to do everything through unstructured conversational prose.
-
-The **MicroLM (µLM) methodology** represents a fundamental departure: instead of relying on slow, resource-heavy, and hallucination-prone generative models, Nio develops **compact, task-dedicated Micro Learning Models (µLMs)** engineered for specific operational disciplines.
+>
+> Modern developer tooling has been hijacked by multi-gigabyte monolithic LLMs that introduce keystroke lag, hallucinated parameters, and heavy memory bloat.
+>
+> The **MicroLM methodology** engineers ultra-compact, task-dedicated edge neural models designed for **sub-55MB resident memory**, **instant cold startup (< 1.5s)**, and **sub-25ms warm reflex latency** on ordinary CPUs.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                        THE MICRO LEARNING MODEL (MicroLM / µLM) PARADIGM               │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 
-        [ Generative Chatbot LLM ]                  [ Nio MicroLM (µLM) ]
-  Scope:       General-purpose conversational text   Task-dedicated neural intelligence
-  Peak RAM:    1,120 MB to several GBs               < 47 MB to 86 MB (>92% to 95% reduction)
-  Footprint:   7B to 400B+ parameters                Compact edge parameter budgets (0.5M–494M)
-  Execution:   Cloud data centers (GPU clusters)     Local edge execution (standard CPU / NPU)
-  Latency:     200ms – 3,000ms per turn              Sub-5ms in-process / real-time keystroke
-  Outputs:     Ambiguous conversational paragraphs   Deterministic structured payloads
-  Economics:   Per-token API fees & recurring bills  Zero API keys, zero cloud egress ($0.00)
-  Reliability: Hallucination & stochastic drift      Mathematically bounded, calibrated models
+        [ Generic Chatbot LLM ]                     [ Nio MicroLM (µLM) ]
+  Scope:       Broad conversational prose            Task-dedicated edge reflex intelligence
+  Peak RAM:    1,200 MB to several GBs               < 53.1 MB peak resident RAM (Linux VmHWM)
+  Disk Size:   500 MB – 8 GB+                        26.9 MB (Q4_0 quantized GGUF)
+  Execution:   Cloud GPU clusters or heavy runtimes  Local in-process CPU execution (SIMD / AVX2 / NEON)
+  Latency:     500ms – 3,000ms per turn              15ms – 35ms warm reflex
+  Reliability: Hallucinates flags & paths            Deterministic Swiss Gear slot grounding
+  Safety:      Blind command execution               Interactive Destructive Safety Clutch
 ```
-
-### The 4 Universal Principles of the MicroLM (µLM) Methodology
-
-1. **Task-Dedicated Neural Intelligence:**  
-   Rather than asking a general chatbot to guess answers through prompting, a Micro Learning Model (µLM) is trained with targeted domain loss functions (e.g. multi-task cross-entropy and regression loss) to produce exact, calibrated outputs without conversational fluff.
-
-2. **Purpose-Engineered Artifacts:**  
-   MicroLMs (µLMs) do not output chatty paragraphs that require regex parsing. They output exact, structured operational payloads:
-   - Discrete policy verdicts (`approve` / `reject` or `safe` / `unsafe`).
-   - Calibrated continuous confidence scores (`0.00` to `1.00`).
-   - Stance, polarity, and attention attribution tokens.
-
-3. **Edge-Native Economics & Zero Egress:**  
-   Every MicroLM (µLM) is compiled to standard ONNX to execute **in-process** via native Rust on ordinary user devices:
-   - Runs on standard laptop CPUs, edge servers, and mobile devices (Apple Silicon, Snapdragon, Raspberry Pi).
-   - Instant response times (sub-5ms) without network roundtrips.
-   - Complete privacy: code, diffs, and private data never leave `127.0.0.1`.
-
-4. **Exact Mathematical Budgeting & Sovereignty:**  
-   Every parameter in a MicroLM (µLM) must earn its place. Models are engineered to exact, bounded capacities (e.g. `NioMicro` has exactly 5,000,000 parameters per cluster) to guarantee low latency and predictable resident memory.
 
 ---
 
-## The Nio Engine Taxonomy & The Predator Fleet
+## 🐍 Active Production Model: NioViper 50M (v0.1.0)
 
-Nio coordinates a multi-tiered hierarchy of specialized edge models rather than routing all tasks to slow, resource-heavy generalist chatbots:
+**NioViper** is the 50-million parameter tactical terminal striker and DevOps reflex engine. Designed from scratch for edge developers, it converts natural language developer intent into precise, production-grade POSIX bash/sh and Windows PowerShell commands.
+
+### 📊 Verified Specifications
+
+| Metric | Measured Value | Standard / Hard Envelope | Status |
+|---|:---:|:---:|:---:|
+| **Parameter Count** | **50,000,000** | Strict 50M Budget | ✅ Verified |
+| **Model Weights (Q4_0 GGUF)** | **26.9 MB** | $< 35\text{ MB}$ | ✅ Verified |
+| **Peak Resident RAM (`VmHWM`)** | **53.1 MB** | $< 55\text{ MB}$ | ✅ Verified |
+| **Average Resident RAM (`VmRSS`)** | **51.8 MB** | $< 55\text{ MB}$ | ✅ Verified |
+| **Cold Startup + Inference** | **1.2s – 1.7s** | $< 2.5\text{ s}$ | ✅ Verified |
+| **Warm Forward Pass Latency** | **15ms – 35ms** | $< 50\text{ ms}$ | ✅ Verified |
+| **Vocabulary Size** | **14,744** | Dedicated BPE Tokenizer | ✅ Verified |
+| **Context Window** | **512 tokens** | SwiGLU + GQA (10/2) | ✅ Verified |
+
+---
+
+## 🛠️ Integrated Swiss Gear Capabilities
+
+NioViper operates with the native **NioXS Swiss Gear** runtime engine, providing capabilities that raw LLMs cannot match:
+
+1. **Deterministic Slot Grounding**:
+   - Automatically aligns quoted literal terms (e.g. `'TODO'`, `'BUG'`, `'secret'`) directly into search flags (`-e 'TODO'`, `-Pattern 'TODO'`).
+   - Grounding custom ports (e.g. `kill port 4000` $\rightarrow$ `lsof -ti:4000 | xargs kill -9`).
+2. **Safe Scope Fallback & Path Anchoring**:
+   - Automatically guards against unprompted system path scans (redirects unintended `/var/log` searches to `.`).
+3. **Code & Spider Search Hygiene**:
+   - Injects `-rIn` binary suppression so `.rmeta`, `.rlib`, and `.so` files never spam the terminal.
+   - Automatically excludes `.git`, `target/`, and `node_modules/` build trees.
+4. **Destructive Safety Clutch**:
+   - Interactively intercepts dangerous mutations (`rm -rf`, `kill -9`, `git reset --hard`, `Stop-Process`) before native execution.
+5. **Isolated Python Sandbox**:
+   - Dedicated environment at `~/.nioxs/plugins/venv` for data analysis and DevOps plugins.
+
+---
+
+## 📦 Model Artifacts & Downloads (v0.1.0)
+
+| Artifact | Format | Size | SHA-256 Checksum | Download Link |
+|---|:---:|:---:|---|:---:|
+| `nio-viper.Q4_0.gguf` | GGUF (Q4_0) | 26.9 MB | *(Verified on Release)* | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf) |
+| `nio-viper-tokenizer.json` | HuggingFace JSON | 923 KB | *(Verified on Release)* | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json) |
+
+### Automatic Installation via NioXS CLI
+
+```bash
+# Pull and verify NioViper weights automatically
+nioxs pull viper
+
+# Run an instant terminal reflex
+nioxs viper "list folder pls"
+
+# Execute natively with safety clutch
+nioxs viper -x "spider search .rs files for 'fn main'"
+```
+
+---
+
+## 🗺️ The Nio Fleet Roadmap
+
+While **NioViper 50M** leads the edge reflex frontier, the full-brain predator fleet is in active rollout:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              THE NIO ENGINE HIERARCHY                                  │
+│                              THE NIO FULL-BRAIN FLEET                                  │
 ├────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                        │
-│  [ TIER 1: THE PREDATOR FLEET & SWARM CONDUCTOR ]                                      │
-│    • NioCuda (~320M)             ──► Tactical Swarm Conductor & Orchestrator (<160MB)  │
-│    • NioRay (494M Dense)         ──► 100% Stock Qwen Full Vocab Reflex (Sub-86MB RAM)  │
-│    • NioViper AST-µLM (~148M)    ──► Tactical Terminal & AST Striker (Sub-47MB RAM)    │
-│                                                                                        │
-│  [ TIER 2: SYSTEM ASSIST & CONVERSATIONAL COMPANION ]                                  │
-│    • NioManta AST-µLM (~310M)    ──► Mobile & Conversational Companion (Sub-110MB RAM) │
-│    • NioNano (~0.5M)             ──► Zero-token Directives (--) & Sub-0.1ms Intent     │
-│                                                                                        │
-│  [ TIER 3: SECURITY & DECISION GATES ]                                                 │
-│    • NioMicro (5.0M / Cluster)   ──► Domain Policy Arbiter (sec, infra, base, fin)     │
-│    • NioMask (1.1M)              ──► Real-Time Stream Redactor & Secret Scrubber       │
-│                                                                                        │
-│  [ TIER 4: PREDICTIVE DEFECT & QUALITY ]                                               │
-│    • NioMini (7.1M)              ──► Pre-emptive Defect, AST & Regression Forecaster   │
-│                                                                                        │
+│  • NioViper  (50M)   ──► Tactical Terminal & DevOps Striker      [v0.1.0 ACTIVE]       │
+│  • NioRay    (1.54B) ──► Full-Brain Code Synthesizer & Architect [Roadmap Q4 2026]     │
+│  • NioApex   (3.2B)  ──► Swarm Reasoning Engine & Planner        [Roadmap Q1 2027]     │
+│  • NioHydra  (8.0B)  ──► Polyglot Speculative MoE Engine         [Roadmap Q2 2027]     │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Why "The Predator Fleet"?
-In nature, apex predators hunt with immediate sensory reflexes, acute focus, and minimum energy expenditure. In developer environments, our predators aggressively hunt down **keystroke latency, context bloat, cloud waiting times, and interactive lag**:
-* **`NioCuda` (The Swarm Conductor):** The central heart and tactical air-traffic controller. Ingests high-level developer tasks, constructs optimal multi-agent execution DAGs in under 10ms, and orchestrates the predator fleet and operational MicroLMs within **< 160 MB RAM**.
-* **`NioRay` (The Keystroke Predator):** 100% full-depth stock Qwen2.5-Coder intelligence (all 24 layers, full 151,936 vocabulary intact) running inside a **sub-86MB streaming memory envelope** on our native runtime (>92% RAM reduction vs stock Qwen's 1.12 GB).
-* **`NioViper` (The Tactical Striker):** Surgical 8-layer edge model with AST candidate reflex running continuously in strictly **< 47 MB peak resident RAM** (>95% RAM cut vs stock Qwen) and producing clean structured XML tags (`<viper_cmd>`, `<viper_alert>`).
-* **`NioManta` (The Conversational Glider):** 16-layer balanced companion preserving full 151,936 multilingual vocabulary, delivering rich conversational pair-programming and structured multi-step AST plans (`<manta_plan>`, `<step>`) in **< 110 MB peak RAM** (69.32 MB working set).
-
 ---
 
-## Available Production Models
+## 📄 License
 
-| Model | Ecosystem Tier & Role | Base Model Architecture | Parameters & Footprint | Specialization & Output Artifact | Status | Official Release |
-| :--- | :--- | :--- | :---: | :--- | :---: | :--- |
-| **`NioCuda`** | **Tier 1: Swarm Conductor** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (16L Sliced) | **~374.7M (< 160MB RAM)** | Tactical Swarm Conductor & Orchestrator (Sub-10ms DAG planning, `<cuda_plan>`, `<cuda_dag>`) | **Released** | [`v0.5.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.2) |
-| **`NioRay`**  | **Tier 1: Keystroke Predator** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (24L Dense) | **494.0M (Sub-86MB RAM)** | 100% Stock Qwen Full Vocab Streaming Engine (`nio-ray-ast.Q4_0.gguf`, 270.93 MiB) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
-| **`NioViper`**| **Tier 1: Tactical Striker** | `Qwen/Qwen2.5-Coder-0.5B-Instruct` (8L, 32k Pruned) | **148.0M (Sub-49MB RAM)** | Tactical Terminal Striker (46.77 MiB peak RAM; `<viper_cmd>`, `<viper_alert>`) | **Released** | [`v0.5.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0) |
-| **`NioManta`**| **Tier 2: Conversational Companion** | `Qwen/Qwen2.5-0.5B-Instruct` (16L Sliced, 151k Vocab) | **~374.7M (< 110MB RAM)** | Multilingual Pair-Programming & AST Structured Planner (`<manta_plan>`, `<step>`) | **Released** | [`v0.5.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.1) |
-| **`NioNano`** | Tier 2: Assist & Intent Reflex | Custom AST Embedding Matrix | **~0.5M (< 0.1MB RAM)** | Lexical AST triage, directive (`--`) shortcuts & intent routing | Active | In Nio core |
-| **`NioMicro`**| Tier 3: Policy Decision Engine | Custom 4-Cluster Policy MLP | **5.0M (~22MB RAM)** | Domain-clustered policy gate (`sec`, `infra`, `base`, `fin`) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`NioMask`** | Tier 3: Security & Privacy | Custom Byte-Level Conv-Transformer | **1.1M (~12MB RAM)** | Real-time byte-stream secret, API key & PII stream scrubber (< 0.2ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
-| **`NioMini`** | Tier 4: Predictive Quality | Custom AST Tree-BiLSTM | **7.1M (~32MB RAM)** | Pre-emptive defect forecaster, build break & regression prediction (< 5ms) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases) |
-
----
-
-## 1. NioNano — Command Triage & Intent Reflex (~0.5M)
-
-**NioNano** is the embedded, sub-0.1ms assist layer in the MicroLM (µLM) family. It acts as the very first line of defense inside developer terminals, IDE extensions, and CLI processes.
-
-### Key Specifications & Architecture
-* **Status:** **Active & Embedded in Nio Core** (`nio-xs/crates/nano/src/model.rs`)
-* **Parameters:** **~500,000 (0.5M domain feature weights)**
-* **Runtime:** Native In-Process Rust with **zero external dependencies**
-* **Latency:** **< 0.1ms (sub-100 microseconds)** on standard CPU
-* **Memory Footprint:** ~5 MB resident RAM
-* **Action Routing Classes:** Classifies raw developer intent into 7 deterministic caller actions:
-  1. `read_file` — Direct file inspection and path retrieval
-  2. `inspect_project` — Repository metadata, crate hierarchy, and workspace topology
-  3. `find_files` — File discovery, glob matching, and directory scans
-  4. `search_code` — Exact symbol search and regex pattern discovery
-  5. `run_checks` — Test suite execution, compiler linting, and formatting
-  6. `clarify` — Intent ambiguity requiring interactive developer clarification
-  7. `unsupported` — Out-of-bounds or invalid system requests
-
-### NioNano Directives (`--`) — Zero-Token Terminal Shortcuts
-
-When user input begins with a double hyphen (`--`), NioNano instantly bypasses all generative models in `< 0.05ms`, parsing deterministic control directives without consuming a single token:
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                      NIONANO DIRECTIVE ROUTER                          │
-└────────────────────────────────────────────────────────────────────────┘
-
-  Developer Input: "--bash cargo test"
-          │
-          ▼ (< 0.05ms)
-  [ NioNano Regex & Lexical Interceptor ]
-          ├─ Starts with "--bash:" / "--bash"   ──► Local Subprocess Execution
-          ├─ Starts with "--tools:" / "--tools"  ──► Python Tool Manager & Plugins
-          ├─ Starts with "--definitions"         ──► Sub-0.05ms Tree-sitter AST Lookup
-          ├─ Starts with "--code" / "--code!"   ──► Upstream LLM / Guarded Route
-          └─ Natural Language (no directive)    ──► Naive Bayes Intent Classifier
-```
-
-#### Directive Reference & Examples:
-
-1. **`--bash <command>` / `--bash: <command>`**  
-   Executes terminal shell commands directly within the active session without context loss or switching windows.
-   ```bash
-   # Check compiler diagnostics without leaving TUI
-   --bash cargo check --locked
-   
-   # Inspect uncommitted git diffs
-   --bash git diff --stat
-   ```
-
-2. **`--tools <task>` / `--tools: <task>`**  
-   Specialized Python plugin execution manager with user consent on first download.
-   ```bash
-   # Generate favicon from vector SVG
-   --tools generate favicon from logo.svg
-   
-   # Extract color palette from stylesheets
-   --tools extract color palette from docs/style.css
-   
-   # List installed plugins
-   --tools list
-   ```
-
-3. **`--definitions`, `--references`, `--callers`, `--implementations <symbol>`**  
-   Instant, sub-millisecond AST symbol navigation over the project's dependency index without firing an LLM.
-   ```bash
-   # Find everywhere 'RayEngine' is called
-   --callers RayEngine
-   
-   # Jump to definition of 'ActiveTurns'
-   --definitions ActiveTurns
-   
-   # Find all trait implementations for 'ModelWeights'
-   --implementations ModelWeights
-   ```
-
-4. **`--code <request>` & `--code guard <request>` (or `--code!`)**  
-   Explicit consultation with an upstream frontier LLM, bundling relevant context. When `guard` or `!` is specified, NioNano pre-validates all referenced symbols against project AST before allowing the prompt through.
-   ```bash
-   # Consult upstream LLM with project context bundled
-   --code add retry logic with exponential backoff to HTTP client
-   
-   # Guarded mode: verified against existing crate types
-   --code guard refactor router to use Axum 0.8 serve
-   ```
-
-5. **`--helm`, `--with-helm`, `--no-helm`**  
-   Toggles deep reasoning profile and chain-of-thought `<think>` traces on demand.
-
-### Execution via NioAI & NioXS CLI
-
-```bash
-# 1. Run shell directives in NioAI without spending generative tokens
-nio "--bash cargo test --lib --locked"
-
-# 2. Trigger workspace plugin tools
-nio "--tools generate-favicons src/assets/logo.svg"
-
-# 3. Sub-millisecond AST symbol lookup
-nio "--callers RayEngine"
-
-# 4. Symbol-guarded upstream agent request
-nio "--code guard refactor router to use Axum 0.8 serve"
-
-# 5. Natural language intent triage via NioXS (< 0.1ms)
-nioxs nano "where is NioMaskConfig defined in the repository?"
-# Output: {"action": "search_code", "symbol": "NioMaskConfig", "confidence": 0.992}
-```
-
----
-
-## 2. NioMicro — Domain-Clustered Decision Engine (5.0M / Cluster)
-
-**NioMicro** (`nioxs::nio-micro`) is the flagship decision engine of the Nio ecosystem. It serves as an autonomous, deterministic gatekeeper for pull requests, code changes, security audits, and infrastructure operations.
-
-> [!TIP]
-> Compiled ONNX model assets for NioMicro are available on GitHub Releases under [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases).
-
-### The Modular Domain Cluster Architecture
-
-Instead of forcing a single monolithic model to absorb all domains—which degrades edge performance and causes cross-domain confusion—**NioMicro is architected as a modular family of domain-specialized 5M ONNX engines**.
-
-Each cluster maintains an exact **5,000,000 parameter budget** and runs in-process in **< 5ms** on ordinary CPUs. The edge runtime dynamically mounts the appropriate cluster based on tool namespace, execution context, or explicit domain tags.
-
-```
-                              [ Developer Request / Tool Action ]
-                                              │
-                                   [ Contextual Domain Router ]
-                                              │
-        ┌───────────────────┬─────────────────┴─────────────────┬───────────────────┐
-        ▼                   ▼                                   ▼                   ▼
-  [ Base 5M ONNX ]    [ Sec 5M ONNX ]                    [ Infra 5M ONNX ]    [ Fin 5M ONNX ]
-  • Git / Code Diffs  • Vuln Audits (Semgrep, Trivy)     • Kubernetes / Helm  • Order Book Execution
-  • Refactor & Builds • Secret & Token Protection        • Terraform / S3/IAM • Margin & Risk Limits
-  • General Workflows • PKI, mTLS & Signing Keys         • Teardown Blocker   • Financial Clearing
-        │                   │                                   │                   │
-        └───────────────────┴─────────────────┬─────────────────┴───────────────────┘
-                                              ▼
-                             [ Calibrated Policy Verdict ]
-                              • approve / reject / review
-                              • Risk score (0.00 – 1.00)
-                              • Polarity / Sentiment
-```
-
-### Domain Cluster Matrix
-
-| Cluster | ONNX Binary | Target Domain & Workloads | Key Guards & Enforcement | Status |
-| :--- | :--- | :--- | :--- | :---: |
-| **`sec`** | `nio_micro_sec.onnx` | Security auditing tools (`semgrep`, `nuclei`, `trufflehog`), authentication, cryptographic policies, and credentials | Blocks Golden Ticket exploits, rootkits, private key & token exfiltration, shadow reads | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
-| **`infra`** | `nio_micro_infra.onnx` | Cloud & infrastructure orchestration (`kubectl`, `terraform`, `docker`, `helm`, AWS/GCP/Azure) | Blocks production scale-to-zero, S3 bucket force wipes, kubeconfig leaks, etcd resets | **Released ([`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
-| **`base`** | `nio_micro_base.onnx` | Core developer workflows, code modifications, Git operations, package manifests, and unit tests | Policy authorization checking, syntax validation, regression checks | **Released ([`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases))** |
-| **`fin`** | `nio_micro_fin.onnx` | Algorithmic trading desks, order gateways (FIX protocol), portfolio risk limits, clearing | Pre-trade risk thresholds, unauthorized shorting defense, tick database protection | In Training |
-| *+ Dozen More* | *Upcoming Clusters* | Specialized engines for Database Migrations, Network/Mesh Topology, OS Kernel/Admin, Web/DOM, Mobile | Domain-bounded policy enforcement per vertical | Roadmap |
-
-### Specifications (Per Cluster Engine)
-* **Architecture:** 4-Layer Bidirectional Transformer Encoder
-* **Hidden Dimension ($d_{\text{model}}$):** 224 (4 Attention Heads)
-* **Parameters:** **5,000,000 (Exact 5M trainable parameters per cluster)**
-* **Inference Latency:** **< 5ms** on standard CPU (zero GPU needed)
-* **Memory Footprint:** ~35 MB resident in RAM per loaded engine
-* **Multi-Task Heads:**
-  1. **Decision Head:** Contextual verdict (`approve` / `reject` / `needs_review`).
-  2. **Sentiment Head:** Polarity detection (`positive` / `negative`).
-  3. **Score Head:** Continuous calibrated score (`0.00` to `1.00`).
-
-### Checksum Verification
-
-```text
-# Certified Security 5M ONNX Engine (v0.3.0)
-File:   nio_micro_sec.onnx
-Size:   20,622,180 bytes (~19.67 MiB)
-SHA256: c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b
-
-# Certified Infrastructure 5M ONNX Engine (v0.3.0)
-File:   nio_micro_infra.onnx
-Size:   20,622,180 bytes (~19.67 MiB)
-SHA256: 9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294
-
-# Domain BPE Tokenizer (v0.3.0)
-File:   tokenizer.json
-Size:   55,598 bytes (~54.3 KiB)
-SHA256: 69a1815f9c17c3d41c135b7c2992a84f9c22d570fdddcf5b8511e8dbd8ef4779
-
-# Contextual Base 5M ONNX Engine (v0.2.0)
-File:   nio_micro.onnx (nio_micro_base.onnx)
-Size:   20,622,180 bytes (~19.67 MiB)
-SHA256: 1dbc448bcc37e54a8d56f77469226d2890ca702a83f97e96e3af6774826c7ab6
-
-# Legacy 3.5M Embedded Baseline (v0.1.0)
-File:   nio_micro.onnx
-Size:   14,588,852 bytes (~13.91 MiB)
-SHA256: 4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb
-```
-
-### Direct Download & Usage
-
-```bash
-# Download certified Sec 5M ONNX engine (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_sec.onnx"
-
-# Download certified Infra 5M ONNX engine (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_infra.onnx"
-
-# Download domain tokenizer (v0.3.0)
-curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/tokenizer.json"
-
-# Download Contextual Base 5M ONNX engine (v0.2.0)
-curl -LO "https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/nio_micro.onnx" -o nio_micro_base.onnx
-
-# Verify integrity
-sha256sum nio_micro_sec.onnx nio_micro_infra.onnx tokenizer.json
-```
-
-### Execution via NioXS & NioAI CLI
-
-```bash
-# 1. Pull model clusters
-nioxs pull nio-micro --cluster sec
-nioxs pull nio-micro --cluster infra
-
-# 2. Audit SQL queries & auth boundaries via NioXS Security Cluster
-nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"
-# Output: {"verdict": "REJECT", "risk_score": 0.984, "reason": "Unsanitized dynamic SQL string interpolation"}
-
-# 3. Intercept destructive infrastructure and cloud operations
-nioxs micro infra "kubectl delete namespace production --cascade=foreground"
-# Output: {"verdict": "REJECT", "risk_score": 0.991, "reason": "Direct recursive production namespace wipe"}
-
-# 4. Autonomous agent pre-execution validation in NioAI
-nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"
-# Output: {"verdict": "APPROVE", "risk_score": 0.042, "reason": "Safe scoped build cache eviction"}
-```
-
----
-
-## 3. NioMask — Real-Time Secret, Token & PII Stream Redactor (1.1M)
-
-**NioMask** (`nioxs::nio-mask`) is the real-time privacy and security redactor of the Nio ecosystem. Embedded directly into terminal stdout/stderr pipes, logging frameworks, and MCP gateway buffers, it sanitizes high-entropy secrets and sensitive PII on the fly in **< 0.2ms** per chunk before data is written to disk or transmitted over the wire.
-
-### Key Specifications & Architecture
-* **Parameters:** **Exactly 1,100,000 parameters** ($d_{\text{model}} = 128$, $d_{\text{ff}} = 1,500$, $d_{\text{mid}} = 118$, $d_{\text{risk}} = 120$)
-* **Model Size:** 4.43 MB single portable ONNX binary
-* **Architecture:** 2-Layer Byte-Level Conv-Transformer ($K=5$) + Stream Entropy Head
-* **Inference Latency:** **< 0.2ms** on edge CPU
-* **Target Classes:**
-  * `SECRET`: AWS keys (`AKIA...`), GitHub PATs (`ghp_...`), OpenAI keys (`sk-...`), Slack tokens (`xoxb-...`), Stripe keys (`sk_live_...`), Private RSA/SSH keys, passwords
-  * `PII`: Email addresses, IPv4/IPv6 addresses, basic authentication URIs
-  * `HASH` (Preserved): Git commit SHAs, UUIDs, docker digests (**zero false positives**)
-* **Source Repository:** [`nio-labs/nio-mask`](https://github.com/nio-labs/nio-mask)
-* **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) ([`nio_mask.onnx`](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx))
-
-### Execution via NioXS & NioAI CLI
-
-```bash
-# 1. Pull NioMask via Nio CLI
-nioxs pull nio-mask
-
-# 2. Real-time pipe scrubbing for environment files, credentials, and terminal logs
-cat .env | nioxs mask
-
-# 3. Git pre-commit security gate (blocks commit with non-zero exit code if secrets leak)
-git diff --cached | nioxs mask --fail-on-secrets
-
-# 4. Context & telemetry buffer scrubber in NioAI agent workflows
-nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"
-```
-
----
-
-## 4. NioMini — Pre-emptive Defect Forecaster (7.1M)
-
-**NioMini** (`nioxs::nio-mini`) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing `cargo test` or triggering CI builds.
-
-### Key Specifications & Architecture
-* **Parameters:** **Exactly 7,100,000 parameters** ($d_{\text{model}} = 256$, 6 layers, 8 heads, $d_{\text{ff}} = 1,024$, $d_{\text{break}} = 192$, $d_{\text{cat}} = 167$, $d_{\text{risk}} = 120$)
-* **Model Size:** 27.14 MB single portable ONNX binary
-* **Architecture:** 6-Layer Transformer Encoder with Graph AST Feature Projection
-* **Inference Latency:** **< 5ms** on edge CPU
-* **Multi-Head Output Payload:**
-  1. `will_break`: Calibrated binary probability (`0.0` to `1.0`) predicting compilation or test failure
-  2. `defect_category`: 5-Class logits (`CLEAN`, `SYNTAX_ERROR`, `TYPE_MISMATCH`, `BORROW_CHECK_FAIL`, `TEST_REGRESSION`)
-  3. `risk_score`: Continuous risk score (`0.0` to `1.0`)
-* **Sha256:** `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731`
-* **Official Release Asset:** [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0)
-
-### Execution via NioXS & NioAI CLI
-
-```bash
-# 1. Pull NioMini via Nio CLI
-nioxs pull nio-mini
-
-# 2. Sub-5ms Rust borrow-check & lifetime violation prediction before compiling
-nioxs mini "fn process(data: &mut Vec<u8>) { let r = &data; data.push(1); }"
-# Output: {"will_break": true, "break_probability": 0.984, "category": "BORROW_CHECK_FAIL", "risk_score": 0.92}
-
-# 3. Forecast test suite regressions on pending git diffs in NioAI
-nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"
-
-# 4. Zero-cost CI/CD pre-flight gate on pull request patches
-nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
-```
-
----
-
----
-
-## 5. NioRay — The Keystroke Predator (494M Dense)
-
-**NioRay** (`nioxs::nio-ray`) is Nio's in-process coding reflex predator, fine-tuned from `Qwen/Qwen2.5-Coder-0.5B-Instruct`. It preserves **100% of all 24 transformer layers** and **100% of the 151,936 stock vocabulary** without pruning, delivering identical stock Qwen predictions while slashing resident memory by **> 92%** via native streaming layer eviction (**< 86 MB peak RAM** on Intel Core Ultra 5).
-
-### Simplified Benchmark: Stock Qwen vs. Native Streaming Runtime
-
-Evaluated locally on **Intel Core Ultra 5 135H @ 18 vCPUs** (Linux/WSL2, 4 Rayon threads, release build with `target-cpu=native`):
-
-| Metric | Stock Qwen2.5-Coder-0.5B | NioRay (Full 24L, 151k) | NioViper AST-µLM (8L, 32k) | Runtime Advantage |
-| :--- | :---: | :---: | :---: | :---: |
-| **Model Disk Size** | 373.71 MiB (`Q4_K_M`) | **270.93 MiB** (`Q4_0`) | **96.31 MiB** (`Q4_0`) | **-27.5% (Ray) / -74.2% (Viper)** |
-| **Active Layers** | 24 Layers ($d=896$) | **24 Layers (100% full depth)** | **8 Layers (Stripped)** | Full depth / 3× fewer matmuls |
-| **Vocabulary Size** | 151,936 tokens | **151,936 tokens (100% intact)** | **32,000 tokens (Shell/Dev)** | Zero vocabulary loss / Zero drift |
-| **Ready RAM (`VmRSS`)** | 982.1 MiB (1,005.7 MB) | **46.26 MiB** | **17.49 MiB** | **🔥 95.3% to 98.2% RAM reduction** |
-| **Peak RAM (`VmHWM`)** | **1,119.7 MiB** (1,146.5 MB) | **85.54 MB** (Full 151k Vocab) | **46.77 MiB** (Sub-49MB target met) | **🔥 92.4% to 95.8% peak RAM cut** |
-| **Memory Saved** | Baseline | **1,034.2 MiB saved** | **1,072.9 MiB saved** | **> 1 GB RAM freed per process** |
-| **Reflex Latency** | ~45.0 ms (full vocab argmax) | In-process streaming | **0.018 ms (18 µs AST)** | Instant edge response |
-| **Median Prefill** | 729.2 ms (15 tokens) | 1,217.9 ms (22–45 tokens) | **269.2 ms** (17–29 tokens) | **🚀 2.7× faster prefill (Viper)** |
-| **Decode Speed (4T)** | 17.7 tok/s (unconstrained) | 2.95–7.08 tok/s | **23.95 tok/s** (tactical candidate) | **35% faster decode (Viper)** |
-
-#### Continuous Zero-Leakage Generation & Streaming Architecture
-
-* **Zero Memory Leakage:** In continuous full-vocab vibe coding, resident working RAM stays strictly capped at **< 86 MB** (with a hard ceiling < 100 MB across all turns).
-* **Overlapped Pipeline Prefetching:** As layer $N$ executes forward matrix multiplications, layer $N+1$ is asynchronously brought into cache via kernel-level `madvise(..., MADV_WILLNEED)`.
-* **Batch Eviction in Pairs:** Layers are evicted in pairs (`madvise(..., MADV_DONTNEED)`), cutting kernel syscall transitions in half while keeping resident footprint well below 100 MB.
-* **PhraseBuffer SSE Transmission:** Text generation is emitted via an intelligent `PhraseBuffer` grouping tokens into natural 4-word / 32-character clauses, flushing immediately on code blocks (```` ``` ````), newlines, tag boundaries, and sentence-ending punctuation (`. `, `! `, `? `).
-* **Fluid Typewriter Flow in NioAI:** The accompanying `nio` terminal companion renders stream chunks with adaptive character-level micro-pacing, eliminating block-popping for a silky smooth, continuous typing aesthetic.
-* **Speculative Prompt-Lookup Decoding & Prefix Cache:** Accelerates repetitive code blocks by re-using prefix KV caches and speculating n-gram matches directly from context.
-
-### Execution via NioXS & NioAI CLI
-
-> [!NOTE]
-> **Default Engine:** By default, both `nioxs` and `nio` run **NioRay** using our native streaming runtime. Evaluates the full 151,936 vocabulary with **sub-86MB peak RAM**, matching stock Qwen outputs bit-for-bit without external server daemons.
-
-```bash
-# 1. Pull NioRay model artifact & tokenizer
-nioxs pull ray
-
-# 2. In-process code generation via NioXS (full 151k vocab, sub-86MB RAM)
-nioxs ray "Write a thread-safe token bucket rate limiter in Rust"
-
-# 3. Agentic task synthesis & compiler repair via NioAI CLI
-nio run -m nioxs::nio-ray "Write an Axum SSE route streaming live metrics with heartbeat"
-cargo check 2>&1 | nio fix -m nioxs::nio-ray
-
-# 4. Multi-language code completion
-nio complete --lang rust --file src/auth.rs --line 42
-```
-
-### Standalone Rust Runtime Execution
-
-```bash
-# Direct execution via official nio-ray-runtime crate (full 151k vocabulary)
-cargo run --release --package nio-ray-runtime -- \
-  models/nio-ray-ast.Q4_0.gguf models/tokenizer.json "Write a hello world in Rust"
-```
-
----
-
-## 6. NioViper AST-µLM — Tactical Edge & Terminal Striker (~148M)
-
-**NioViper AST-µLM** (`nioxs::nio-viper`) is the ultra-compact tactical edge striker of the Nio predator fleet. Surgically stripped from Qwen2.5-Coder to **8 transformer layers** with a focused **32,000 Developer & Shell Lexicon**, NioViper operates continuously inside **< 47 MB of peak resident RAM** with **sub-20µs** candidate reflex speed.
-
-### Tactical Developer Workflows
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        NIOVIPER IN ACTION (< 47MB)                     │
-└────────────────────────────────────────────────────────────────────────┘
-
-  1. Instant Natural-Language to Shell Intent:
-     • Input:  "Kill whatever is holding port 3000"
-     • Target: <viper_cmd>lsof -ti:3000 | xargs kill -9</viper_cmd>
-
-  2. High-Compression Stack Trace Triage:
-     • Input:  500 lines of raw CI/CD build error or panic output
-     • Target: <viper_alert level="critical">Cargo build failed: expected `String`, found `Option<&HeaderValue>` (src/auth/session.rs:42)</viper_alert>
-
-  3. Sub-Millisecond Tool Calling & Schema Routing:
-     • Input:  "Roll back staging cluster to previous tag"
-     • Target: <viper_action op="rollback" env="staging" ref="HEAD~1" verify="true" />
-```
-
-### Execution via NioXS & NioAI CLI
-
-> [!NOTE]
-> **Default Engine:** By default, both `nioxs` and `nio` run **NioViper** using the in-process **AST-Micro runtime** (`nio-viper-runtime`), operating within **< 47 MB peak RAM** with strict XML structured formatting (`<viper_cmd>`, `<viper_alert>`).
-
-```bash
-# 1. Pull NioViper tactical model & tokenizer
-nioxs pull viper
-
-# 2. Natural language to shell command synthesis via NioXS
-nioxs viper "Kill whatever process is listening on port 3000"
-# Output: <viper_cmd>lsof -ti:3000 | xargs kill -9</viper_cmd>
-
-# 3. Instant compiler & CI error triage via NioXS
-nioxs viper --alert "error[E0382]: use of moved value: `buffer`"
-# Output: <viper_alert level="critical">Value moved into thread closure at line 18; clone or wrap in Arc</viper_alert>
-
-# 4. Terminal command execution & environment repair in NioAI agent sessions
-nio run -m nioxs::nio-viper "Prune unused docker volumes and dangling images safely"
-# Output: <viper_cmd>docker system prune --volumes -f</viper_cmd>
-
-# 5. Automated CI/CD failure pipeline repair
-cargo test 2>&1 | nio triage -m nioxs::nio-viper
-```
-
-### Standalone Rust Runtime Execution
-
-```bash
-# Direct execution via official nio-viper-runtime crate (< 47 MB RAM)
-cargo run --release --package nio-viper-runtime -- \
-  --model models/nio-viper-ast.Q4_0.gguf \
-  --tokenizer models/nio-viper-tokenizer.json \
-  --prompt "Kill whatever process is listening on port 3000" --ast
-```
-
----
-
-## 7. NioManta AST-µLM — Mobile & Conversational Companion (~310M)
-
-**NioManta AST-µLM** (`nioxs::nio-manta`) is the conversational companion and structured AST planner of the Nio ecosystem. Retaining **16 transformer layers** and the complete **151,936 multilingual vocabulary**, NioManta combines natural conversational fluency across English, Spanish, Chinese, Japanese, German, and French with deterministic multi-step AST plan generation (`<manta_plan>`, `<step>`), operating smoothly within **< 110 MB peak RAM** (69.32 MB working RAM on Intel Core Ultra 5).
-
-### Key Architectural Specifications
-* **Base Model Architecture:** `Qwen/Qwen2.5-0.5B-Instruct` (general multilingual foundation, depth-sliced to 16 transformer layers).
-* **Architecture:** 16 Layers, Hidden Dimension $d=896$, Full 151,936 Token Multilingual Vocabulary.
-* **Artifact:** `models/nio-manta-ast.Q4_0.gguf` (271.76 MiB, 32-byte block-aligned).
-* **Resident RAM:** **69.32 MB** working working set / **90.27 MB** peak RSS (< 110 MB budget).
-* **Speed:** 180+ tok/s prompt prefill, 3.55 tok/s decode on laptop CPU ($0.00, 100% offline).
-
-### Structured Plan Outputs
-```xml
-<manta_plan task="implement redis connection pooling in rust">
-  <step order="1" action="add_dependency" crate="deadpool-redis" version="0.14" />
-  <step order="2" action="create_module" path="src/pool.rs" />
-  <step order="3" action="implement_helper" symbol="create_redis_pool" />
-  <step order="4" action="verify" command="cargo check" />
-</manta_plan>
-```
-
-### Standalone Rust Runtime Execution
-```bash
-# Direct execution via official nio-manta-runtime crate (< 110 MB RAM)
-cargo run --release --package nio-manta-runtime -- \
-  --model models/nio-manta-ast.Q4_0.gguf \
-  --tokenizer models/nio-manta-tokenizer.json \
-  --prompt "Plan how to implement redis connection pooling in src/db.rs" --ast
-```
-
----
-
-## 8. NioCuda — Tactical Swarm Conductor & Orchestrator (< 160MB)
-
-**NioCuda** (`nioxs::nio-cuda`) is the flagship swarm conductor and tactical air-traffic controller of the Nio fleet. Ingesting high-level developer intents, NioCuda constructs optimal multi-agent execution DAGs in under 10ms and delegates tasks to the predator fleet (`NioRay`, `NioViper`, `NioManta`, `NioMicro`, `NioMask`, `NioMini`) within **< 160 MB resident RAM**.
-
-* **Role:** Central Heart & Default Conductor of `nioxs` and `nio`.
-* **Base Model Architecture:** `Qwen/Qwen2.5-Coder-0.5B-Instruct` (code intelligence & function-calling foundation, depth-sliced to 16 transformer layers).
-* **Planning Latency:** **< 10ms** local DAG construction.
-* **Grammar Enforcement:** 100% Calibrated XML `<cuda_plan>` and `<cuda_dag>` bounded tags.
-* **Architecture:** 16-layer Qwen2.5-Coder sliced transformer ($d=896$, 32-byte SIMD block-aligned).
-* **Native Runtime:** In-process streaming Rust runtime in [`crates/nio-cuda-runtime`](crates/nio-cuda-runtime).
-
-### Release Assets (v0.5.2)
-
-| File | Size | Format | SHA-256 Checksum |
-| :--- | :---: | :---: | :--- |
-| **`nio-cuda-ast.Q4_0.gguf`** | **271.76 MiB** | GGUF (`Q4_0`) | `09566c2f463dfae5475b2747c4338cf3a9b887f8382a21052766d1f97803c58c` |
-| **`nio-cuda-tokenizer.json`** | **10.89 MiB** | JSON (BPE) | `3fb3240da20c0754d6aa77f959f9f7d4cbdff79cb07f50121898036c54d40454` |
-
-### Quickstart
-
-```bash
-cargo run --release -p nio-cuda-runtime -- \
-  --model models/nio-cuda/nio-cuda-ast.Q4_0.gguf \
-  --tokenizer models/nio-cuda/nio-cuda-tokenizer.json \
-  --prompt "Upgrade password hashing from bcrypt to Argon2id in authentication service"
-```
-
----
-
-## Repository Architecture
-
-This repository is the unified monorepo housing the source code, model definitions, and high-performance native Rust runtimes for the Nio MicroLM (µLM) family:
-
-* **`crates/`**: Native Rust runtimes for in-process streaming and CLI integration
-  * [`crates/nio-cuda-runtime`](crates/nio-cuda-runtime): Tactical swarm conductor runtime (16L, 151k vocab, 32-byte SIMD aligned); < 160 MB RAM
-  * [`crates/nio-ray-runtime`](crates/nio-ray-runtime): Streaming reflex runtime (24L, 151k vocab); 76.16 MiB measured peak on i7-8650U
-  * [`crates/nio-viper-runtime`](crates/nio-viper-runtime): Tactical runtime (8L, 32k vocab); 44.98 MiB measured peak on i7-8650U
-  * [`crates/nio-manta-runtime`](crates/nio-manta-runtime): Conversational & AST companion runtime (16L, 151k vocab); 69.32 MiB working set (< 110 MB RAM)
-  * [`crates/nio-nano-runtime`](crates/nio-nano-runtime): Sub-0.1ms command intent reflex & AST triage model
-  * [`crates/nio-mask-runtime`](crates/nio-mask-runtime): Sub-0.2ms byte-stream secret, API key & PII redactor
-  * [`crates/nio-micro-runtime`](crates/nio-micro-runtime): In-process contextual policy arbiter (sec, infra, base)
-  * [`crates/nio-mini-runtime`](crates/nio-mini-runtime): Sub-5ms pre-emptive defect & compile break forecaster
-* **`models/`**: PyTorch neural network architectures, training scripts, and export pipelines
-  * `models/nio-cuda`: Conductor dataset generation, Colab training, and quantization scripts
-  * `models/nio-mask`: Byte-level Conv-Transformer definition, pattern guards & export
-  * `models/nio-micro`: Multi-cluster policy decision architectures & evaluation
-  * `models/nio-mini`: AST defect prediction model pipeline
-  * `models/nio-nano`: Reference intent reflex model architecture
-* **`docs/`**: Official documentation portal & interactive model registry
-
----
-
-## License
-
-This repository is licensed under the [Business Source License 1.1](LICENSE) (BSL 1.1).
-
-* **Non-Production & Internal Production Use**: Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.
-* **Commercial Protection Clause**: You may not offer the Licensed Work to third parties as a competing hosted, managed, or cloud service without a commercial license from Nio Labs.
-* **Automatic Open Source Transition**: On **October 20, 2030** (four years from publication), this code automatically converts to the **Apache License, Version 2.0**.
-
-For commercial licensing inquiries or enterprise deployments, contact `dev@n-o.me`.
+All model weights and tokenizer configurations in this registry are distributed under the **Apache 2.0 / MIT Dual License**.

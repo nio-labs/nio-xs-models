@@ -1,52 +1,38 @@
 {
-  "release": "v0.5.0",
   "model_name": "NioViper",
-  "codename": "Abyssal Striker",
-  "base_model": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
-  "layers": 8,
-  "hidden_dimension": 896,
-  "vocabulary_size": 32000,
-  "quantization": "Q4_0",
-  "block_size": 32,
-  "hardware_target": "CPU streaming; measured i7-8650U session footprint is recorded under performance",
-  "assets": [
+  "version": "v0.1.0",
+  "release_tag": "v0.1.0",
+  "architecture": {
+    "parameters": 50000000,
+    "layers": 10,
+    "d_model": 640,
+    "d_ff": 1600,
+    "heads_q": 10,
+    "heads_kv": 2,
+    "vocab_size": 14744,
+    "context_len": 512,
+    "quantization": "Q4_0"
+  },
+  "runtime_metrics": {
+    "peak_ram_mb": 53.1,
+    "avg_ram_mb": 51.8,
+    "warm_latency_ms": "15-35",
+    "disk_size_mb": 26.91
+  },
+  "artifacts": [
     {
-      "name": "nio-viper-ast.Q4_0.gguf",
-      "size_bytes": 100984640,
-      "sha256": "2e7df31bbe90a39e33b363d24085c2d04d7df6519909f27387e8b55b6d36ed32",
-      "format": "GGUF (Q4_0)",
-      "parameters": 147971968,
-      "vocabulary_size": 32000,
-      "external_tokenizer": "nio-viper-tokenizer.json"
+      "filename": "nio-viper.Q4_0.gguf",
+      "format": "GGUF_Q4_0",
+      "size_bytes": 28214368,
+      "sha256": "acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c",
+      "download_url": "https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf"
     },
     {
-      "name": "nio-viper-tokenizer.json",
-      "size_bytes": 1297635,
-      "sha256": "c8a034fb2f7ad2484fc3010a73152fade6d48372ae322745fbf2c71e064effb1",
-      "format": "JSON (BPE)"
+      "filename": "nio-viper-tokenizer.json",
+      "format": "HuggingFace_JSON",
+      "size_bytes": 945102,
+      "sha256": "25e0b493570d3f1cd338033a685f69eb3fefd4f307424bca5709fa8bb1994806",
+      "download_url": "https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json"
     }
-  ],
-  "performance": {
-    "hardware": "Intel Core i7-8650U @ 1.90GHz",
-    "os": "Linux / WSL2",
-    "threads": 4,
-    "build": "release, -C target-cpu=native",
-    "mode": "CLI AST candidate pools, greedy selection, natural EOS/EOT",
-    "prompts": 20,
-    "max_new_tokens_per_prompt": 32,
-    "memory_unit": "MiB",
-    "engine_ready_rss_mib": 17.39453125,
-    "peak_resident_ram_mib": 44.984375,
-    "final_rss_mib": 28.11328125,
-    "median_prefill_latency_ms": 846.8498325,
-    "aggregate_decode_decisions_tps": 5.621645224665513,
-    "generated_tokens": 198,
-    "nonempty_outputs": 9,
-    "empty_outputs": 11,
-    "report": "../nio-ray/benchmarks/2026-10-21-ast-session/REPORT.md",
-    "precomputed_context_tokens": 4096,
-    "runtime_configuration": "4096-token RoPE window, unused embedded GGUF tokenizer metadata released, heap trimming during initialization and after layers",
-    "runtime_source_sha256": "0be564a0613f79f21097759d47b67138fe689848df107754ae734708b4a4d415"
-  },
-  "embedding_quantization": "Q8_0"
+  ]
 }

@@ -35,7 +35,7 @@
     <a href="#overview" class="brand-title">
       <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
       <span class="brand-name">Nio Models</span>
-      <span class="badge">v0.3.0</span>
+      <span class="badge">v0.1.0</span>
     </a>
     <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
       <span class="theme-icon">
@@ -61,26 +61,24 @@
           <div class="nav-section-title">Introduction</div>
           <a href="#overview" class="nav-link active">1. Overview</a>
           <a href="#microlm" class="nav-link">2. The MicroLM Paradigm</a>
-          <a href="#engines-overview" class="nav-link">3. Engine Overview &amp; Predator Fleet</a>
+          <a href="#fleet" class="nav-link">3. The Nio Predator Fleet</a>
           <a href="#matrix" class="nav-link">4. Production Matrix</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">MicroLM Engines</div>
-          <a href="#niocuda" class="nav-link">NioCuda (&lt;160M)</a>
-          <a href="ray.html" class="nav-link">NioRay (AST-µLM)</a>
-          <a href="#nioviper" class="nav-link">NioViper (Tactical)</a>
-          <a href="#niomanta" class="nav-link">NioManta (Companion)</a>
-          <a href="nano.html" class="nav-link">NioNano (~0.5M)</a>
-          <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
-          <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
-          <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
+          <div class="nav-section-title">Active Production Model</div>
+          <a href="#nioviper" class="nav-link">NioViper 50M (v0.1.0 GA)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Fleet Roadmap</div>
+          <a href="#fleet" class="nav-link">NioRay (1.54B Full-Brain)</a>
+          <a href="#fleet" class="nav-link">NioApex (3.2B Swarm)</a>
+          <a href="#fleet" class="nav-link">NioHydra (8.0B MoE)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Distribution &amp; Code</div>
-          <a href="#releases" class="nav-link">10. Releases &amp; Hashes</a>
-          <a href="#quickstart" class="nav-link">11. CLI Quickstart</a>
-          <a href="#rust-runtime" class="nav-link">12. Rust Runtime</a>
-          <a href="#python-runtime" class="nav-link">13. Python Runtime</a>
+          <a href="#releases" class="nav-link">Releases &amp; Hashes</a>
+          <a href="#quickstart" class="nav-link">CLI Quickstart</a>
+          <a href="#swissgear" class="nav-link">Swiss Gear Architecture</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Ecosystem</div>
@@ -235,91 +233,37 @@
 
           <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
             <div class="feature-card">
-              <h4>NioRay <code>(494M Dense &bull; Full 151k Vocab &bull; Sub-86MB RAM)</code></h4>
-              <p><strong>The Keystroke Predator (Active).</strong> Built upon <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> with 100% of all 24 layers and 100% of the 151,936 stock vocabulary intact. Running with native streaming layer eviction with &gt;92% RAM cut vs stock Qwen (sub-86MB peak process RAM).</p>
+              <h4>NioViper <code>(50M &bull; Sub-52MB Resident RAM &bull; Swiss Gear)</code></h4>
+              <p><strong>The Tactical Terminal Striker (Active Production v0.1.0 GA).</strong> Engineered with 10 layers, GQA (10/2), and a dedicated 14,744 vocabulary. Runs on CPU with 51.8 MB resident RAM and 15–35ms warm reflex latency. Integrates Destructive Safety Clutch, spider search hygiene, and Python plugin sandbox.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="badge badge-accent">Released v0.4.1</span>
-                <span class="badge badge-mono">270.93 MiB GGUF &bull; Full 151k Vocab &bull; Sub-86 MB peak RAM</span>
+                <span class="badge badge-accent">Released v0.1.0 GA</span>
+                <span class="badge badge-mono">26.9 MB Q4_0 GGUF &bull; 53.1 MB peak RAM</span>
               </div>
-              <p style="margin-top: 10px;"><a href="ray.html"><strong>Read Dedicated NioRay Docs →</strong></a></p>
+              <p style="margin-top: 10px;"><a href="#nioviper"><strong>Explore NioViper Architecture &amp; Commands →</strong></a></p>
             </div>
             <div class="feature-card">
-              <h4>NioViper AST-µLM <code>(148M &bull; Sub-47MB Peak RAM)</code></h4>
-              <p><strong>The Tactical Striker (Active).</strong> High-speed terminal command synthesis and compiler diagnostic resolution with 8 layers and 32k vocabulary on the <code>ast-micro</code> runtime. Produces clean structured tags (<code>&lt;viper_cmd&gt;</code>, <code>&lt;viper_alert&gt;</code>) with 46.77 MiB peak process RAM (&gt;95% RAM cut vs stock Qwen).</p>
+              <h4>NioRay <code>(1.54B Dense &bull; Full-Brain Synthesizer)</code></h4>
+              <p><strong>Full-Brain Code Synthesizer (Roadmap Q4 2026).</strong> In-process layer streaming and deep multi-file codebase reasoning within a sub-800MB resident memory envelope for local developer IDEs.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="badge badge-accent">Released v0.5.0</span>
-                <span class="badge badge-mono">96.31 MiB GGUF &bull; 46.77 MiB peak (Sub-49MB Verified)</span>
+                <span class="badge">Roadmap Q4 2026</span>
+                <span class="badge badge-mono">1.54B Parameters &bull; Sub-800MB RAM</span>
               </div>
-              <p style="margin-top: 10px;"><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0"><strong>View Release v0.5.0 →</strong></a></p>
             </div>
-          </div>
-
-          <!-- TIER 2: SENSORY & ASSIST LAYER -->
-          <div style="margin: 36px 0 16px 0;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-              <span class="badge">Tier 2: System Assist &amp; Sensory Layer</span>
-              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Intent Routing &amp; Directives</span>
-            </div>
-            <p>The sensory nervous system that intercepts developer commands before generative tokens or network roundtrips are wasted:</p>
-          </div>
-
-          <div class="card-grid">
             <div class="feature-card">
-              <h4>NioNano <code>(~0.5M)</code></h4>
-              <p><strong>Intent Reflex &amp; Directive Router.</strong> In-process Rust feature engine operating in <strong>&lt; 0.1ms (sub-100 microseconds)</strong>. Intercepts zero-token directives (<code>--bash</code>, <code>--tools</code>, <code>--code</code>, <code>--callers</code>) and routes developer prompts into deterministic operational actions.</p>
-              <div style="margin-top: 10px;">
-                <span class="badge badge-accent">Active in Core Rust</span>
+              <h4>NioApex <code>(3.2B &bull; Swarm Reasoning Engine)</code></h4>
+              <p><strong>Autonomous Swarm Conductor (Roadmap Q1 2027).</strong> High-velocity DAG planning, multi-agent regression resolution, and cross-repository surgery.</p>
+              <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="badge">Roadmap Q1 2027</span>
+                <span class="badge badge-mono">3.2B Parameters &bull; Multi-Agent DAG</span>
               </div>
-              <p style="margin-top: 10px;"><a href="nano.html"><strong>Read Dedicated NioNano Docs →</strong></a></p>
             </div>
-          </div>
-
-          <!-- TIER 3: SECURITY & DECISION GATES -->
-          <div style="margin: 36px 0 16px 0;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-              <span class="badge">Tier 3: Security &amp; Policy Decision Gates</span>
-              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Autonomous Policy Arbiters &amp; Scrubbers</span>
-            </div>
-            <p>Mathematical gatekeepers that guarantee data sovereignty, block destructive actions, and verify code diffs with zero human fatigue:</p>
-          </div>
-
-          <div class="card-grid">
             <div class="feature-card">
-              <h4>NioMicro <code>(5.0M / Cluster)</code></h4>
-              <p><strong>Domain-Clustered Policy Arbiter.</strong> 4-layer bidirectional Transformer running in <strong>&lt; 5ms</strong>. Partitioned into independent 5M clusters (<code>sec</code>, <code>infra</code>, <code>base</code>, <code>fin</code>) to approve/reject terminal commands and output continuous risk calibrations.</p>
-              <div style="margin-top: 10px;">
-                <span class="badge badge-accent">Released v0.3.0</span>
+              <h4>NioHydra <code>(8.0B &bull; Polyglot MoE Engine)</code></h4>
+              <p><strong>Sparse Mixture-of-Experts Engine (Roadmap Q2 2027).</strong> 8x1B speculative fast-decoding across polyglot compiler ecosystems (Rust, TypeScript, Go, Python).</p>
+              <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="badge">Roadmap Q2 2027</span>
+                <span class="badge badge-mono">8x1B MoE &bull; Speculative Fast-Decode</span>
               </div>
-              <p style="margin-top: 10px;"><a href="micro.html"><strong>Read Dedicated NioMicro Docs →</strong></a></p>
-            </div>
-
-            <div class="feature-card">
-              <h4>NioMask <code>(1.1M)</code></h4>
-              <p><strong>Real-Time Byte-Stream Redactor.</strong> Character-level and BPE byte-stream neural scrubber operating in <strong>&lt; 0.2ms</strong>. Redacts API tokens, SSH keys, passwords, and private IP addresses directly in memory before terminal display, disk logging, or upstream transmission.</p>
-              <div style="margin-top: 10px;">
-                <span class="badge badge-accent">Released v0.3.0</span>
-              </div>
-              <p style="margin-top: 10px;"><a href="mask.html"><strong>Read Dedicated NioMask Docs →</strong></a></p>
-            </div>
-          </div>
-
-          <!-- TIER 4: PREDICTIVE DEFECT & QUALITY -->
-          <div style="margin: 36px 0 16px 0;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-              <span class="badge">Tier 4: Predictive Defect &amp; Quality Layer</span>
-              <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">Pre-emptive Error Forecasting</span>
-            </div>
-            <p>Proactive neural radar evaluating code diffs before compilation or test suites execute:</p>
-          </div>
-
-          <div class="card-grid">
-            <div class="feature-card">
-              <h4>NioMini <code>(7.1M)</code></h4>
-              <p><strong>Pre-emptive Defect Forecaster.</strong> Bidirectional AST encoder operating in <strong>&lt; 5ms</strong>. Evaluates proposed diffs to predict whether changes will trigger compiler errors, lifetime violations, or test suite regressions before slow build cycles start.</p>
-              <div style="margin-top: 10px;">
-                <span class="badge badge-accent">Released v0.3.0</span>
-              </div>
-              <p style="margin-top: 10px;"><a href="mini.html"><strong>Read Dedicated NioMini Docs →</strong></a></p>
             </div>
           </div>
         </section>
@@ -343,68 +287,36 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><a href="#niocuda"><strong>NioCuda</strong></a></td>
-                  <td>Swarm Conductor</td>
-                  <td><code>~374.7M (16L, 151k Vocab)</code></td>
-                  <td>Tactical Swarm Conductor (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> sliced to 16L, &lt; 160MB RAM, &lt; 10ms DAG planning)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.2">v0.5.2</a></td>
-                </tr>
-                <tr>
-                  <td><a href="ray.html"><strong>NioRay</strong></a></td>
-                  <td>Keystroke Predator</td>
-                  <td><code>494M (24L, 151k Vocab)</code></td>
-                  <td>Symbolic-Neural AST-µLM Reflex Engine (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> 24L Dense, 77.77 MiB peak RAM)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1">v0.4.1</a></td>
-                </tr>
-                <tr>
                   <td><a href="#nioviper"><strong>NioViper</strong></a></td>
-                  <td>Tactical Striker</td>
-                  <td><code>148.0M (8L, 32k Vocab)</code></td>
-                  <td>Sub-49MB Tactical Terminal Striker (Base: <code>Qwen/Qwen2.5-Coder-0.5B-Instruct</code> 8L sliced, 46.77 MiB peak RAM)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.0">v0.5.0</a></td>
+                  <td>Tactical Terminal Striker</td>
+                  <td><code>50.0M (10L, 14.7k Vocab)</code></td>
+                  <td>Tactical Terminal &amp; DevOps Reflex Engine (Sub-52MB Resident RAM, 26.9 MB Q4_0 GGUF, Swiss Gear Runner)</td>
+                  <td><span class="badge badge-accent">Released GA</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><a href="#niomanta"><strong>NioManta</strong></a></td>
-                  <td>Conversational Companion</td>
-                  <td><code>~374.7M (16L, 151k Vocab)</code></td>
-                  <td>Multilingual Pair-Programming Companion (Base: <code>Qwen/Qwen2.5-0.5B-Instruct</code> 16L sliced, 69.32 MB working RAM)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.5.1">v0.5.1</a></td>
+                  <td><strong>NioRay</strong></td>
+                  <td>Full-Brain Synthesizer</td>
+                  <td><code>1.54B (Dense Codebase)</code></td>
+                  <td>Deep Architecture &amp; AST Codebase Synthesis (In-Process Layer Streaming, Sub-800MB RAM)</td>
+                  <td><span class="badge">Roadmap Q4 2026</span></td>
+                  <td>—</td>
                 </tr>
                 <tr>
-                  <td><a href="nano.html"><strong>NioNano</strong></a></td>
-                  <td>Intent Reflex</td>
-                  <td><code>~0.5M</code></td>
-                  <td>Sub-0.1ms command intent routing, AST triage, lexical risk heuristics &amp; directives (--)</td>
-                  <td><span class="badge badge-accent">Active in Core</span></td>
-                  <td>Native in NioXS</td>
+                  <td><strong>NioApex</strong></td>
+                  <td>Swarm Reasoning Engine</td>
+                  <td><code>3.2B (Swarm Planner)</code></td>
+                  <td>Multi-Agent DAG Conductor, Autonomous Bug Regression &amp; Git Surgery Planner</td>
+                  <td><span class="badge">Roadmap Q1 2027</span></td>
+                  <td>—</td>
                 </tr>
                 <tr>
-                  <td><a href="micro.html"><strong>NioMicro</strong></a></td>
-                  <td>Decision Engine</td>
-                  <td><code>5.0M / cluster</code></td>
-                  <td>Multi-head policy arbiter: contextual verdicts (approve/reject), sentiment, continuous risk</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><a href="mask.html"><strong>NioMask</strong></a></td>
-                  <td>Security &amp; Privacy</td>
-                  <td><code>1.1M</code></td>
-                  <td>Real-time byte stream secret, API key &amp; PII redactor (&lt; 0.2ms)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><a href="mini.html"><strong>NioMini</strong></a></td>
-                  <td>Predictive Engine</td>
-                  <td><code>7.1M</code></td>
-                  <td>Pre-emptive defect forecaster: build break, regression &amp; syntax prediction (&lt; 5ms)</td>
-                  <td><span class="badge badge-accent">Released</span></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
+                  <td><strong>NioHydra</strong></td>
+                  <td>Polyglot Speculative Engine</td>
+                  <td><code>8.0B (MoE 8x1B)</code></td>
+                  <td>Sparse Mixture-of-Experts Speculative Fast-Decoding for Polyglot Workspaces</td>
+                  <td><span class="badge">Roadmap Q2 2027</span></td>
+                  <td>—</td>
                 </tr>
               </tbody>
             </table>
@@ -588,53 +500,55 @@ cargo check 2>&1 | nio fix -m nioxs::nio-ray</code></pre>
 
         <!-- 6b. NIOVIPER -->
         <section id="nioviper" class="doc-section">
-          <div class="section-badge">Tactical Terminal Striker</div>
-          <h2>6b. NioViper AST-µLM — Tactical Terminal &amp; Diagnostic Striker</h2>
-          <p><strong>NioViper AST-µLM</strong> (<code>nioxs::nio-viper</code>) is Nio's sub-49MB tactical striker designed for immediate CLI error recovery, terminal command synthesis, and compiler diagnostic triage. Stripped to 8 layers with a 32,000 vocabulary, it operates in strict XML tags (<code>&lt;viper_cmd&gt;</code>, <code>&lt;viper_alert&gt;</code>) with <strong>46.77 MiB peak process RAM</strong> on Intel Core Ultra 5 (&gt;95% RAM cut vs stock Qwen).</p>
+          <div class="section-badge">Tactical Terminal Striker &bull; v0.1.0 GA</div>
+          <h2>NioViper 50M — The Tactical Terminal &amp; DevOps Reflex Engine</h2>
+          <p><strong>NioViper</strong> is Nio's sub-52MB tactical reflex engine engineered from scratch for high-velocity developer workflows. Operating on an exact 50,000,000 parameter budget with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with <strong>51.8 MB average / 53.1 MB peak resident RAM</strong> and <strong>15ms – 35ms</strong> warm inference.</p>
 
           <div class="spec-grid">
             <div class="spec-card">
               <div class="spec-title">Parameters &amp; Depth</div>
-              <div class="spec-value">148.0M</div>
-              <div class="spec-sub">8 Layers ($d=896$, 32k Vocab)</div>
+              <div class="spec-value">50.0M</div>
+              <div class="spec-sub">10 Layers ($d=640$, GQA 10/2, 14.7k Vocab)</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Artifact Size</div>
-              <div class="spec-value">96.31 MiB</div>
-              <div class="spec-sub">Clean 32-Block Q4_0 GGUF</div>
+              <div class="spec-value">26.9 MB</div>
+              <div class="spec-sub">Quantized Q4_0 GGUF</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Session Peak RSS</div>
-              <div class="spec-value">46.77 MiB</div>
-              <div class="spec-sub">Sub-49MB Target Met (44.98 on i7)</div>
+              <div class="spec-value">53.1 MB</div>
+              <div class="spec-sub">Linux Kernel VmHWM (&lt; 55MB Envelope)</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Decode Speed (4T)</div>
-              <div class="spec-value">23.95 tok/s</div>
-              <div class="spec-sub">Intel Core Ultra 5 (5.62 on i7)</div>
+              <div class="spec-title">Warm Inference Latency</div>
+              <div class="spec-value">15 – 35 ms</div>
+              <div class="spec-sub">Standard CPU In-Process SIMD</div>
             </div>
           </div>
 
           <div class="code-wrapper" style="margin-top: 16px;">
-            <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-primary);">Execution via NioXS &amp; NioAI CLI (Default: AST-Micro Runtime)</div>
+            <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-primary);">Execution via NioXS CLI &amp; Swiss Gear Engine</div>
             <button class="copy-btn" type="button" aria-label="Copy code to clipboard">Copy</button>
-            <pre><code class="language-bash"># 1. Pull NioViper tactical model &amp; tokenizer
+            <pre><code class="language-bash"># 1. Pull verified NioViper weights
 nioxs pull viper
 
-# 2. Natural language to shell command synthesis via NioXS (default AST-Micro runtime, &lt; 47MB RAM)
-nioxs viper "Kill whatever process is listening on port 3000"
-# Output: &lt;viper_cmd&gt;lsof -ti:3000 | xargs kill -9&lt;/viper_cmd&gt;
+# 2. Synthesize terminal reflex instantly (&lt; 52MB RAM)
+nioxs viper "list folder pls"
+# Output: ls -la
 
-# 3. Instant compiler &amp; CI error triage via NioXS
-nioxs viper --alert "error[E0382]: use of moved value: buffer"
-# Output: &lt;viper_alert level="critical"&gt;Value moved into thread closure at line 18; clone or wrap in Arc&lt;/viper_alert&gt;
+# 3. Native execution (-x) with Destructive Safety Clutch
+nioxs viper -x "kill whatever process is holding port 3000"
+# Output: lsof -ti:3000 | xargs kill -9
+# Prompt: ⚡ Destructive command detected. Execute? [Y/n]
 
-# 4. Terminal command execution &amp; environment repair in NioAI agent sessions
-nio run -m nioxs::nio-viper "Prune unused docker volumes and dangling images safely"
-# Output: &lt;viper_cmd&gt;docker system prune --volumes -f&lt;/viper_cmd&gt;
+# 4. Spider filesystem search with binary noise suppression &amp; slot grounding
+nioxs viper -x "spider search .rs files for 'fn main'"
+# Output: grep -rIn 'fn main' --exclude-dir={target,.git,node_modules} --include="*.rs" .
 
-# 5. Automated CI/CD failure pipeline repair
-cargo test 2&gt;&amp;1 | nio triage -m nioxs::nio-viper</code></pre>
+# 5. Isolated Python Plugin Sandbox
+nioxs viper plugin install duckdb
+nioxs viper plugin list</code></pre>
           </div>
         </section>
 
@@ -956,60 +870,20 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
               </thead>
               <tbody>
                 <tr>
-                  <td><code>nio-ray-ast.Q4_0.gguf</code></td>
-                  <td>NioRay AST-µLM (100% 151k Vocab)</td>
-                  <td>270.93 MiB</td>
-                  <td><code>f070cd657e929ee2d45a7d8a46c71ef0fdec6b8ae1100de57735808deae4477f</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/nio-ray-ast.Q4_0.gguf">Download v0.4.1</a></td>
+                  <td><code>nio-viper.Q4_0.gguf</code></td>
+                  <td>NioViper 50M (Quantized Tactical Reflex)</td>
+                  <td>26.9 MB</td>
+                  <td><code>(Verified upon Release)</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>tokenizer.json</code></td>
-                  <td>NioRay AST-µLM Drop-in Tokenizer</td>
-                  <td>6.70 MiB</td>
-                  <td><code>c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.1/tokenizer.json">Download v0.4.1</a></td>
+                  <td><code>nio-viper-tokenizer.json</code></td>
+                  <td>NioViper 14,744 Vocab Dedicated BPE Tokenizer</td>
+                  <td>923 KB</td>
+                  <td><code>(Verified upon Release)</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json">Download v0.1.0</a></td>
                 </tr>
-                <tr>
-                  <td><code>nio_micro_sec.onnx</code></td>
-                  <td>NioMicro 5M (Security Cluster)</td>
-                  <td>19.66 MiB</td>
-                  <td><code>c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_sec.onnx">Download v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><code>nio_micro_infra.onnx</code></td>
-                  <td>NioMicro 5M (Infra Cluster)</td>
-                  <td>19.66 MiB</td>
-                  <td><code>9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_infra.onnx">Download v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><code>nio_micro_base.onnx</code></td>
-                  <td>NioMicro 5M (Base Cluster)</td>
-                  <td>19.66 MiB</td>
-                  <td><code>1dbc448bcc37e54a8d56f77469226d2890ca702a83f97e96e3af6774826c7ab6</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_micro_base.onnx">Download v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><code>nio_mask.onnx</code></td>
-                  <td>NioMask 1.1M (Stream Redactor)</td>
-                  <td>4.43 MiB</td>
-                  <td><code>a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio_mask.onnx">Download v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><code>nio-mini.onnx</code></td>
-                  <td>NioMini 7.1M (Defect Forecaster)</td>
-                  <td>27.14 MiB</td>
-                  <td><code>c5408116f987416bdfd07db3bf7e13c335cad5106ef44dc8f23cbaf6b0b8ffad</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/nio-mini.onnx">Download v0.3.0</a></td>
-                </tr>
-                <tr>
-                  <td><code>tokenizer.json</code></td>
-                  <td>Domain BPE Tokenizer</td>
-                  <td>54.29 KiB</td>
-                  <td><code>69a1815f9c17c3d41c135b7c2992a84f9c22d570fdddcf5b8511e8dbd8ef4779</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/tokenizer.json">Download v0.3.0</a></td>
+              </tbody>
                 </tr>
               </tbody>
             </table>
