@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Nio Models — Official Model Registry for NioViper, NioNano, NioMicro, and NioMini Micro Learning Models (MicroLM / µLM) in GGUF, ONNX, and In-Process Rust formats.">
+  <meta name="description" content="Nio Models — Official Model Registry for NioViper, NioNano, NioMicro, NioMask, and NioMini Micro Learning Models (MicroLM / µLM) in GGUF, ONNX, and In-Process Rust formats.">
   <meta name="theme-color" content="#f6f8fa">
   <title>Nio Models — Official MicroLM (µLM) Model Registry</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -69,6 +69,7 @@
           <a href="#nioviper" class="nav-link">NioViper (50M Reflex)</a>
           <a href="nano.html" class="nav-link">NioNano (~0.5M Intent)</a>
           <a href="micro.html" class="nav-link">NioMicro (5.0M Policy)</a>
+          <a href="mask.html" class="nav-link">NioMask (1.1M Redactor)</a>
           <a href="mini.html" class="nav-link">NioMini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
@@ -259,6 +260,15 @@
               <p style="margin-top: 10px;"><a href="micro.html"><strong>Read Dedicated NioMicro Docs →</strong></a></p>
             </div>
             <div class="feature-card">
+              <h4>NioMask <code>(1.1M &bull; Stream Security &amp; Redaction)</code></h4>
+              <p><strong>Real-Time Secret &amp; PII Filter.</strong> 2-layer Byte-Level Convolutional Transformer operating in sub-0.2ms. Embedded directly into terminal stdout pipes, logging buffers, and MCP gateways to sanitize API keys with zero false positives on commit SHAs.</p>
+              <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="badge badge-accent">Released v0.1.0</span>
+                <span class="badge badge-mono">4.43 MB ONNX &bull; &lt; 0.2ms Latency</span>
+              </div>
+              <p style="margin-top: 10px;"><a href="mask.html"><strong>Read Dedicated NioMask Docs →</strong></a></p>
+            </div>
+            <div class="feature-card">
               <h4>NioMini <code>(7.1M &bull; Pre-emptive Defect Forecaster)</code></h4>
               <p><strong>Predictive Code Radar.</strong> Bidirectional AST encoder operating in &lt; 5ms. Evaluates proposed diffs to predict whether changes will trigger compiler errors, lifetime violations, or test regressions before slow build cycles start.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
@@ -309,6 +319,14 @@
                   <td>Contextual Policy Arbiter</td>
                   <td><code>5.0M / Cluster</code></td>
                   <td>Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><a href="mask.html"><strong>NioMask</strong></a></td>
+                  <td>Stream Security &amp; Privacy</td>
+                  <td><code>1.1M Byte-Conv</code></td>
+                  <td>Real-time secret, API key &amp; PII stream redactor for terminal pipes &amp; MCP gateway (<code>nio_mask.onnx</code>, 4.43 MB)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
@@ -530,10 +548,84 @@ nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"<
           </div>
         </section>
 
-        <!-- 8. NIOMINI -->
+                <!-- 8. NIOMASK -->
+        <section id="niomask" class="doc-section">
+          <div class="section-badge">Stream Security &amp; Privacy</div>
+          <h2>8. NioMask — Real-Time Secret &amp; PII Stream Redactor (1.1M)</h2>
+          <p><strong>NioMask</strong> (<code>nioxs::nio-mask</code>) is the real-time privacy filter of the Nio ecosystem. Embedded directly into terminal stdout/stderr pipes, logging frameworks, and MCP gateway buffers, it sanitizes high-entropy secrets and sensitive PII in <strong>&lt; 0.2ms</strong> per chunk before data is written to disk or transmitted over the network.</p>
+          <p>Source implementation and runtime engine: <a href="https://github.com/nio-labs/nio-mask" target="_blank" rel="noreferrer"><strong>github.com/nio-labs/nio-mask</strong></a>.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameter Count</div>
+              <div class="spec-value">1,100,000</div>
+              <div class="spec-sub">2-Layer Byte-Level Conv-Transformer</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Latency</div>
+              <div class="spec-value">&lt; 0.2ms</div>
+              <div class="spec-sub">Per 1KB stream chunk</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Binary Size</div>
+              <div class="spec-value">4.43 MB</div>
+              <div class="spec-sub">Single self-contained portable ONNX</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Evaluation Metrics</div>
+              <div class="spec-value">99.95%</div>
+              <div class="spec-sub">Zero false positives on git hashes</div>
+            </div>
+          </div>
+
+          <h3>Target Classes &amp; Disambiguation</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Target Signatures</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>API Secrets &amp; Keys</strong></td>
+                  <td>AWS (<code>AKIA...</code>), GitHub (<code>ghp_...</code>, <code>github_pat_...</code>), OpenAI (<code>sk-...</code>, <code>sk-proj-...</code>), Slack (<code>xoxb-...</code>), Stripe (<code>sk_live_...</code>), Private RSA/SSH Keys, JWT Bearer tokens</td>
+                  <td><span class="badge badge-accent">Redacted</span> <code>[REDACTED_SECRET]</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Sensitive PII</strong></td>
+                  <td>Email addresses, IPv4/IPv6 addresses, basic authentication URIs (<code>https://user:pass@host</code>), passwords</td>
+                  <td><span class="badge badge-accent">Redacted</span> <code>[REDACTED_PII]</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Benign High-Entropy</strong></td>
+                  <td>Git commit SHAs (<code>4b825dc...</code>), UUIDs (<code>6a545c21...</code>), Docker image digests (<code>sha256:e3b...</code>), base64 assets</td>
+                  <td><span class="badge">Preserved</span> <strong>Zero False Positives</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip" style="margin-top: 18px;">
+            <div class="callout-title">CLI Stream Redaction Examples (NioXS &amp; NioAI)</div>
+            <pre><code class="language-bash"># 1. Real-time pipe scrubbing for environment files and terminal logs
+cat .env | nioxs mask
+
+# 2. Git pre-commit security gate (blocks commit if unredacted secrets found)
+git diff --cached | nioxs mask --fail-on-secrets
+
+# 3. Automatic context sanitization in NioAI agent workflows &amp; MCP gateway
+nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"</code></pre>
+            <p><a href="mask.html"><strong>Read the Dedicated NioMask Page with Full Pipe Examples →</strong></a></p>
+          </div>
+        </section>
+
+        <!-- 9. NIOMINI -->
         <section id="niomini" class="doc-section">
           <div class="section-badge">Predictive Engine &amp; Defect Forecaster</div>
-          <h2>8. NioMini — Pre-emptive Defect Forecaster (7.1M)</h2>
+          <h2>9. NioMini — Pre-emptive Defect Forecaster (7.1M)</h2>
           <p><strong>NioMini</strong> (<code>nioxs::nio-mini</code>) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing <code>cargo test</code> or triggering CI builds.</p>
 
           <h3>Architecture &amp; Mathematical Budget</h3>
@@ -592,9 +684,9 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
           </div>
         </section>
 
-        <!-- 9. RELEASES & HASHES -->
+        <!-- 10. RELEASES & HASHES -->
         <section id="releases" class="doc-section">
-          <h2>9. Certified Releases &amp; Integrity Checksums</h2>
+          <h2>10. Certified Releases &amp; Integrity Checksums</h2>
           <p>Every compiled ONNX binary and tokenizer distributed through this registry is cryptographically verified with SHA-256 checksums.</p>
 
           <div class="table-wrapper">
@@ -659,6 +751,13 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json">Download v0.1.0</a></td>
                 </tr>
                 <tr>
+                  <td><code>nio_mask.onnx</code></td>
+                  <td>NioMask 1.1M (Real-Time Secret &amp; PII Redactor)</td>
+                  <td>4.43 MB</td>
+                  <td><code>a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_mask.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
                   <td><code>nio-mini.onnx</code></td>
                   <td>NioMini 7.1M (Pre-emptive Defect Forecaster)</td>
                   <td>27.14 MB</td>
@@ -680,16 +779,17 @@ curl -LO "${RELEASE_URL}/nano.json"
 curl -LO "${RELEASE_URL}/nio_micro_base.onnx"
 curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
 curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
+curl -LO "${RELEASE_URL}/nio_mask.onnx"
 curl -LO "${RELEASE_URL}/nio-mini.onnx"
 
 # Verify cryptographic SHA-256 signatures
-sha256sum nio-viper.Q4_0.gguf nio-viper-tokenizer.json nano.json nio_micro_*.onnx nio-mini.onnx</code></pre>
+sha256sum nio-viper.Q4_0.gguf nio-viper-tokenizer.json nano.json nio_micro_*.onnx nio_mask.onnx nio-mini.onnx</code></pre>
           </div>
         </section>
 
-        <!-- 10. CLI QUICKSTART -->
+        <!-- 11. CLI QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>10. Quickstart with NioXS &amp; Nio CLI</h2>
+          <h2>11. Quickstart with NioXS &amp; Nio CLI</h2>
           <p>The Nio ecosystem provides two coordinated CLI binaries: <strong><code>nioxs</code></strong> (native edge tensor runtime) and <strong><code>nio</code></strong> (agent workspace orchestrator). Models are automatically downloaded, verified, and cached in <code>~/.nioxs/models</code>:</p>
 
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
@@ -761,10 +861,24 @@ nioxs micro infra "kubectl delete namespace production --cascade=foreground"</co
 }</code></pre>
           </div>
 
-          <!-- 4. NioMini -->
+          <!-- 4. NioMask -->
           <div class="feature-card" style="margin-bottom: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <h4>🔮 4. NioMini (7.1M) — Pre-Emptive Defect Forecaster</h4>
+              <h4>🔒 4. NioMask (1.1M) — Real-Time Stream Redactor</h4>
+              <span class="badge badge-accent">&lt; 0.2ms/KB &bull; Byte Conv-Transformer</span>
+            </div>
+            <p>Scrub API keys, credentials, and PII from stdout/stderr pipes, terminal streams, and MCP payloads:</p>
+            <pre><code class="language-bash"># Scrub terminal logs &amp; environment streams in real-time
+cat .env | nioxs mask
+
+# Git pre-commit security hook (aborts commit if unredacted secrets found)
+git diff --cached | nioxs mask --fail-on-secrets</code></pre>
+          </div>
+
+          <!-- 5. NioMini -->
+          <div class="feature-card" style="margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h4>🔮 5. NioMini (7.1M) — Pre-Emptive Defect Forecaster</h4>
               <span class="badge badge-accent">&lt; 4.8ms &bull; Graph AST Transformer</span>
             </div>
             <p>Predict compilation breaks, borrow-checker errors, and test regressions before running heavy build tools:</p>
@@ -782,9 +896,9 @@ nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/li
           </div>
         </section>
 
-        <!-- 11. RUST RUNTIME -->
+        <!-- 12. RUST RUNTIME -->
         <section id="rust-runtime" class="doc-section">
-          <h2>11. Native Rust In-Process Integration</h2>
+          <h2>12. Native Rust In-Process Integration</h2>
           <p>Load and execute models with sub-5ms latency using the native Rust <code>ort</code> (ONNX Runtime) crate:</p>
 
           <div class="code-wrapper">
@@ -808,9 +922,9 @@ fn main() -&gt; anyhow::Result&lt;()&gt; {
           </div>
         </section>
 
-        <!-- 12. PYTHON RUNTIME -->
+        <!-- 13. PYTHON RUNTIME -->
         <section id="python-runtime" class="doc-section">
-          <h2>12. Python ONNX Runtime Integration</h2>
+          <h2>13. Python ONNX Runtime Integration</h2>
           <p>Execute models in Python environments with <code>onnxruntime</code>:</p>
 
           <div class="code-wrapper">
@@ -839,9 +953,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 13. BENCHMARKS -->
+        <!-- 14. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>13. Edge Latency Benchmarks</h2>
+          <h2>14. Edge Latency Benchmarks</h2>
           <p>The figures below detail edge latency and memory footprints across the Nio MicroLM production suite evaluated on commodity CPU hardware with zero GPU acceleration.</p>
 
           <div class="table-wrapper">
@@ -864,6 +978,14 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
                   <td>0.07 ms</td>
                   <td>0.11 ms</td>
                   <td>~5 MB</td>
+                </tr>
+                <tr>
+                  <td><strong>NioMask</strong></td>
+                  <td>1.1M</td>
+                  <td><strong>0.18 ms (180 µs)</strong></td>
+                  <td>0.16 ms</td>
+                  <td>0.24 ms</td>
+                  <td>~6 MB</td>
                 </tr>
                 <tr>
                   <td><strong>NioViper</strong></td>
@@ -910,9 +1032,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 14. FAQ -->
+        <!-- 15. FAQ -->
         <section id="faq" class="doc-section">
-          <h2>14. Frequently Asked Questions</h2>
+          <h2>15. Frequently Asked Questions</h2>
 
           <div class="faq-item">
             <h4 class="faq-question">What is a MicroLM (µLM) and how does it differ from a Large Language Model (LLM)?</h4>
@@ -951,6 +1073,13 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
 
           <div class="faq-item">
+            <h4 class="faq-question">How does NioMask scrub secrets at &lt; 0.2ms without false positives on Git commit hashes?</h4>
+            <div class="faq-answer">
+              <p>NioMask combines a 2-layer Byte-Level Convolutional Transformer ($K=5$) with a Shannon entropy scanner. Crucially, the training curriculum explicitly incorporates negative counter-examples (benign high-entropy tokens such as 40-character Git commit SHAs, UUIDs, and Docker image digests). This allows NioMask to scrub AWS keys, GitHub tokens, passwords, and private SSH keys with <strong>99.95% accuracy</strong> while preserving valid developer hashes with <strong>zero false positives</strong>.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
             <h4 class="faq-question">How does NioMini predict compiler and test failures before running `cargo test`?</h4>
             <div class="faq-answer">
               <p>NioMini is a 7.1M parameter model trained on graph-projected Abstract Syntax Tree (AST) diff hunks and dependency hierarchies. In <strong>&lt; 5ms</strong>, it produces a calibrated probability score (<code>will_break</code>) and classifies likely defect categories (e.g. <code>BORROW_CHECK_FAIL</code>, <code>SYNTAX_ERROR</code>, <code>TYPE_MISMATCH</code>, <code>TEST_REGRESSION</code>). This allows IDEs and pre-commit hooks to alert developers before slow build and test cycles run.</p>
@@ -968,7 +1097,7 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
             <h4 class="faq-question">Why does Nio distribute models in both GGUF and ONNX formats?</h4>
             <div class="faq-answer">
               <p>Nio selects the optimal serialization format for each model's operational domain:
-              <br>&bull; <strong>ONNX:</strong> Used for discriminative policy, classification, and regression engines (NioMicro, NioMini). ONNX enables multi-head tensor extraction with minimal latency and standard CPU/NPU hardware acceleration.
+              <br>&bull; <strong>ONNX:</strong> Used for discriminative policy, classification, stream redaction, and defect engines (NioMicro, NioMask, NioMini). ONNX enables multi-head tensor extraction with minimal latency and standard CPU/NPU hardware acceleration.
               <br>&bull; <strong>GGUF:</strong> Used for autoregressive generative models (NioViper). GGUF provides standardized 4-bit quantization (<code>Q4_0</code>), memory-mapped tensor loading, and tight integration with native Rust Candle kernels.</p>
             </div>
           </div>
@@ -998,9 +1127,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 15. LICENSE -->
+        <!-- 16. LICENSE -->
         <section id="license" class="doc-section">
-          <h2>15. License</h2>
+          <h2>16. License</h2>
           <p>This repository and all distributed model architectures, weights, and runtimes are licensed under the <a href="https://github.com/nio-labs/nio-xs-models/blob/main/LICENSE" target="_blank" rel="noreferrer"><strong>Business Source License 1.1 (BSL 1.1)</strong></a>.</p>
           <ul>
             <li><strong>Non-Production &amp; Internal Production Use:</strong> Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.</li>

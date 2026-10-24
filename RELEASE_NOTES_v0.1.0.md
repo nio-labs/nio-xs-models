@@ -20,7 +20,11 @@ Official **v0.1.0** release of the Nio Micro Learning Model (µLM) production fa
    - 4-layer bidirectional Transformer operating in **< 5ms** as an autonomous policy gate.
    - Partitioned into independent 5M clusters (`sec`, `infra`, `base`) approving/rejecting terminal mutations with continuous risk calibrations.
 
-4. **NioMini 7.1M (Released v0.1.0)**:
+4. **NioMask 1.1M (Released v0.1.0)**:
+   - 2-layer Byte-Level Convolutional Transformer operating in **< 0.2ms (sub-200 microseconds)**.
+   - Real-time secret and sensitive PII redactor embedded directly in terminal streams and MCP gateways (99.95% accuracy, zero false positives on commit SHAs).
+
+5. **NioMini 7.1M (Released v0.1.0)**:
    - Bidirectional AST encoder operating in **< 5ms**.
    - Pre-emptive code radar predicting build breaks, lifetime violations, and regressions before test suites execute.
 
@@ -37,4 +41,5 @@ Official **v0.1.0** release of the Nio Micro Learning Model (µLM) production fa
 | **`nio_micro_infra.onnx`** | NioMicro Infra Cluster | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` |
 | **`nio_micro_sec.onnx`** | NioMicro Security Cluster | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` |
 | **`nio-micro-tokenizer.json`** | NioMicro Tokenizer | 17.5 KB | `1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f` |
+| **`nio_mask.onnx`** | NioMask Stream Redactor | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` |
 | **`nio-mini.onnx`** | NioMini Defect Forecaster | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` |

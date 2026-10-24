@@ -32,7 +32,7 @@ Official model registry and distribution hub for compiled, mathematically verifi
 
 ## 🏛️ The Production MicroLM Hierarchy
 
-Instead of relying on a single slow generalist model, Nio deploys a specialized hierarchy of 4 edge MicroLMs:
+Instead of relying on a single slow generalist model, Nio deploys a specialized hierarchy of 5 edge MicroLMs:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -48,7 +48,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 3: POLICY DECISION & RISK GATES ]                                              │
 │    • NioMicro (5.0M / Cluster)   ──► Contextual Policy Arbiter (sec, infra, base)      │
 │                                                                                        │
-│  [ TIER 4: PREDICTIVE DEFECT & SYNTAX ]                                                │
+│  [ TIER 4: REAL-TIME STREAM REDACTION & PRIVACY ]                                      │
+│    • NioMask (1.1M)              ──► Sub-0.2ms Secret & PII Byte-Level Redactor         │
+│                                                                                        │
+│  [ TIER 5: PREDICTIVE DEFECT & SYNTAX ]                                                │
 │    • NioMini (7.1M)              ──► Pre-emptive Defect & Regression Forecaster        │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
@@ -63,6 +66,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`NioViper`** | **Tactical Terminal Striker** | `50.0M (10L, 14.7k Vocab)` | Natural language to POSIX & PowerShell reflex with Swiss Gear Runner (`nio-viper.Q4_0.gguf`, 26.9 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`NioNano`** | **Intent Routing & Directives** | `~0.5M Features` | Sub-0.1ms command intent triage, lexical heuristics & zero-token directive router (`nano.json`, 46.8 KB) | **Active in Core** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`NioMicro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`NioMask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`nio_mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`NioMini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 
 ---
@@ -103,7 +107,16 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 ---
 
-## 🎯 4. NioMini (7.1M) — Pre-emptive Defect Forecaster
+## 🔒 4. NioMask (1.1M) — Real-Time Secret & PII Stream Redactor
+
+**NioMask** is a 2-layer Byte-Level Convolutional Transformer operating in **< 0.2ms**:
+- **Latency**: Sub-200 microseconds per 1KB chunk.
+- **Footprint**: 4.43 MB standalone ONNX binary (~6 MB RAM).
+- **Protection**: Scrubs AWS keys, GitHub PATs, OpenAI tokens, passwords, and PII from stdout/stderr pipes, terminal streams, and MCP gateway buffers with 99.95% accuracy and zero false positives on commit SHAs.
+
+---
+
+## 🎯 5. NioMini (7.1M) — Pre-emptive Defect Forecaster
 
 **NioMini** evaluates code diffs before compilation or test suites execute:
 - **Latency**: < 5ms in-process ONNX inference.
@@ -122,6 +135,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | `nio_micro_infra.onnx` | NioMicro Infra | ONNX | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_infra.onnx) |
 | `nio_micro_sec.onnx` | NioMicro Security | ONNX | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_sec.onnx) |
 | `nio-micro-tokenizer.json` | NioMicro Tokenizer | JSON | 17.5 KB | `1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json) |
+| `nio_mask.onnx` | NioMask Redactor | ONNX | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_mask.onnx) |
 | `nio-mini.onnx` | NioMini Defect | ONNX | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-mini.onnx) |
 
 ---
@@ -137,6 +151,9 @@ nioxs viper "list folder pls"
 
 # Execute natively with Destructive Safety Clutch
 nioxs viper -x "spider search .rs files for 'fn main'"
+
+# Real-time secret and PII scrubbing
+cat .env | nioxs mask
 ```
 
 ---
