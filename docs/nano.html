@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NioNano (~0.5M) — Sub-0.1ms Command Intent Reflex, Directives (--) and AST Triage Engine.">
+  <meta name="description" content="Nano (~0.5M) — Sub-0.1ms Command Intent Reflex, Directives (--) and AST Triage Engine.">
   <meta name="theme-color" content="#f6f8fa">
-  <title>NioNano (~0.5M) — Command Intent Reflex &amp; Directives</title>
+  <title>Nano (~0.5M) — Command Intent Reflex &amp; Directives</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     <a href="index.html" class="brand-title">
       <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
       <span class="brand-name">Nio Models</span>
-      <span class="badge">NioNano</span>
+      <span class="badge">Nano</span>
     </a>
     <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
       <span class="theme-icon">
@@ -69,7 +69,7 @@
           <a href="mini.html" class="nav-link">Mini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">NioNano Overview</div>
+          <div class="nav-section-title">Nano Overview</div>
           <a href="#overview" class="nav-link">1. Specifications &amp; Speed</a>
           <a href="#directives" class="nav-link">2. Directives (--) System</a>
           <a href="#examples" class="nav-link">3. Directive Examples</a>
@@ -100,8 +100,8 @@
               <span class="badge">&lt; 0.1ms TTFT</span>
               <span class="badge">~5 MB RAM</span>
             </div>
-            <h1 class="hero-title">NioNano — Sub-0.1ms Command Reflex &amp; Directive Router</h1>
-            <p class="hero-desc"><strong>NioNano</strong> is the embedded first line of defense in the Nio ecosystem. Built with pure Rust multinomial feature weights and deterministic regex fast-paths, it intercepts terminal commands, routes developer intent, and executes zero-token directives in microseconds.</p>
+            <h1 class="hero-title">Nano — Sub-0.1ms Command Reflex &amp; Directive Router</h1>
+            <p class="hero-desc"><strong>Nano</strong> is the embedded first line of defense in the Nio ecosystem. Built with pure Rust multinomial feature weights and deterministic regex fast-paths, it intercepts terminal commands, routes developer intent, and executes zero-token directives in microseconds.</p>
           </div>
 
           <div class="spec-grid">
@@ -131,11 +131,11 @@
         <!-- DIRECTIVES SECTION -->
         <section id="directives" class="doc-section">
           <h2>2. The Directive (--) System: Zero-Token Execution</h2>
-          <p>Developers frequently need terminal actions, AST symbol lookups, or plugin operations that do not require an LLM. When an input prompt begins with double dashes (<code>--</code>), <strong>NioNano intercepts the input in &lt; 0.05ms</strong> and executes the deterministic directive locally—<strong>consuming 0 cloud tokens and introducing 0 latency</strong>.</p>
+          <p>Developers frequently need terminal actions, AST symbol lookups, or plugin operations that do not require an LLM. When an input prompt begins with double dashes (<code>--</code>), <strong>Nano intercepts the input in &lt; 0.05ms</strong> and executes the deterministic directive locally—<strong>consuming 0 cloud tokens and introducing 0 latency</strong>.</p>
 
           <div class="callout callout-tip">
             <div class="callout-title">The Token-Saving Principle</div>
-            <p>Every time you run <code>--bash cargo test</code> or <code>--definitions RayEngine</code>, NioNano saves 5,000–25,000 tokens that other AI tools waste by uploading your entire prompt and file tree to a cloud LLM just to decide to run a shell command.</p>
+            <p>Every time you run <code>--bash cargo test</code> or <code>--definitions RayEngine</code>, Nano saves 5,000–25,000 tokens that other AI tools waste by uploading your entire prompt and file tree to a cloud LLM just to decide to run a shell command.</p>
           </div>
 
           <div class="table-wrapper">
@@ -202,7 +202,7 @@ nio "--bash cargo check --locked"
 
 # Or in interactive Nio session:
 developer> --bash git status -s</code></pre>
-          <pre><code class="language-text">[NioNano Reflex (< 0.05ms) -> Direct Subprocess Execution]
+          <pre><code class="language-text">[Nano Reflex (< 0.05ms) -> Direct Subprocess Execution]
     Checking nioxs-engine v0.4.0 (/home/mn/nio-labs/nio-xs/crates/engine)
     Finished `dev` profile [unoptimized + debuginfo] in 0.82s
 M crates/engine/src/lib.rs
@@ -212,7 +212,7 @@ M crates/engine/src/lib.rs
           <p>Execute custom workspace automation scripts and utilities with zero overhead:</p>
           <pre><code class="language-bash"># Trigger plugin tool via NioAI
 nio "--tools generate-favicons src/assets/logo.svg"</code></pre>
-          <pre><code class="language-text">[NioNano Plugin Manager (< 0.08ms)]
+          <pre><code class="language-text">[Nano Plugin Manager (< 0.08ms)]
 ✔ Loaded plugin: asset_generator.py
 ✔ Generated assets/favicon.ico (16x16, 32x32, 48x48)
 ✔ Generated assets/apple-touch-icon.png (180x180)
@@ -222,7 +222,7 @@ nio "--tools generate-favicons src/assets/logo.svg"</code></pre>
           <p>Find callers, implementations, and type definitions across the entire workspace instantaneously:</p>
           <pre><code class="language-bash"># Locate all caller references across crates
 nio "--callers RayEngine"</code></pre>
-          <pre><code class="language-text">[NioNano AST Navigation (< 0.08ms)]
+          <pre><code class="language-text">[Nano AST Navigation (< 0.08ms)]
 Found 3 caller references for 'RayEngine':
   • crates/provider/src/main.rs:41: let engine = nioxs_engine::RayEngine::new()?;
   • crates/provider/src/lib.rs:188: let engine = RayEngine::new()?;
@@ -232,13 +232,13 @@ Found 3 caller references for 'RayEngine':
           <p>Ensures that proposed architectural changes are pre-checked against project type signatures before calling the upstream model:</p>
           <pre><code class="language-bash"># NioAI checks local AST symbols before escalating upstream
 nio "--code guard refactor router to use Axum 0.8 graceful shutdown"</code></pre>
-          <pre><code class="language-text">[NioNano Guard Gate]
+          <pre><code class="language-text">[Nano Guard Gate]
 ✔ Checked AST symbols: axum::serve, tokio::net::TcpListener
 ✔ Context bundled: 412 tokens
 ✔ Passing validated payload to upstream engine...</code></pre>
 
           <h3>E. Natural Language Intent Triage (`nioxs nano`)</h3>
-          <p>When prompts don't use <code>--</code>, NioNano's classifier maps natural language developer questions to deterministic caller actions in sub-100µs:</p>
+          <p>When prompts don't use <code>--</code>, Nano's classifier maps natural language developer questions to deterministic caller actions in sub-100µs:</p>
           <pre><code class="language-bash"># Classify natural language developer prompt
 nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
           <pre><code class="language-json">{
@@ -253,7 +253,7 @@ nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
         <!-- HEURISTICS SECTION -->
         <section id="heuristics" class="doc-section">
           <h2>4. Lexical Intent Triage for Natural Language</h2>
-          <p>When the user does not use a <code>--</code> directive and enters natural language, NioNano's Multinomial Naive Bayes engine classifies intent into one of 7 calibrated actions:</p>
+          <p>When the user does not use a <code>--</code> directive and enters natural language, Nano's Multinomial Naive Bayes engine classifies intent into one of 7 calibrated actions:</p>
           <ul>
             <li><code>read_file</code>: Direct path or inspection queries</li>
             <li><code>inspect_project</code>: Workspace layout, crate relations, build tools</li>

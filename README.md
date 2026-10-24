@@ -128,22 +128,22 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `nio-viper.Q4_0.gguf` | NioViper 50M | GGUF Q4_0 | 26.91 MB | `acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf) |
-| `nio-viper-tokenizer.json` | NioViper Tokenizer | JSON | 923 KB | `25e0b493570d3f1cd338033a685f69eb3fefd4f307424bca5709fa8bb1994806` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json) |
-| `nano.json` | NioNano Intent | JSON | 46.8 KB | `9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json) |
-| `nio_micro_base.onnx` | NioMicro Base | ONNX | 13.82 MB | `4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_base.onnx) |
-| `nio_micro_infra.onnx` | NioMicro Infra | ONNX | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_infra.onnx) |
-| `nio_micro_sec.onnx` | NioMicro Security | ONNX | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_sec.onnx) |
-| `nio-micro-tokenizer.json` | NioMicro Tokenizer | JSON | 17.5 KB | `1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json) |
-| `nio_mask.onnx` | NioMask Redactor | ONNX | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_mask.onnx) |
-| `nio-mini.onnx` | NioMini Defect | ONNX | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-mini.onnx) |
+| `nio-viper.Q4_0.gguf` | Viper 50M | GGUF Q4_0 | 26.91 MB | `acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf) |
+| `nio-viper-tokenizer.json` | Viper Tokenizer | JSON | 923 KB | `25e0b493570d3f1cd338033a685f69eb3fefd4f307424bca5709fa8bb1994806` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json) |
+| `nano.json` | Nano Intent | JSON | 46.8 KB | `9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json) |
+| `nio_micro_base.onnx` | Micro Base | ONNX | 13.82 MB | `4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_base.onnx) |
+| `nio_micro_infra.onnx` | Micro Infra | ONNX | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_infra.onnx) |
+| `nio_micro_sec.onnx` | Micro Security | ONNX | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_sec.onnx) |
+| `nio-micro-tokenizer.json` | Micro Tokenizer | JSON | 17.5 KB | `1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json) |
+| `nio_mask.onnx` | Mask Redactor | ONNX | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_mask.onnx) |
+| `nio-mini.onnx` | Mini Defect | ONNX | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-mini.onnx) |
 
 ---
 
 ### 💻 Quickstart via NioXS CLI
 
 ```bash
-# Pull and verify NioViper weights
+# Pull and verify Viper weights
 nioxs pull viper
 
 # Natural language terminal reflex (< 52MB RAM)

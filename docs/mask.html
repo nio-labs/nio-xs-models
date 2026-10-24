@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NioMask (1.1M) — Sub-0.2ms Byte-Stream Secret &amp; PII Redactor.">
+  <meta name="description" content="Mask (1.1M) — Sub-0.2ms Byte-Stream Secret &amp; PII Redactor.">
   <meta name="theme-color" content="#f6f8fa">
-  <title>NioMask (1.1M) — Byte-Stream Redactor</title>
+  <title>Mask (1.1M) — Byte-Stream Redactor</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     <a href="index.html" class="brand-title">
       <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
       <span class="brand-name">Nio Models</span>
-      <span class="badge">NioMask</span>
+      <span class="badge">Mask</span>
     </a>
     <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
       <span class="theme-icon">
@@ -68,7 +68,7 @@
           <a href="mini.html" class="nav-link">Mini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">NioMask Overview</div>
+          <div class="nav-section-title">Mask Overview</div>
           <a href="#overview" class="nav-link">1. Specifications &amp; Budget</a>
           <a href="#examples" class="nav-link">2. Stream Redaction Examples</a>
         </div>
@@ -93,8 +93,8 @@
               <span class="badge">&lt; 0.2ms Latency</span>
               <span class="badge">1.1M Parameters</span>
             </div>
-            <h1 class="hero-title">NioMask — Real-Time Byte-Stream Redactor (1.1M)</h1>
-            <p class="hero-desc"><strong>NioMask</strong> is a byte-level 1.1M neural scrubber that sanitizes API keys, bearer tokens, passwords, and PII from terminal streams, stdout, and network egress payloads in sub-0.2ms.</p>
+            <h1 class="hero-title">Mask — Real-Time Byte-Stream Redactor (1.1M)</h1>
+            <p class="hero-desc"><strong>Mask</strong> is a byte-level 1.1M neural scrubber that sanitizes API keys, bearer tokens, passwords, and PII from terminal streams, stdout, and network egress payloads in sub-0.2ms.</p>
           </div>
 
           <div class="spec-grid">
@@ -123,13 +123,13 @@
 
         <section id="examples" class="doc-section">
           <h2>Stream Redaction Examples via NioXS &amp; NioAI</h2>
-          <p>NioMask runs as an in-process Unix pipe filter, terminal stream scrubber, or pre-flight hook inside <code>nioxs</code> and <code>nio</code> (NioAI CLI).</p>
+          <p>Mask runs as an in-process Unix pipe filter, terminal stream scrubber, or pre-flight hook inside <code>nioxs</code> and <code>nio</code> (NioAI CLI).</p>
 
           <h3>A. Real-Time Terminal Pipe Redaction (`cat | nioxs mask`)</h3>
           <p>Scrub secrets and credentials on the fly before dumping terminal logs or piping to external tools:</p>
-          <pre><code class="language-bash"># Pipe environment configuration or logs directly through NioMask
+          <pre><code class="language-bash"># Pipe environment configuration or logs directly through Mask
 cat .env | nioxs mask</code></pre>
-          <pre><code class="language-text"># NioMask Output (< 0.18ms per KB chunk):
+          <pre><code class="language-text"># Mask Output (< 0.18ms per KB chunk):
 DATABASE_URL=postgres://app_user:[REDACTED_PASSWORD]@db.internal:5432/production
 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 AWS_SECRET_ACCESS_KEY=[REDACTED_AWS_SECRET]
@@ -141,15 +141,15 @@ JWT_SIGNING_SECRET=[REDACTED_HIGH_ENTROPY_KEY]</code></pre>
           <p>Enforce zero-leak policy on staged git commits. Exits with non-zero status code if unredacted secrets are detected:</p>
           <pre><code class="language-bash"># Run pre-commit secret leak guard
 git diff --cached | nioxs mask --fail-on-secrets</code></pre>
-          <pre><code class="language-text">❌ [NioMask Security Gate] Unsanitized secrets detected in staged diff:
+          <pre><code class="language-text">❌ [Mask Security Gate] Unsanitized secrets detected in staged diff:
   • src/config.rs:14: Stripe API secret key ('sk_live_...') detected!
   • tests/fixtures.json:28: OpenAI token ('sk-proj-...') detected!
 Aborting commit. Sanitize secrets or use environment variables.</code></pre>
 
           <h3>C. NioAI Context &amp; Telemetry Sanitizer (`nio run --sanitize`)</h3>
-          <p>NioAI automatically pipes all tool outputs, command results, and MCP payloads through NioMask before passing them to agents or telemetry buffers:</p>
+          <p>NioAI automatically pipes all tool outputs, command results, and MCP payloads through Mask before passing them to agents or telemetry buffers:</p>
           <pre><code class="language-bash"># NioAI scrubs command output before context injection
-nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"</code></pre>
+nio run -m nioxs::mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp_9921...' https://api.github.com/user"</code></pre>
           <pre><code class="language-json">{
   "sanitized": true,
   "redacted_tokens": 1,
