@@ -1,0 +1,17 @@
+[project]
+name = "viper-2"
+version = "0.2.0"
+description = "Viper 2.0: Exact 100M parameter tactical terminal & DevOps reflex engine"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0.0",
+    "tokenizers>=0.15.0",
+    "safetensors>=0.4.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+]
