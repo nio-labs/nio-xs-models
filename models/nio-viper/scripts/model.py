@@ -204,6 +204,11 @@ class Viper2ForCausalLM(nn.Module):
 
         cos, sin = self.rotary_emb(hidden_states, seq_len)
 
+        if attention_mask is not None and attention_mask.dim() == 2:
+            causal = torch.tril(torch.ones((seq_len, seq_len), dtype=torch.bool, device=hidden_states.device))
+            pad = (attention_mask != 0).unsqueeze(1).unsqueeze(2)
+            attention_mask = causal.unsqueeze(0) & pad
+
         for layer in self.layers:
             hidden_states = layer(hidden_states, cos, sin, attention_mask)
 

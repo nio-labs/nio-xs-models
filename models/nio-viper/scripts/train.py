@@ -38,16 +38,19 @@ class Viper2Dataset(Dataset):
                 is_destructive = data.get("is_destructive", False)
 
                 # Format text
-                text = f"<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n{response}<|im_end|>"
-                self.samples.append((text, is_destructive))
+                user_part = f"<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n"
+                full_text = f"{user_part}{response}<|im_end|>"
+                self.samples.append((user_part, full_text, is_destructive))
 
     def __len__(self):
         return len(self.samples)
 
     def __getitem__(self, idx):
-        text, is_destructive = self.samples[idx]
-        enc = self.tokenizer.encode(text)
-        ids = enc.ids[: self.max_len]
+        user_part, full_text, is_destructive = self.samples[idx]
+        user_ids = self.tokenizer.encode(user_part).ids
+        full_ids = self.tokenizer.encode(full_text).ids
+        ids = full_ids[: self.max_len]
+        prompt_len = min(len(user_ids), len(ids))
         
         # Pad to max_len
         pad_id = self.tokenizer.token_to_id("<|pad|>") or 0
@@ -56,10 +59,9 @@ class Viper2Dataset(Dataset):
         input_ids = ids + [pad_id] * pad_len
 
         labels = list(input_ids)
-        for i in range(len(ids)):
-            # Mask out user prompt from loss calculation
-            if i < len(ids) and "<|im_start|>assistant" not in self.tokenizer.decode(ids[:i]):
-                labels[i] = -100
+        # Mask out prompt tokens so loss is computed strictly on response tokens
+        for i in range(prompt_len):
+            labels[i] = -100
         for i in range(len(ids), self.max_len):
             labels[i] = -100
 
@@ -102,7 +104,7 @@ def train_viper2(
         return max(0.1, 0.5 * (1.0 + math.cos(math.pi * progress)))
 
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
-    scaler = torch.cuda.amp.GradScaler(enabled=(device == "cuda"))
+    scaler = torch.amp.GradScaler("cuda", enabled=(device == "cuda"))
 
     step = 0
     model.train()
@@ -114,15 +116,18 @@ def train_viper2(
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
 
-            with torch.cuda.amp.autocast(enabled=(device == "cuda")):
+            with torch.amp.autocast("cuda", enabled=(device == "cuda")):
                 _, loss = model(input_ids, attention_mask=attention_mask, labels=labels)
 
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            scale_before = scaler.get_scale()
             scaler.step(optimizer)
             scaler.update()
-            scheduler.step()
+            scale_after = scaler.get_scale()
+            if scale_before <= scale_after:
+                scheduler.step()
 
             epoch_loss += loss.item()
             step += 1
@@ -134,9 +139,9 @@ def train_viper2(
         avg_loss = epoch_loss / len(dataloader)
         print(f"Epoch {epoch+1} Completed — Average Loss: {avg_loss:.4f}")
 
-    final_path = os.path.join(output_dir, "viper-2-final.pt")
+    final_path = os.path.join(output_dir, "viper-final.pt")
     torch.save(model.state_dict(), final_path)
-    print(f"Saved Viper 2.0 checkpoint to {final_path}")
+    print(f"Saved Viper 100M checkpoint to {final_path}")
 
 
 if __name__ == "__main__":

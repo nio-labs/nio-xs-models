@@ -1,6 +1,6 @@
-# 🐍 NioViper (Exact 100M) — Tactical Terminal & DevOps Reflex Engine
+# 🐍 Viper (Exact 100M) — Tactical Terminal & DevOps Reflex Engine
 
-**NioViper** is an edge-native tactical reflex engine engineered from scratch with an **exact 100,000,000 locked parameter budget**. It translates natural language developer intent into production POSIX bash and Windows PowerShell reflexes with **sub-105MB resident RAM** and **35ms – 50ms warm inference** on ordinary CPUs.
+**Viper** is an edge-native tactical reflex engine engineered from scratch with an **exact 100,000,000 locked parameter budget**. It translates natural language developer intent into production POSIX bash and Windows PowerShell reflexes with **sub-105MB resident RAM** and **35ms – 50ms warm inference** on ordinary CPUs.
 
 ---
 
@@ -30,6 +30,57 @@
 
 ---
 
+## 💻 Quickstart: Running Inference
+
+Viper can be run directly in Python or embedded within native Rust applications via GGUF/llama.cpp.
+
+### Python In-Process Inference
+
+```python
+import torch
+from tokenizers import Tokenizer
+from scripts.model import Viper2Config, Viper2ForCausalLM
+
+# 1. Load tokenizer and model weights
+tokenizer = Tokenizer.from_file("viper-tokenizer.json")
+config = Viper2Config(vocab_size=tokenizer.get_vocab_size())
+model = Viper2ForCausalLM(config)
+model.load_state_dict(torch.load("checkpoints/viper-final.pt", map_location="cpu"))
+model.eval()
+
+# 2. Format developer intent prompt
+prompt = "find all rust files modified today and count total lines"
+formatted = f"<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n"
+tokens = tokenizer.encode(formatted).ids
+input_ids = torch.tensor([tokens], dtype=torch.long)
+
+# 3. Generate reflex response
+with torch.no_grad():
+    curr_ids = list(tokens)
+    for _ in range(32):
+        inp = torch.tensor([curr_ids], dtype=torch.long)
+        logits, clutch_flag = model(inp)
+        next_tok = torch.argmax(logits[0, -1, :]).item()
+        curr_ids.append(next_tok)
+        if next_tok == tokenizer.token_to_id("<|im_end|>"):
+            break
+
+response = tokenizer.decode(curr_ids[len(tokens):])
+print(f"Reflex Command: {response.strip()}")
+# Output: find . -name "*.rs" -mtime 0 | xargs wc -l
+```
+
+### Example Queries & Reflex Responses
+
+| Developer Intent Prompt | Generated Reflex Command | Destructive Clutch |
+|---|---|:---:|
+| `list all listening ports and associated PIDs` | `ss -tulpn` | Safe (`False`) |
+| `kill whatever process is holding port 3000` | `fuser -k 3000/tcp` | Active (`True`) |
+| `find all rust files modified today and count lines` | `find . -name "*.rs" -mtime 0 \| xargs wc -l` | Safe (`False`) |
+| `delete all stopped docker containers and dangling images` | `docker system prune -af` | Active (`True`) |
+
+---
+
 ## 🧪 Verification & Testing
 
 Verify the exact 100M parameter count and forward pass:
@@ -48,13 +99,13 @@ Train locally or inside a compute instance via CLI:
 python scripts/dataset_generator.py --samples 250000 --out data/curriculum.jsonl
 
 # 2. Train dedicated BPE tokenizer (17,451 vocab)
-python scripts/tokenizer_train.py --corpus data/curriculum.jsonl --out nio-viper-tokenizer.json
+python scripts/tokenizer_train.py --corpus data/curriculum.jsonl --out viper-tokenizer.json
 
-# 3. Train NioViper across 3 epochs
-python scripts/train.py --curriculum data/curriculum.jsonl --tokenizer nio-viper-tokenizer.json --epochs 3
+# 3. Train Viper across 3 epochs
+python scripts/train.py --curriculum data/curriculum.jsonl --tokenizer viper-tokenizer.json --epochs 3
 
 # 4. Export quantized GGUF
-python scripts/export_gguf.py --weights checkpoints/best.pt --tokenizer nio-viper-tokenizer.json --out nio-viper.Q4_0.gguf
+python scripts/export_gguf.py --weights checkpoints/best.pt --tokenizer viper-tokenizer.json --out viper.Q4_0.gguf
 ```
 
 ---

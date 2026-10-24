@@ -31,8 +31,17 @@ def train_viper2_tokenizer(corpus_files, output_path: str = "viper-2-tokenizer.j
     )
 
     tokenizer.train(corpus_files, trainer)
+
+    # Pad vocabulary up to exact locked vocab_size with reserved tokens
+    current_size = tokenizer.get_vocab_size()
+    if current_size < vocab_size:
+        diff = vocab_size - current_size
+        reserved_tokens = [f"<|reserved_{i}|>" for i in range(diff)]
+        tokenizer.add_tokens(reserved_tokens)
+
     tokenizer.save(output_path)
-    print(f"Saved Viper 2.0 Tokenizer with {vocab_size} tokens to {output_path}")
+    print(f"Saved Viper Tokenizer with {tokenizer.get_vocab_size()} tokens to {output_path}")
+    return tokenizer
 
 
 if __name__ == "__main__":

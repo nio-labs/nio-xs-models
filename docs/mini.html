@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NioMini (7.1M) — Sub-5ms Pre-Emptive Defect &amp; Compile Break Forecaster.">
+  <meta name="description" content="Mini (7.1M) — Sub-5ms Pre-Emptive Defect &amp; Compile Break Forecaster.">
   <meta name="theme-color" content="#f6f8fa">
-  <title>NioMini (7.1M) — Pre-Emptive Defect Forecaster</title>
+  <title>Mini (7.1M) — Pre-Emptive Defect Forecaster</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     <a href="index.html" class="brand-title">
       <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
       <span class="brand-name">Nio Models</span>
-      <span class="badge">NioMini</span>
+      <span class="badge">Mini</span>
     </a>
     <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
       <span class="theme-icon">
@@ -61,14 +61,14 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
-          <a href="index.html#nioviper" class="nav-link">NioViper (50M Reflex)</a>
-          <a href="nano.html" class="nav-link">NioNano (~0.5M Intent)</a>
-          <a href="micro.html" class="nav-link">NioMicro (5.0M Policy)</a>
-          <a href="mask.html" class="nav-link">NioMask (1.1M Redactor)</a>
-          <a href="mini.html" class="nav-link active">NioMini (7.1M Defect)</a>
+          <a href="index.html#nioviper" class="nav-link">Viper (50M Reflex)</a>
+          <a href="nano.html" class="nav-link">Nano (~0.5M Intent)</a>
+          <a href="micro.html" class="nav-link">Micro (5.0M Policy)</a>
+          <a href="mask.html" class="nav-link">Mask (1.1M Redactor)</a>
+          <a href="mini.html" class="nav-link active">Mini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">NioMini Overview</div>
+          <div class="nav-section-title">Mini Overview</div>
           <a href="#overview" class="nav-link">1. Specifications &amp; Budget</a>
           <a href="#examples" class="nav-link">2. Defect Forecasting Examples</a>
         </div>
@@ -93,8 +93,8 @@
               <span class="badge">&lt; 5ms Latency</span>
               <span class="badge">7.1M Parameters</span>
             </div>
-            <h1 class="hero-title">NioMini — Pre-Emptive Defect &amp; Compile Forecaster (7.1M)</h1>
-            <p class="hero-desc"><strong>NioMini</strong> predicts whether code diffs, proposed refactorings, and AST patches will trigger compiler errors, borrow check failures, or test regressions before triggering expensive CI builds or cloud review cycles.</p>
+            <h1 class="hero-title">Mini — Pre-Emptive Defect &amp; Compile Forecaster (7.1M)</h1>
+            <p class="hero-desc"><strong>Mini</strong> predicts whether code diffs, proposed refactorings, and AST patches will trigger compiler errors, borrow check failures, or test regressions before triggering expensive CI builds or cloud review cycles.</p>
           </div>
 
           <div class="spec-grid">
@@ -123,7 +123,7 @@
 
         <section id="examples" class="doc-section">
           <h2>Pre-Emptive Defect Forecasting Examples via NioXS &amp; NioAI</h2>
-          <p>NioMini executes via <code>nioxs mini</code> or as an embedded pre-flight check in <code>nio</code> (NioAI CLI) to forecast compilation breaks and test regressions before running heavy compiler pipelines.</p>
+          <p>Mini executes via <code>nioxs mini</code> or as an embedded pre-flight check in <code>nio</code> (NioAI CLI) to forecast compilation breaks and test regressions before running heavy compiler pipelines.</p>
 
           <h3>A. Pre-Flight Borrow-Check &amp; Syntax Analysis (`nioxs mini`)</h3>
           <p>Inspect code diffs or snippets in microseconds to detect Rust borrow-checker conflicts before compiling:</p>
@@ -140,7 +140,7 @@ nioxs mini "fn process(data: &mut Vec<u8>) { let ref1 = &data; data.push(1); pri
 }</code></pre>
 
           <h3>B. Test Suite Regression Forecasting in NioAI (`nio run -m nioxs::nio-mini`)</h3>
-          <p>NioAI uses NioMini to evaluate whether a proposed code change will break existing unit tests across the workspace:</p>
+          <p>NioAI uses Mini to evaluate whether a proposed code change will break existing unit tests across the workspace:</p>
           <pre><code class="language-bash"># NioAI checks if refactor introduces regressions in test suite
 nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
           <pre><code class="language-json">{
@@ -159,7 +159,7 @@ nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/li
           <p>Run instant quality gates on pull request patches before triggering multi-machine GitHub Actions matrices:</p>
           <pre><code class="language-bash"># Execute sub-5ms PR triage in CI pipeline
 nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
-          <pre><code class="language-text">✔ [NioMini Pre-Flight Gate] Analyzed 4 files (328 lines changed) in 4.2ms.
+          <pre><code class="language-text">✔ [Mini Pre-Flight Gate] Analyzed 4 files (328 lines changed) in 4.2ms.
   • Category: CLEAN (Break Probability: 0.03)
   • Type Compatibility: 100%
   • Test Safety Index: 0.98
