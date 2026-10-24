@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Micro (5.0M / Cluster) — Domain-Clustered Contextual Decision Engine.">
+  <meta name="description" content="NioMicro (5.0M / Cluster) — Domain-Clustered Contextual Decision Engine.">
   <meta name="theme-color" content="#f6f8fa">
-  <title>Micro (5.0M) — Domain Decision Engine</title>
+  <title>NioMicro (5.0M) — Domain Decision Engine</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
     <a href="index.html" class="brand-title">
       <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
       <span class="brand-name">Nio Models</span>
-      <span class="badge">Micro</span>
+      <span class="badge">NioMicro</span>
     </a>
     <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
       <span class="theme-icon">
@@ -61,14 +61,14 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
-          <a href="index.html#nioviper" class="nav-link">Viper (50M Reflex)</a>
-          <a href="nano.html" class="nav-link">Nano (~0.5M Intent)</a>
-          <a href="micro.html" class="nav-link active">Micro (5.0M Policy)</a>
-          <a href="mask.html" class="nav-link">Mask (1.1M Redactor)</a>
-          <a href="mini.html" class="nav-link">Mini (7.1M Defect)</a>
+          <a href="index.html#nioviper" class="nav-link">NioViper (50M Reflex)</a>
+          <a href="nano.html" class="nav-link">NioNano (~0.5M Intent)</a>
+          <a href="micro.html" class="nav-link active">NioMicro (5.0M Policy)</a>
+          <a href="mask.html" class="nav-link">NioMask (1.1M Redactor)</a>
+          <a href="mini.html" class="nav-link">NioMini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">Micro Overview</div>
+          <div class="nav-section-title">NioMicro Overview</div>
           <a href="#overview" class="nav-link">1. Specifications &amp; Speed</a>
           <a href="#clusters" class="nav-link">2. Domain Clusters</a>
           <a href="#examples" class="nav-link">3. Decision Examples</a>
@@ -94,8 +94,8 @@
               <span class="badge">Multi-Head Payload</span>
               <span class="badge">&lt; 5ms Latency</span>
             </div>
-            <h1 class="hero-title">Micro — Domain-Clustered Decision Gate (5.0M / Cluster)</h1>
-            <p class="hero-desc"><strong>Micro</strong> acts as an autonomous policy arbiter for command execution, pull requests, and security permissions. Architected as modular 5,000,000-parameter transformer encoder clusters (<code>sec</code>, <code>infra</code>, <code>base</code>), it evaluates decisions with mathematical certainty.</p>
+            <h1 class="hero-title">NioMicro — Domain-Clustered Decision Gate (5.0M / Cluster)</h1>
+            <p class="hero-desc"><strong>NioMicro</strong> acts as an autonomous policy arbiter for command execution, pull requests, and security permissions. Architected as modular 5,000,000-parameter transformer encoder clusters (<code>sec</code>, <code>infra</code>, <code>base</code>), it evaluates decisions with mathematical certainty.</p>
           </div>
 
           <div class="spec-grid">
@@ -160,14 +160,14 @@
 
         <section id="examples" class="doc-section">
           <h2>Concrete Decision Evaluation Examples via NioXS &amp; NioAI</h2>
-          <p>Every Micro cluster runs locally via the <code>nioxs</code> edge runtime or as an embedded policy gate inside <code>nio</code> (NioAI CLI). No external web servers or curl commands are required.</p>
+          <p>Every NioMicro cluster runs locally via the <code>nioxs</code> edge runtime or as an embedded policy gate inside <code>nio</code> (NioAI CLI). No external web servers or curl commands are required.</p>
 
           <h3>A. Security Cluster: SQL Injection &amp; Auth Bypass Detection (`nioxs micro sec`)</h3>
           <p>Run instant security policy checks against proposed code diffs or commit hunks:</p>
           <pre><code class="language-bash"># Audit a code change before committing
 nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::micro-sec",
+  "model": "nioxs::nio-micro-sec",
   "cluster": "security",
   "verdict": "REJECT",
   "confidence": 0.998,
@@ -181,7 +181,7 @@ nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'
           <pre><code class="language-bash"># Evaluate destructive production infrastructure command
 nioxs micro infra "kubectl delete namespace production --cascade=foreground"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::micro-infra",
+  "model": "nioxs::nio-micro-infra",
   "cluster": "infrastructure",
   "verdict": "REJECT",
   "confidence": 0.994,
@@ -191,11 +191,11 @@ nioxs micro infra "kubectl delete namespace production --cascade=foreground"</co
 }</code></pre>
 
           <h3>C. NioAI Autonomous Pre-Execution Gate (`nio run --guard`)</h3>
-          <p>NioAI uses Micro to validate planned agent actions before executing tool calls:</p>
+          <p>NioAI uses NioMicro to validate planned agent actions before executing tool calls:</p>
           <pre><code class="language-bash"># NioAI checks proposed workspace clean command
-nio run -m nioxs::micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
+nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::micro-base",
+  "model": "nioxs::nio-micro-base",
   "cluster": "base_policy",
   "verdict": "APPROVE",
   "confidence": 0.987,

@@ -1,6 +1,6 @@
-# 🐍 Viper 2.0 (Exact 100M) — Tactical Terminal & DevOps Reflex Engine
+# 🐍 NioViper (Exact 100M) — Tactical Terminal & DevOps Reflex Engine
 
-**Viper 2.0** is an edge-native tactical reflex engine engineered from scratch with an **exact 100,000,000 locked parameter budget**. It translates natural language developer intent into production POSIX bash and Windows PowerShell reflexes with **sub-105MB resident RAM** and **35ms – 50ms warm inference** on ordinary CPUs.
+**NioViper** is an edge-native tactical reflex engine engineered from scratch with an **exact 100,000,000 locked parameter budget**. It translates natural language developer intent into production POSIX bash and Windows PowerShell reflexes with **sub-105MB resident RAM** and **35ms – 50ms warm inference** on ordinary CPUs.
 
 ---
 
@@ -21,7 +21,7 @@
 
 ---
 
-## 🚀 Capabilities Leap vs Viper 1.0 (50M)
+## 🚀 Capabilities (100M Architecture)
 
 1. **Multi-Stage Command Pipelines**: Fluent multi-utility chaining (`find ... | xargs grep ... | awk ... | sort -nr`).
 2. **Modern DevOps Ecosystem**: Rich subcommand fluency across `kubectl`, `docker compose`, `terraform`, `gh`, `aws`, and `systemctl`.
@@ -42,19 +42,20 @@ uv run --with torch --with pytest pytest tests/test_model.py -v
 
 ## 🏋️ Training Pipeline
 
-* Run the automated end-to-end training notebook on Google Colab:
-  [`colab/Viper2_Training.ipynb`](colab/Viper2_Training.ipynb)
-* Or train locally via CLI:
-  ```bash
-  # 1. Generate 250k synthetic curriculum
-  python scripts/dataset_generator.py --samples 250000 --out data/curriculum.jsonl
+Train locally or inside a compute instance via CLI:
+```bash
+# 1. Generate 250k synthetic curriculum
+python scripts/dataset_generator.py --samples 250000 --out data/curriculum.jsonl
 
-  # 2. Train dedicated BPE tokenizer
-  python scripts/tokenizer_train.py --corpus data/curriculum.jsonl --out viper-2-tokenizer.json
+# 2. Train dedicated BPE tokenizer (17,451 vocab)
+python scripts/tokenizer_train.py --corpus data/curriculum.jsonl --out nio-viper-tokenizer.json
 
-  # 3. Train Viper 2.0 across 3 epochs
-  python scripts/train.py --curriculum data/curriculum.jsonl --tokenizer viper-2-tokenizer.json --epochs 3
-  ```
+# 3. Train NioViper across 3 epochs
+python scripts/train.py --curriculum data/curriculum.jsonl --tokenizer nio-viper-tokenizer.json --epochs 3
+
+# 4. Export quantized GGUF
+python scripts/export_gguf.py --weights checkpoints/best.pt --tokenizer nio-viper-tokenizer.json --out nio-viper.Q4_0.gguf
+```
 
 ---
 

@@ -1,7 +1,7 @@
 [project]
-name = "viper-2"
+name = "nio-viper"
 version = "0.2.0"
-description = "Viper 2.0: Exact 100M parameter tactical terminal & DevOps reflex engine"
+description = "NioViper — Exact 100M parameter tactical terminal & DevOps reflex engine"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
