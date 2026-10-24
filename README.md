@@ -40,19 +40,19 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 ├────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                        │
 │  [ TIER 1: TACTICAL TERMINAL & DEVOPS REFLEX ]                                         │
-│    • NioViper (50.0M)            ──► Tactical Shell & DevOps Reflex Engine (< 52MB RAM)│
+│    • Viper (50.0M / 100M)        ──► Tactical Shell & DevOps Reflex Engine (< 52MB RAM)│
 │                                                                                        │
 │  [ TIER 2: INTENT REFLEX & COMMAND ROUTING ]                                          │
-│    • NioNano (~0.5M)             ──► Directive Interception (--) & Sub-0.1ms Routing    │
+│    • Nano (~0.5M)                ──► Directive Interception (--) & Sub-0.1ms Routing    │
 │                                                                                        │
 │  [ TIER 3: POLICY DECISION & RISK GATES ]                                              │
-│    • NioMicro (5.0M / Cluster)   ──► Contextual Policy Arbiter (sec, infra, base)      │
+│    • Micro (5.0M / Cluster)      ──► Contextual Policy Arbiter (sec, infra, base)      │
 │                                                                                        │
 │  [ TIER 4: REAL-TIME STREAM REDACTION & PRIVACY ]                                      │
-│    • NioMask (1.1M)              ──► Sub-0.2ms Secret & PII Byte-Level Redactor         │
+│    • Mask (1.1M)                 ──► Sub-0.2ms Secret & PII Byte-Level Redactor         │
 │                                                                                        │
 │  [ TIER 5: PREDICTIVE DEFECT & SYNTAX ]                                                │
-│    • NioMini (7.1M)              ──► Pre-emptive Defect & Regression Forecaster        │
+│    • Mini (7.1M)                 ──► Pre-emptive Defect & Regression Forecaster        │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -63,17 +63,17 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 | Model | Ecosystem Role | Architecture & Capacity | Specialization & Artifact | Status | Release |
 | :--- | :--- | :---: | :--- | :---: | :---: |
-| **`NioViper`** | **Tactical Terminal Striker** | `50.0M (10L, 14.7k Vocab)` | Natural language to POSIX & PowerShell reflex with Swiss Gear Runner (`nio-viper.Q4_0.gguf`, 26.9 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioNano`** | **Intent Routing & Directives** | `~0.5M Features` | Sub-0.1ms command intent triage, lexical heuristics & zero-token directive router (`nano.json`, 46.8 KB) | **Active in Core** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioMicro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioMask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`nio_mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioMini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Viper`** | **Tactical Terminal Striker** | `50.0M (10L, 14.7k Vocab)` | Natural language to POSIX & PowerShell reflex with Swiss Gear Runner (`nio-viper.Q4_0.gguf`, 26.9 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Nano`** | **Intent Routing & Directives** | `~0.5M Features` | Sub-0.1ms command intent triage, lexical heuristics & zero-token directive router (`nano.json`, 46.8 KB) | **Active in Core** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`nio_mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 
 ---
 
-## 🐍 1. NioViper 50M — Tactical Terminal & DevOps Reflex Engine
+## 🐍 1. Viper (50M) — Tactical Terminal & DevOps Reflex Engine
 
-**NioViper** is the 50-million parameter tactical terminal striker and DevOps reflex engine. Operating with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with **51.8 MB average / 53.1 MB peak resident RAM** and **15ms – 35ms** warm inference.
+**Viper** is the 50-million parameter tactical terminal striker and DevOps reflex engine. Operating with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with **51.8 MB average / 53.1 MB peak resident RAM** and **15ms – 35ms** warm inference.
 
 ### Verified Specifications
 - **Parameter Count**: 50,000,000 locked
@@ -89,36 +89,36 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 ---
 
-## ⚡ 2. NioNano (~0.5M) — Command Triage & Intent Reflex
+## ⚡ 2. Nano (~0.5M) — Command Triage & Intent Reflex
 
-**NioNano** is the embedded reflex layer of the Nio ecosystem. Embedded directly into native Rust binaries with zero external runtime dependencies, it acts as the initial sensory filter in developer terminals, IDE extensions, and CLI daemons.
+**Nano** is the embedded reflex layer of the Nio ecosystem. Embedded directly into native Rust binaries with zero external runtime dependencies, it acts as the initial sensory filter in developer terminals, IDE extensions, and CLI daemons.
 - **Latency**: < 0.1ms (sub-100 microseconds)
 - **Footprint**: ~5 MB resident RAM
 - **Directives**: Routes zero-token prefixes (`--bash`, `--tools`, `--code`) instantly without neural inference.
 
 ---
 
-## 🛡️ 3. NioMicro (5.0M / Cluster) — Contextual Policy Arbiter
+## 🛡️ 3. Micro (5.0M / Cluster) — Contextual Policy Arbiter
 
-**NioMicro** is a 4-layer bidirectional Transformer operating in **< 5ms** as a mathematical gatekeeper:
+**Micro** is a 4-layer bidirectional Transformer operating in **< 5ms** as a mathematical gatekeeper:
 - **Clusters**: `sec` (security/credentials), `infra` (system mutations, ports, systemd), `base` (filesystem & git).
 - **Outputs**: Discrete verdicts (`approve` / `reject`) and continuous calibrated risk scores (`0.00` to `1.00`).
 - **Format**: Standard ONNX runtime executable in-process via Rust.
 
 ---
 
-## 🔒 4. NioMask (1.1M) — Real-Time Secret & PII Stream Redactor
+## 🔒 4. Mask (1.1M) — Real-Time Secret & PII Stream Redactor
 
-**NioMask** is a 2-layer Byte-Level Convolutional Transformer operating in **< 0.2ms**:
+**Mask** is a 2-layer Byte-Level Convolutional Transformer operating in **< 0.2ms**:
 - **Latency**: Sub-200 microseconds per 1KB chunk.
 - **Footprint**: 4.43 MB standalone ONNX binary (~6 MB RAM).
 - **Protection**: Scrubs AWS keys, GitHub PATs, OpenAI tokens, passwords, and PII from stdout/stderr pipes, terminal streams, and MCP gateway buffers with 99.95% accuracy and zero false positives on commit SHAs.
 
 ---
 
-## 🎯 5. NioMini (7.1M) — Pre-emptive Defect Forecaster
+## 🎯 5. Mini (7.1M) — Pre-emptive Defect Forecaster
 
-**NioMini** evaluates code diffs before compilation or test suites execute:
+**Mini** evaluates code diffs before compilation or test suites execute:
 - **Latency**: < 5ms in-process ONNX inference.
 - **Role**: Predicts build breaks, syntax errors, and regression probability before triggering slow build cycles.
 
