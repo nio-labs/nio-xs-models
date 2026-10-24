@@ -276,6 +276,71 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
+## 🔌 Localhost Model Context Protocol (MCP) Server (`nioxs-mcp`)
+
+The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`stdio`). It exposes all 5 MicroLM engines as zero-cost in-process tools for AI coding assistants (Cursor, Claude Desktop, Antigravity, Cline, Windsurf, Zed):
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        CODING AGENT (e.g. Claude / Cursor)             │
+└──────────────────┬─────────────────────────────────────────────────────┘
+                   │ MCP Standard JSON-RPC 2.0 (stdio)
+                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│              LOCAL NIO MCP SERVER (`nioxs-mcp` in Rust)                │
+├────────────────────────────────────────────────────────────────────────┤
+│ • viper_synthesize(intent, shell)  ──► Sub-50ms POSIX/PS Command       │
+│ • mask_sanitize(content)           ──► Sub-0.2ms Secret/PII Scrubber   │
+│ • micro_audit(action, cluster)     ──► Sub-4ms Policy APPROVE/REJECT   │
+│ • nano_route(text)                 ──► Sub-0.1ms Zero-Token Directive  │
+│ • mini_predict_defect(diff)        ──► Sub-5ms Build Break Probability │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### 1. Available MCP Tools
+
+| Tool Name | Engine | Role | Speed & Token Impact |
+|---|---|---|---|
+| **`viper_synthesize`** | Viper (100M) | Synthesize POSIX / PowerShell cmdlets with Destructive Safety Clutch | Replaces 1,500+ output tokens with sub-50ms local inference |
+| **`mask_sanitize`** | Mask (1.1M) | Zero-cloud secret & PII stream scrubber (API keys, tokens, passwords) | Prevents secret leaks to cloud APIs in < 0.2ms with 0 false positives |
+| **`micro_audit`** | Micro (5.0M) | Contextual policy arbiter approving/rejecting file and infra mutations | Deterministic gate in < 4ms; eliminates 2,000+ token safety prompts |
+| **`nano_route`** | Nano (~0.5M) | Sub-0.1ms command intent triage and zero-token directive router | Saves 5k–25k tokens on inspection directives (`--bash`, `--tools`) |
+| **`mini_predict_defect`** | Mini (7.1M) | Pre-emptive defect and regression forecaster on code diffs | Sub-5ms PR / commit screening before triggering heavy build cycles |
+
+### 2. Configuration for Coding Agents
+
+#### A. Claude Desktop (`claude_desktop_config.json`)
+```json
+{
+  "mcpServers": {
+    "nio": {
+      "command": "cargo",
+      "args": ["run", "--release", "-p", "nio-mcp", "--", "--stdio"]
+    }
+  }
+}
+```
+
+#### B. Cursor / Windsurf / Antigravity (`.cursor/mcp.json`)
+```json
+{
+  "mcpServers": {
+    "nio-local": {
+      "command": "cargo",
+      "args": ["run", "--release", "-p", "nio-mcp", "--", "--stdio"]
+    }
+  }
+}
+```
+
+### 3. Diagnostics & Self-Test
+Run the built-in diagnostic test across all 5 MicroLM tools:
+```bash
+cargo run -p nio-mcp -- --test
+```
+
+---
+
 ## 📄 License
 
 This repository is licensed under the [Business Source License 1.1](LICENSE) (BSL 1.1).

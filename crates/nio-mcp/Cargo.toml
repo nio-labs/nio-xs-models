@@ -1,0 +1,21 @@
+[package]
+name = "nio-mcp"
+version = "0.1.0"
+edition = "2021"
+description = "Localhost Model Context Protocol (MCP) server for Nio MicroLM Fleet"
+license = "MIT"
+
+[dependencies]
+nio-mask-runtime = { path = "../nio-mask-runtime" }
+nio-micro-runtime = { path = "../nio-micro-runtime" }
+nio-mini-runtime = { path = "../nio-mini-runtime" }
+nio-nano-runtime = { path = "../nio-nano-runtime" }
+nio-viper-runtime = { path = "../nio-viper-runtime" }
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+
+[[bin]]
+name = "nioxs-mcp"
+path = "src/main.rs"
