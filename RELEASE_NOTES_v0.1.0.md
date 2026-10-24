@@ -1,12 +1,12 @@
 # Nio Models v0.1.0 — MicroLM (µLM) Core Production Release
 
-Official **v0.1.0 General Availability (GA)** release of the Nio Micro Learning Model (µLM) production family.
+Official **v0.1.0** release of the Nio Micro Learning Model (µLM) production family.
 
 ---
 
 ### 🏛️ The Production MicroLM Hierarchy
 
-1. **NioViper 50M (v0.1.0 GA)**:
+1. **NioViper 50M (Released v0.1.0)**:
    - 50,000,000 parameter tactical terminal striker and DevOps reflex engine.
    - Sub-55MB resident memory envelope (**51.8 MB avg / 53.1 MB peak RAM** via Linux Kernel `VmHWM`).
    - 26.9 MB quantized Q4_0 GGUF with dedicated 14,744 ByteLevel BPE vocabulary.
@@ -16,11 +16,11 @@ Official **v0.1.0 General Availability (GA)** release of the Nio Micro Learning 
    - In-process Rust feature engine operating in **< 0.1ms (sub-100 microseconds)**.
    - Intercepts zero-token directives (`--bash`, `--tools`, `--code`) and performs instant intent routing.
 
-3. **NioMicro 5.0M / Cluster (v0.1.0 GA)**:
+3. **NioMicro 5.0M / Cluster (Released v0.1.0)**:
    - 4-layer bidirectional Transformer operating in **< 5ms** as an autonomous policy gate.
    - Partitioned into independent 5M clusters (`sec`, `infra`, `base`) approving/rejecting terminal mutations with continuous risk calibrations.
 
-4. **NioMini 7.1M (v0.1.0 GA)**:
+4. **NioMini 7.1M (Released v0.1.0)**:
    - Bidirectional AST encoder operating in **< 5ms**.
    - Pre-emptive code radar predicting build breaks, lifetime violations, and regressions before test suites execute.
 

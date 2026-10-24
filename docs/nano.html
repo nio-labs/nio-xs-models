@@ -62,11 +62,10 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
-          <a href="nano.html" class="nav-link active">NioNano (~0.5M)</a>
-          <a href="ray.html" class="nav-link">NioRay (AST-µLM)</a>
-          <a href="micro.html" class="nav-link">NioMicro (5.0M)</a>
-          <a href="mask.html" class="nav-link">NioMask (1.1M)</a>
-          <a href="mini.html" class="nav-link">NioMini (7.1M)</a>
+          <a href="index.html#nioviper" class="nav-link">NioViper (50M Reflex)</a>
+          <a href="nano.html" class="nav-link active">NioNano (~0.5M Intent)</a>
+          <a href="micro.html" class="nav-link">NioMicro (5.0M Policy)</a>
+          <a href="mini.html" class="nav-link">NioMini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">NioNano Overview</div>
@@ -240,13 +239,13 @@ nio "--code guard refactor router to use Axum 0.8 graceful shutdown"</code></pre
           <h3>E. Natural Language Intent Triage (`nioxs nano`)</h3>
           <p>When prompts don't use <code>--</code>, NioNano's classifier maps natural language developer questions to deterministic caller actions in sub-100µs:</p>
           <pre><code class="language-bash"># Classify natural language developer prompt
-nioxs nano "where is NioMaskConfig defined in the repository?"</code></pre>
+nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
           <pre><code class="language-json">{
   "action": "search_code",
-  "symbol": "NioMaskConfig",
+  "symbol": "ModelConfig",
   "confidence": 0.992,
   "elapsed_microseconds": 74,
-  "suggested_command": "git grep 'struct NioMaskConfig' src/"
+  "suggested_command": "git grep 'struct ModelConfig' src/"
 }</code></pre>
         </section>
 

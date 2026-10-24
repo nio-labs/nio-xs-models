@@ -60,10 +60,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 | Model | Ecosystem Role | Architecture & Capacity | Specialization & Artifact | Status | Release |
 | :--- | :--- | :---: | :--- | :---: | :---: |
-| **`NioViper`** | **Tactical Terminal Striker** | `50.0M (10L, 14.7k Vocab)` | Natural language to POSIX & PowerShell reflex with Swiss Gear Runner (`nio-viper.Q4_0.gguf`, 26.9 MB) | **GA** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`NioViper`** | **Tactical Terminal Striker** | `50.0M (10L, 14.7k Vocab)` | Natural language to POSIX & PowerShell reflex with Swiss Gear Runner (`nio-viper.Q4_0.gguf`, 26.9 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`NioNano`** | **Intent Routing & Directives** | `~0.5M Features` | Sub-0.1ms command intent triage, lexical heuristics & zero-token directive router (`nano.json`, 46.8 KB) | **Active in Core** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioMicro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **GA** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`NioMini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 28.4 MB) | **GA** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`NioMicro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`NioMini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 
 ---
 
@@ -143,4 +143,10 @@ nioxs viper -x "spider search .rs files for 'fn main'"
 
 ## 📄 License
 
-All model weights and tokenizer configurations in this registry are distributed under the **Apache 2.0 / MIT Dual License**.
+This repository is licensed under the [Business Source License 1.1](LICENSE) (BSL 1.1).
+
+* **Non-Production & Internal Production Use**: Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.
+* **Commercial Protection Clause**: You may not offer the Licensed Work to third parties as a competing hosted, managed, or cloud service without a commercial license from Nio Labs.
+* **Automatic Open Source Transition**: On **October 20, 2030** (four years from publication), this code automatically converts to the **Apache License, Version 2.0**.
+
+For commercial licensing inquiries or enterprise deployments, contact `licensing@nio-labs.com`.
