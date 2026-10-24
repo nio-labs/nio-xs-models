@@ -61,29 +61,24 @@
           <div class="nav-section-title">Introduction</div>
           <a href="#overview" class="nav-link active">1. Overview</a>
           <a href="#microlm" class="nav-link">2. The MicroLM Paradigm</a>
-          <a href="#fleet" class="nav-link">3. The Nio Predator Fleet</a>
-          <a href="#matrix" class="nav-link">4. Production Matrix</a>
+          <a href="#matrix" class="nav-link">3. Production Matrix</a>
         </div>
         <div class="nav-section">
-          <div class="nav-section-title">Active Production Model</div>
-          <a href="#nioviper" class="nav-link">NioViper 50M (v0.1.0 GA)</a>
-        </div>
-        <div class="nav-section">
-          <div class="nav-section-title">Fleet Roadmap</div>
-          <a href="#fleet" class="nav-link">NioRay (1.54B Full-Brain)</a>
-          <a href="#fleet" class="nav-link">NioApex (3.2B Swarm)</a>
-          <a href="#fleet" class="nav-link">NioHydra (8.0B MoE)</a>
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="#nioviper" class="nav-link">NioViper (50M Reflex)</a>
+          <a href="nano.html" class="nav-link">NioNano (~0.5M Intent)</a>
+          <a href="micro.html" class="nav-link">NioMicro (5.0M Policy)</a>
+          <a href="mini.html" class="nav-link">NioMini (7.1M Defect)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Distribution &amp; Code</div>
           <a href="#releases" class="nav-link">Releases &amp; Hashes</a>
           <a href="#quickstart" class="nav-link">CLI Quickstart</a>
-          <a href="#swissgear" class="nav-link">Swiss Gear Architecture</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Ecosystem</div>
-          <a href="#benchmarks" class="nav-link">14. Edge Benchmarks</a>
-          <a href="#faq" class="nav-link">15. Technical FAQ</a>
+          <a href="#benchmarks" class="nav-link">Edge Benchmarks</a>
+          <a href="#faq" class="nav-link">Technical FAQ</a>
         </div>
       </nav>
       <div class="sidebar-footer">
@@ -242,35 +237,38 @@
               <p style="margin-top: 10px;"><a href="#nioviper"><strong>Explore NioViper Architecture &amp; Commands →</strong></a></p>
             </div>
             <div class="feature-card">
-              <h4>NioRay <code>(1.54B Dense &bull; Full-Brain Synthesizer)</code></h4>
-              <p><strong>Full-Brain Code Synthesizer (Roadmap Q4 2026).</strong> In-process layer streaming and deep multi-file codebase reasoning within a sub-800MB resident memory envelope for local developer IDEs.</p>
+              <h4>NioNano <code>(~0.5M &bull; Sub-0.1ms Intent Reflex)</code></h4>
+              <p><strong>Command Triage &amp; Intent Routing.</strong> In-process Rust feature engine operating in sub-100 microseconds. Intercepts zero-token directives (<code>--bash</code>, <code>--tools</code>, <code>--code</code>) and routes developer prompts into deterministic operational actions.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="badge">Roadmap Q4 2026</span>
-                <span class="badge badge-mono">1.54B Parameters &bull; Sub-800MB RAM</span>
+                <span class="badge badge-accent">Active in Core Rust</span>
+                <span class="badge badge-mono">46.8 KB nano.json &bull; &lt; 0.1ms</span>
               </div>
+              <p style="margin-top: 10px;"><a href="nano.html"><strong>Read Dedicated NioNano Docs →</strong></a></p>
             </div>
             <div class="feature-card">
-              <h4>NioApex <code>(3.2B &bull; Swarm Reasoning Engine)</code></h4>
-              <p><strong>Autonomous Swarm Conductor (Roadmap Q1 2027).</strong> High-velocity DAG planning, multi-agent regression resolution, and cross-repository surgery.</p>
+              <h4>NioMicro <code>(5.0M / Cluster &bull; Policy Decision Gate)</code></h4>
+              <p><strong>Contextual Policy Arbiter.</strong> 4-layer bidirectional Transformer running in &lt; 5ms. Partitioned into independent clusters (<code>sec</code>, <code>infra</code>, <code>base</code>) to approve/reject terminal commands and output calibrated risk scores.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="badge">Roadmap Q1 2027</span>
-                <span class="badge badge-mono">3.2B Parameters &bull; Multi-Agent DAG</span>
+                <span class="badge badge-accent">Released v0.1.0 GA</span>
+                <span class="badge badge-mono">14–20 MB ONNX &bull; &lt; 5ms Latency</span>
               </div>
+              <p style="margin-top: 10px;"><a href="micro.html"><strong>Read Dedicated NioMicro Docs →</strong></a></p>
             </div>
             <div class="feature-card">
-              <h4>NioHydra <code>(8.0B &bull; Polyglot MoE Engine)</code></h4>
-              <p><strong>Sparse Mixture-of-Experts Engine (Roadmap Q2 2027).</strong> 8x1B speculative fast-decoding across polyglot compiler ecosystems (Rust, TypeScript, Go, Python).</p>
+              <h4>NioMini <code>(7.1M &bull; Pre-emptive Defect Forecaster)</code></h4>
+              <p><strong>Predictive Code Radar.</strong> Bidirectional AST encoder operating in &lt; 5ms. Evaluates proposed diffs to predict whether changes will trigger compiler errors, lifetime violations, or test regressions before slow build cycles start.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="badge">Roadmap Q2 2027</span>
-                <span class="badge badge-mono">8x1B MoE &bull; Speculative Fast-Decode</span>
+                <span class="badge badge-accent">Released v0.1.0 GA</span>
+                <span class="badge badge-mono">27.1 MB ONNX &bull; &lt; 5ms Latency</span>
               </div>
+              <p style="margin-top: 10px;"><a href="mini.html"><strong>Read Dedicated NioMini Docs →</strong></a></p>
             </div>
           </div>
         </section>
 
-        <!-- 4. PRODUCTION MATRIX -->
+        <!-- 3. PRODUCTION MATRIX -->
         <section id="matrix" class="doc-section">
-          <h2>4. Available Production Models Matrix</h2>
+          <h2>3. Available Production Models Matrix</h2>
           <p>The following MicroLM (µLM) engines are compiled, verified, and officially distributed through this registry:</p>
 
           <div class="table-wrapper">
@@ -295,28 +293,28 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><strong>NioRay</strong></td>
-                  <td>Full-Brain Synthesizer</td>
-                  <td><code>1.54B (Dense Codebase)</code></td>
-                  <td>Deep Architecture &amp; AST Codebase Synthesis (In-Process Layer Streaming, Sub-800MB RAM)</td>
-                  <td><span class="badge">Roadmap Q4 2026</span></td>
-                  <td>—</td>
+                  <td><a href="nano.html"><strong>NioNano</strong></a></td>
+                  <td>Intent Reflex &amp; Directives</td>
+                  <td><code>~0.5M Features</code></td>
+                  <td>Sub-0.1ms command intent triage, lexical heuristics &amp; zero-token directive router (<code>nano.json</code>, 46.8 KB)</td>
+                  <td><span class="badge badge-accent">Active in Core</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><strong>NioApex</strong></td>
-                  <td>Swarm Reasoning Engine</td>
-                  <td><code>3.2B (Swarm Planner)</code></td>
-                  <td>Multi-Agent DAG Conductor, Autonomous Bug Regression &amp; Git Surgery Planner</td>
-                  <td><span class="badge">Roadmap Q1 2027</span></td>
-                  <td>—</td>
+                  <td><a href="micro.html"><strong>NioMicro</strong></a></td>
+                  <td>Contextual Policy Arbiter</td>
+                  <td><code>5.0M / Cluster</code></td>
+                  <td>Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX)</td>
+                  <td><span class="badge badge-accent">Released GA</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><strong>NioHydra</strong></td>
-                  <td>Polyglot Speculative Engine</td>
-                  <td><code>8.0B (MoE 8x1B)</code></td>
-                  <td>Sparse Mixture-of-Experts Speculative Fast-Decoding for Polyglot Workspaces</td>
-                  <td><span class="badge">Roadmap Q2 2027</span></td>
-                  <td>—</td>
+                  <td><a href="mini.html"><strong>NioMini</strong></a></td>
+                  <td>Defect &amp; Syntax Forecaster</td>
+                  <td><code>7.1M Bidirectional AST</code></td>
+                  <td>Pre-emptive defect forecaster predicting build breaks &amp; lifetime violations in &lt; 5ms (<code>nio-mini.onnx</code>, 27.1 MB)</td>
+                  <td><span class="badge badge-accent">Released GA</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -872,18 +870,58 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                 <tr>
                   <td><code>nio-viper.Q4_0.gguf</code></td>
                   <td>NioViper 50M (Quantized Tactical Reflex)</td>
-                  <td>26.9 MB</td>
-                  <td><code>(Verified upon Release)</code></td>
+                  <td>26.91 MB</td>
+                  <td><code>acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper.Q4_0.gguf">Download v0.1.0</a></td>
                 </tr>
                 <tr>
                   <td><code>nio-viper-tokenizer.json</code></td>
                   <td>NioViper 14,744 Vocab Dedicated BPE Tokenizer</td>
                   <td>923 KB</td>
-                  <td><code>(Verified upon Release)</code></td>
+                  <td><code>25e0b493570d3f1cd338033a685f69eb3fefd4f307424bca5709fa8bb1994806</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-viper-tokenizer.json">Download v0.1.0</a></td>
                 </tr>
-              </tbody>
+                <tr>
+                  <td><code>nano.json</code></td>
+                  <td>NioNano Intent Reflex Routing Matrix</td>
+                  <td>46.8 KB</td>
+                  <td><code>9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_micro_base.onnx</code></td>
+                  <td>NioMicro 5M (Base Filesystem &amp; Git Cluster)</td>
+                  <td>13.82 MB</td>
+                  <td><code>4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_base.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_micro_infra.onnx</code></td>
+                  <td>NioMicro 5M (Infra &amp; Port Mutation Cluster)</td>
+                  <td>19.66 MB</td>
+                  <td><code>9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_infra.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio_micro_sec.onnx</code></td>
+                  <td>NioMicro 5M (Security &amp; Credentials Cluster)</td>
+                  <td>19.66 MB</td>
+                  <td><code>c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_sec.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio-micro-tokenizer.json</code></td>
+                  <td>NioMicro Dedicated Domain Tokenizer</td>
+                  <td>17.5 KB</td>
+                  <td><code>1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>nio-mini.onnx</code></td>
+                  <td>NioMini 7.1M (Pre-emptive Defect Forecaster)</td>
+                  <td>27.14 MB</td>
+                  <td><code>dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-mini.onnx">Download v0.1.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -892,17 +930,18 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
           <h3>Automated Shell Download &amp; Verification</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code># Download all certified v0.3.0 assets
-RELEASE_URL="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0"
-curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
-curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
+            <pre><code># Download all certified v0.1.0 assets
+RELEASE_URL="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0"
+curl -LO "${RELEASE_URL}/nio-viper.Q4_0.gguf"
+curl -LO "${RELEASE_URL}/nio-viper-tokenizer.json"
+curl -LO "${RELEASE_URL}/nano.json"
 curl -LO "${RELEASE_URL}/nio_micro_base.onnx"
-curl -LO "${RELEASE_URL}/nio_mask.onnx"
+curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
+curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
 curl -LO "${RELEASE_URL}/nio-mini.onnx"
-curl -LO "${RELEASE_URL}/tokenizer.json"
 
 # Verify cryptographic SHA-256 signatures
-sha256sum nio_micro_sec.onnx nio_micro_infra.onnx nio_micro_base.onnx nio_mask.onnx nio-mini.onnx tokenizer.json</code></pre>
+sha256sum nio-viper.Q4_0.gguf nio-viper-tokenizer.json nano.json nio_micro_*.onnx nio-mini.onnx</code></pre>
           </div>
         </section>
 
