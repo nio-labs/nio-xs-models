@@ -341,6 +341,34 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
+## 🦈 2. Skate (135M) — Resident Micro-Guru & Edge Companion (`v-µLM Vector`)
+
+**Skate** is the 134.5-million parameter resident edge companion and ambient telemetry triage model powered by the **`v-µLM Vector`** architecture. Using mathematical `IQ3_XXS` vector codebooks, it retains full 30-layer neural activation patterns in just **82.9 MB disk footprint** and operates within **22.4 MB peak resident RAM (`VmHWM`)**.
+
+### 📊 25-Prompt Real-World Benchmark Telemetry
+
+| Metric | Measured Value | System Analysis |
+|:---|:---:|:---|
+| **Peak Resident RAM (`VmHWM`)** | **22.4 MB** | **Pass**: Well under the 30 MB edge budget; runs comfortably on any resource-constrained device. |
+| **Generation Speed** | **44.2 tokens/sec** | **Pass**: 15–24 words/sec (3x–5x faster than human reading speed of 4–5 words/sec). |
+| **Prompt Ingestion Speed** | **220.0 tokens/sec** | **Pass**: Near-instant context processing (< 150ms for typical edge prompts). |
+| **Binary Disk Footprint** | **82.93 MB** | Single unified `skate.vmicrolm-vector.gguf` file. |
+| **Full Suite Wall-Clock (25 Prompts)** | **56.51s** | High-throughput sequential execution across 25 diverse real-world domains. |
+
+### 🎯 Scope & Fleet Demarcation (What Skate Does vs. What It Delegates)
+
+- **Native Edge Strengths (What Skate is Built For)**:
+  - Ambient edge telemetry summarization and developer greeting.
+  - Fast conversational companionship (NioGuru BFF and edge persona quick replies).
+  - High-throughput prompt triage and intent classification in < 25 MB RAM.
+  - Streaming responses at **15–24 words/second** with zero lag on low-power CPUs.
+- **Architectural Boundaries (Why Skate Does NOT Write Free-Form Code)**:
+  - At 135M parameters, unconstrained autoregressive sampling on intricate code synthesis (e.g. deep Rust borrow checker rules, Go concurrency channels, multi-stage Dockerfiles) triggers probability drift and token repetition loops (e.g. `mut mut mut`, `InvalidError(ErrorType)`).
+  - **Deterministic Edge Execution**: When exact syntactic precision is required at < 100M scale, the **`v-µLM Reflex`** architecture with **Dynamic AST Grammars** (as implemented in `Viper`) is the mandatory pattern.
+  - **Complex Code & Compiler Healing**: Deep coding, multi-line refactoring, and AST repair are delegated to upper-tier predators: **Manta (494M)**, **Ray (1.54B)**, **Apex (3.09B)**, **Pike (7.24B)**, and **Hydra (7.61B)**.
+
+---
+
 ## 📦 Model Artifacts & Certified Checksums
 
 ### 🦈 Predator Tier Expansion: Manta & Skate (v0.2.0)
