@@ -1,5 +1,7 @@
 use anyhow::{Result, anyhow};
-use nio_viper_runtime::{AstMicroEngine, memory_mb, parse_viper_output, tactical_candidates, ViperOutput};
+use nio_viper_runtime::{
+    AstMicroEngine, memory_mb, parse_viper_output, DynamicGrammarReflex, ViperOutput,
+};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use tokenizers::Tokenizer;
@@ -127,15 +129,16 @@ fn main() -> Result<()> {
     let eos = tokenizer.token_to_id("<|im_end|>").unwrap_or(31980);
     let eot = tokenizer.token_to_id("<|endoftext|>").unwrap_or(151643);
 
-    let candidates = if is_ast {
-        println!("Mode: Tactical AST Candidate Reflex (Sub-20µs Sampling, < 25MB RAM)");
-        Some(tactical_candidates(&tokenizer)?)
+    let mut grammar = if is_ast {
+        println!("Mode: Dynamic AST Grammar Reflex (Sub-20µs Sampling, < 25MB RAM)");
+        Some(DynamicGrammarReflex::new(&tokenizer)?)
     } else {
         println!("Mode: Chunked Streaming Unconstrained Projection");
         None
     };
 
-    let mut next = engine.next_token(&hidden, candidates.as_deref())?;
+    let first_cands = grammar.as_ref().map(|g| g.allowed_candidates());
+    let mut next = engine.next_token(&hidden, first_cands)?;
     let mut generated = Vec::new();
     let mut decode_times = Vec::new();
 
@@ -151,9 +154,18 @@ fn main() -> Result<()> {
         print!("{}", text);
         std::io::Write::flush(&mut std::io::stdout())?;
 
+        let current_text = tokenizer.decode(&generated, false).unwrap_or_default();
+        if let Some(ref mut g) = grammar {
+            g.advance(next, &current_text);
+            if g.is_done() {
+                break;
+            }
+        }
+
         let t_step = Instant::now();
         let step_hidden = engine.forward_stream(&[next], prompt_tokens.len() + step)?;
-        next = engine.next_token(&step_hidden, candidates.as_deref())?;
+        let step_cands = grammar.as_ref().map(|g| g.allowed_candidates());
+        next = engine.next_token(&step_hidden, step_cands)?;
         decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
     }
     println!();

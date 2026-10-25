@@ -4,6 +4,9 @@ use std::path::{Path, PathBuf};
 use std::time::Instant;
 use tokenizers::Tokenizer;
 
+pub mod grammar;
+pub use grammar::DynamicGrammarReflex;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ViperOutput {
     Command(String),
@@ -25,17 +28,23 @@ pub struct ViperExecutionTelemetry {
 }
 
 pub fn find_default_viper_paths() -> Option<(PathBuf, PathBuf)> {
+    let home = std::env::var("HOME").unwrap_or_else(|_| ".".to_string());
+    let home_model = format!("{}/.nioxs/models/viper.Q4_0.gguf", home);
+    let home_tok = format!("{}/.nioxs/models/viper-tokenizer.json", home);
+
     let model_candidates = [
+        "models/viper.Q4_0.gguf",
         "models/nio-viper/viper.Q4_0.gguf",
         "../../models/nio-viper/viper.Q4_0.gguf",
         "../models/nio-viper/viper.Q4_0.gguf",
-        "models/viper.Q4_0.gguf",
+        home_model.as_str(),
     ];
     let tok_candidates = [
+        "models/viper-tokenizer.json",
         "models/nio-viper/viper-tokenizer.json",
         "../../models/nio-viper/viper-tokenizer.json",
         "../models/nio-viper/viper-tokenizer.json",
-        "models/viper-tokenizer.json",
+        home_tok.as_str(),
     ];
 
     for m in &model_candidates {
@@ -90,13 +99,14 @@ pub fn execute_viper_ast(
     let eos = tokenizer.token_to_id("<|im_end|>").unwrap_or(31980);
     let eot = tokenizer.token_to_id("<|endoftext|>").unwrap_or(151643);
 
-    let candidates = if is_ast {
-        Some(tactical_candidates(&tokenizer)?)
+    let mut grammar = if is_ast {
+        Some(DynamicGrammarReflex::new(&tokenizer)?)
     } else {
         None
     };
 
-    let mut next = engine.next_token(&hidden, candidates.as_deref())?;
+    let first_candidates = grammar.as_ref().map(|g| g.allowed_candidates());
+    let mut next = engine.next_token(&hidden, first_candidates)?;
     let mut generated = Vec::new();
     let mut decode_times = Vec::new();
 
@@ -105,9 +115,18 @@ pub fn execute_viper_ast(
             break;
         }
         generated.push(next);
+        let current_text = tokenizer.decode(&generated, false).unwrap_or_default();
+        if let Some(ref mut g) = grammar {
+            g.advance(next, &current_text);
+            if g.is_done() {
+                break;
+            }
+        }
+
         let t_step = Instant::now();
         let step_hidden = engine.forward_stream(&[next], prompt_tokens.len() + step)?;
-        next = engine.next_token(&step_hidden, candidates.as_deref())?;
+        let step_candidates = grammar.as_ref().map(|g| g.allowed_candidates());
+        next = engine.next_token(&step_hidden, step_candidates)?;
         decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
     }
 
@@ -189,7 +208,16 @@ pub fn parse_viper_output(text: &str) -> ViperOutput {
     } else if let Some((level, message)) = extract_viper_alert(text) {
         ViperOutput::Alert { level, message }
     } else {
-        ViperOutput::Raw(text.to_string())
+        let clean = text.trim().trim_start_matches('_').trim();
+        let known_verbs = [
+            "ss", "lsof", "fuser", "kill", "pkill", "find", "docker",
+            "cargo", "git", "systemctl", "journalctl", "ps", "grep", "cat", "awk", "curl", "tar",
+        ];
+        if known_verbs.iter().any(|v| clean.starts_with(v)) {
+            ViperOutput::Command(clean.to_string())
+        } else {
+            ViperOutput::Raw(text.to_string())
+        }
     }
 }
 
@@ -237,6 +265,15 @@ mod tests {
         assert_eq!(
             extract_viper_alert(text),
             Some(("error".to_string(), "error[E0382]: use of moved value `data`".to_string()))
+        );
+    }
+
+    #[test]
+    fn test_parse_viper_output_reflex() {
+        let text = "_ss -tlpn | xargs kill -9";
+        assert_eq!(
+            parse_viper_output(text),
+            ViperOutput::Command("ss -tlpn | xargs kill -9".to_string())
         );
     }
 }
