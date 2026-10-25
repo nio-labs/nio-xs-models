@@ -331,7 +331,7 @@
                   <td><a href="mask.html"><strong>Mask</strong></a></td>
                   <td>Stream Security &amp; Privacy</td>
                   <td><code>1.1M Byte-Conv</code></td>
-                  <td>Real-time secret, API key &amp; PII stream redactor for terminal pipes &amp; MCP gateway (<code>nio_mask.onnx</code>, 4.43 MB)</td>
+                  <td>Real-time secret, API key &amp; PII stream redactor for terminal pipes &amp; MCP gateway (<code>mask.onnx</code>, 4.43 MB)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
@@ -339,7 +339,7 @@
                   <td><a href="mini.html"><strong>Mini</strong></a></td>
                   <td>Defect &amp; Syntax Forecaster</td>
                   <td><code>7.1M Bidirectional AST</code></td>
-                  <td>Pre-emptive defect forecaster predicting build breaks &amp; lifetime violations in &lt; 5ms (<code>nio-mini.onnx</code>, 27.1 MB)</td>
+                  <td>Pre-emptive defect forecaster predicting build breaks &amp; lifetime violations in &lt; 5ms (<code>mini.onnx</code>, 27.1 MB)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
@@ -493,7 +493,7 @@ nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
         <section id="niomicro" class="doc-section">
           <div class="section-badge">Policy &amp; Decision Gate</div>
           <h2>7. Micro — Domain-Clustered Decision Engine (5.0M / Cluster)</h2>
-          <p><strong>Micro</strong> (<code>nioxs::nio-micro</code>) is the flagship decision engine of Nio. It serves as an autonomous, deterministic gatekeeper for code diffs, command executions, pull requests, and infrastructure operations.</p>
+          <p><strong>Micro</strong> (<code>nioxs::micro</code>) is the flagship decision engine of Nio. It serves as an autonomous, deterministic gatekeeper for code diffs, command executions, pull requests, and infrastructure operations.</p>
 
           <h3>The Modular Domain Cluster Architecture</h3>
           <p>Rather than ballooning one model into hundreds of millions of parameters—which causes cross-domain confusion and high memory footprints—<strong>Micro is architected as modular 5M ONNX engines</strong>.</p>
@@ -504,19 +504,19 @@ nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
               <div class="card-icon">🛡️</div>
               <h4>Security Cluster (<code>sec</code>)</h4>
               <p>Audits security commands (<code>semgrep</code>, <code>nuclei</code>, <code>trufflehog</code>), private keys, Golden Ticket exploits, shadow reads, and token exposures.</p>
-              <span class="badge badge-mono">nio_micro_sec.onnx (20 MB)</span>
+              <span class="badge badge-mono">micro_sec.onnx (20 MB)</span>
             </div>
             <div class="feature-card">
               <div class="card-icon">☁️</div>
               <h4>Infrastructure Cluster (<code>infra</code>)</h4>
               <p>Protects cloud orchestrations (Kubernetes, Terraform, Helm, Docker, AWS). Blocks destructive S3 bucket wipes, etcd resets, and production scale-to-zero.</p>
-              <span class="badge badge-mono">nio_micro_infra.onnx (20 MB)</span>
+              <span class="badge badge-mono">micro_infra.onnx (20 MB)</span>
             </div>
             <div class="feature-card">
               <div class="card-icon">⚙️</div>
               <h4>Base Workflow Cluster (<code>base</code>)</h4>
               <p>Evaluates standard developer workflows, Git operations, code modifications, build pipelines, and unit test changes.</p>
-              <span class="badge badge-mono">nio_micro_base.onnx (20 MB)</span>
+              <span class="badge badge-mono">micro_base.onnx (20 MB)</span>
             </div>
             <div class="feature-card">
               <div class="card-icon">📈</div>
@@ -528,7 +528,7 @@ nioxs nano "where is ModelConfig defined in the repository?"</code></pre>
 
           <h3>Transformer Architecture &amp; Multi-Task Heads</h3>
           <ul>
-            <li><strong>Backbone:</strong> 4-Layer Bidirectional Transformer Encoder ($d_{	ext{model}} = 224$, 4 Attention Heads, $d_{	ext{ff}} = 1,304$).</li>
+            <li><strong>Backbone:</strong> 4-Layer Bidirectional Transformer Encoder ($d_{\text{model}} = 224$, 4 Attention Heads, $d_{\text{ff}} = 1,304$).</li>
             <li><strong>Parameter Count:</strong> <strong>Exactly 5,000,000 parameters</strong>.</li>
             <li><strong>Dual Multi-Task Outputs:</strong>
               <ol>
@@ -548,7 +548,7 @@ nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'
 nioxs micro infra "kubectl delete namespace production --cascade=foreground"
 
 # 3. Autonomous agent action validation in NioAI CLI
-nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
+nio run -m nioxs::micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
             <p><a href="micro.html"><strong>Read the Dedicated Micro Page with JSON Verdict Outputs →</strong></a></p>
           </div>
         </section>
@@ -631,7 +631,7 @@ nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp
         <section id="niomini" class="doc-section">
           <div class="section-badge">Predictive Engine &amp; Defect Forecaster</div>
           <h2>9. Mini — Pre-emptive Defect Forecaster (7.1M)</h2>
-          <p><strong>Mini</strong> (<code>nioxs::nio-mini</code>) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing <code>cargo test</code> or triggering CI builds.</p>
+          <p><strong>Mini</strong> (<code>nioxs::mini</code>) is the pre-execution quality and safety engine of the Nio ecosystem. Trained on Abstract Syntax Tree (AST) diff hunks and dependency trees, it pre-emptively forecasts whether proposed code edits will break compilation, fail existing test suites, or induce runtime regressions before executing <code>cargo test</code> or triggering CI builds.</p>
 
           <h3>Architecture &amp; Mathematical Budget</h3>
           <ul>
@@ -681,7 +681,7 @@ nio run -m nioxs::nio-mask --sanitize-buffer "curl -H 'Authorization: Bearer ghp
 nioxs mini "fn process(data: &amp;mut Vec&lt;u8&gt;) { let r = &amp;data; data.push(1); }"
 
 # 2. Forecast test suite regressions on pending git diffs in NioAI
-nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"
+nio run -m nioxs::mini --predict-tests --diff "git diff crates/router/src/lib.rs"
 
 # 3. Sub-5ms PR pre-flight gate for CI pipelines
 nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
@@ -728,46 +728,46 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio_micro_base.onnx</code></td>
+                  <td><code>micro_base.onnx</code></td>
                   <td>Micro 5M (Base Filesystem &amp; Git Cluster)</td>
                   <td>13.82 MB</td>
                   <td><code>4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_base.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_base.onnx">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio_micro_infra.onnx</code></td>
+                  <td><code>micro_infra.onnx</code></td>
                   <td>Micro 5M (Infra &amp; Port Mutation Cluster)</td>
                   <td>19.66 MB</td>
                   <td><code>9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_infra.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_infra.onnx">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio_micro_sec.onnx</code></td>
+                  <td><code>micro_sec.onnx</code></td>
                   <td>Micro 5M (Security &amp; Credentials Cluster)</td>
                   <td>19.66 MB</td>
                   <td><code>c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_micro_sec.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_sec.onnx">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio-micro-tokenizer.json</code></td>
+                  <td><code>micro-tokenizer.json</code></td>
                   <td>Micro Dedicated Domain Tokenizer</td>
                   <td>17.5 KB</td>
                   <td><code>1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-micro-tokenizer.json">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro-tokenizer.json">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio_mask.onnx</code></td>
+                  <td><code>mask.onnx</code></td>
                   <td>Mask 1.1M (Real-Time Secret &amp; PII Redactor)</td>
                   <td>4.43 MB</td>
                   <td><code>a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio_mask.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mask.onnx">Download v0.1.0</a></td>
                 </tr>
                 <tr>
-                  <td><code>nio-mini.onnx</code></td>
+                  <td><code>mini.onnx</code></td>
                   <td>Mini 7.1M (Pre-emptive Defect Forecaster)</td>
                   <td>27.14 MB</td>
                   <td><code>dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nio-mini.onnx">Download v0.1.0</a></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mini.onnx">Download v0.1.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -781,14 +781,14 @@ RELEASE_URL="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0"
 curl -LO "${RELEASE_URL}/viper.Q4_0.gguf"
 curl -LO "${RELEASE_URL}/viper-tokenizer.json"
 curl -LO "${RELEASE_URL}/nano.json"
-curl -LO "${RELEASE_URL}/nio_micro_base.onnx"
-curl -LO "${RELEASE_URL}/nio_micro_infra.onnx"
-curl -LO "${RELEASE_URL}/nio_micro_sec.onnx"
-curl -LO "${RELEASE_URL}/nio_mask.onnx"
-curl -LO "${RELEASE_URL}/nio-mini.onnx"
+curl -LO "${RELEASE_URL}/micro_base.onnx"
+curl -LO "${RELEASE_URL}/micro_infra.onnx"
+curl -LO "${RELEASE_URL}/micro_sec.onnx"
+curl -LO "${RELEASE_URL}/mask.onnx"
+curl -LO "${RELEASE_URL}/mini.onnx"
 
 # Verify cryptographic SHA-256 signatures
-sha256sum viper.Q4_0.gguf viper-tokenizer.json nano.json nio_micro_*.onnx nio_mask.onnx nio-mini.onnx</code></pre>
+sha256sum viper.Q4_0.gguf viper-tokenizer.json nano.json micro_*.onnx mask.onnx mini.onnx</code></pre>
           </div>
         </section>
 
@@ -910,7 +910,7 @@ git diff --cached | nioxs mask --fail-on-secrets</code></pre>
 nioxs mini "fn process(data: &amp;mut Vec&lt;u8&gt;) { let r = &amp;data; data.push(1); }"
 
 # Forecast test suite regressions on pending git diffs in NioAI
-nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
+nio run -m nioxs::mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
             <pre><code class="language-json">{
   "will_break": true,
   "break_probability": 0.984,
@@ -937,7 +937,7 @@ fn main() -&gt; anyhow::Result&lt;()&gt; {
     // 2. Load compiled Micro Security Cluster (&lt; 35 MB RAM)
     let session = SessionBuilder::new(&amp;environment)?
         .with_intra_threads(1)?
-        .with_model_from_file("~/.nioxs/models/nio_micro_sec.onnx")?;
+        .with_model_from_file("~/.nioxs/models/micro_sec.onnx")?;
 
     // 3. Prepare inputs and execute in &lt; 5ms
     println!("Micro loaded successfully into native process memory!");
@@ -962,7 +962,7 @@ sess_options.intra_op_num_threads = 1
 sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
 
 # Load Micro Security Cluster (< 20 MB)
-session = ort.InferenceSession("nio_micro_sec.onnx", sess_options, providers=["CPUExecutionProvider"])
+session = ort.InferenceSession("micro_sec.onnx", sess_options, providers=["CPUExecutionProvider"])
 
 # Run inference on tokenized command ids (< 5ms)
 input_ids = np.array([[101, 2054, 2003, 1037, 102]], dtype=np.int64)

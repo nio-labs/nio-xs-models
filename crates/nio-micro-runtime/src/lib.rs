@@ -18,7 +18,7 @@ pub struct NioMicro {
 impl NioMicro {
     pub fn new() -> Self {
         Self {
-            model_name: "nioxs::nio-micro".to_string(),
+            model_name: "nioxs::micro".to_string(),
         }
     }
 

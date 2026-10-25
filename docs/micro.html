@@ -142,20 +142,20 @@
                 <tr>
                   <td><strong><code>sec</code></strong></td>
                   <td>Security boundaries, auth, permissions</td>
-                  <td><code>nio-micro-sec.onnx</code></td>
-                  <td><code>745ff84065406fae...</code></td>
+                  <td><code>micro_sec.onnx</code></td>
+                  <td><code>c86d350d7fea0dc9...</code></td>
                 </tr>
                 <tr>
                   <td><strong><code>infra</code></strong></td>
                   <td>Containers, k8s, cloud, destructive commands</td>
-                  <td><code>nio-micro-infra.onnx</code></td>
-                  <td><code>a697960fc0c45167...</code></td>
+                  <td><code>micro_infra.onnx</code></td>
+                  <td><code>9e4b541a150d0c36...</code></td>
                 </tr>
                 <tr>
                   <td><strong><code>base</code></strong></td>
                   <td>General terminal command policy</td>
-                  <td><code>nio-micro-base.onnx</code></td>
-                  <td><code>867bcdd73099c277...</code></td>
+                  <td><code>micro_base.onnx</code></td>
+                  <td><code>4b19ceaf36d0e545...</code></td>
                 </tr>
               </tbody>
             </table>
@@ -171,7 +171,7 @@
           <pre><code class="language-bash"># Audit a code change before committing
 nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::nio-micro-sec",
+  "model": "nioxs::micro-sec",
   "cluster": "security",
   "verdict": "REJECT",
   "confidence": 0.998,
@@ -185,7 +185,7 @@ nioxs micro sec --diff "SELECT * FROM users WHERE username = '" + userInput + "'
           <pre><code class="language-bash"># Evaluate destructive production infrastructure command
 nioxs micro infra "kubectl delete namespace production --cascade=foreground"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::nio-micro-infra",
+  "model": "nioxs::micro-infra",
   "cluster": "infrastructure",
   "verdict": "REJECT",
   "confidence": 0.994,
@@ -197,9 +197,9 @@ nioxs micro infra "kubectl delete namespace production --cascade=foreground"</co
           <h3>C. NioAI Autonomous Pre-Execution Gate (`nio run --guard`)</h3>
           <p>NioAI uses Micro to validate planned agent actions before executing tool calls:</p>
           <pre><code class="language-bash"># NioAI checks proposed workspace clean command
-nio run -m nioxs::nio-micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
+nio run -m nioxs::micro --cluster base "cargo clean --package nioxs-engine"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::nio-micro-base",
+  "model": "nioxs::micro-base",
   "cluster": "base_policy",
   "verdict": "APPROVE",
   "confidence": 0.987,

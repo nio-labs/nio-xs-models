@@ -46,7 +46,7 @@ impl Default for NioMini {
 impl NioMini {
     pub fn new() -> Self {
         Self {
-            model_name: "nioxs::nio-mini".to_string(),
+            model_name: "nioxs::mini".to_string(),
         }
     }
 

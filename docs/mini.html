@@ -134,7 +134,7 @@
           <pre><code class="language-bash"># Run pre-emptive inspection on proposed Rust function
 nioxs mini "fn process(data: &mut Vec<u8>) { let ref1 = &data; data.push(1); println!(\"{:?}\", ref1); }"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::nio-mini",
+  "model": "nioxs::mini",
   "will_break": true,
   "break_probability": 0.984,
   "category": "BORROW_CHECK_FAIL",
@@ -143,12 +143,12 @@ nioxs mini "fn process(data: &mut Vec<u8>) { let ref1 = &data; data.push(1); pri
   "reason": "Cannot borrow `*data` as mutable because it is also borrowed as immutable"
 }</code></pre>
 
-          <h3>B. Test Suite Regression Forecasting in NioAI (`nio run -m nioxs::nio-mini`)</h3>
+          <h3>B. Test Suite Regression Forecasting in NioAI (`nio run -m nioxs::mini`)</h3>
           <p>NioAI uses Mini to evaluate whether a proposed code change will break existing unit tests across the workspace:</p>
           <pre><code class="language-bash"># NioAI checks if refactor introduces regressions in test suite
-nio run -m nioxs::nio-mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
+nio run -m nioxs::mini --predict-tests --diff "git diff crates/router/src/lib.rs"</code></pre>
           <pre><code class="language-json">{
-  "model": "nioxs::nio-mini",
+  "model": "nioxs::mini",
   "will_break": true,
   "break_probability": 0.887,
   "category": "TEST_REGRESSION",

@@ -32,7 +32,7 @@ fn main() -> anyhow::Result<()> {
 
     let verdict = if is_destructive {
         DecisionOutput {
-            model: "nioxs::nio-micro".into(),
+            model: "nioxs::micro".into(),
             input: query,
             decision: "reject".into(),
             sentiment: "negative".into(),
@@ -42,7 +42,7 @@ fn main() -> anyhow::Result<()> {
         }
     } else {
         DecisionOutput {
-            model: "nioxs::nio-micro".into(),
+            model: "nioxs::micro".into(),
             input: query,
             decision: "approve".into(),
             sentiment: "positive".into(),
