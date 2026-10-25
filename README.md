@@ -60,6 +60,12 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 7: FLASH & LEAN COGNITIVE REASONING ]                                          │
 │    • Sail (~1.5B)             ──► Dense Chain-of-Thought (<think>) Predator (<95MB)   │
 │                                                                                        │
+│  [ TIER 8: DIRECT ACOUSTIC INTENT & VOICE REFLEX ]                                     │
+│    • Sonar (~30.0M)           ──► Direct Acoustic-to-Intent (<25ms, ~18MB RAM)         │
+│                                                                                        │
+│  [ TIER 9: AUTOMATED AST & CVE DEPENDENCY PATCHER ]                                    │
+│    • Mend (~40.0M)            ──► Compiler-Verified SemVer & Security Medic (~22MB)    │
+│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -76,6 +82,8 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Meko`** | **Live Web Intelligence & Scraping Scout** | `150.0M (12L, GQA)` | Drives `nioxs-browser`, zero-weight factual memorization, DOM noise scrubber & 99.4% token cut (< 30 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Sail`** | **Flash & Lean Reasoning Predator** | `1.54B (28L, GQA)` | Distilled dense CoT (`<think>`), self-correction & compiler-verified rewards (RLVR) in < 95 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Sonar`** | **Acoustic Intent & Voice Co-Pilot** | `30.4M (6L Conformer)` | Direct acoustic-to-intent (A2I) co-pilot, dual-head intent & CTC parameter extraction (< 25ms, ~18.2 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Mend`** | **Automated AST & CVE Patcher** | `40.2M (8L, GQA)` | Compiler-verified AST diff transformer, automated CVE healing & breaking SemVer migration (< 40ms, ~22.4 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
