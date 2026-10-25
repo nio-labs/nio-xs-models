@@ -27,6 +27,7 @@ Official v0.2.0 release distributing compiled GGUF neural model binaries and tok
 - **Level 4: ⚡ Ray (1.54B)** — **Rapid Stream Coding Model** (Qwen2.5-Coder-1.5B, 75.6% HumanEval)
 - **Level 6: 🏔️ Apex (3.09B)** — **Multi-Branch Deep Coding Model** (Qwen2.5-Coder-3B, 81.7% HumanEval)
 - **Level 7: 👑 Hydra (7.61B)** — **Sovereign Whole-Repo Coding Titan** (Qwen2.5-Coder-7B, 88.4% HumanEval)
+- **Level 7 (EU & US Sovereign Alternative): 🐟 Pike (7.24B)** — **Euro-Atlantic Sovereign Coding Titan** (Mistral-7B / Ministral-8B, 100% EU AI Act, GDPR & FedRAMP compliant)
 
 ---
 
