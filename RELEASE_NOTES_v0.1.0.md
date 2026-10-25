@@ -6,11 +6,16 @@ Official **v0.1.0** release of the Nio Micro Learning Model (µLM) production fa
 
 ### 🏛️ The Production MicroLM Hierarchy
 
-1. **Viper 50M (Released v0.1.0)**:
-   - 50,000,000 parameter tactical terminal striker and DevOps reflex engine.
-   - Sub-55MB resident memory envelope (**51.8 MB avg / 53.1 MB peak RAM** via Linux Kernel `VmHWM`).
-   - 26.9 MB quantized Q4_0 GGUF with dedicated 14,744 ByteLevel BPE vocabulary.
-   - Integrated Swiss Gear runner with Destructive Safety Clutch, spider search hygiene, dynamic slot grounding, and Python plugin sandbox (`~/.nioxs/plugins/venv`).
+1. **Viper 100M (Released v0.1.0 — Flagship Tactical Striker)**:
+   - **100,000,000 parameter** locked pure-Rust AST-MicroLM tactical terminal striker and DevOps reflex engine.
+   - Industry-leading **27.14 MB peak resident RAM (`VmHWM`)** on Linux via default `nio-viper-runtime` (11.70 MB init).
+   - **Sub-20µs Tactical AST Candidate Reflex** sampling (< 25MB mode).
+   - 61.69 MB quantized `Q4_0` GGUF with dedicated 17,451 ByteLevel BPE vocabulary (`viper.Q4_0.gguf`).
+   - Integrated Swiss Gear 2.0 with Destructive Safety Clutch, spider search hygiene, and dynamic slot grounding.
+   - Full PowerShell object pipeline and POSIX multi-pipe chaining support.
+
+2. **Viper 50M (Legacy Minimal Reflex)**:
+   - 50,000,000 parameter lightweight terminal reflex model (`nio-viper.Q4_0.gguf`, 26.9 MB).
 
 2. **Nano ~0.5M (Active in Core)**:
    - In-process Rust feature engine operating in **< 0.1ms (sub-100 microseconds)**.
@@ -34,7 +39,9 @@ Official **v0.1.0** release of the Nio Micro Learning Model (µLM) production fa
 
 | Asset | Role | Size | SHA-256 Checksum |
 |---|---|:---:|---|
-| **`nio-viper.Q4_0.gguf`** | Viper 50M Reflex | 26.91 MB | `acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c` |
+| **`viper.Q4_0.gguf`** | Viper 100M Flagship Reflex | 61.69 MB | `58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4` |
+| **`viper-tokenizer.json`** | Viper 100M Tokenizer | 3.17 MB | `a136e7acd3d47fe1a2572bf0fe7af79528e4492bf15f1ecea24e2216cf78c690` |
+| **`nio-viper.Q4_0.gguf`** | Viper 50M Legacy | 26.91 MB | `acaa8a21c8d37d12398a2e7ac67ad367d2e3786b261ce95195e6e0cc08363e9c` |
 | **`nio-viper-tokenizer.json`** | Viper Tokenizer | 923 KB | `25e0b493570d3f1cd338033a685f69eb3fefd4f307424bca5709fa8bb1994806` |
 | **`nano.json`** | Nano Intent Matrix | 46.8 KB | `9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125` |
 | **`nio_micro_base.onnx`** | Micro Base Cluster | 13.82 MB | `4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb` |
