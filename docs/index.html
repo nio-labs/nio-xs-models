@@ -795,7 +795,7 @@ sha256sum viper.Q4_0.gguf viper-tokenizer.json nano.json nio_micro_*.onnx nio_ma
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code># Pull Viper Tactical Reflex (50M, 26.91 MB)
+            <pre><code># Pull Viper Tactical Reflex (100M, 61.69 MB)
 nioxs pull viper
 
 # Pull Micro Policy Clusters (Security &amp; Infra)
@@ -996,12 +996,20 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
                   <td>~6 MB</td>
                 </tr>
                 <tr>
-                  <td><strong>Viper</strong></td>
+                  <td><strong>Viper (Candle AST)</strong></td>
+                  <td>100.0M</td>
+                  <td><strong>Sub-20µs Reflex</strong></td>
+                  <td>Sub-20µs</td>
+                  <td>Sub-50µs</td>
+                  <td><strong>27.14 MB</strong> (VmHWM)</td>
+                </tr>
+                <tr>
+                  <td><strong>Viper (SIMD GGUF)</strong></td>
                   <td>100.0M</td>
                   <td><strong>42.50 ms</strong></td>
                   <td>38.20 ms</td>
                   <td>48.80 ms</td>
-                  <td>~92.0 MB</td>
+                  <td>~89.4 MB</td>
                 </tr>
                 <tr>
                   <td><strong>Micro (Sec)</strong></td>

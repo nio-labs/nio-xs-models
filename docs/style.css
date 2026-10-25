@@ -32,6 +32,10 @@ body {
   overflow-x: hidden;
 }
 
+button, input, select, textarea {
+  font-family: inherit;
+}
+
 
 /* Header & Mobile Navbar */
 .mobile-header {
@@ -306,6 +310,41 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 3px 8px;
+}
+
+/* Interactive Simulation & Preset Chips */
+.sim-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  line-height: 1.4;
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+}
+
+.sim-chip:hover {
+  border-color: var(--accent-color);
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+
+.sim-chip.active {
+  background-color: var(--accent-glow);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--accent-color);
 }
 
 .hero-title {

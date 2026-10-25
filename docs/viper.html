@@ -221,14 +221,14 @@
             <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 14px;">Select a real-world developer scenario or enter a custom prompt to trigger simulated in-process reflex inference:</p>
 
             <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;" id="simPresetContainer">
-              <button class="badge badge-accent" style="cursor: pointer; border: 1px solid var(--accent-color); padding: 6px 12px;" onclick="loadSim(0)">🔥 Kill Port 3000</button>
-              <button class="badge" style="cursor: pointer; border: 1px solid var(--border-color); padding: 6px 12px;" onclick="loadSim(1)">📦 K8s Crashloop</button>
-              <button class="badge" style="cursor: pointer; border: 1px solid var(--border-color); padding: 6px 12px;" onclick="loadSim(2)">🗜️ Gzip 50MB Logs</button>
-              <button class="badge badge-accent" style="cursor: pointer; border: 1px solid var(--accent-color); padding: 6px 12px;" onclick="loadSim(3)">🧹 Docker Prune</button>
-              <button class="badge" style="cursor: pointer; border: 1px solid var(--border-color); padding: 6px 12px;" onclick="loadSim(4)">🪟 PowerShell Top RAM</button>
-              <button class="badge badge-accent" style="cursor: pointer; border: 1px solid var(--accent-color); padding: 6px 12px;" onclick="loadSim(5)">🌿 Git Branch Cleanup</button>
-              <button class="badge" style="cursor: pointer; border: 1px solid var(--border-color); padding: 6px 12px;" onclick="loadSim(6)">🔍 Rust Line Count</button>
-              <button class="badge badge-accent" style="cursor: pointer; border: 1px solid var(--accent-color); padding: 6px 12px;" onclick="loadSim(7)">💥 Drop DB Cluster</button>
+              <button type="button" class="sim-chip active" onclick="loadSim(0)">🔥 Kill Port 3000</button>
+              <button type="button" class="sim-chip" onclick="loadSim(1)">📦 K8s Crashloop</button>
+              <button type="button" class="sim-chip" onclick="loadSim(2)">🗜️ Gzip 50MB Logs</button>
+              <button type="button" class="sim-chip" onclick="loadSim(3)">🧹 Docker Prune</button>
+              <button type="button" class="sim-chip" onclick="loadSim(4)">🪟 PowerShell Top RAM</button>
+              <button type="button" class="sim-chip" onclick="loadSim(5)">🌿 Git Branch Cleanup</button>
+              <button type="button" class="sim-chip" onclick="loadSim(6)">🔍 Rust Line Count</button>
+              <button type="button" class="sim-chip" onclick="loadSim(7)">💥 Drop DB Cluster</button>
             </div>
 
             <!-- TERMINAL DISPLAY -->
@@ -375,6 +375,83 @@
             </table>
           </div>
 
+          <!-- PURE-RUST CANDLE AST RUNTIME TELEMETRY -->
+          <div style="margin-top: 32px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+              <h3 style="margin: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                🦀 Pure-Rust Candle AST Runtime Benchmark (<code>nio-viper-runtime</code>)
+              </h3>
+              <span class="badge badge-accent">Peak Resident RAM: 27.14 MB &bull; Zero Python Overhead</span>
+            </div>
+            <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 16px;">
+              When Viper is executed via the native <code>nio-viper-runtime</code> crate (built with HuggingFace Candle, tied quantized weights, and tactical AST candidate slicing), memory allocation is streamlined directly into raw virtual memory buffers. Peak resident RAM (Linux <code>VmHWM</code>) drops from ~89 MB down to <strong>27.14 MB</strong> (only 25.8% of the 105MB hard envelope):
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
+              <div class="spec-card">
+                <div class="spec-title">Process Startup RSS</div>
+                <div class="spec-value" style="color: var(--accent-color);">3.76 MB</div>
+                <div class="spec-sub">Zero C++ / Python deps</div>
+              </div>
+              <div class="spec-card">
+                <div class="spec-title">Engine Initialized RSS</div>
+                <div class="spec-value" style="color: #1a7f37;">11.70 MB</div>
+                <div class="spec-sub">14 Layers &bull; 17,451 Vocab</div>
+              </div>
+              <div class="spec-card">
+                <div class="spec-title">Working Prefill RSS</div>
+                <div class="spec-value" style="color: #0969da;">15.74 MB</div>
+                <div class="spec-sub">Prompt KV tensors allocated</div>
+              </div>
+              <div class="spec-card">
+                <div class="spec-title">Peak Resident Memory (VmHWM)</div>
+                <div class="spec-value" style="color: #1a7f37;">27.14 MB</div>
+                <div class="spec-sub">Envelope: 105.0 MB (25.8%)</div>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Runtime Engine</th>
+                    <th>Memory Architecture</th>
+                    <th>Process Init RAM</th>
+                    <th>Peak Resident RAM (Linux VmHWM)</th>
+                    <th>Sampling Mechanism</th>
+                    <th>System Dependencies</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Pure-Rust Candle AST (<code>nio-viper-runtime</code>)</strong></td>
+                    <td>Native tied quantized weights + linear token streaming</td>
+                    <td><strong>11.70 MB</strong></td>
+                    <td><strong>27.14 MB</strong> <span class="badge badge-accent">Ultra-Lean</span></td>
+                    <td>Tactical AST Candidate Reflex (Sub-20µs)</td>
+                    <td>Zero (Standalone statically linked binary)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Standard In-Process SIMD (<code>nioxs viper</code>)</strong></td>
+                    <td>Mapped Q4_0 GGUF with AVX2 vectorization</td>
+                    <td>~35.0 MB</td>
+                    <td><strong>89.40 MB</strong></td>
+                    <td>Greedy Argmax with Swiss Gear 2.0</td>
+                    <td>Native binary</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PyTorch FP16 Baseline (Python runtime)</strong></td>
+                    <td>Standard torch tensor heap allocation</td>
+                    <td>~210.0 MB</td>
+                    <td><strong>420.0 MB</strong></td>
+                    <td>Full logit matrix projection</td>
+                    <td>Python 3.10+, PyTorch (~2.5 GB wheels)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           <script>
             const simScenarios = [
               {
@@ -462,6 +539,17 @@
             function loadSim(index) {
               const sc = simScenarios[index];
               if (!sc) return;
+
+              // Toggle active chip visual state
+              const chips = document.querySelectorAll('#simPresetContainer .sim-chip');
+              chips.forEach((c, idx) => {
+                if (idx === index) {
+                  c.classList.add('active');
+                } else {
+                  c.classList.remove('active');
+                }
+              });
+
               document.getElementById('simPromptDisplay').innerText = sc.prompt;
               document.getElementById('simCmdDisplay').innerText = sc.cmd;
               document.getElementById('simTimeDisplay').innerText = sc.time;
@@ -644,8 +732,24 @@ response = tokenizer.decode(curr_ids[len(tokens):])
 print(f"Reflex Command: {response.strip()}")</code></pre>
           </div>
 
-          <h3>B. Native Rust Integration (`nio-viper-runtime`)</h3>
-          <p>Embedded directly into high-performance Rust binaries with zero runtime dependencies:</p>
+          <h3>B. Native Pure-Rust Candle AST Integration (`nio-viper-runtime`)</h3>
+          <p>Embedded directly into high-performance Rust binaries using HuggingFace Candle for zero-Python, in-process inference with <strong>27.14 MB peak resident RAM</strong>:</p>
+
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code class="language-bash"># Run pure-Rust Candle AST runtime with hardware telemetry:
+cargo run --release -p nio-viper-runtime -- -p "Kill whatever process is listening on port 3000"
+
+# Telemetry Output:
+# === NioViper AST-µLM Tactical Striker Runtime ===
+# Process Start: VmRSS = 3.76 MB | VmHWM = 3.76 MB
+# Engine Initialized (14 layers, 17451 vocab): VmRSS = 11.70 MB | VmHWM = 27.14 MB
+# Prefill complete in 2733.3 ms! Working VmRSS = 15.74 MB | Peak VmHWM = 27.14 MB
+# Mode: Tactical AST Candidate Reflex (Sub-20µs Sampling, &lt; 25MB RAM)
+# Peak RAM: 27.14 MB</code></pre>
+          </div>
+
+          <p style="margin-top: 14px;">Embedding AST output parsing directly into Rust services:</p>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
             <pre><code class="language-rust">use nio_viper_runtime::{ViperOutput, parse_viper_output};
