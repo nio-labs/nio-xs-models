@@ -324,6 +324,22 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
+## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex & Vector
+
+> 📖 **Architecture Portal**: Read the full [v-µLM Dual-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
+
+**v-µLM (V-MicroLM)** is Nio's proprietary twin-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of two rigorous mathematical pillars:
+
+| Pillar | Engine Type | Model Target | Core Mechanism | Runtime Footprint |
+| :--- | :--- | :--- | :--- | :--- |
+| **`v-µLM Reflex`** | Pure-Rust Tree-sitter Grammar | **Viper (100M)** | Instant syntax candidate reflex & AST constraints | **27.1 MB RAM**, sub-20µs sampling |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)** & **Manta (494M)** | Importance-weighted IQ3 vector quantization codebooks | **82.9 MB disk**, >0.999 layer cosine fidelity |
+
+- **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
+- **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
+
+---
+
 ## 📦 Model Artifacts & Certified Checksums
 
 ### 🦈 Predator Tier Expansion: Manta & Skate (v0.2.0)

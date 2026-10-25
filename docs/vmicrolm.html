@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="v-µLM (V-MicroLM) — Nio's proprietary twin-engine edge architecture uniting Pure-Rust Tree-sitter candidate reflexes (v-µLM Reflex) and mathematical Vector Codebook lattices (v-µLM Vector).">
+  <meta name="theme-color" content="#f6f8fa">
+  <title>v-µLM (V-MicroLM) — Dual-Engine Architecture | Nio Models</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <button class="hamburger-btn" id="menuToggle" type="button" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="index.html" class="brand-title">
+      <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+      <span class="brand-name">Nio Models</span>
+      <span class="badge badge-accent">v-µLM</span>
+    </a>
+    <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+      <span class="theme-icon">
+        <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+      </span>
+    </button>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <img class="brand-logo" src="logo.svg" alt="Nio Models logo">
+          <span class="brand-text">
+            <span class="brand-name">Nio Models</span>
+            <span class="brand-sub">Model Registry Portal</span>
+          </span>
+        </a>
+      </div>
+      <nav class="sidebar-nav" aria-label="Documentation">
+        <div class="nav-section">
+          <div class="nav-section-title">Registry Portal</div>
+          <a href="index.html" class="nav-link">← All Models Overview</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Architecture</div>
+          <a href="vmicrolm.html" class="nav-link active">v-µLM (Reflex &amp; Vector)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">MicroLM Engines</div>
+          <a href="viper.html" class="nav-link">Viper (100M Reflex)</a>
+          <a href="nano.html" class="nav-link">Nano (~0.5M Intent)</a>
+          <a href="micro.html" class="nav-link">Micro (5.0M Policy)</a>
+          <a href="mask.html" class="nav-link">Mask (1.1M Redactor)</a>
+          <a href="mini.html" class="nav-link">Mini (7.1M Defect)</a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Local Integrations</div>
+          <a href="mcp.html" class="nav-link">Localhost MCP Server</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>
+          </span>
+          <span class="theme-text">Dark mode</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content-wrapper">
+      <div class="content-container">
+
+        <!-- 1. OVERVIEW -->
+        <section id="overview" class="doc-section">
+          <div class="hero-header">
+            <div class="hero-badges">
+              <span class="badge badge-accent">Proprietary Architecture</span>
+              <span class="badge">Zero Synthetic Fine-Tuning</span>
+              <span class="badge">Pure Rust AST Reflex</span>
+              <span class="badge">Vector Codebook Lattice</span>
+              <span class="badge">Sub-20µs Sampling</span>
+            </div>
+            <h1 class="hero-title">v-µLM (V-MicroLM) — The Dual-Engine Edge Architecture</h1>
+            <p class="hero-desc">
+              <strong>v-µLM (V-MicroLM)</strong> is Nio's proprietary architecture for running ultra-efficient edge and resident models without relying on synthetic Q&amp;A dataset fine-tuning. Instead of degrading reasoning through synthetic samples, v-µLM splits execution into two complementary mathematical pillars: <strong>v-µLM Reflex</strong> and <strong>v-µLM Vector</strong>.
+            </p>
+          </div>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Reflex Sampling</div>
+              <div class="spec-value">&lt; 20 µs</div>
+              <div class="spec-sub">Pure-Rust Tree-sitter candidate engine</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Skate Binary Size</div>
+              <div class="spec-value">82.9 MB</div>
+              <div class="spec-sub">v-µLM Vector (IQ3_XXS Codebooks)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Layer Cosine Fidelity</div>
+              <div class="spec-value">&gt; 0.999</div>
+              <div class="spec-sub">Zero token collapse across 30 layers</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Dataset Dependency</div>
+              <div class="spec-value">0.0 MB</div>
+              <div class="spec-sub">No static dataset fine-tuning required</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. THE TWIN PILLARS -->
+        <section id="twin-pillars" class="doc-section">
+          <h2>1. The Twin Pillars</h2>
+          <p>
+            Conventional edge models often suffer from either heavy memory bloat or catastrophic forgetting caused by fine-tuning on noisy synthetic question-answer datasets. <strong>v-µLM eliminates synthetic training entirely</strong> by decoupling syntax reflexes from deep semantic reasoning:
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">Pillar 1: v-µLM Reflex — The Instant Grammar Engine</div>
+            <p>
+              <strong>Target Model</strong>: <code>Viper (100M)</code><br>
+              <strong>Runtime</strong>: Pure-Rust AST candidate reflex engine.<br>
+              <strong>Core Mechanism</strong>: Couples a compact 100M-parameter tactical neural core with Tree-sitter grammar AST constraints. By enforcing structural grammar rules at the token level, it emits verified syntax, terminal commands, and POSIX shell reflexes in <strong>sub-20µs</strong> with only <strong>27.14 MB peak resident RAM</strong>.
+            </p>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">Pillar 2: v-µLM Vector — The Mathematical Codebook Lattice</div>
+            <p>
+              <strong>Target Models</strong>: <code>Skate (135M)</code> &amp; <code>Manta (494M)</code><br>
+              <strong>Runtime</strong>: Vector Quantization (VQ) Codebook Engine with Importance Matrix calibration.<br>
+              <strong>Core Mechanism</strong>: Rather than pruning tokens or forcing linear low-rank SVD decompositions that suffer from 30-layer compounding drift, v-µLM Vector quantizes weight tensors into non-linear vector codebooks (<code>IQ3_XXS</code>). This preserves <strong>&gt;0.999 layer cosine similarity</strong>, retaining 100% of underlying foundation model reasoning and conversational Guru personas in under 83 MB on disk.
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. PRODUCTION ARTIFACTS MATRIX -->
+        <section id="matrix" class="doc-section">
+          <h2>2. Production Artifacts &amp; Certified Checksums</h2>
+          <p>The compiled v-µLM model family is distributed via GitHub Releases with certified cryptographic hashes:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>v-µLM Engine</th>
+                  <th>Format / Quantization</th>
+                  <th>Disk Size</th>
+                  <th>SHA-256 Checksum</th>
+                  <th>Release</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Skate (135M)</strong></td>
+                  <td><code>v-µLM Vector</code></td>
+                  <td>GGUF IQ3_XXS Codebooks</td>
+                  <td><strong>82.9 MB</strong></td>
+                  <td><code>c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf">Download v0.2.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Viper (100M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>GGUF Q4_0 + AST Engine</td>
+                  <td><strong>61.7 MB</strong></td>
+                  <td><code>58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper.Q4_0.gguf">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Manta (494M)</strong></td>
+                  <td><code>v-µLM Vector</code> (In Progress)</td>
+                  <td>GGUF Q4_0 / Vector Lattice</td>
+                  <td><strong>270.9 MB</strong></td>
+                  <td><code>3017aaa98c315b94728d6ad0aa6ae4d068ac3c8b23c00625791a4d2c56c4eca4</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta.Q4_0.gguf">Download v0.2.0</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
