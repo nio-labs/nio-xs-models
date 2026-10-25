@@ -54,6 +54,12 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 5: PREDICTIVE DEFECT & SYNTAX ]                                                │
 │    • Mini (7.1M)              ──► Pre-emptive Defect & Regression Forecaster        │
 │                                                                                        │
+│  [ TIER 6: LIVE WEB INTELLIGENCE & CRAWL SCOUT ]                                       │
+│    • Meko (150.0M)            ──► nioxs-browser Scout, DOM Noise Scrubber (<30MB)      │
+│                                                                                        │
+│  [ TIER 7: FLASH & LEAN COGNITIVE REASONING ]                                          │
+│    • Sail (~1.5B)             ──► Dense Chain-of-Thought (<think>) Predator (<95MB)   │
+│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -68,6 +74,8 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`nio_mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
+| **`Meko`** | **Live Web Intelligence & Scraping Scout** | `150.0M (12L, GQA)` | Drives `nioxs-browser`, zero-weight factual memorization, DOM noise scrubber & 99.4% token cut (< 30 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Sail`** | **Flash & Lean Reasoning Predator** | `1.54B (28L, GQA)` | Distilled dense CoT (`<think>`), self-correction & compiler-verified rewards (RLVR) in < 95 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
