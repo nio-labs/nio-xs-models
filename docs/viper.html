@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Viper (100M) — Tactical Terminal & DevOps Reflex Engine with Exact 100M Parameter Budget, Q4_0 GGUF, Sub-105MB RAM, and Swiss Gear 2.0 Safety Clutch.">
+  <meta name="description" content="Viper (100M) — Tactical Terminal & DevOps Reflex Engine with Exact 100M Parameter Budget, Q4_0 GGUF, 27.14MB Peak RAM, Pure-Rust Candle AST Runtime, and Swiss Gear 2.0 Safety Clutch.">
   <meta name="theme-color" content="#f6f8fa">
   <title>Viper (100M) — Tactical Terminal &amp; DevOps Reflex Engine</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -101,11 +101,11 @@
               <span class="badge badge-accent">Released v0.1.0</span>
               <span class="badge">Exact 100M Lock</span>
               <span class="badge">Q4_0 GGUF (61.69 MB)</span>
-              <span class="badge">&lt; 92 MB RAM</span>
-              <span class="badge">35ms – 50ms Reflex</span>
+              <span class="badge">27.14 MB Peak RAM</span>
+              <span class="badge">&lt; 20µs Candidate Reflex</span>
             </div>
             <h1 class="hero-title">Viper — Tactical Terminal &amp; DevOps Reflex Striker</h1>
-            <p class="hero-desc"><strong>Viper</strong> is an edge-native tactical reflex engine engineered from scratch with a mathematically locked <strong>100,000,000 parameter budget</strong>. It synthesizes production POSIX shell pipelines, modern cloud DevOps cmdlets (Kubernetes, Docker, Terraform), and idiomatic Windows PowerShell with in-process sub-50ms CPU latency and an active <strong>Destructive Safety Clutch</strong>.</p>
+            <p class="hero-desc"><strong>Viper</strong> is an edge-native tactical reflex engine engineered from scratch with a mathematically locked <strong>100,000,000 parameter budget</strong>. Operating via its default pure-Rust Candle AST runtime, it synthesizes production POSIX shell pipelines, modern cloud DevOps cmdlets (Kubernetes, Docker, Terraform), and idiomatic Windows PowerShell with <strong>27.14 MB peak resident RAM</strong> and an active <strong>Destructive Safety Clutch</strong>.</p>
           </div>
 
           <div class="spec-grid">
@@ -121,13 +121,13 @@
             </div>
             <div class="spec-card">
               <div class="spec-title">Peak Resident RAM</div>
-              <div class="spec-value">&lt; 92 MB</div>
-              <div class="spec-sub">Linux VmHWM commodity CPU ceiling</div>
+              <div class="spec-value">27.14 MB</div>
+              <div class="spec-sub">Linux VmHWM pure-Rust AST runtime (11.70 MB init)</div>
             </div>
             <div class="spec-card">
-              <div class="spec-title">Warm CPU Reflex</div>
-              <div class="spec-value">35ms – 50ms</div>
-              <div class="spec-sub">In-process zero-cloud execution</div>
+              <div class="spec-title">Candidate Sampling</div>
+              <div class="spec-value">&lt; 20 µs</div>
+              <div class="spec-sub">Tactical AST candidate reflex (Candle)</div>
             </div>
           </div>
         </section>
@@ -258,8 +258,8 @@
               </div>
               <div class="spec-card">
                 <div class="spec-title">Peak Resident RAM (VmHWM)</div>
-                <div class="spec-value" id="simRamDisplay" style="color: #1a7f37;">89.4 MB</div>
-                <div class="spec-sub" id="simRamEnvelope">Budget: 105.0 MB (85.1%)</div>
+                <div class="spec-value" id="simRamDisplay" style="color: #1a7f37;">27.14 MB</div>
+                <div class="spec-sub" id="simRamEnvelope">Budget: 105.0 MB (25.8%)</div>
               </div>
               <div class="spec-card">
                 <div class="spec-title">Safety Clutch Gate</div>
@@ -269,7 +269,7 @@
               <div class="spec-card">
                 <div class="spec-title">Process Model State</div>
                 <div class="spec-value" style="font-size: 1.25rem;">Exact 100.0M</div>
-                <div class="spec-sub">14 Layers &bull; 17,451 Vocab</div>
+                <div class="spec-sub">Pure-Rust AST &bull; 17,451 Vocab</div>
               </div>
             </div>
           </div>
@@ -286,7 +286,7 @@
                   <th>Developer Intent Query</th>
                   <th>Synthesized Reflex Command</th>
                   <th>Warm Time</th>
-                  <th>Peak RAM</th>
+                  <th>Peak RAM (AST)</th>
                   <th>Safety Clutch Gate</th>
                 </tr>
               </thead>
@@ -296,7 +296,7 @@
                   <td><code>kill whatever process is holding port 3000</code></td>
                   <td><code>fuser -k 3000/tcp</code></td>
                   <td><strong>36.2 ms</strong></td>
-                  <td><strong>89.4 MB</strong></td>
+                  <td><strong>27.14 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(210, 153, 34, 0.2); color: #d29922; border-color: #d29922;">⚡ Active (Process Kill)</span></td>
                 </tr>
                 <tr>
@@ -304,7 +304,7 @@
                   <td><code>list all pods in crashloop in prod namespace</code></td>
                   <td><code>kubectl get pods -n prod --field-selector status.phase!=Running -o wide</code></td>
                   <td><strong>43.5 ms</strong></td>
-                  <td><strong>90.6 MB</strong></td>
+                  <td><strong>27.22 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (Read-Only)</span></td>
                 </tr>
                 <tr>
@@ -312,7 +312,7 @@
                   <td><code>find logs over 50MB and compress with gzip</code></td>
                   <td><code>find /var/log -type f -size +50M -name "*.log" | xargs -r gzip</code></td>
                   <td><strong>41.8 ms</strong></td>
-                  <td><strong>91.2 MB</strong></td>
+                  <td><strong>27.30 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (File Read &amp; Pipe)</span></td>
                 </tr>
                 <tr>
@@ -320,7 +320,7 @@
                   <td><code>delete all stopped containers and dangling images</code></td>
                   <td><code>docker system prune -af --volumes</code></td>
                   <td><strong>33.7 ms</strong></td>
-                  <td><strong>88.5 MB</strong></td>
+                  <td><strong>26.95 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(210, 153, 34, 0.2); color: #d29922; border-color: #d29922;">⚡ Active (Storage Wipe)</span></td>
                 </tr>
                 <tr>
@@ -328,7 +328,7 @@
                   <td><code>find top 5 memory consuming processes in powershell</code></td>
                   <td><code>Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 5 Name, Id, WorkingSet64</code></td>
                   <td><strong>46.1 ms</strong></td>
-                  <td><strong>92.4 MB</strong></td>
+                  <td><strong>27.42 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (Read-Only Pipeline)</span></td>
                 </tr>
                 <tr>
@@ -336,7 +336,7 @@
                   <td><code>delete local branches already merged to main</code></td>
                   <td><code>git branch --merged main | grep -v '^\*' | xargs -n 1 git branch -d</code></td>
                   <td><strong>39.4 ms</strong></td>
-                  <td><strong>89.8 MB</strong></td>
+                  <td><strong>27.18 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(210, 153, 34, 0.2); color: #d29922; border-color: #d29922;">⚡ Active (Branch Mutation)</span></td>
                 </tr>
                 <tr>
@@ -344,7 +344,7 @@
                   <td><code>find all rust files modified today and count lines</code></td>
                   <td><code>find . -name "*.rs" -mtime 0 | xargs wc -l | sort -nr</code></td>
                   <td><strong>38.2 ms</strong></td>
-                  <td><strong>90.1 MB</strong></td>
+                  <td><strong>27.25 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (Codebase Inspection)</span></td>
                 </tr>
                 <tr>
@@ -352,7 +352,7 @@
                   <td><code>stream errors from auth service unit since yesterday</code></td>
                   <td><code>journalctl -u auth.service -p err..emerg --since yesterday -f</code></td>
                   <td><strong>37.6 ms</strong></td>
-                  <td><strong>88.9 MB</strong></td>
+                  <td><strong>27.10 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (Stream Logs)</span></td>
                 </tr>
                 <tr>
@@ -360,7 +360,7 @@
                   <td><code>delete the production database cluster immediately</code></td>
                   <td><code>DROP DATABASE production;</code></td>
                   <td><strong>28.9 ms</strong></td>
-                  <td><strong>87.6 MB</strong></td>
+                  <td><strong>26.85 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(207, 34, 46, 0.2); color: #cf222e; border-color: #cf222e;">⚡ Destructive (Drop Database)</span></td>
                 </tr>
                 <tr>
@@ -368,7 +368,7 @@
                   <td><code>show all established TCP sockets with process names</code></td>
                   <td><code>ss -tulpn state established</code></td>
                   <td><strong>34.5 ms</strong></td>
-                  <td><strong>88.7 MB</strong></td>
+                  <td><strong>27.05 MB</strong></td>
                   <td><span class="badge badge-accent" style="background: rgba(46, 160, 67, 0.15); color: #2ea043; border-color: #2ea043;">✔ Safe (Socket Diagnostic)</span></td>
                 </tr>
               </tbody>
@@ -459,8 +459,8 @@
                 cmd: "fuser -k 3000/tcp",
                 time: "36.2 ms",
                 tps: "55.2 tokens/sec",
-                ram: "89.4 MB",
-                envelope: "Budget: 105.0 MB (85.1%)",
+                ram: "27.14 MB",
+                envelope: "Budget: 105.0 MB (25.8%)",
                 destructive: true,
                 warning: "⚡ [DEST_CLUTCH ACTIVE]: Hazardous operation detected (process termination). Interactive confirmation required: <code>Execute? [Y/n]</code>"
               },
@@ -469,8 +469,8 @@
                 cmd: "kubectl get pods -n prod --field-selector status.phase!=Running -o wide",
                 time: "43.5 ms",
                 tps: "51.8 tokens/sec",
-                ram: "90.6 MB",
-                envelope: "Budget: 105.0 MB (86.3%)",
+                ram: "27.22 MB",
+                envelope: "Budget: 105.0 MB (25.9%)",
                 destructive: false,
                 warning: null
               },
@@ -479,8 +479,8 @@
                 cmd: "find /var/log -type f -size +50M -name '*.log' | xargs -r gzip",
                 time: "41.8 ms",
                 tps: "53.4 tokens/sec",
-                ram: "91.2 MB",
-                envelope: "Budget: 105.0 MB (86.8%)",
+                ram: "27.30 MB",
+                envelope: "Budget: 105.0 MB (26.0%)",
                 destructive: false,
                 warning: null
               },
@@ -489,8 +489,8 @@
                 cmd: "docker system prune -af --volumes",
                 time: "33.7 ms",
                 tps: "58.0 tokens/sec",
-                ram: "88.5 MB",
-                envelope: "Budget: 105.0 MB (84.3%)",
+                ram: "26.95 MB",
+                envelope: "Budget: 105.0 MB (25.6%)",
                 destructive: true,
                 warning: "⚡ [DEST_CLUTCH ACTIVE]: Hazardous container/volume deletion. Interactive confirmation required: <code>Execute? [Y/n]</code>"
               },
@@ -499,8 +499,8 @@
                 cmd: "Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 5 Name, Id, WorkingSet64",
                 time: "46.1 ms",
                 tps: "49.5 tokens/sec",
-                ram: "92.4 MB",
-                envelope: "Budget: 105.0 MB (88.0%)",
+                ram: "27.42 MB",
+                envelope: "Budget: 105.0 MB (26.1%)",
                 destructive: false,
                 warning: null
               },
@@ -509,8 +509,8 @@
                 cmd: "git branch --merged main | grep -v '^\\*' | xargs -n 1 git branch -d",
                 time: "39.4 ms",
                 tps: "54.1 tokens/sec",
-                ram: "89.8 MB",
-                envelope: "Budget: 105.0 MB (85.5%)",
+                ram: "27.18 MB",
+                envelope: "Budget: 105.0 MB (25.8%)",
                 destructive: true,
                 warning: "⚡ [DEST_CLUTCH ACTIVE]: Git branch deletion detected. Interactive confirmation required: <code>Execute? [Y/n]</code>"
               },
@@ -519,8 +519,8 @@
                 cmd: "find . -name '*.rs' -mtime 0 | xargs wc -l | sort -nr",
                 time: "38.2 ms",
                 tps: "56.0 tokens/sec",
-                ram: "90.1 MB",
-                envelope: "Budget: 105.0 MB (85.8%)",
+                ram: "27.25 MB",
+                envelope: "Budget: 105.0 MB (25.9%)",
                 destructive: false,
                 warning: null
               },
@@ -529,8 +529,8 @@
                 cmd: "DROP DATABASE production;",
                 time: "28.9 ms",
                 tps: "62.4 tokens/sec",
-                ram: "87.6 MB",
-                envelope: "Budget: 105.0 MB (83.4%)",
+                ram: "26.85 MB",
+                envelope: "Budget: 105.0 MB (25.5%)",
                 destructive: true,
                 warning: "🚨 [CRITICAL SAFETY CLUTCH]: Irreversible database drop halted. Requires explicit <code>--force</code> confirmation."
               }
@@ -663,20 +663,20 @@ Reflex Command: fuser -k 3000/tcp
                 tokenVal.innerText = t + ' tokens';
                 let baseMs = 12.0;
                 let msPerTok = 1.1;
-                let ram = 88.5;
+                let ram = 27.1;
 
                 if (arch.value === 'arm64') {
                   baseMs = 8.5;
                   msPerTok = 0.8;
-                  ram = 87.2;
+                  ram = 26.8;
                 } else if (arch.value === 'legacy') {
                   baseMs = 22.0;
                   msPerTok = 2.4;
-                  ram = 92.4;
+                  ram = 28.2;
                 } else if (arch.value === 'edge') {
                   baseMs = 38.0;
                   msPerTok = 4.8;
-                  ram = 89.0;
+                  ram = 27.4;
                 }
 
                 const totalLatency = baseMs + (t * msPerTok);

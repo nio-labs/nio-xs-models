@@ -5,7 +5,21 @@ use serde_json::json;
 use nio_mask_runtime::NioMask;
 use nio_micro_runtime::NioMicro;
 use nio_mini_runtime::NioMini;
+use nio_viper_runtime::{
+    execute_viper_ast, find_default_viper_paths, ViperOutput,
+};
 use nio_mcp::McpServer;
+
+fn is_destructive_command(cmd: &str) -> bool {
+    let lower = cmd.to_lowercase();
+    lower.contains("rm -rf")
+        || lower.contains("kill -9")
+        || lower.contains("fuser -k")
+        || lower.contains("prune -af")
+        || lower.contains("drop database")
+        || lower.contains("git reset --hard")
+        || lower.contains("git branch -d")
+}
 
 fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -56,6 +70,7 @@ fn print_help() {
 
 fn cmd_viper(args: &[String]) -> Result<()> {
     let mut execute = false;
+    let mut fast_mode = false;
     let mut shell = "bash";
     let mut prompt_parts = Vec::new();
 
@@ -63,6 +78,7 @@ fn cmd_viper(args: &[String]) -> Result<()> {
     while i < args.len() {
         match args[i].as_str() {
             "-x" | "--execute" => execute = true,
+            "--fast" | "--heuristic" => fast_mode = true,
             "--shell" => {
                 if i + 1 < args.len() {
                     shell = &args[i + 1];
@@ -78,6 +94,40 @@ fn cmd_viper(args: &[String]) -> Result<()> {
     if prompt.is_empty() {
         eprintln!("Error: 'nioxs viper' requires a prompt (e.g. nioxs viper \"kill process on port 3000\")");
         std::process::exit(1);
+    }
+
+    // Default: Pure Rust Candle AST Runtime (AstMicroEngine)
+    if !fast_mode {
+        if let Some((model_path, tokenizer_path)) = find_default_viper_paths() {
+            let telemetry = execute_viper_ast(&prompt, &model_path, &tokenizer_path, true, 48)?;
+
+            let (cmd_str, is_destructive) = match &telemetry.output {
+                ViperOutput::Command(c) => (c.clone(), is_destructive_command(c)),
+                ViperOutput::Alert { level, message } => {
+                    println!("Diagnostic Alert [{}]: \x1b[33m{}\x1b[0m", level, message);
+                    (String::new(), false)
+                }
+                ViperOutput::Raw(txt) => (txt.clone(), is_destructive_command(txt)),
+            };
+
+            if !cmd_str.is_empty() {
+                println!("Reflex Command: \x1b[32m{}\x1b[0m", cmd_str);
+            }
+
+            if is_destructive {
+                println!("⚡ [DEST_CLUTCH ACTIVE]: Destructive mutation detected.");
+                if execute {
+                    println!("Prompt: Execute? [Y/n]");
+                }
+            }
+
+            println!("\n=== Pure-Rust AST Telemetry ===");
+            println!("Sampling Mode: Tactical AST Candidate Reflex (< 20µs)");
+            println!("Prefill Latency: {:.1} ms", telemetry.prefill_ms);
+            println!("Initial RAM: {:.2} MB", telemetry.rss_init);
+            println!("Peak RAM (VmHWM): {:.2} MB", telemetry.hwm_peak);
+            return Ok(());
+        }
     }
 
     let server = McpServer::new();

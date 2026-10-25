@@ -1,5 +1,7 @@
 use anyhow::{Result, anyhow};
 pub use nio_ray_runtime::{AstMicroEngine, memory_mb};
+use std::path::{Path, PathBuf};
+use std::time::Instant;
 use tokenizers::Tokenizer;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -7,6 +9,130 @@ pub enum ViperOutput {
     Command(String),
     Alert { level: String, message: String },
     Raw(String),
+}
+
+#[derive(Debug, Clone)]
+pub struct ViperExecutionTelemetry {
+    pub raw_text: String,
+    pub output: ViperOutput,
+    pub tokens: usize,
+    pub tps: f64,
+    pub avg_step_ms: f64,
+    pub prefill_ms: f64,
+    pub rss_init: f64,
+    pub rss_working: f64,
+    pub hwm_peak: f64,
+}
+
+pub fn find_default_viper_paths() -> Option<(PathBuf, PathBuf)> {
+    let model_candidates = [
+        "models/nio-viper/viper.Q4_0.gguf",
+        "../../models/nio-viper/viper.Q4_0.gguf",
+        "../models/nio-viper/viper.Q4_0.gguf",
+        "models/viper.Q4_0.gguf",
+    ];
+    let tok_candidates = [
+        "models/nio-viper/viper-tokenizer.json",
+        "../../models/nio-viper/viper-tokenizer.json",
+        "../models/nio-viper/viper-tokenizer.json",
+        "models/viper-tokenizer.json",
+    ];
+
+    for m in &model_candidates {
+        let mp = PathBuf::from(m);
+        if mp.exists() {
+            for t in &tok_candidates {
+                let tp = PathBuf::from(t);
+                if tp.exists() {
+                    return Some((mp, tp));
+                }
+            }
+        }
+    }
+    None
+}
+
+pub fn execute_viper_ast(
+    user_query: &str,
+    model_path: &Path,
+    tokenizer_path: &Path,
+    is_ast: bool,
+    max_tokens: usize,
+) -> Result<ViperExecutionTelemetry> {
+    let tokenizer = Tokenizer::from_file(tokenizer_path).map_err(|e| {
+        anyhow!(
+            "Failed to load tokenizer from {}: {e}",
+            tokenizer_path.display()
+        )
+    })?;
+
+    let mut engine = AstMicroEngine::new(model_path).map_err(|e| {
+        anyhow!(
+            "Failed to load GGUF model from {}: {e}",
+            model_path.display()
+        )
+    })?;
+
+    let (rss_init, _) = memory_mb();
+
+    let prompt = format!(
+        "<|im_start|>user\n{}<|im_end|>\n<|im_start|>assistant\n",
+        user_query
+    );
+
+    let encoding = tokenizer.encode(prompt.as_str(), false).map_err(|e| anyhow!("{e}"))?;
+    let prompt_tokens = encoding.get_ids().to_vec();
+
+    let t_pref = Instant::now();
+    let hidden = engine.forward_stream(&prompt_tokens, 0)?;
+    let prefill_ms = t_pref.elapsed().as_secs_f64() * 1000.0;
+
+    let eos = tokenizer.token_to_id("<|im_end|>").unwrap_or(31980);
+    let eot = tokenizer.token_to_id("<|endoftext|>").unwrap_or(151643);
+
+    let candidates = if is_ast {
+        Some(tactical_candidates(&tokenizer)?)
+    } else {
+        None
+    };
+
+    let mut next = engine.next_token(&hidden, candidates.as_deref())?;
+    let mut generated = Vec::new();
+    let mut decode_times = Vec::new();
+
+    for step in 0..max_tokens {
+        if next == eos || next == eot {
+            break;
+        }
+        generated.push(next);
+        let t_step = Instant::now();
+        let step_hidden = engine.forward_stream(&[next], prompt_tokens.len() + step)?;
+        next = engine.next_token(&step_hidden, candidates.as_deref())?;
+        decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
+    }
+
+    let raw_text = tokenizer.decode(&generated, false).unwrap_or_default();
+    let parsed = parse_viper_output(&raw_text);
+
+    let (rss_end, hwm_end) = memory_mb();
+    let avg_step_ms: f64 = if !decode_times.is_empty() {
+        decode_times.iter().sum::<f64>() / decode_times.len() as f64
+    } else {
+        0.0
+    };
+    let gen_tps = if avg_step_ms > 0.0 { 1000.0 / avg_step_ms } else { 0.0 };
+
+    Ok(ViperExecutionTelemetry {
+        raw_text,
+        output: parsed,
+        tokens: generated.len(),
+        tps: gen_tps,
+        avg_step_ms,
+        prefill_ms,
+        rss_init,
+        rss_working: rss_end,
+        hwm_peak: hwm_end,
+    })
 }
 
 /// Extract `<viper_cmd>...</viper_cmd>` tags from model output
