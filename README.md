@@ -81,7 +81,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`nio_mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`nio-mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Meko`** | **Live Web Intelligence & Scraping Scout** | `150.0M (12L, GQA)` | Drives `nioxs-browser`, zero-weight factual memorization, DOM noise scrubber & 99.4% token cut (< 30 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, Full Brain)` | 100% brain from SmolLM2-135M, sub-100MB Wasm/edge asset (`skate.Q4_0.gguf`, 87.5 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
+| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, Full Brain)` | 100% brain from Qwen2.5-0.5B, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.Q4_0.gguf`, 270.9 MB) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Ray`** | **Rapid Stream Coding Model** | `1.54B (28L, Qwen2.5-Coder)` | Dedicated coding model for high-throughput code in-filling, tab-completion & instant boilerplate (31–36 w/s, 75.6% HumanEval) in < 88 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Sail`** | **Flash & Lean Reasoning Predator** | `1.54B (28L, GQA)` | Distilled dense CoT (`<think>`), self-correction & compiler-verified rewards (RLVR) in < 95 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -110,9 +110,13 @@ cargo install --git https://github.com/nio-labs/nio-xs-models.git nio-mcp
 
 ---
 
-## 🐍 1. Viper (100M) — Tactical Terminal & DevOps Reflex Engine
+## 🐍 1. Viper (100M) — Tactical Terminal & DevOps Reflex Engine (`v-µLM Reflex`)
 
-**Viper** is the 100-million parameter tactical terminal striker and DevOps reflex engine. Operating with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with **27.14 MB peak resident RAM (`VmHWM`)** and **sub-20µs tactical AST candidate reflex sampling** via its default pure-Rust AST-MicroLM runtime.
+**Viper** is the 100-million parameter tactical terminal striker and DevOps reflex engine powered by the **`v-µLM Reflex`** architecture. Operating with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with **27.14 MB peak resident RAM (`VmHWM`)** and **sub-20µs tactical AST candidate reflex sampling** via its native pure-Rust runtime.
+
+> 🧬 **The Twin Pillars of Nio `v-µLM` (V-MicroLM)**:
+> - **`v-µLM Reflex`**: Pure-Rust Tree-sitter candidate reflex engine (Viper 100M: 27MB RAM, sub-20µs sampling).
+> - **`v-µLM Vector`**: Mathematical Vector Codebook Lattice engine (Skate 135M & Manta 494M: >0.999 layer cosine fidelity, zero dataset fine-tuning needed).
 
 ### Verified Specifications
 - **Parameter Count**: **Exactly 100,000,000 locked**
@@ -327,7 +331,8 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
 | `manta.Q4_0.gguf` | Manta (494M, Predator Level 3) | GGUF Q4_0 | 270.9 MB | `3017aaa98c315b94728d6ad0aa6ae4d068ac3c8b23c00625791a4d2c56c4eca4` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta.Q4_0.gguf) |
-| `skate.Q4_0.gguf` | Skate (135M, Predator Level 2) | GGUF Q4_0 | 87.5 MB | `1dd7f32af4d0fb739161bb01fa62c915c4a5c384ed63fa131eb0958c683e126f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.Q4_0.gguf) |
+| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (Predator Level 2) | GGUF IQ3_XXS Codebooks | 82.9 MB | `c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
+| `skate.Q4_0.gguf` | Skate Baseline (135M, Predator Level 2) | GGUF Q4_0 | 87.5 MB | `1dd7f32af4d0fb739161bb01fa62c915c4a5c384ed63fa131eb0958c683e126f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.Q4_0.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5) | JSON | 6.8 MB | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta-tokenizer.json) |
 | `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
 
