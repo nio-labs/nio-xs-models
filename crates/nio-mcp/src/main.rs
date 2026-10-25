@@ -1,5 +1,7 @@
 use std::io::{self, BufRead, Write};
+use std::sync::Arc;
 use nio_mcp::McpServer;
+use nio_mcp::http::start_http_server;
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -14,14 +16,25 @@ fn main() -> anyhow::Result<()> {
         println!("Usage: nioxs-mcp [OPTIONS]");
         println!();
         println!("Options:");
-        println!("  --stdio     Run Model Context Protocol server over stdin/stdout (default)");
-        println!("  --test      Run self-test diagnostic across all 5 MicroLM tools and exit");
-        println!("  --version   Print version information");
-        println!("  --help      Print help information");
+        println!("  --stdio        Run Model Context Protocol server over stdin/stdout (default)");
+        println!("  --port <PORT>  Run HTTP/SSE Model Context Protocol server on 127.0.0.1:<PORT>");
+        println!("  --test         Run self-test diagnostic across all 5 MicroLM tools and exit");
+        println!("  --version      Print version information");
+        println!("  --help         Print help information");
         return Ok(());
     }
 
-    let server = McpServer::new();
+    let mut port: Option<u16> = None;
+    let mut i = 1;
+    while i < args.len() {
+        if (args[i] == "--port" || args[i] == "-p") && i + 1 < args.len() {
+            port = args[i + 1].parse().ok();
+            i += 1;
+        }
+        i += 1;
+    }
+
+    let server = Arc::new(McpServer::new());
 
     if args.iter().any(|a| a == "--test") {
         println!("=== Running Nio MCP Diagnostic Self-Test ===");
@@ -62,6 +75,19 @@ fn main() -> anyhow::Result<()> {
 
         println!("✔ All MCP MicroLM self-tests passed successfully!");
         return Ok(());
+    }
+
+    if let Some(p) = port {
+        let is_stdio = args.iter().any(|a| a == "--stdio");
+        if is_stdio {
+            let server_bg = Arc::clone(&server);
+            std::thread::spawn(move || {
+                let _ = start_http_server(server_bg, p);
+            });
+        } else {
+            // Pure HTTP mode
+            return start_http_server(server, p);
+        }
     }
 
     // Default: run stdio loop for MCP clients (Cursor, Claude, Antigravity)

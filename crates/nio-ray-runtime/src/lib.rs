@@ -380,9 +380,18 @@ impl AstMicroEngine {
         let wv = QMatMul::from_qtensor(self.read_tensor(&format!("{prefix}.attn_v.weight"))?)?;
         let wo = QMatMul::from_qtensor(self.read_tensor(&format!("{prefix}.attn_output.weight"))?)?;
 
-        let bq = self.read_tensor(&format!("{prefix}.attn_q.bias"))?.dequantize(&self.device)?;
-        let bk = self.read_tensor(&format!("{prefix}.attn_k.bias"))?.dequantize(&self.device)?;
-        let bv = self.read_tensor(&format!("{prefix}.attn_v.bias"))?.dequantize(&self.device)?;
+        let bq = match self.read_tensor(&format!("{prefix}.attn_q.bias")) {
+            Ok(t) => t.dequantize(&self.device)?,
+            Err(_) => Tensor::zeros(self.head_count * self.head_dim, DType::F32, &self.device)?,
+        };
+        let bk = match self.read_tensor(&format!("{prefix}.attn_k.bias")) {
+            Ok(t) => t.dequantize(&self.device)?,
+            Err(_) => Tensor::zeros(self.head_count_kv * self.head_dim, DType::F32, &self.device)?,
+        };
+        let bv = match self.read_tensor(&format!("{prefix}.attn_v.bias")) {
+            Ok(t) => t.dequantize(&self.device)?,
+            Err(_) => Tensor::zeros(self.head_count_kv * self.head_dim, DType::F32, &self.device)?,
+        };
 
         let attention_norm = RmsNorm::from_qtensor(
             self.read_tensor(&format!("{prefix}.attn_norm.weight"))?,

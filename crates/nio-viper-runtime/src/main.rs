@@ -4,10 +4,30 @@ use std::path::{Path, PathBuf};
 use std::time::Instant;
 use tokenizers::Tokenizer;
 
+fn find_default_path(candidates: &[&str]) -> PathBuf {
+    for c in candidates {
+        let p = PathBuf::from(c);
+        if p.exists() {
+            return p;
+        }
+    }
+    PathBuf::from(candidates[0])
+}
+
 fn parse_cli_args() -> (PathBuf, PathBuf, String, bool) {
     let args: Vec<String> = std::env::args().collect();
-    let mut model_path = PathBuf::from("models/nio-viper-ast.Q4_0.gguf");
-    let mut tokenizer_path = PathBuf::from("models/nio-viper-tokenizer.json");
+    let mut model_path = find_default_path(&[
+        "models/nio-viper/viper.Q4_0.gguf",
+        "../../models/nio-viper/viper.Q4_0.gguf",
+        "models/viper.Q4_0.gguf",
+        "models/nio-viper-ast.Q4_0.gguf",
+    ]);
+    let mut tokenizer_path = find_default_path(&[
+        "models/nio-viper/viper-tokenizer.json",
+        "../../models/nio-viper/viper-tokenizer.json",
+        "models/viper-tokenizer.json",
+        "models/nio-viper-tokenizer.json",
+    ]);
     let mut prompt = "Kill whatever process is listening on port 3000".to_string();
     let mut is_ast = true; // Tactical AST candidate slicing is default for Viper
 

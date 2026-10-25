@@ -103,3 +103,28 @@ fn test_mcp_mini_predict_defect() {
     assert_eq!(inner["model"], "Mini (7.1M)");
     assert!(inner["risk_score"].is_number());
 }
+
+#[test]
+fn test_mcp_http_health_check() {
+    use std::io::{Read, Write};
+    use std::net::TcpStream;
+    use std::sync::Arc;
+    use std::thread;
+
+    let server = Arc::new(McpServer::new());
+    let port = 49152 + (std::process::id() % 1000) as u16;
+    let srv_clone = Arc::clone(&server);
+    thread::spawn(move || {
+        let _ = nio_mcp::http::start_http_server(srv_clone, port);
+    });
+
+    thread::sleep(std::time::Duration::from_millis(50));
+
+    if let Ok(mut stream) = TcpStream::connect(format!("127.0.0.1:{port}")) {
+        stream.write_all(b"GET /health HTTP/1.1\r\nHost: localhost\r\n\r\n").unwrap();
+        let mut response = String::new();
+        let _ = stream.read_to_string(&mut response);
+        assert!(response.contains("200 OK"));
+        assert!(response.contains("nioxs-mcp"));
+    }
+}
