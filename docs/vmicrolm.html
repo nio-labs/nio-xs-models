@@ -126,11 +126,11 @@
           </p>
 
           <div class="callout callout-info">
-            <div class="callout-title">Pillar 1: v-µLM Reflex — The Instant Grammar Engine</div>
+            <div class="callout-title">Pillar 1: v-µLM Reflex — The Instant Grammar &amp; Decision Engine Suite</div>
             <p>
-              <strong>Target Model</strong>: <code>Viper (100M)</code><br>
-              <strong>Runtime</strong>: Pure-Rust AST candidate reflex engine.<br>
-              <strong>Core Mechanism</strong>: Couples a compact 100M-parameter tactical neural core with Tree-sitter grammar AST constraints. By enforcing structural grammar rules at the token level, it emits verified syntax, terminal commands, and POSIX shell reflexes in <strong>sub-20µs</strong> with only <strong>27.14 MB peak resident RAM</strong>.
+              <strong>Target Models</strong>: <code>Viper (100M)</code>, <code>Nano (~0.5M)</code>, <code>Micro (5.0M)</code>, <code>Mask (1.1M)</code>, <code>Mini (7.1M)</code><br>
+              <strong>Runtime</strong>: Pure-Rust AST candidate reflex engine &amp; lightweight in-process execution.<br>
+              <strong>Core Mechanism</strong>: Couples task-dedicated neural architectures with deterministic AST grammars, lexical intent matrices, and policy gates. By enforcing structural constraints and strict classification heads at the token level, the Reflex fleet emits verified syntax, terminal commands, redaction masks, and defect forecasts in <strong>sub-0.1ms to sub-20µs</strong> with <strong>&lt; 28 MB peak resident RAM</strong>.
             </p>
           </div>
 
@@ -154,7 +154,8 @@
               <thead>
                 <tr>
                   <th>Model</th>
-                  <th>v-µLM Engine</th>
+                  <th>v-µLM Pillar</th>
+                  <th>Role / Specialization</th>
                   <th>Format / Quantization</th>
                   <th>Disk Size</th>
                   <th>SHA-256 Checksum</th>
@@ -163,24 +164,63 @@
               </thead>
               <tbody>
                 <tr>
+                  <td><strong>Nano (~0.5M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>Sub-0.1ms Command Intent &amp; Directive Router</td>
+                  <td>Feature Matrix JSON</td>
+                  <td><strong>46.8 KB</strong></td>
+                  <td><code>9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Mask (1.1M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>Sub-0.2ms Real-Time Secret &amp; PII Redactor</td>
+                  <td>ONNX Byte-Conv</td>
+                  <td><strong>4.43 MB</strong></td>
+                  <td><code>a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mask.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Micro (5.0M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>Sub-5ms Contextual Policy Arbiter (Base/Infra/Sec)</td>
+                  <td>ONNX Transformer</td>
+                  <td><strong>13.8–19.7 MB</strong></td>
+                  <td><code>4b19ceaf... / c86d350d...</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_sec.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Mini (7.1M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>Sub-5ms Pre-emptive AST Defect Forecaster</td>
+                  <td>ONNX Graph AST</td>
+                  <td><strong>27.1 MB</strong></td>
+                  <td><code>dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mini.onnx">Download v0.1.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Viper (100M)</strong></td>
+                  <td><code>v-µLM Reflex</code></td>
+                  <td>Tactical Terminal &amp; DevOps AST Reflex Engine</td>
+                  <td>GGUF Q4_0 + Tree-sitter</td>
+                  <td><strong>61.7 MB</strong></td>
+                  <td><code>58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper.Q4_0.gguf">Download v0.1.0</a></td>
+                </tr>
+                <tr>
                   <td><strong>Skate (135M)</strong></td>
                   <td><code>v-µLM Vector</code></td>
+                  <td>Resident Micro-Guru &amp; Edge Companion</td>
                   <td>GGUF IQ3_XXS Codebooks</td>
                   <td><strong>82.9 MB</strong></td>
                   <td><code>c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf">Download v0.2.0</a></td>
                 </tr>
                 <tr>
-                  <td><strong>Viper (100M)</strong></td>
-                  <td><code>v-µLM Reflex</code></td>
-                  <td>GGUF Q4_0 + AST Engine</td>
-                  <td><strong>61.7 MB</strong></td>
-                  <td><code>58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper.Q4_0.gguf">Download v0.1.0</a></td>
-                </tr>
-                <tr>
                   <td><strong>Manta (494M)</strong></td>
-                  <td><code>v-µLM Vector</code> (In Progress)</td>
+                  <td><code>v-µLM Vector</code></td>
+                  <td>Full Conversational Guru &amp; Wasm Architect</td>
                   <td>GGUF Q4_0 / Vector Lattice</td>
                   <td><strong>270.9 MB</strong></td>
                   <td><code>3017aaa98c315b94728d6ad0aa6ae4d068ac3c8b23c00625791a4d2c56c4eca4</code></td>

@@ -330,10 +330,10 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 **v-µLM (V-MicroLM)** is Nio's proprietary twin-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of two rigorous mathematical pillars:
 
-| Pillar | Engine Type | Model Target | Core Mechanism | Runtime Footprint |
+| Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
-| **`v-µLM Reflex`** | Pure-Rust Tree-sitter Grammar | **Viper (100M)** | Instant syntax candidate reflex & AST constraints | **27.1 MB RAM**, sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)** & **Manta (494M)** | Importance-weighted IQ3 vector quantization codebooks | **82.9 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9 MB disk**, >0.999 layer cosine fidelity |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
@@ -356,15 +356,15 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `viper.Q4_0.gguf` | Viper 100M | GGUF Q4_0 | 61.69 MB | `58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper.Q4_0.gguf) |
+| `viper.Q4_0.gguf` | Viper 100M (v-µLM Reflex Flagship) | GGUF Q4_0 | 61.69 MB | `58633aa691b80840dc85586cf2cb8616deff480c64ddf406bf848db749ecc3d4` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper.Q4_0.gguf) |
 | `viper-tokenizer.json` | Viper Tokenizer | JSON | 3.17 MB | `a136e7acd3d47fe1a2572bf0fe7af79528e4492bf15f1ecea24e2216cf78c690` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/viper-tokenizer.json) |
-| `nano.json` | Nano Intent | JSON | 46.8 KB | `9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json) |
-| `micro_base.onnx` | Micro Base | ONNX | 13.82 MB | `4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_base.onnx) |
-| `micro_infra.onnx` | Micro Infra | ONNX | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_infra.onnx) |
-| `micro_sec.onnx` | Micro Security | ONNX | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_sec.onnx) |
+| `nano.json` | Nano Intent (v-µLM Reflex) | JSON | 46.8 KB | `9b03e97096d232b76a4de3143b9ef0c76b6e9b64d241a289e99fe1e4977fe125` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/nano.json) |
+| `micro_base.onnx` | Micro Base (v-µLM Reflex) | ONNX | 13.82 MB | `4b19ceaf36d0e545c64542fc4988e18a2b1f586f7485dd6d70c3001c374ebcdb` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_base.onnx) |
+| `micro_infra.onnx` | Micro Infra (v-µLM Reflex) | ONNX | 19.66 MB | `9e4b541a150d0c3674d537cbc0300c3a3d84a89d72a84a4b0fad64817f6eb294` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_infra.onnx) |
+| `micro_sec.onnx` | Micro Security (v-µLM Reflex) | ONNX | 19.66 MB | `c86d350d7fea0dc90e0eda046d14e324534cbea8e1e6c7ba9e0276496d15426b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro_sec.onnx) |
 | `micro-tokenizer.json` | Micro Tokenizer | JSON | 17.5 KB | `1bbbcc91a0a0cf8ac64bbb577e5e3668e7aa7ba56e84ca56b22a237372edbb9f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/micro-tokenizer.json) |
-| `mask.onnx` | Mask Redactor | ONNX | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mask.onnx) |
-| `mini.onnx` | Mini Defect | ONNX | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mini.onnx) |
+| `mask.onnx` | Mask Redactor (v-µLM Reflex) | ONNX | 4.43 MB | `a52fdcbc7c749b2d8b41b0c38f8f0cde1eafd7fef0b8ef1688ac80b6ae79b7ad` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mask.onnx) |
+| `mini.onnx` | Mini Defect (v-µLM Reflex) | ONNX | 27.14 MB | `dd6516d85748aa64a1f1f7500ed07949813c2e35ede6e096a89e5fb57fa8e731` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.1.0/mini.onnx) |
 
 ---
 
