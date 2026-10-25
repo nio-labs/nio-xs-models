@@ -58,6 +58,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │    • Mako (150.0M)            ──► nioxs-browser Scout, DOM Noise Scrubber (<30MB)      │
 │                                                                                        │
 │  [ TIER 7: FLASH & LEAN COGNITIVE REASONING ]                                          │
+│    • µSail (270.0M)           ──► Atomic Invariant & Boundary Prover (<32MB)           │
 │    • Sail (~1.5B)             ──► Dense Chain-of-Thought (<think>) Predator (<95MB)   │
 │                                                                                        │
 │  [ TIER 8: DIRECT ACOUSTIC INTENT & VOICE REFLEX ]                                     │
@@ -84,6 +85,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, Full Brain)` | 100% brain from Qwen2.5-0.5B, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.Q4_0.gguf`, 270.9 MB) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Ray`** | **Rapid Stream Coding Model** | `1.54B (28L, Qwen2.5-Coder)` | Dedicated coding model for high-throughput code in-filling, tab-completion & instant boilerplate (31–36 w/s, 75.6% HumanEval) in < 88 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`µSail`** | **Atomic Invariant & Boundary Prover** | `270.0M (FunctionGemma-270M)` | Sub-15ms invariant proofs, security gate assertions & symbolic boundary checks (< 32 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Sail`** | **Flash & Lean Reasoning Predator** | `1.54B (28L, GQA)` | Distilled dense CoT (`<think>`), self-correction & compiler-verified rewards (RLVR) in < 95 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Apex`** | **Deep Mini Coding Model** | `3.09B (36L, Qwen2.5-Coder)` | Dedicated deep coding model for single-file complete refactoring, concurrency & race condition triage (81.7% HumanEval) in < 150 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Hydra`** | **Sovereign Whole-Repo Coding Titan** | `7.61B (28L Wide, Qwen2.5-Coder)` | Sovereign heavy coding titan for whole-repo multi-file compiler healing & crate refactoring (88.4% HumanEval, beats GPT-4) in < 350 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
