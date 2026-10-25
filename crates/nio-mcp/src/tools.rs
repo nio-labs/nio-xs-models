@@ -135,26 +135,55 @@ impl ToolRegistry {
         // Tactical Swiss Gear 2.0 command synthesis & destructive clutch check
         let (command, is_destructive, reason) = if intent_lower.contains("port") && (intent_lower.contains("kill") || intent_lower.contains("free") || intent_lower.contains("holding")) {
             let port = intent
-                .split_whitespace()
-                .find(|w| w.chars().all(|c| c.is_ascii_digit()) && !w.is_empty())
+                .split(|c: char| !c.is_ascii_digit())
+                .find(|w| !w.is_empty())
                 .unwrap_or("3000");
             (format!("fuser -k {port}/tcp"), true, format!("Terminates processes listening on port {port}"))
+        } else if intent_lower.contains("rust") && (intent_lower.contains("modified") || intent_lower.contains("24 hour") || intent_lower.contains("yesterday") || intent_lower.contains("today")) {
+            ("find . -type f -name \"*.rs\" -mtime -1".to_string(), false, "Read-only file search for modified Rust files".to_string())
         } else if intent_lower.contains("find") && intent_lower.contains("rust") && (intent_lower.contains("line") || intent_lower.contains("count")) {
-            ("find . -name \"*.rs\" -mtime 0 | xargs wc -l | sort -nr".to_string(), false, "Read-only file search & line count".to_string())
+            ("find . -name \"*.rs\" | xargs wc -l | sort -nr".to_string(), false, "Read-only file search & line count".to_string())
+        } else if intent_lower.contains("find") && intent_lower.contains("rust") {
+            ("find . -type f -name \"*.rs\"".to_string(), false, "Read-only Rust source search".to_string())
+        } else if intent_lower.contains("find") && intent_lower.contains("log") {
+            if intent_lower.contains("delete") || intent_lower.contains("remove") || intent_lower.contains("clean") {
+                ("find . -type f -name \"*.log\" -delete".to_string(), true, "Destructive deletion of matching log files".to_string())
+            } else {
+                ("find . -type f -name \"*.log\"".to_string(), false, "Read-only search for log files".to_string())
+            }
         } else if intent_lower.contains("pod") && (intent_lower.contains("log") || intent_lower.contains("stream")) {
             ("kubectl logs -n production -l app=service --tail=100 -f".to_string(), false, "Read-only streaming Kubernetes pod logs".to_string())
         } else if intent_lower.contains("docker") && (intent_lower.contains("prune") || intent_lower.contains("clean") || intent_lower.contains("delete")) {
             ("docker system prune -af".to_string(), true, "Destructive removal of unused containers and images".to_string())
         } else if intent_lower.contains("drop database") || intent_lower.contains("delete database") || intent_lower.contains("destroy cluster") {
             ("DROP DATABASE production;".to_string(), true, "Irreversible database drop".to_string())
-        } else if shell == "powershell" {
-            if intent_lower.contains("process") && intent_lower.contains("memory") {
-                ("Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 5 Name, Id, WorkingSet64".to_string(), false, "Read-only process inspection".to_string())
+        } else if intent_lower.contains("memory") || intent_lower.contains("ram") {
+            if shell == "powershell" {
+                ("Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 10 Name, Id, WorkingSet64".to_string(), false, "Read-only process memory inspection".to_string())
             } else {
-                (format!("Get-ChildItem -Path . -Recurse | Where-Object {{ $_.Name -like \"*{intent}*\" }}"), false, "PowerShell query".to_string())
+                ("ps aux --sort=-%mem | head -n 11".to_string(), false, "Read-only process memory inspection".to_string())
             }
+        } else if intent_lower.contains("disk") || intent_lower.contains("storage") || intent_lower.contains("space") {
+            if shell == "powershell" {
+                ("Get-PSDrive -PSProvider FileSystem | Select-Object Name, Used, Free".to_string(), false, "Read-only storage inspection".to_string())
+            } else {
+                ("df -h".to_string(), false, "Read-only disk usage overview".to_string())
+            }
+        } else if intent_lower.contains("git") && (intent_lower.contains("status") || intent_lower.contains("changes")) {
+            ("git status -s".to_string(), false, "Read-only working tree status".to_string())
+        } else if intent_lower.contains("git") && (intent_lower.contains("log") || intent_lower.contains("history") || intent_lower.contains("commits")) {
+            ("git log --oneline -n 10".to_string(), false, "Read-only recent commit history".to_string())
+        } else if shell == "powershell" {
+            (format!("Get-ChildItem -Path . -Recurse -Filter \"*{intent}*\" -ErrorAction SilentlyContinue"), false, "PowerShell query".to_string())
         } else {
-            (format!("find . -type f -name \"*{intent}*\" 2>/dev/null"), false, "POSIX reflex search".to_string())
+            // Check if intent contains dangerous delete phrases
+            let is_del = intent_lower.contains("rm ") || intent_lower.contains("delete") || intent_lower.contains("kill") || intent_lower.contains("destroy");
+            let cmd = if is_del {
+                format!("rm -rf {}", intent.trim().replace("rm -rf", "").trim())
+            } else {
+                format!("find . -type f -name \"*{intent}*\" 2>/dev/null")
+            };
+            (cmd, is_del, if is_del { "Destructive file or resource mutation" } else { "POSIX reflex search" }.to_string())
         };
 
         let result = json!({

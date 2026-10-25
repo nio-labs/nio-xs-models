@@ -71,6 +71,23 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 
 ---
 
+## 📦 One-Liner Installer & Quickstart
+
+Install the compiled MicroLM binaries (`nioxs` and `nioxs-mcp`) to `~/.local/bin` with automated architecture detection and automatic OpenCode MCP integration:
+
+```bash
+curl -fsSL https://nio-labs.github.io/nio-xs-models/install.sh | bash
+```
+
+Or compile and install directly from source via Cargo:
+
+```bash
+cargo install --git https://github.com/nio-labs/nio-xs-models.git nioxs-cli
+cargo install --git https://github.com/nio-labs/nio-xs-models.git nio-mcp
+```
+
+---
+
 ## 🐍 1. Viper (100M) — Tactical Terminal & DevOps Reflex Engine
 
 **Viper** is the 100-million parameter tactical terminal striker and DevOps reflex engine. Operating with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with **27.14 MB peak resident RAM (`VmHWM`)** and **sub-20µs tactical AST candidate reflex sampling** via its default pure-Rust AST-MicroLM runtime.

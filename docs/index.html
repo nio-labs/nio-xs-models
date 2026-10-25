@@ -796,6 +796,13 @@ sha256sum viper.Q4_0.gguf viper-tokenizer.json nano.json nio_micro_*.onnx nio_ma
           <h2>11. Quickstart with NioXS &amp; Nio CLI</h2>
           <p>The Nio ecosystem provides two coordinated CLI binaries: <strong><code>nioxs</code></strong> (native edge tensor runtime) and <strong><code>nio</code></strong> (agent workspace orchestrator). Models are automatically downloaded, verified, and cached in <code>~/.nioxs/models</code>:</p>
 
+          <h3>Zero-Configuration One-Liner Installer</h3>
+          <div class="code-wrapper">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre><code class="language-bash"># Install nioxs CLI &amp; nioxs-mcp server to ~/.local/bin
+curl -fsSL https://nio-labs.github.io/nio-xs-models/install.sh | bash</code></pre>
+          </div>
+
           <h3>A. Model Discovery &amp; Cache Management (`nioxs pull`)</h3>
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
