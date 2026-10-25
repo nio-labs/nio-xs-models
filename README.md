@@ -299,7 +299,9 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ## 🔌 Localhost Model Context Protocol (MCP) Server (`nioxs-mcp`)
 
-The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`stdio`). It exposes all 5 MicroLM engines as zero-cost in-process tools for AI coding assistants (Cursor, Claude Desktop, Antigravity, Cline, Windsurf, Zed):
+> 📖 **Dedicated Documentation**: Read the full [Localhost MCP Guide & 99.62% Token Conservation Proof](https://nio-labs.github.io/nio-xs-models/mcp.html) on GitHub Pages.
+
+The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`stdio`) or HTTP/SSE (`--port 8080`). It exposes all 5 MicroLM engines as zero-cost in-process tools for AI coding assistants (Cursor, Claude Desktop, Antigravity, OpenCode, Cline, Windsurf, Zed):
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
