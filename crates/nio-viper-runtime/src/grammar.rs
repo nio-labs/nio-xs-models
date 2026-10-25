@@ -50,13 +50,18 @@ impl DynamicGrammarReflex {
         }
 
         let verbs = [
-            "lsof", "fuser", "ss", "kill", "pkill", "find", "grep", "cat", "awk",
-            "docker", "cargo", "git", "systemctl", "journalctl", "ps", "curl", "tar", "sed",
+            "find", "docker", "git", "cargo", "ss", "lsof", "fuser", "kill", "pkill", "systemctl",
+            "journalctl", "ps", "grep", "cat", "awk", "curl", "tar", "sed",
         ];
 
         let mut verb_ids = Vec::new();
         for v in &verbs {
             for id in encode_exact(v) {
+                if !verb_ids.contains(&id) {
+                    verb_ids.push(id);
+                }
+            }
+            for id in encode_exact(&format!(" {}", v)) {
                 if !verb_ids.contains(&id) {
                     verb_ids.push(id);
                 }

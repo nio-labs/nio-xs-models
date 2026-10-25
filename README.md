@@ -348,7 +348,6 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 |---|---|:---:|:---:|---|:---:|
 | `manta.Q4_0.gguf` | Manta (494M, Predator Level 3) | GGUF Q4_0 | 270.9 MB | `3017aaa98c315b94728d6ad0aa6ae4d068ac3c8b23c00625791a4d2c56c4eca4` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta.Q4_0.gguf) |
 | `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (Predator Level 2) | GGUF IQ3_XXS Codebooks | 82.9 MB | `c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
-| `skate.Q4_0.gguf` | Skate Baseline (135M, Predator Level 2) | GGUF Q4_0 | 87.5 MB | `1dd7f32af4d0fb739161bb01fa62c915c4a5c384ed63fa131eb0958c683e126f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.Q4_0.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5) | JSON | 6.8 MB | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta-tokenizer.json) |
 | `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
 
