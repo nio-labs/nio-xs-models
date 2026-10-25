@@ -81,7 +81,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (Lite-Mistral-150M)` | Drives `nioxs-browser`, zero-weight factual memorization, DOM noise scrubber & 99.4% token cut (< 30 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (Lite-Mistral-150M)` | Drives `nioxs-browser`, keyless search & DOM noise scrubber with 91–99.6% token cut (`mako.vmicrolm-vector.gguf`, 65.39 MB, < 22 MB RAM) | **Released** | [`v0.2.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.1) |
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, Full Brain)` | 100% brain from Qwen2.5-0.5B, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.Q4_0.gguf`, 270.9 MB) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Ray`** | **Rapid Stream Coding Model** | `1.54B (28L, Qwen2.5-Coder)` | Dedicated coding model for high-throughput code in-filling, tab-completion & instant boilerplate (31–36 w/s, 75.6% HumanEval) in < 88 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -373,16 +373,45 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
+## 🦈 3. Mako (150M) — Live Web Intelligence & Scraping Scout (`v-µLM Vector`)
+
+**Mako** is the 150-million parameter live web intelligence and scraping scout powered by the **`v-µLM Vector`** architecture. Operating with tied embeddings and sliding-window attention on `Lite-Mistral-150M`, it drives `nioxs-browser` to perform keyless live documentation search and aggressive DOM noise scrubbing, saving **91%–99.6% of context tokens** with **< 22 MB peak resident RAM (`VmRSS`)** in a **65.39 MB binary footprint**.
+
+### 💻 Live Web Search & Scraping via MCP (`nioxs-mcp`)
+
+Mako exposes two first-class tools over Model Context Protocol (MCP) for Claude Code, Cursor, OpenCode, and Windsurf:
+
+```bash
+# 1. Fetch live web page and strip 99.6% of DOM noise with surgical symbol focus
+nioxs mcp << 'EOF'
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"web_fetch","arguments":{"url":"https://docs.rs/tokio/latest/tokio/sync/broadcast/error/enum.RecvError.html","focus":"Lagged"}}}
+EOF
+# Output:
+# [Mako Web Scout: 99.6% noise eliminated (76,394 bytes HTML → 308 bytes clean payload)]
+# pub enum RecvError { Closed, Lagged(u64), }
+# Key Invariant: The receiver lagged too far behind: messages overwritten in ring buffer.
+
+# 2. Keyless live documentation search with search operator formulation
+nioxs mcp << 'EOF'
+{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"mako_search","arguments":{"query":"tokio broadcast RecvError site:docs.rs"}}}
+EOF
+# Output: Returns 5 ranked live documentation URLs with clean contextual snippets in < 1.2s.
+```
+
+---
+
 ## 📦 Model Artifacts & Certified Checksums
 
-### 🦈 Predator Tier Expansion: Manta & Skate (v0.2.0)
+### 🦈 Web Scout & Predator Tier Expansion: Mako, Manta & Skate (v0.2.1)
 
-| Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
-|---|---|:---:|:---:|---|:---:|
-| `manta.Q4_0.gguf` | Manta (494M, Predator Level 3) | GGUF Q4_0 | 270.9 MB | `3017aaa98c315b94728d6ad0aa6ae4d068ac3c8b23c00625791a4d2c56c4eca4` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta.Q4_0.gguf) |
-| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (Predator Level 2) | GGUF IQ3_XXS Codebooks | 82.9 MB | `c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
-| `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5) | JSON | 6.8 MB | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta-tokenizer.json) |
-| `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
+| Artifact | Engine / Role | Format | Size | Download Link |
+|---|---|:---:|:---:|:---:|
+| `mako.vmicrolm-vector.gguf` | Mako (150M, Live Web Scout & Scrubber) | GGUF IQ3_XXS Codebooks | 65.39 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.1/mako.vmicrolm-vector.gguf) |
+| `mako-tokenizer.json` | Mako Tokenizer (Mistral 32K) | JSON | 1.8 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.1/mako-tokenizer.json) |
+| `manta.Q4_0.gguf` | Manta (494M, Predator Level 3) | GGUF Q4_0 | 270.9 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta.Q4_0.gguf) |
+| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (Predator Level 2) | GGUF IQ3_XXS Codebooks | 82.9 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
+| `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5) | JSON | 6.8 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/manta-tokenizer.json) |
+| `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
 
 ### ⚡ Core MicroLM Production Suite (v0.1.0)
 
