@@ -121,8 +121,8 @@ fn cmd_viper(args: &[String]) -> Result<()> {
                 }
             }
 
-            println!("\n=== Pure-Rust AST Telemetry ===");
-            println!("Sampling Mode: Tactical AST Candidate Reflex (< 20µs)");
+            println!("\n=== AST-MicroLM Telemetry ===");
+            println!("Runtime Engine: AST-MicroLM Candidate Reflex (< 20µs)");
             println!("Prefill Latency: {:.1} ms", telemetry.prefill_ms);
             println!("Initial RAM: {:.2} MB", telemetry.rss_init);
             println!("Peak RAM (VmHWM): {:.2} MB", telemetry.hwm_peak);

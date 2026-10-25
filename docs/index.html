@@ -233,8 +233,8 @@
 
           <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
             <div class="feature-card">
-              <h4>Viper <code>(100M &bull; 27.14 MB Peak Resident RAM &bull; Pure-Rust AST-µLM)</code></h4>
-              <p><strong>The Tactical Terminal &amp; DevOps Striker (Active Production v0.1.0).</strong> Engineered with 14 layers, GQA (10/2), and a dedicated 17,451 vocabulary. Runs with <strong>27.14 MB peak resident RAM</strong> (Linux <code>VmHWM</code>) via pure-Rust Candle AST runtime and sub-20µs candidate reflex sampling. Synthesizes multi-stage pipelines, Kubernetes/Docker operations, PowerShell cmdlets, and Destructive Safety Clutch.</p>
+              <h4>Viper <code>(100M &bull; 27.14 MB Peak Resident RAM &bull; Pure-Rust AST-MicroLM)</code></h4>
+              <p><strong>The Tactical Terminal &amp; DevOps Striker (Active Production v0.1.0).</strong> Engineered with 14 layers, GQA (10/2), and a dedicated 17,451 vocabulary. Runs with <strong>27.14 MB peak resident RAM</strong> (Linux <code>VmHWM</code>) via our native pure-Rust <strong>AST-MicroLM runtime</strong> and sub-20µs candidate reflex sampling. Synthesizes multi-stage pipelines, Kubernetes/Docker operations, PowerShell cmdlets, and Destructive Safety Clutch.</p>
               <div style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
                 <span class="badge badge-accent">Released v0.1.0</span>
                 <span class="badge badge-mono">61.69 MB Q4_0 GGUF &bull; 27.14 MB Peak RAM</span>
@@ -302,7 +302,7 @@
                   <td><a href="viper.html"><strong>Viper</strong></a></td>
                   <td>Tactical Terminal &amp; DevOps Striker</td>
                   <td><code>100.0M (14L, 17.5k Vocab)</code></td>
-                  <td>Pure-Rust Candle AST runtime, DevOps &amp; PowerShell reflex with Swiss Gear 2.0 (61.69 MB Q4_0 GGUF, <strong>27.14 MB Peak RAM</strong>)</td>
+                  <td>Pure-Rust <strong>AST-MicroLM runtime</strong>, DevOps &amp; PowerShell reflex with Swiss Gear 2.0 (61.69 MB Q4_0 GGUF, <strong>27.14 MB Peak RAM</strong>)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0">v0.1.0</a></td>
                 </tr>
@@ -347,7 +347,7 @@
         <section id="nioviper" class="doc-section">
           <div class="section-badge">Tactical Terminal Striker &bull; v0.1.0</div>
           <h2>5. Viper 100M — The Tactical Terminal &amp; DevOps Reflex Engine</h2>
-          <p><strong>Viper</strong> is Nio's exact 100M tactical reflex engine engineered from scratch for high-velocity developer workflows. Operating on an exact 100,000,000 parameter budget with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with <strong>27.14 MB peak resident RAM</strong> (Linux <code>VmHWM</code>) and <strong>sub-20µs candidate sampling</strong> via its native pure-Rust Candle AST runtime.</p>
+          <p><strong>Viper</strong> is Nio's exact 100M tactical reflex engine engineered from scratch for high-velocity developer workflows. Operating on an exact 100,000,000 parameter budget with tied embeddings and Grouped-Query Attention (10/2), it translates complex natural language intent into production POSIX bash and Windows PowerShell reflexes with <strong>27.14 MB peak resident RAM</strong> (Linux <code>VmHWM</code>) and <strong>sub-20µs candidate sampling</strong> via its native pure-Rust <strong>AST-MicroLM runtime</strong>.</p>
 
           <div class="spec-grid">
             <div class="spec-card">
@@ -363,12 +363,12 @@
             <div class="spec-card">
               <div class="spec-title">Session Peak RSS</div>
               <div class="spec-value">27.14 MB</div>
-              <div class="spec-sub">Pure-Rust AST Runtime (Linux VmHWM)</div>
+              <div class="spec-sub">Pure-Rust AST-MicroLM Runtime (VmHWM)</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Candidate Sampling</div>
               <div class="spec-value">&lt; 20 µs</div>
-              <div class="spec-sub">Tactical AST Candidate Reflex</div>
+              <div class="spec-sub">Tactical AST-MicroLM Reflex</div>
             </div>
           </div>
 
@@ -816,15 +816,15 @@ nioxs models list</code></pre>
           <div class="feature-card" style="margin-bottom: 20px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
               <h4>🐍 1. Viper (100.0M) — Tactical Terminal &amp; DevOps Reflex</h4>
-              <span class="badge badge-accent">Pure-Rust AST &bull; 27.14 MB Peak RAM &bull; Sub-20µs Sampling</span>
+              <span class="badge badge-accent">AST-MicroLM &bull; 27.14 MB Peak RAM &bull; Sub-20µs Sampling</span>
             </div>
-            <p>Pure-Rust Candle AST reflex synthesis, multi-stage pipelines, and Kubernetes/Docker orchestration:</p>
-            <pre><code class="language-bash"># Synthesize terminal command via pure-Rust AST runtime (27.14 MB peak RAM)
+            <p>Pure-Rust AST-MicroLM reflex synthesis, multi-stage pipelines, and Kubernetes/Docker orchestration:</p>
+            <pre><code class="language-bash"># Synthesize terminal command via pure-Rust AST-MicroLM runtime (27.14 MB peak RAM)
 nioxs viper "list folder pls"
 # Output:
 # Reflex Command: ls -la
-# === Pure-Rust AST Telemetry ===
-# Sampling Mode: Tactical AST Candidate Reflex (< 20µs)
+# === AST-MicroLM Telemetry ===
+# Runtime Engine: AST-MicroLM Candidate Reflex (< 20µs)
 # Initial RAM: 11.70 MB | Peak RAM (VmHWM): 27.14 MB
 
 # Multi-stage pipeline synthesis
@@ -1000,7 +1000,7 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
                   <td>~6 MB</td>
                 </tr>
                 <tr>
-                  <td><strong>Viper (Candle AST)</strong></td>
+                  <td><strong>Viper (AST-MicroLM)</strong></td>
                   <td>100.0M</td>
                   <td><strong>Sub-20µs Reflex</strong></td>
                   <td>Sub-20µs</td>
@@ -1066,7 +1066,7 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           <div class="faq-item">
             <h4 class="faq-question">What performance has been verified for Viper?</h4>
             <div class="faq-answer">
-              <p>On standard commodity x86_64 CPUs running the native pure-Rust AST runtime (<code>nio-viper-runtime</code>), Viper measures <strong>11.70 MB initial engine RAM</strong> and reaches only <strong>27.14 MB peak resident RAM (VmHWM)</strong>. Prompt prefill completes in-process, and candidate sampling runs in <strong>sub-20 microseconds</strong> via tactical AST reflex projection. Quantized to Q4_0 GGUF (61.69 MB), it executes directly via Candle with zero Python or heavy external runtime overhead.</p>
+              <p>On standard commodity x86_64 CPUs running the native pure-Rust <strong>AST-MicroLM runtime</strong> (<code>nio-viper-runtime</code>), Viper measures <strong>11.70 MB initial engine RAM</strong> and reaches only <strong>27.14 MB peak resident RAM (VmHWM)</strong>. Prompt prefill completes in-process, and candidate sampling runs in <strong>sub-20 microseconds</strong> via tactical AST reflex projection. Quantized to Q4_0 GGUF (61.69 MB), it executes directly with zero Python or heavy external runtime overhead.</p>
             </div>
           </div>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Viper (100M) — Tactical Terminal & DevOps Reflex Engine with Exact 100M Parameter Budget, Q4_0 GGUF, 27.14MB Peak RAM, Pure-Rust Candle AST Runtime, and Swiss Gear 2.0 Safety Clutch.">
+  <meta name="description" content="Viper (100M) — Tactical Terminal & DevOps Reflex Engine with Exact 100M Parameter Budget, Q4_0 GGUF, 27.14MB Peak RAM, Pure-Rust AST-MicroLM Runtime, and Swiss Gear 2.0 Safety Clutch.">
   <meta name="theme-color" content="#f6f8fa">
   <title>Viper (100M) — Tactical Terminal &amp; DevOps Reflex Engine</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -102,10 +102,10 @@
               <span class="badge">Exact 100M Lock</span>
               <span class="badge">Q4_0 GGUF (61.69 MB)</span>
               <span class="badge">27.14 MB Peak RAM</span>
-              <span class="badge">&lt; 20µs Candidate Reflex</span>
+              <span class="badge">&lt; 20µs AST-MicroLM Reflex</span>
             </div>
             <h1 class="hero-title">Viper — Tactical Terminal &amp; DevOps Reflex Striker</h1>
-            <p class="hero-desc"><strong>Viper</strong> is an edge-native tactical reflex engine engineered from scratch with a mathematically locked <strong>100,000,000 parameter budget</strong>. Operating via its default pure-Rust Candle AST runtime, it synthesizes production POSIX shell pipelines, modern cloud DevOps cmdlets (Kubernetes, Docker, Terraform), and idiomatic Windows PowerShell with <strong>27.14 MB peak resident RAM</strong> and an active <strong>Destructive Safety Clutch</strong>.</p>
+            <p class="hero-desc"><strong>Viper</strong> is an edge-native tactical reflex engine engineered from scratch with a mathematically locked <strong>100,000,000 parameter budget</strong>. Operating via its default pure-Rust <strong>AST-MicroLM runtime</strong>, it synthesizes production POSIX shell pipelines, modern cloud DevOps cmdlets (Kubernetes, Docker, Terraform), and idiomatic Windows PowerShell with <strong>27.14 MB peak resident RAM</strong> and an active <strong>Destructive Safety Clutch</strong>.</p>
           </div>
 
           <div class="spec-grid">
@@ -122,12 +122,12 @@
             <div class="spec-card">
               <div class="spec-title">Peak Resident RAM</div>
               <div class="spec-value">27.14 MB</div>
-              <div class="spec-sub">Linux VmHWM pure-Rust AST runtime (11.70 MB init)</div>
+              <div class="spec-sub">Linux VmHWM AST-MicroLM runtime (11.70 MB init)</div>
             </div>
             <div class="spec-card">
               <div class="spec-title">Candidate Sampling</div>
               <div class="spec-value">&lt; 20 µs</div>
-              <div class="spec-sub">Tactical AST candidate reflex (Candle)</div>
+              <div class="spec-sub">Tactical AST-MicroLM candidate reflex</div>
             </div>
           </div>
         </section>
@@ -269,7 +269,7 @@
               <div class="spec-card">
                 <div class="spec-title">Process Model State</div>
                 <div class="spec-value" style="font-size: 1.25rem;">Exact 100.0M</div>
-                <div class="spec-sub">Pure-Rust AST &bull; 17,451 Vocab</div>
+                <div class="spec-sub">Pure-Rust AST-MicroLM &bull; 17,451 Vocab</div>
               </div>
             </div>
           </div>
@@ -375,16 +375,16 @@
             </table>
           </div>
 
-          <!-- PURE-RUST CANDLE AST RUNTIME TELEMETRY -->
+          <!-- PURE-RUST AST-MICROLM RUNTIME TELEMETRY -->
           <div style="margin-top: 32px; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
               <h3 style="margin: 0; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
-                🦀 Pure-Rust Candle AST Runtime Benchmark (<code>nio-viper-runtime</code>)
+                🦀 Pure-Rust AST-MicroLM Runtime Benchmark (<code>nio-viper-runtime</code>)
               </h3>
               <span class="badge badge-accent">Peak Resident RAM: 27.14 MB &bull; Zero Python Overhead</span>
             </div>
             <p style="font-size: 0.9em; color: var(--text-secondary); margin-bottom: 16px;">
-              When Viper is executed via the native <code>nio-viper-runtime</code> crate (built with HuggingFace Candle, tied quantized weights, and tactical AST candidate slicing), memory allocation is streamlined directly into raw virtual memory buffers. Peak resident RAM (Linux <code>VmHWM</code>) drops from ~89 MB down to <strong>27.14 MB</strong> (only 25.8% of the 105MB hard envelope):
+              When Viper is executed via the native <code>nio-viper-runtime</code> crate (our in-house <strong>AST-MicroLM runtime</strong> built with HuggingFace Candle, tied quantized weights, and tactical candidate slicing), memory allocation is streamlined directly into raw virtual memory buffers. Peak resident RAM (Linux <code>VmHWM</code>) drops from ~89 MB down to <strong>27.14 MB</strong> (only 25.8% of the 105MB hard envelope):
             </p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px;">
@@ -424,7 +424,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>Pure-Rust Candle AST (<code>nio-viper-runtime</code>)</strong></td>
+                    <td><strong>Pure-Rust AST-MicroLM (<code>nio-viper-runtime</code>)</strong></td>
                     <td>Native tied quantized weights + linear token streaming</td>
                     <td><strong>11.70 MB</strong></td>
                     <td><strong>27.14 MB</strong> <span class="badge badge-accent">Ultra-Lean</span></td>
@@ -732,12 +732,12 @@ response = tokenizer.decode(curr_ids[len(tokens):])
 print(f"Reflex Command: {response.strip()}")</code></pre>
           </div>
 
-          <h3>B. Native Pure-Rust Candle AST Integration (`nio-viper-runtime`)</h3>
-          <p>Embedded directly into high-performance Rust binaries using HuggingFace Candle for zero-Python, in-process inference with <strong>27.14 MB peak resident RAM</strong>:</p>
+          <h3>B. Native Pure-Rust AST-MicroLM Integration (`nio-viper-runtime`)</h3>
+          <p>Embedded directly into high-performance Rust binaries using our native <strong>AST-MicroLM runtime</strong> for zero-Python, in-process inference with <strong>27.14 MB peak resident RAM</strong>:</p>
 
           <div class="code-wrapper">
             <button class="copy-btn" type="button">Copy</button>
-            <pre><code class="language-bash"># Run pure-Rust Candle AST runtime with hardware telemetry:
+            <pre><code class="language-bash"># Run pure-Rust AST-MicroLM runtime with hardware telemetry:
 cargo run --release -p nio-viper-runtime -- -p "Kill whatever process is listening on port 3000"
 
 # Telemetry Output:
