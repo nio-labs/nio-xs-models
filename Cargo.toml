@@ -8,6 +8,7 @@ members = [
     "crates/nio-nano-runtime",
     "crates/nio-ray-runtime",
     "crates/nio-viper-runtime",
+    "crates/nio-mako-runtime",
     "crates/nio-mcp",
     "crates/nioxs-cli",
 ]
