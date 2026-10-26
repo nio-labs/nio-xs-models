@@ -486,7 +486,7 @@ Frontier reasoning models (Claude 3.5 Sonnet, GPT-4o) charge steep per-token pri
 #### Standalone Binary Download (994 KB)
 ```bash
 # Direct download from GitHub Releases
-curl -fsSL -o /usr/local/bin/nioxs-mcp https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/nioxs-mcp
+curl -fsSL -o /usr/local/bin/nioxs-mcp https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/nioxs-mcp
 chmod +x /usr/local/bin/nioxs-mcp
 ```
 

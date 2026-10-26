@@ -55,7 +55,7 @@ Using `nioxs-mcp` as a client-side proxy cuts daily frontier model API token usa
 Download the standalone executable (~994 KB) from the latest GitHub Release:
 ```bash
 # Linux (x86_64)
-curl -fsSL -o /usr/local/bin/nioxs-mcp https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/nioxs-mcp
+curl -fsSL -o /usr/local/bin/nioxs-mcp https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/nioxs-mcp
 chmod +x /usr/local/bin/nioxs-mcp
 ```
 
