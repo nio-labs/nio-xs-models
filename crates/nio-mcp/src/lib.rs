@@ -37,7 +37,7 @@ impl McpServer {
                     },
                     "serverInfo": {
                         "name": "nio-mcp-server",
-                        "version": "0.1.0"
+                        "version": "0.2.6"
                     }
                 });
                 Some(JsonRpcResponse::success(id, result))

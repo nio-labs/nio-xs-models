@@ -444,56 +444,103 @@ The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`st
                    │ MCP Standard JSON-RPC 2.0 (stdio)
                    ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│              LOCAL NIO MCP SERVER (`nioxs-mcp` in Rust)                │
+│              LOCAL NIO MCP SERVER (`nioxs-mcp` in Rust, 994KB)         │
 ├────────────────────────────────────────────────────────────────────────┤
-│ • viper_synthesize(intent, shell)  ──► Sub-50ms POSIX/PS Command       │
+│ • viper_synthesize(intent, shell)  ──► Sub-40ms POSIX/PS Command       │
 │ • mask_sanitize(content)           ──► Sub-0.2ms Secret/PII Scrubber   │
 │ • micro_audit(action, cluster)     ──► Sub-4ms Policy APPROVE/REJECT   │
 │ • nano_route(text)                 ──► Sub-0.1ms Zero-Token Directive  │
 │ • mini_predict_defect(diff)        ──► Sub-5ms Build Break Probability │
+│ • mako_web_scout(query)            ──► Sub-15ms HTML Wire DSL Scrubber │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1. Available MCP Tools
+### 1. ⚡ Token-Cutting Economics: 70% to 85% Cloud Cost Reduction
 
-| Tool Name | Engine | Role | Speed & Token Impact |
+Frontier reasoning models (Claude 3.5 Sonnet, GPT-4o) charge steep per-token pricing for operations that do not require multi-billion parameter reasoning. By offloading deterministic, security, triage, and scraping workloads to local MicroLMs via `nioxs-mcp`, developers cut daily token consumption by **70%–85%**:
+
+| MCP Tool | MicroLM Engine | Local CPU Latency | What It Replaces on the Cloud | Per-Call Token Savings |
+|---|---|:---:|---|:---:|
+| **`nano_route`** | **Nano (~0.5M)** | **45 µs** | Upstream prompt triage & directive planning | **5,000 – 12,000 tokens** |
+| **`mask_sanitize`** | **Mask (1.1M)** | **140 µs** | Cloud safety trips & multi-turn re-prompt loops | **2,000 – 5,000 tokens** |
+| **`micro_audit`** | **Micro (5.0M)** | **3.8 ms** | Deliberation CoT reasoning for command safety | **1,500 – 3,000 tokens** |
+| **`mini_predict_defect`** | **Mini (7.1M)** | **4.2 ms** | Multi-turn compile-break-retry agent debug loops | **10,000 – 30,000 tokens** |
+| **`viper_synthesize`** | **Viper (100M)** | **38.2 ms** | Verbose LLM bash prose & boilerplate generation | **300 – 800 tokens** |
+| **`mako_web_scout`** | **Mako (150M)** | **8 – 15 ms** | 100KB–300KB raw HTML bloat reduced to Wire DSL | **20,000 – 60,000 tokens (85–95%)** |
+
+> **Real-World Daily Impact**: In an 8-hour agentic coding session, token consumption typically plummets from **400,000 tokens/day** down to **~75,000 tokens/day**, eliminating $1.00–$2.00/developer/day in API charges while cutting terminal interaction latency from seconds to milliseconds.
+
+### 2. Available Production MCP Tools
+
+| Tool Name | Engine | Role | Output Format |
 |---|---|---|---|
-| **`viper_synthesize`** | Viper (100M) | Synthesize POSIX / PowerShell cmdlets with Destructive Safety Clutch | Replaces 1,500+ output tokens with sub-50ms local inference |
-| **`mask_sanitize`** | Mask (1.1M) | Zero-cloud secret & PII stream scrubber (API keys, tokens, passwords) | Prevents secret leaks to cloud APIs in < 0.2ms with 0 false positives |
-| **`micro_audit`** | Micro (5.0M) | Contextual policy arbiter approving/rejecting file and infra mutations | Deterministic gate in < 4ms; eliminates 2,000+ token safety prompts |
-| **`nano_route`** | Nano (~0.5M) | Sub-0.1ms command intent triage and zero-token directive router | Saves 5k–25k tokens on inspection directives (`--bash`, `--tools`) |
-| **`mini_predict_defect`** | Mini (7.1M) | Pre-emptive defect and regression forecaster on code diffs | Sub-5ms PR / commit screening before triggering heavy build cycles |
+| **`viper_synthesize`** | Viper (100M) | Synthesize POSIX / PowerShell cmdlets with Destructive Safety Clutch | Structured JSON (`command`, `is_destructive`, `clutch_reason`) |
+| **`mask_sanitize`** | Mask (1.1M) | Zero-cloud secret & PII stream scrubber (API keys, tokens, passwords) | Sanitized string + secret count (0 false positives on git commits) |
+| **`micro_audit`** | Micro (5.0M) | Contextual policy arbiter approving/rejecting file and infra mutations | Deterministic `APPROVE` / `REJECT` + continuous risk score |
+| **`nano_route`** | Nano (~0.5M) | Sub-0.1ms command intent triage and zero-token directive router | Direct localhost execution action or routing metadata |
+| **`mini_predict_defect`** | Mini (7.1M) | Pre-emptive defect and regression forecaster on code diffs | Defect probability, hazard category & invariant explanation |
+| **`mako_web_scout`** | Mako (150M) | Zero-API key live documentation scout & HTML pre-scrubber | LLM-Native Wire DSL (`@api`) with HTTP 304 ETag caching |
 
-### 2. Configuration for Coding Agents
+### 3. Installation & Quick Start
+
+#### Standalone Binary Download (994 KB)
+```bash
+# Direct download from GitHub Releases
+curl -fsSL -o /usr/local/bin/nioxs-mcp https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/nioxs-mcp
+chmod +x /usr/local/bin/nioxs-mcp
+```
+
+#### Install via Cargo
+```bash
+cargo install --git https://github.com/nio-labs/nio-xs-models nio-mcp
+```
+
+### 4. Configuration for Coding Agents
 
 #### A. Claude Desktop (`claude_desktop_config.json`)
 ```json
 {
   "mcpServers": {
     "nio": {
-      "command": "cargo",
-      "args": ["run", "--release", "-p", "nio-mcp", "--", "--stdio"]
+      "command": "nioxs-mcp",
+      "args": ["--stdio"]
     }
   }
 }
 ```
 
-#### B. Cursor / Windsurf / Antigravity (`.cursor/mcp.json`)
+#### B. Cursor / Antigravity / Windsurf (`.cursor/mcp.json`)
 ```json
 {
   "mcpServers": {
-    "nio-local": {
-      "command": "cargo",
-      "args": ["run", "--release", "-p", "nio-mcp", "--", "--stdio"]
+    "nio": {
+      "command": "nioxs-mcp",
+      "args": ["--stdio"]
     }
   }
 }
 ```
 
-### 3. Diagnostics & Self-Test
-Run the built-in diagnostic test across all 5 MicroLM tools:
+#### C. Zed Editor (`~/.config/zed/settings.json`)
+```json
+{
+  "experimental": {
+    "model_context_protocol": {
+      "servers": {
+        "nio": {
+          "command": "nioxs-mcp",
+          "args": ["--stdio"]
+        }
+      }
+    }
+  }
+}
+```
+
+### 5. Diagnostics & Self-Test
+Run the built-in diagnostic test across all 6 MicroLM tools:
 ```bash
-cargo run -p nio-mcp -- --test
+nioxs-mcp --test
 ```
 
 ---

@@ -7,7 +7,7 @@ fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
 
     if args.iter().any(|a| a == "--version" || a == "-V") {
-        println!("nioxs-mcp 0.1.0 (Nio Localhost Model Context Protocol Server)");
+        println!("nioxs-mcp 0.2.6 (Nio Localhost Model Context Protocol Server)");
         return Ok(());
     }
 

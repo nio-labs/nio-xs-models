@@ -1,6 +1,6 @@
 [package]
 name = "nio-mcp"
-version = "0.1.0"
+version = "0.2.6"
 edition = "2021"
 description = "Localhost Model Context Protocol (MCP) server for Nio MicroLM Fleet"
 license = "MIT"

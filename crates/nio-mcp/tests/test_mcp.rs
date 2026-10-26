@@ -29,6 +29,22 @@ fn test_mcp_tools_list() {
     assert!(tool_names.contains(&"micro_audit"));
     assert!(tool_names.contains(&"nano_route"));
     assert!(tool_names.contains(&"mini_predict_defect"));
+    assert!(tool_names.contains(&"mako_web_scout"));
+}
+
+#[test]
+fn test_mcp_mako_web_scout() {
+    let server = McpServer::new();
+    let req = r#"{"jsonrpc":"2.0","id":8,"method":"tools/call","params":{"name":"mako_web_scout","arguments":{"query":"RFC 7540"}}}"#;
+    let resp = server.process_line(req).expect("response");
+    let val: Value = serde_json::from_str(&resp).expect("valid json");
+
+    let content_text = val["result"]["content"][0]["text"].as_str().expect("text");
+    let inner: Value = serde_json::from_str(content_text).expect("inner json");
+
+    assert_eq!(inner["model"], "Mako (150M)");
+    assert_eq!(inner["query"], "RFC 7540");
+    assert!(inner["wire_dsl"].as_str().unwrap().contains("@api"));
 }
 
 #[test]
