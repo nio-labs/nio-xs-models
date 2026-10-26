@@ -137,9 +137,9 @@
           <div class="callout callout-success">
             <div class="callout-title">Pillar 2: v-µLM Vector — The Mathematical Codebook Lattice</div>
             <p>
-              <strong>Target Models</strong>: <code>Skate (135M)</code> &amp; <code>Manta (494M)</code><br>
+              <strong>Target Models</strong>: <code>Skate (135M)</code>, <code>Mako (150M)</code> &amp; <code>Manta (494M)</code><br>
               <strong>Runtime</strong>: Vector Quantization (VQ) Codebook Engine with Importance Matrix calibration.<br>
-              <strong>Core Mechanism</strong>: Rather than pruning tokens or forcing linear low-rank SVD decompositions that suffer from 30-layer compounding drift, v-µLM Vector quantizes weight tensors into non-linear vector codebooks (<code>IQ3_XXS</code>). This preserves <strong>&gt;0.999 layer cosine similarity</strong>, retaining 100% of underlying foundation model reasoning and conversational Guru personas in under 83 MB on disk.
+              <strong>Core Mechanism</strong>: Rather than pruning tokens or forcing linear low-rank SVD decompositions that suffer from 30-layer compounding drift, v-µLM Vector quantizes weight tensors into non-linear vector codebooks (<code>IQ3_XXS</code>). This preserves <strong>&gt;0.999 layer cosine similarity</strong>, retaining 100% of underlying foundation model reasoning and conversational Guru personas in under 83–92 MB on disk.
             </p>
           </div>
         </section>
@@ -220,11 +220,11 @@
                 <tr>
                   <td><strong>Mako (150M)</strong></td>
                   <td><code>v-µLM Vector</code></td>
-                  <td>Live Web Intelligence &amp; Scraping Scout (99.6% Token Cut)</td>
+                  <td>Live Web Intelligence &amp; Wire DSL Scrubber (85–95% Token Cut)</td>
                   <td>GGUF IQ3_XXS Codebooks</td>
-                  <td><strong>65.4 MB</strong></td>
-                  <td><code>v0.2.1 Certified</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.1/mako.vmicrolm-vector.gguf">Download v0.2.1</a></td>
+                  <td><strong>92.0 MB</strong></td>
+                  <td><code>6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/mako.vmicrolm-vector.gguf">Download v0.2.5</a></td>
                 </tr>
                 <tr>
                   <td><strong>Manta (494M)</strong></td>
