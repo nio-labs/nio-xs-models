@@ -485,7 +485,7 @@ nioxs manta --wasm-target web --prompt "Explain Rust memory safety to a beginner
 
 > 📖 **Dedicated Documentation**: Read the full [Localhost MCP Guide & 99.62% Token Conservation Proof](https://nio-labs.github.io/nio-xs-models/mcp.html) on GitHub Pages.
 
-The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`stdio`) or HTTP/SSE (`--port 8080`). It exposes all 5 MicroLM engines as zero-cost in-process tools for AI coding assistants (Cursor, Claude Desktop, Antigravity, OpenCode, Cline, Windsurf, Zed):
+The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`stdio`) or HTTP/SSE (`--port 8080`). It exposes all 6 MicroLM engines as zero-cost in-process tools for AI coding assistants (Cursor, Claude Desktop, Antigravity, OpenCode, Cline, Windsurf, Zed):
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -505,9 +505,9 @@ The **Nio MCP Server** (`crates/nio-mcp`) runs 100% locally on standard I/O (`st
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1. ⚡ Token-Cutting Economics: 70% to 85% Cloud Cost Reduction
+### 1. ⚡ Token-Cutting Economics: 99.62% Workload Conservation (70%–85% Net Billing Cut)
 
-Frontier reasoning models (Claude 3.5 Sonnet, GPT-4o) charge steep per-token pricing for operations that do not require multi-billion parameter reasoning. By offloading deterministic, security, triage, and scraping workloads to local MicroLMs via `nioxs-mcp`, developers cut daily token consumption by **70%–85%**:
+Frontier reasoning models (Claude 3.5 Sonnet, GPT-4o) charge steep per-token pricing for operations that do not require multi-billion parameter reasoning. By routing deterministic triage, AST validation, policy gates, secret sanitization, and web scraping to local MicroLMs via `nioxs-mcp`, developers achieve **99.62% direct token conservation** on tool workloads (reducing 58,450 cloud prompt tokens to 225 tokens across the suite), delivering an overall **70%–85% net reduction** in daily frontier API billing:
 
 | MCP Tool | MicroLM Engine | Local CPU Latency | What It Replaces on the Cloud | Per-Call Token Savings |
 |---|---|:---:|---|:---:|
@@ -518,7 +518,7 @@ Frontier reasoning models (Claude 3.5 Sonnet, GPT-4o) charge steep per-token pri
 | **`viper_synthesize`** | **Viper (100M)** | **38.2 ms** | Verbose LLM bash prose & boilerplate generation | **300 – 800 tokens** |
 | **`mako_web_scout`** | **Mako (150M)** | **8 – 15 ms** | 100KB–300KB raw HTML bloat reduced to Wire DSL | **20,000 – 60,000 tokens (85–95%)** |
 
-> **Real-World Daily Impact**: In an 8-hour agentic coding session, token consumption typically plummets from **400,000 tokens/day** down to **~75,000 tokens/day**, eliminating $1.00–$2.00/developer/day in API charges while cutting terminal interaction latency from seconds to milliseconds.
+> **Real-World Daily Impact**: In an 8-hour agentic coding session, net token consumption typically plummets from **400,000 tokens/day** down to **~75,000 tokens/day** (70%–85% total billing cut), eliminating $1.00–$2.00/developer/day in API charges while cutting terminal interaction latency from seconds to milliseconds.
 
 ### 2. Available Production MCP Tools
 
