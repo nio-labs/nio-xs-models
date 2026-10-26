@@ -5,7 +5,7 @@ use std::time::Instant;
 use tokenizers::Tokenizer;
 
 pub mod grammar;
-pub use grammar::DynamicGrammarReflex;
+pub use grammar::{DynamicGrammarReflex, ShellDialect, SpiderSearchHygiene};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ViperOutput {
@@ -18,6 +18,7 @@ pub enum ViperOutput {
 pub struct ViperExecutionTelemetry {
     pub raw_text: String,
     pub output: ViperOutput,
+    pub shell: ShellDialect,
     pub tokens: usize,
     pub tps: f64,
     pub avg_step_ms: f64,
@@ -30,21 +31,27 @@ pub struct ViperExecutionTelemetry {
 pub fn find_default_viper_paths() -> Option<(PathBuf, PathBuf)> {
     let home = std::env::var("HOME").unwrap_or_else(|_| ".".to_string());
     let home_model = format!("{}/.nioxs/models/viper.Q4_0.gguf", home);
+    let home_model_ast = format!("{}/.nioxs/models/nio-viper-ast.Q4_0.gguf", home);
     let home_tok = format!("{}/.nioxs/models/viper-tokenizer.json", home);
+    let home_tok_ast = format!("{}/.nioxs/models/nio-viper-tokenizer.json", home);
 
     let model_candidates = [
         "models/viper.Q4_0.gguf",
+        "models/nio-viper-ast.Q4_0.gguf",
         "models/nio-viper/viper.Q4_0.gguf",
         "../../models/nio-viper/viper.Q4_0.gguf",
         "../models/nio-viper/viper.Q4_0.gguf",
         home_model.as_str(),
+        home_model_ast.as_str(),
     ];
     let tok_candidates = [
         "models/viper-tokenizer.json",
+        "models/nio-viper-tokenizer.json",
         "models/nio-viper/viper-tokenizer.json",
         "../../models/nio-viper/viper-tokenizer.json",
         "../models/nio-viper/viper-tokenizer.json",
         home_tok.as_str(),
+        home_tok_ast.as_str(),
     ];
 
     for m in &model_candidates {
@@ -68,6 +75,17 @@ pub fn execute_viper_ast(
     is_ast: bool,
     max_tokens: usize,
 ) -> Result<ViperExecutionTelemetry> {
+    execute_viper_ast_with_shell(user_query, model_path, tokenizer_path, is_ast, max_tokens, ShellDialect::Bash)
+}
+
+pub fn execute_viper_ast_with_shell(
+    user_query: &str,
+    model_path: &Path,
+    tokenizer_path: &Path,
+    is_ast: bool,
+    max_tokens: usize,
+    shell: ShellDialect,
+) -> Result<ViperExecutionTelemetry> {
     let tokenizer = Tokenizer::from_file(tokenizer_path).map_err(|e| {
         anyhow!(
             "Failed to load tokenizer from {}: {e}",
@@ -84,38 +102,71 @@ pub fn execute_viper_ast(
 
     let (rss_init, _) = memory_mb();
 
-    let prompt = format!(
-        "<|im_start|>user\n{}<|im_end|>\n<|im_start|>assistant\n",
-        user_query
-    );
+    let prompt_prefix = match shell {
+        ShellDialect::PowerShell => format!("<|im_start|>user\n[powershell] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+        ShellDialect::Fish => format!("<|im_start|>user\n[fish] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+        ShellDialect::Zsh => format!("<|im_start|>user\n[zsh] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+        ShellDialect::Bash => format!("<|im_start|>user\n{}<|im_end|>\n<|im_start|>assistant\n", user_query),
+    };
 
-    let encoding = tokenizer.encode(prompt.as_str(), false).map_err(|e| anyhow!("{e}"))?;
+    let encoding = tokenizer.encode(prompt_prefix.as_str(), false).map_err(|e| anyhow!("{e}"))?;
     let prompt_tokens = encoding.get_ids().to_vec();
 
     let t_pref = Instant::now();
     let hidden = engine.forward_stream(&prompt_tokens, 0)?;
     let prefill_ms = t_pref.elapsed().as_secs_f64() * 1000.0;
 
-    let eos = tokenizer.token_to_id("<|im_end|>").unwrap_or(31980);
-    let eot = tokenizer.token_to_id("<|endoftext|>").unwrap_or(151643);
+    let mut eos_tokens = Vec::new();
+    if let Some(id) = tokenizer.token_to_id("<|im_end|>") {
+        eos_tokens.push(id);
+    }
+    if let Some(id) = tokenizer.token_to_id("<|endoftext|>") {
+        eos_tokens.push(id);
+    }
+    for fallback in [31980, 31978] {
+        if !eos_tokens.contains(&fallback) {
+            eos_tokens.push(fallback);
+        }
+    }
 
     let mut grammar = if is_ast {
-        Some(DynamicGrammarReflex::new(&tokenizer)?)
+        Some(DynamicGrammarReflex::new_with_intent_and_shell(&tokenizer, user_query, shell)?)
     } else {
         None
     };
 
-    let first_candidates = grammar.as_ref().map(|g| g.allowed_candidates());
-    let mut next = engine.next_token(&hidden, first_candidates)?;
+    let first_cands = grammar.as_ref().and_then(|g| g.allowed_candidates());
+    let mut next = engine.next_token(&hidden, first_cands.as_deref())?;
     let mut generated = Vec::new();
     let mut decode_times = Vec::new();
 
     for step in 0..max_tokens {
-        if next == eos || next == eot {
+        if eos_tokens.contains(&next) {
             break;
         }
         generated.push(next);
         let current_text = tokenizer.decode(&generated, false).unwrap_or_default();
+
+        // 1. Immediate early stopping on closing tags
+        if current_text.contains("</viper_cmd>")
+            || current_text.contains("</viper_alert>")
+            || current_text.contains("</viper_action>")
+            || current_text.contains("</viper_review>")
+        {
+            break;
+        }
+
+        // 2. Repetition tripwire
+        let len = generated.len();
+        if len >= 3 && generated[len - 1] == generated[len - 2] && generated[len - 2] == generated[len - 3] {
+            break;
+        }
+
+        // 3. Command completion on newline
+        if current_text.contains('\n') && (current_text.len() > 10) {
+            break;
+        }
+
         if let Some(ref mut g) = grammar {
             g.advance(next, &current_text);
             if g.is_done() {
@@ -125,13 +176,13 @@ pub fn execute_viper_ast(
 
         let t_step = Instant::now();
         let step_hidden = engine.forward_stream(&[next], prompt_tokens.len() + step)?;
-        let step_candidates = grammar.as_ref().map(|g| g.allowed_candidates());
-        next = engine.next_token(&step_hidden, step_candidates)?;
+        let step_cands = grammar.as_ref().and_then(|g| g.allowed_candidates());
+        next = engine.next_token(&step_hidden, step_cands.as_deref())?;
         decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
     }
 
     let raw_text = tokenizer.decode(&generated, false).unwrap_or_default();
-    let parsed = parse_viper_output(&raw_text);
+    let parsed = parse_viper_output_with_shell(&raw_text, shell);
 
     let (rss_end, hwm_end) = memory_mb();
     let avg_step_ms: f64 = if !decode_times.is_empty() {
@@ -144,6 +195,7 @@ pub fn execute_viper_ast(
     Ok(ViperExecutionTelemetry {
         raw_text,
         output: parsed,
+        shell,
         tokens: generated.len(),
         tps: gen_tps,
         avg_step_ms,
@@ -201,10 +253,16 @@ pub fn extract_viper_alert(text: &str) -> Option<(String, String)> {
     None
 }
 
-/// Parse structured output from NioViper
+/// Parse structured output from NioViper with default Bash dialect
 pub fn parse_viper_output(text: &str) -> ViperOutput {
+    parse_viper_output_with_shell(text, ShellDialect::Bash)
+}
+
+/// Parse structured output with target shell dialect and apply Spider Search Hygiene
+pub fn parse_viper_output_with_shell(text: &str, shell: ShellDialect) -> ViperOutput {
     if let Some(cmd) = extract_viper_cmd(text) {
-        ViperOutput::Command(cmd)
+        let hygienic_cmd = SpiderSearchHygiene::apply(&cmd, shell);
+        ViperOutput::Command(hygienic_cmd)
     } else if let Some((level, message)) = extract_viper_alert(text) {
         ViperOutput::Alert { level, message }
     } else {
@@ -212,9 +270,14 @@ pub fn parse_viper_output(text: &str) -> ViperOutput {
         let known_verbs = [
             "ss", "lsof", "fuser", "kill", "pkill", "find", "docker",
             "cargo", "git", "systemctl", "journalctl", "ps", "grep", "cat", "awk", "curl", "tar",
+            "ls", "pwd", "mkdir", "df", "free", "resolvectl", "rsync", "kubectl",
+            "Get-Process", "Stop-Process", "Get-ChildItem", "Select-String", "Get-NetTCPConnection",
+            "status", "count", "string", "pidof",
         ];
         if known_verbs.iter().any(|v| clean.starts_with(v)) {
-            ViperOutput::Command(clean.to_string())
+            let first_line = clean.lines().next().unwrap_or(clean).trim();
+            let hygienic_cmd = SpiderSearchHygiene::apply(first_line, shell);
+            ViperOutput::Command(hygienic_cmd)
         } else {
             ViperOutput::Raw(text.to_string())
         }
@@ -229,7 +292,7 @@ pub fn tactical_candidates(tokenizer: &Tokenizer) -> Result<Vec<u32>> {
         "docker ps -a rm -f systemctl restart status journalctl -u -xe ",
         "git status diff checkout branch -D stash pop add commit -m push origin ",
         "cargo check --locked test --lib clippy run --release build ",
-        "error[E0382]: use of moved value borrows mutably cannot borrow ",
+        "Get-Process Stop-Process Get-ChildItem Select-String -Exclude ",
         "cat /var/log/nginx/access.log | awk '{print $1}' | sort | uniq -c | sort -nr ",
         "\n / - _ : = \" ' ` ; & && || $ () {} [] 0 1 2 3 4 5 6 7 8 9"
     );
@@ -275,5 +338,18 @@ mod tests {
             parse_viper_output(text),
             ViperOutput::Command("ss -tlpn | xargs kill -9".to_string())
         );
+    }
+
+    #[test]
+    fn test_parse_viper_search_hygiene_application() {
+        let text = "<viper_cmd>grep -rn 'API_KEY' .</viper_cmd>";
+        let parsed = parse_viper_output_with_shell(text, ShellDialect::Bash);
+        match parsed {
+            ViperOutput::Command(cmd) => {
+                assert!(cmd.contains("-rIn"), "Should inject -rIn: {cmd}");
+                assert!(cmd.contains("--exclude-dir="), "Should inject exclusion: {cmd}");
+            }
+            _ => panic!("Expected command output"),
+        }
     }
 }

@@ -6,7 +6,7 @@ use nio_mask_runtime::NioMask;
 use nio_micro_runtime::NioMicro;
 use nio_mini_runtime::NioMini;
 use nio_viper_runtime::{
-    execute_viper_ast, find_default_viper_paths, ViperOutput,
+    execute_viper_ast_with_shell, find_default_viper_paths, ShellDialect, ViperOutput,
 };
 use nio_mcp::McpServer;
 
@@ -99,7 +99,8 @@ fn cmd_viper(args: &[String]) -> Result<()> {
     // Default: Pure Rust Candle AST Runtime (AstMicroEngine)
     if !fast_mode {
         if let Some((model_path, tokenizer_path)) = find_default_viper_paths() {
-            let telemetry = execute_viper_ast(&prompt, &model_path, &tokenizer_path, true, 48)?;
+            let dialect = shell.parse::<ShellDialect>().unwrap_or_default();
+            let telemetry = execute_viper_ast_with_shell(&prompt, &model_path, &tokenizer_path, true, 32, dialect)?;
 
             let (cmd_str, is_destructive) = match &telemetry.output {
                 ViperOutput::Command(c) => (c.clone(), is_destructive_command(c)),

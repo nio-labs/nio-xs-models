@@ -1,199 +1,331 @@
-use anyhow::Result;
-use std::collections::HashMap;
+use anyhow::{anyhow, Result};
+use std::str::FromStr;
 use tokenizers::Tokenizer;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Serialize, serde::Deserialize)]
+pub enum ShellDialect {
+    #[default]
+    Bash,
+    Zsh,
+    Fish,
+    PowerShell,
+}
+
+impl FromStr for ShellDialect {
+    type Err = anyhow::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.trim().to_lowercase().as_str() {
+            "bash" | "sh" | "posix" => Ok(Self::Bash),
+            "zsh" => Ok(Self::Zsh),
+            "fish" => Ok(Self::Fish),
+            "powershell" | "pwsh" | "ps" => Ok(Self::PowerShell),
+            other => Err(anyhow!("Unknown shell dialect: '{other}' (expected bash, zsh, fish, or powershell)")),
+        }
+    }
+}
+
+impl std::fmt::Display for ShellDialect {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Bash => write!(f, "bash"),
+            Self::Zsh => write!(f, "zsh"),
+            Self::Fish => write!(f, "fish"),
+            Self::PowerShell => write!(f, "powershell"),
+        }
+    }
+}
+
+impl ShellDialect {
+    /// Formatting prefix for neural prompt conditioning
+    pub fn prompt_prefix(&self) -> &'static str {
+        match self {
+            Self::Bash => "[bash]",
+            Self::Zsh => "[zsh]",
+            Self::Fish => "[fish]",
+            Self::PowerShell => "[powershell]",
+        }
+    }
+}
+
+/// Spider Search Hygiene utility for terminal noise suppression and build tree pruning
+pub struct SpiderSearchHygiene;
+
+impl SpiderSearchHygiene {
+    /// Enrich a search command with spider search hygiene flags (noise suppression, tree exclusion)
+    pub fn apply(cmd: &str, shell: ShellDialect) -> String {
+        let trimmed = cmd.trim();
+        match shell {
+            ShellDialect::PowerShell => {
+                if trimmed.starts_with("Get-ChildItem") && !trimmed.contains("-Exclude") {
+                    format!("{trimmed} -Exclude target,node_modules,.git,.venv")
+                } else {
+                    trimmed.to_string()
+                }
+            }
+            _ => {
+                if trimmed.starts_with("grep") {
+                    let mut enriched = trimmed.to_string();
+                    if !enriched.contains("-I") && !enriched.contains("-rIn") {
+                        enriched = enriched.replacen("grep -rn", "grep -rIn", 1);
+                        if !enriched.contains("-rIn") {
+                            enriched = enriched.replacen("grep -r", "grep -rIn", 1);
+                        }
+                    }
+                    if !enriched.contains("--exclude-dir") {
+                        enriched = format!("{enriched} --exclude-dir={{target,.git,node_modules,dist,.venv}}");
+                    }
+                    enriched
+                } else if trimmed.starts_with("find") && !trimmed.contains("-not -path") {
+                    let exclusions = "-not -path '*/.*' -not -path '*/target/*' -not -path '*/node_modules/*'";
+                    if trimmed.contains("-type f") {
+                        trimmed.replace("-type f", &format!("-type f {exclusions}"))
+                    } else if trimmed.starts_with("find .") {
+                        trimmed.replacen("find .", &format!("find . {exclusions}"), 1)
+                    } else {
+                        trimmed.to_string()
+                    }
+                } else {
+                    trimmed.to_string()
+                }
+            }
+        }
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GrammarState {
     Start,
-    CommandVerb,
-    Arguments,
-    PipedVerb,
-    ClosingTag,
+    TagStart(usize),
+    DynamicBody,
+    ClosingTag(usize),
     Done,
 }
 
+/// Dynamic Grammar Reflex: Enforces structural protocol tags (<viper_cmd>...</viper_cmd>)
+/// while delegating token generation dynamically to the neural network without static whitelists.
 pub struct DynamicGrammarReflex {
     state: GrammarState,
-    tag_start_ids: Vec<u32>,
-    verb_ids: Vec<u32>,
-    arg_tokens_by_verb: HashMap<String, Vec<u32>>,
-    pipe_ids: Vec<u32>,
-    tag_end_ids: Vec<u32>,
+    shell: ShellDialect,
+    tag_start_seq: Vec<u32>,
+    tag_end_seq: Vec<u32>,
     eos_ids: Vec<u32>,
-    all_arg_ids: Vec<u32>,
-    current_verb: Option<String>,
-    token_to_text: HashMap<u32, String>,
+    grounded_slot_ids: Vec<u32>,
 }
 
 impl DynamicGrammarReflex {
     pub fn new(tokenizer: &Tokenizer) -> Result<Self> {
-        let mut token_to_text = HashMap::new();
-        for id in 0..tokenizer.get_vocab_size(true) as u32 {
-            if let Some(text) = tokenizer.id_to_token(id) {
-                token_to_text.insert(id, text);
-            }
-        }
+        Self::new_with_intent_and_shell(tokenizer, "", ShellDialect::Bash)
+    }
+
+    pub fn new_with_intent(tokenizer: &Tokenizer, intent: &str) -> Result<Self> {
+        Self::new_with_intent_and_shell(tokenizer, intent, ShellDialect::Bash)
+    }
+
+    pub fn new_with_intent_and_shell(
+        tokenizer: &Tokenizer,
+        intent: &str,
+        shell: ShellDialect,
+    ) -> Result<Self> {
+        let vocab_size = tokenizer.get_vocab_size(true) as u32;
 
         let encode_exact = |s: &str| -> Vec<u32> {
-            tokenizer.encode(s, false).map(|enc| enc.get_ids().to_vec()).unwrap_or_default()
+            tokenizer
+                .encode(s, false)
+                .map(|enc| {
+                    enc.get_ids()
+                        .iter()
+                        .copied()
+                        .filter(|&id| id < vocab_size)
+                        .collect()
+                })
+                .unwrap_or_default()
         };
 
-        let tag_start_ids = encode_exact("<viper_cmd>");
-        let tag_end_ids = encode_exact("</viper_cmd>");
+        let mut tag_start_seq = encode_exact("<viper_cmd>");
+        if tag_start_seq.is_empty() {
+            tag_start_seq = vec![27, 85, 12858, 11684, 29]
+                .into_iter()
+                .filter(|&id| id < vocab_size)
+                .collect();
+        }
+
+        let mut tag_end_seq = encode_exact("</viper_cmd>");
+        if tag_end_seq.is_empty() {
+            tag_end_seq = vec![522, 85, 12858, 11684, 29]
+                .into_iter()
+                .filter(|&id| id < vocab_size)
+                .collect();
+        }
 
         let mut eos_ids = Vec::new();
         if let Some(id) = tokenizer.token_to_id("<|im_end|>") {
-            eos_ids.push(id);
+            if id < vocab_size {
+                eos_ids.push(id);
+            }
         }
         if let Some(id) = tokenizer.token_to_id("<|endoftext|>") {
-            eos_ids.push(id);
-        }
-
-        let verbs = [
-            "find", "docker", "git", "cargo", "ss", "lsof", "fuser", "kill", "pkill", "systemctl",
-            "journalctl", "ps", "grep", "cat", "awk", "curl", "tar", "sed",
-        ];
-
-        let mut verb_ids = Vec::new();
-        for v in &verbs {
-            for id in encode_exact(v) {
-                if !verb_ids.contains(&id) {
-                    verb_ids.push(id);
-                }
+            if id < vocab_size {
+                eos_ids.push(id);
             }
-            for id in encode_exact(&format!(" {}", v)) {
-                if !verb_ids.contains(&id) {
-                    verb_ids.push(id);
-                }
+        }
+        for fallback_eos in [31980, 31978] {
+            if fallback_eos < vocab_size && !eos_ids.contains(&fallback_eos) {
+                eos_ids.push(fallback_eos);
             }
         }
 
-        let mut arg_tokens_by_verb = HashMap::new();
-        let verb_rules: &[(&str, &[&str])] = &[
-            ("lsof", &[" -ti:", " -i:", " -i :", "3000", "8080", "5432", "4000", " | xargs kill -9", " | kill -9"]),
-            ("fuser", &[" -k ", "3000/tcp", "8080/tcp", "5432/tcp", "4000/tcp", " -n tcp "]),
-            ("ss", &[" -tulpn", " -tlpn", " -ta", " -tl", " -s", " | grep :"]),
-            ("kill", &[" -9 ", " -15 ", "$(lsof -t -i:", "3000)", "8080)"]),
-            ("pkill", &[" -9 -f ", " -f "]),
-            ("find", &[" . -type f", " . -name ", " -size +100M", " -size +50M", " -mtime 0", " -mtime -1", " -exec rm -f {} +", " -exec du -h {} + | sort -hr", " | xargs wc -l"]),
-            ("docker", &[" ps -a", " system prune -af", " compose up -d", " compose down", " rm -f $(docker ps -aq)", " logs -f "]),
-            ("git", &[" status", " diff", " stash pop", " checkout -b ", " reset --hard HEAD", " branch -D ", " log -n 5 --oneline"]),
-            ("cargo", &[" check --locked", " test --lib", " clippy --all-targets", " build --release", " clean -p "]),
-            ("systemctl", &[" restart ", " status ", " stop ", " daemon-reload", "nginx", "docker"]),
-            ("journalctl", &[" -u ", " -xe", " -f", " --no-pager"]),
-        ];
-
-        let mut all_arg_ids = Vec::new();
-        for &(v, patterns) in verb_rules {
-            let mut ids = Vec::new();
-            for pat in patterns {
-                for id in encode_exact(pat) {
-                    if !ids.contains(&id) {
-                        ids.push(id);
+        // Dynamic slot extraction (ports, literals, numbers) without locking down allowed command verbs
+        let mut grounded_slot_ids = Vec::new();
+        if !intent.is_empty() {
+            for word in intent.split(|c: char| !c.is_alphanumeric() && c != ':' && c != '/') {
+                if let Ok(port) = word.parse::<u16>() {
+                    for candidate in [format!("{port}"), format!(":{port}")] {
+                        for id in encode_exact(&candidate) {
+                            if !grounded_slot_ids.contains(&id) {
+                                grounded_slot_ids.push(id);
+                            }
+                        }
                     }
-                    if !all_arg_ids.contains(&id) {
-                        all_arg_ids.push(id);
-                    }
-                }
-            }
-            arg_tokens_by_verb.insert(v.to_string(), ids);
-        }
-
-        let pipe_patterns = [" | grep ", " | awk '{print $1}'", " | xargs kill -9", " | sort -hr", " | uniq -c"];
-        let mut pipe_ids = Vec::new();
-        for pat in &pipe_patterns {
-            for id in encode_exact(pat) {
-                if !pipe_ids.contains(&id) {
-                    pipe_ids.push(id);
                 }
             }
         }
 
         Ok(Self {
             state: GrammarState::Start,
-            tag_start_ids,
-            verb_ids,
-            arg_tokens_by_verb,
-            pipe_ids,
-            tag_end_ids,
+            shell,
+            tag_start_seq,
+            tag_end_seq,
             eos_ids,
-            all_arg_ids,
-            current_verb: None,
-            token_to_text,
+            grounded_slot_ids,
         })
     }
 
-    /// Return allowed token candidates for the current grammar state
-    pub fn allowed_candidates(&self) -> &[u32] {
+    pub fn shell(&self) -> ShellDialect {
+        self.shell
+    }
+
+    pub fn grounded_slots(&self) -> &[u32] {
+        &self.grounded_slot_ids
+    }
+
+    /// Return allowed candidate token IDs, or None for unconstrained neural generation across full vocabulary
+    pub fn allowed_candidates(&self) -> Option<Vec<u32>> {
         match self.state {
-            GrammarState::Start => &self.tag_start_ids,
-            GrammarState::CommandVerb => &self.verb_ids,
-            GrammarState::Arguments => {
-                if let Some(ref verb) = self.current_verb {
-                    if let Some(verb_args) = self.arg_tokens_by_verb.get(verb) {
-                        return verb_args.as_slice();
-                    }
-                }
-                &self.all_arg_ids
-            }
-            GrammarState::PipedVerb => {
-                if !self.pipe_ids.is_empty() {
-                    &self.pipe_ids
+            GrammarState::Start => {
+                if let Some(&first_tag) = self.tag_start_seq.first() {
+                    Some(vec![first_tag])
                 } else {
-                    &self.verb_ids
+                    None
                 }
             }
-            GrammarState::ClosingTag => &self.tag_end_ids,
-            GrammarState::Done => &self.eos_ids,
+            GrammarState::TagStart(idx) => {
+                if idx < self.tag_start_seq.len() {
+                    Some(vec![self.tag_start_seq[idx]])
+                } else {
+                    None
+                }
+            }
+            // Dynamic body: 100% unconstrained neural selection across entire vocabulary!
+            GrammarState::DynamicBody => None,
+            GrammarState::ClosingTag(idx) => {
+                if idx < self.tag_end_seq.len() {
+                    Some(vec![self.tag_end_seq[idx]])
+                } else {
+                    Some(self.eos_ids.clone())
+                }
+            }
+            GrammarState::Done => Some(self.eos_ids.clone()),
         }
     }
 
-    /// Advance the grammar state machine based on the accepted token
+    /// Advance state machine based on generated tokens and decoded text
     pub fn advance(&mut self, token: u32, raw_decoded: &str) {
-        if self.tag_start_ids.contains(&token) || raw_decoded.contains("<viper_cmd>") {
-            if self.state == GrammarState::Start {
-                self.state = GrammarState::CommandVerb;
-                return;
-            }
+        if self.state == GrammarState::Done {
+            return;
         }
 
-        if self.state == GrammarState::CommandVerb {
-            if let Some(text) = self.token_to_text.get(&token) {
-                let clean = text.trim();
-                for verb in self.arg_tokens_by_verb.keys() {
-                    if clean.contains(verb) {
-                        self.current_verb = Some(verb.clone());
-                        break;
+        // Early stopping when tag is reached
+        if raw_decoded.contains("</viper_cmd>")
+            || raw_decoded.contains("</viper_alert>")
+            || raw_decoded.contains("</viper_action>")
+        {
+            self.state = GrammarState::Done;
+            return;
+        }
+
+        match self.state {
+            GrammarState::Start => {
+                if Some(&token) == self.tag_start_seq.first() {
+                    if self.tag_start_seq.len() > 1 {
+                        self.state = GrammarState::TagStart(1);
+                    } else {
+                        self.state = GrammarState::DynamicBody;
                     }
+                } else {
+                    // Started directly with command
+                    self.state = GrammarState::DynamicBody;
                 }
             }
-            self.state = GrammarState::Arguments;
-            return;
-        }
-
-        if self.state == GrammarState::Arguments {
-            if raw_decoded.ends_with('|') || raw_decoded.ends_with("| ") {
-                self.state = GrammarState::PipedVerb;
-                return;
+            GrammarState::TagStart(idx) => {
+                if idx + 1 < self.tag_start_seq.len() {
+                    self.state = GrammarState::TagStart(idx + 1);
+                } else {
+                    self.state = GrammarState::DynamicBody;
+                }
             }
-            // After arguments are emitted (or command length exceeded), transition to closing tag
-            if raw_decoded.len() > 15 || raw_decoded.contains("kill -9") || raw_decoded.contains("-tulpn") || raw_decoded.contains("prune -af") {
-                self.state = GrammarState::ClosingTag;
-                return;
+            GrammarState::DynamicBody => {
+                // If the token matches the start of </viper_cmd>, transition to closing tag
+                if Some(&token) == self.tag_end_seq.first() {
+                    if self.tag_end_seq.len() > 1 {
+                        self.state = GrammarState::ClosingTag(1);
+                    } else {
+                        self.state = GrammarState::Done;
+                    }
+                } else if raw_decoded.contains('\n') {
+                    self.state = GrammarState::Done;
+                }
             }
-        }
-
-        if self.state == GrammarState::PipedVerb {
-            self.state = GrammarState::Arguments;
-            return;
-        }
-
-        if self.state == GrammarState::ClosingTag {
-            self.state = GrammarState::Done;
+            GrammarState::ClosingTag(idx) => {
+                if idx + 1 < self.tag_end_seq.len() {
+                    self.state = GrammarState::ClosingTag(idx + 1);
+                } else {
+                    self.state = GrammarState::Done;
+                }
+            }
+            GrammarState::Done => {}
         }
     }
 
     pub fn is_done(&self) -> bool {
         self.state == GrammarState::Done
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_shell_dialect_prefixes() {
+        assert_eq!(ShellDialect::Bash.prompt_prefix(), "[bash]");
+        assert_eq!(ShellDialect::PowerShell.prompt_prefix(), "[powershell]");
+        assert_eq!(ShellDialect::Fish.prompt_prefix(), "[fish]");
+        assert_eq!(ShellDialect::Zsh.prompt_prefix(), "[zsh]");
+    }
+
+    #[test]
+    fn test_spider_search_hygiene_grep() {
+        let raw = "grep -rn 'TODO' .";
+        let clean = SpiderSearchHygiene::apply(raw, ShellDialect::Bash);
+        assert!(clean.contains("-rIn"));
+        assert!(clean.contains("--exclude-dir={target,.git,node_modules,dist,.venv}"));
+    }
+
+    #[test]
+    fn test_spider_search_hygiene_powershell() {
+        let raw = "Get-ChildItem -Path . -Recurse";
+        let clean = SpiderSearchHygiene::apply(raw, ShellDialect::PowerShell);
+        assert!(clean.contains("-Exclude target,node_modules,.git,.venv"));
     }
 }

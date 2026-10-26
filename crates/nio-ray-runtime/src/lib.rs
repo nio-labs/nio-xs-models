@@ -499,19 +499,30 @@ impl AstMicroEngine {
     pub fn next_token(&mut self, hidden: &Tensor, candidates: Option<&[u32]>) -> Result<u32> {
         if let Some(cands) = candidates {
             // AST Candidate Slicing (Opt 2 Reflex Mode: sub-0.05ms, ~18 KB RAM)
-            if cands.is_empty() {
-                return Ok(151643); // EOS
+            let valid_cands: Vec<u32> = cands
+                .iter()
+                .copied()
+                .filter(|&tok| (tok as usize) < self.vocab_size)
+                .collect();
+
+            if valid_cands.is_empty() {
+                return Ok(31980); // Default EOS
             }
-            let mut raw_bytes = Vec::with_capacity(cands.len() * self.bytes_per_token);
-            for &tok in cands {
+            let mut raw_bytes = Vec::with_capacity(valid_cands.len() * self.bytes_per_token);
+            for &tok in &valid_cands {
                 let start = self.output_offset + (tok as usize) * self.bytes_per_token;
                 let end = start + self.bytes_per_token;
-                raw_bytes.extend_from_slice(&self.mmap[start..end]);
+                if end <= self.mmap.len() {
+                    raw_bytes.extend_from_slice(&self.mmap[start..end]);
+                }
+            }
+            if raw_bytes.len() != valid_cands.len() * self.bytes_per_token {
+                return Ok(valid_cands[0]);
             }
             let q_cand = qtensor_from_ggml(
                 self.output_dtype,
                 &raw_bytes,
-                vec![cands.len(), self.embedding_length],
+                vec![valid_cands.len(), self.embedding_length],
                 &self.device,
             )?;
             let cand_weights = q_cand.dequantize(&self.device)?;
@@ -525,7 +536,7 @@ impl AstMicroEngine {
                     max_idx = i;
                 }
             }
-            Ok(cands[max_idx])
+            Ok(valid_cands[max_idx])
         } else {
             // Chunked streaming unconstrained projection (Opt 2 Chunked Mode: ~2 MB RAM vs ~76 MB monolithic)
             // Evaluates vocabulary in 4096-token slices, evicting each slice from physical RAM.
