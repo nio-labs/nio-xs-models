@@ -57,17 +57,42 @@ pub fn scout_web_documentation(query: &str, force_refresh: bool) -> Result<MakoS
     // 3. Synthesize the LLM-Native Wire DSL representation
     let mut doc = MakoWireDoc::new(&symbol, &ecosystem, &target_url);
 
-    // Extract key function signature lines from scrubbed content
+    // Extract key semantic lines according to ecosystem domain
     for line in fetch_res.scrubbed_content.lines() {
         let l = line.trim();
-        if (l.starts_with("pub fn ") || l.starts_with("fn ") || l.starts_with("def ") || l.starts_with("func "))
-            && doc.signatures.len() < 4
-        {
+        if l.is_empty() || l.starts_with('<') || l.starts_with('{') || l.starts_with('}') || l.len() < 10 {
+            continue;
+        }
+
+        // 1. Signatures, Directives, Headers, and Core Specifications
+        let is_spec_line = match ecosystem.as_str() {
+            "standards" => {
+                l.starts_with("RFC ") || l.contains("MUST ") || l.contains("SHOULD ") || l.contains("Frame") || l.contains("Opcode")
+            }
+            "security" => {
+                l.contains("Vulnerability") || l.contains("Severity") || l.contains("CVSS") || l.contains("Backdoor") || l.contains("directive") || l.contains("nonce")
+            }
+            "kernel" | "database" => {
+                l.contains("default") || l.contains("BOOLEAN") || l.contains("checkpoint") || l.contains("wal") || l.contains("fsync")
+            }
+            "cloud_status" => {
+                l.contains("Operational") || l.contains("Outage") || l.contains("Incident") || l.contains("Degraded")
+            }
+            _ => {
+                l.starts_with("pub fn ") || l.starts_with("fn ") || l.starts_with("def ") || l.starts_with("func ")
+                    || l.starts_with("type ") || l.starts_with("interface ") || l.starts_with("struct ")
+            }
+        };
+
+        if is_spec_line && doc.signatures.len() < 4 && !doc.signatures.contains(&l.to_string()) {
             doc.signatures.push(l.to_string());
         }
-        if (l.contains("panics") || l.contains("Error") || l.contains("invariant") || l.contains("Exception"))
-            && doc.invariants.len() < 3
-        {
+
+        // 2. Invariants, Panics, Errors, and Failure Modes
+        let is_invariant_line = l.contains("panics") || l.contains("Error") || l.contains("invariant") 
+            || l.contains("Exception") || l.contains("Breaking") || l.contains("Deprecated") || l.contains("Warning");
+
+        if is_invariant_line && doc.invariants.len() < 3 && !doc.invariants.contains(&l.to_string()) {
             doc.invariants.push(l.to_string());
         }
     }
