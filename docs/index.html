@@ -66,12 +66,15 @@
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
-          <a href="vmicrolm.html" class="nav-link">v-µLM (Reflex &amp; Vector)</a>
-          <a href="viper.html" class="nav-link">Viper (100M Reflex)</a>
-          <a href="nano.html" class="nav-link">Nano (~0.5M Intent)</a>
-          <a href="micro.html" class="nav-link">Micro (5.0M Policy)</a>
-          <a href="mask.html" class="nav-link">Mask (1.1M Redactor)</a>
-          <a href="mini.html" class="nav-link">Mini (7.1M Defect)</a>
+          <a href="vmicrolm.html" class="nav-link">v-µLM Architecture</a>
+          <a href="#nioviper" class="nav-link">5. Viper (100M Reflex)</a>
+          <a href="#nionano" class="nav-link">6. Nano (~0.5M Intent)</a>
+          <a href="#niomicro" class="nav-link">7. Micro (5.0M Policy)</a>
+          <a href="#niomask" class="nav-link">8. Mask (1.1M Redactor)</a>
+          <a href="#niomini" class="nav-link">9. Mini (7.1M Defect)</a>
+          <a href="#skate" class="nav-link">10. Skate (135M Companion)</a>
+          <a href="#mako" class="nav-link">11. Mako (150M Web Scout)</a>
+          <a href="#manta" class="nav-link">12. Manta (494M Guru)</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Local Integrations</div>
@@ -713,9 +716,99 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
           </div>
         </section>
 
-        <!-- 10. RELEASES & HASHES -->
+        <!-- 10. SKATE -->
+        <section id="skate" class="doc-section">
+          <div class="section-badge">IoT &amp; Ambient Edge Companion &bull; v0.2.0</div>
+          <h2>10. Skate 135M — Resident Micro-Guru &amp; IoT/Edge Companion</h2>
+          <p><strong>Skate</strong> is the 134.5-million parameter resident edge companion and ambient telemetry triage model powered by the <strong><code>v-µLM Vector</code></strong> architecture. Built for smartwatches, IoT gateways, and edge copilot widgets, it quantizes SmolLM2-135M using mathematical <code>IQ3_XXS</code> vector codebooks into just <strong>82.9 MB disk footprint</strong> and runs in <strong>22.4 MB peak resident RAM</strong>.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Layers</div>
+              <div class="spec-value">134.5M &bull; 30L</div>
+              <div class="spec-sub">v-µLM Vector (IQ3_XXS)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Peak Resident RAM</div>
+              <div class="spec-value">22.4 MB</div>
+              <div class="spec-sub">Linux VmHWM &bull; IoT Bound &lt; 30MB</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Throughput</div>
+              <div class="spec-value">44.2 tok/s</div>
+              <div class="spec-sub">CPU Autoregressive Stream</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Binary Size</div>
+              <div class="spec-value">82.9 MB</div>
+              <div class="spec-sub">Single unified GGUF artifact</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. MAKO -->
+        <section id="mako" class="doc-section">
+          <div class="section-badge">Live Web Intelligence &bull; v0.2.5</div>
+          <h2>11. Mako 150M — Live Web Intelligence &amp; Wire DSL Scout</h2>
+          <p><strong>Mako</strong> is the 150-million parameter live web intelligence and documentation scout powered by a 34-layer depth-upscaled architecture. Operating with keyless multi-domain live scraping, sub-millisecond HTML pre-scrubbing, and HTTP 304 ETag caching (50MB LRU disk limit), it emits LLM-Native Wire DSL (<code>@api</code>) with an <strong>85%–95% token cut</strong> and <strong>12.49 MB peak RAM</strong> in <strong>13.5ms average latency</strong>.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Layers</div>
+              <div class="spec-value">148.7M &bull; 34L</div>
+              <div class="spec-sub">v-µLM Vector (IQ3_XXS)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Peak Resident RAM</div>
+              <div class="spec-value">12.49 MB</div>
+              <div class="spec-sub">ru_maxrss &bull; Bound &lt; 70MB</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Scout Latency</div>
+              <div class="spec-value">13.52 ms</div>
+              <div class="spec-sub">Local CPU execution (1.4ms on ETag hit)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Binary Size</div>
+              <div class="spec-value">91.72 MB</div>
+              <div class="spec-sub">mako.vmicrolm-vector.gguf</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. MANTA -->
+        <section id="manta" class="doc-section">
+          <div class="section-badge">Conversational Guru &bull; v0.2.2</div>
+          <h2>12. Manta 494M — Full Conversational Guru &amp; Wasm Architect</h2>
+          <p><strong>Manta</strong> is the 494.0-million parameter edge conversational guru and multi-step DAG planner upscaled from Qwen2.5-0.5B via mathematical <code>IQ3_XXS</code> vector codebooks. Operating within <strong>&lt; 55 MB peak resident RAM</strong>, it powers all 21 NioGuru personas and generates verified <code>&lt;manta_plan&gt;</code> orchestration graphs.</p>
+
+          <div class="spec-grid">
+            <div class="spec-card">
+              <div class="spec-title">Parameters &amp; Layers</div>
+              <div class="spec-value">494.0M &bull; 24L</div>
+              <div class="spec-sub">v-µLM Vector (IQ3_XXS)</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Peak Resident RAM</div>
+              <div class="spec-value">&lt; 55 MB</div>
+              <div class="spec-sub">Linux VmHWM &bull; Edge Bound &lt; 70MB</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Personas Supported</div>
+              <div class="spec-value">21 Personas</div>
+              <div class="spec-sub">NioGuru conversational suite</div>
+            </div>
+            <div class="spec-card">
+              <div class="spec-title">Binary Size</div>
+              <div class="spec-value">253.3 MB</div>
+              <div class="spec-sub">manta.vmicrolm-vector.gguf</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 13. RELEASES & HASHES -->
         <section id="releases" class="doc-section">
-          <h2>10. Certified Releases &amp; Integrity Checksums</h2>
+          <h2>13. Certified Releases &amp; Integrity Checksums</h2>
           <p>Every compiled ONNX binary and tokenizer distributed through this registry is cryptographically verified with SHA-256 checksums.</p>
 
           <div class="table-wrapper">
@@ -844,9 +937,9 @@ sha256sum viper.Q4_0.gguf viper-tokenizer.json nano.json micro_*.onnx mask.onnx 
           </div>
         </section>
 
-        <!-- 11. CLI QUICKSTART -->
+        <!-- 14. CLI QUICKSTART -->
         <section id="quickstart" class="doc-section">
-          <h2>11. Quickstart with NioXS &amp; Nio CLI</h2>
+          <h2>14. Quickstart with NioXS &amp; Nio CLI</h2>
           <p>The Nio ecosystem provides two coordinated CLI binaries: <strong><code>nioxs</code></strong> (native edge tensor runtime) and <strong><code>nio</code></strong> (agent workspace orchestrator). Models are automatically downloaded, verified, and cached in <code>~/.nioxs/models</code>:</p>
 
           <h3>Zero-Configuration One-Liner Installer</h3>
@@ -972,9 +1065,9 @@ nio run -m nioxs::mini --predict-tests --diff "git diff crates/router/src/lib.rs
           </div>
         </section>
 
-        <!-- 12. RUST RUNTIME -->
+        <!-- 15. RUST RUNTIME -->
         <section id="rust-runtime" class="doc-section">
-          <h2>12. Native Rust In-Process Integration</h2>
+          <h2>15. Native Rust In-Process Integration</h2>
           <p>Load and execute models with sub-5ms latency using the native Rust <code>ort</code> (ONNX Runtime) crate:</p>
 
           <div class="code-wrapper">
@@ -998,9 +1091,9 @@ fn main() -&gt; anyhow::Result&lt;()&gt; {
           </div>
         </section>
 
-        <!-- 13. PYTHON RUNTIME -->
+        <!-- 16. PYTHON RUNTIME -->
         <section id="python-runtime" class="doc-section">
-          <h2>13. Python ONNX Runtime Integration</h2>
+          <h2>16. Python ONNX Runtime Integration</h2>
           <p>Execute models in Python environments with <code>onnxruntime</code>:</p>
 
           <div class="code-wrapper">
@@ -1029,9 +1122,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 14. BENCHMARKS -->
+        <!-- 17. BENCHMARKS -->
         <section id="benchmarks" class="doc-section">
-          <h2>14. Edge Latency Benchmarks</h2>
+          <h2>17. Edge Latency Benchmarks</h2>
           <p>The figures below detail edge latency and memory footprints across the Nio MicroLM production suite evaluated on commodity CPU hardware with zero GPU acceleration.</p>
 
           <div class="table-wrapper">
@@ -1116,9 +1209,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 15. FAQ -->
+        <!-- 18. FAQ -->
         <section id="faq" class="doc-section">
-          <h2>15. Frequently Asked Questions</h2>
+          <h2>18. Frequently Asked Questions</h2>
 
           <div class="faq-item">
             <h4 class="faq-question">What is a MicroLM (µLM) and how does it differ from a Large Language Model (LLM)?</h4>
@@ -1211,9 +1304,9 @@ print(f"Risk Score: {risk_score[0, 0]:.3f} (Continuous Calibrated Risk)")</code>
           </div>
         </section>
 
-        <!-- 16. LICENSE -->
+        <!-- 19. LICENSE -->
         <section id="license" class="doc-section">
-          <h2>16. License</h2>
+          <h2>19. License</h2>
           <p>This repository and all distributed model architectures, weights, and runtimes are licensed under the <a href="https://github.com/nio-labs/nio-xs-models/blob/main/LICENSE" target="_blank" rel="noreferrer"><strong>Business Source License 1.1 (BSL 1.1)</strong></a>.</p>
           <ul>
             <li><strong>Non-Production &amp; Internal Production Use:</strong> Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.</li>

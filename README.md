@@ -344,14 +344,14 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 | Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
 | **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–92.0 MB disk**, >0.999 layer cosine fidelity |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
 
 ---
 
-## 🦈 2. Skate (135M) — Resident Micro-Guru & Edge Companion (`v-µLM Vector`)
+## 🦈 6. Skate (135M) — Resident Micro-Guru & Edge Companion (`v-µLM Vector`)
 
 **Skate** is the 134.5-million parameter resident edge companion and ambient telemetry triage model powered by the **`v-µLM Vector`** architecture. Using mathematical `IQ3_XXS` vector codebooks, it retains full 30-layer neural activation patterns in just **82.9 MB disk footprint** and operates within **22.4 MB peak resident RAM (`VmHWM`)**.
 
@@ -379,7 +379,7 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
-## 🦈 3. Mako (150M) — Live Web Intelligence & Documentation Scout (`v-µLM Vector`)
+## 🦈 7. Mako (150M) — Live Web Intelligence & Documentation Scout (`v-µLM Vector`)
 
 **Mako** is the 150-million parameter live web intelligence and documentation scout powered by a 34-layer depth-upscaled dual-teacher architecture (SmolLM2-135M / Qwen2.5-Coder). It provides keyless multi-domain documentation search, sub-millisecond HTML pre-scrubbing, and LLM-Native Wire DSL generation with strict `[INVARIANT]` anchors. It features **HTTP 304 ETag caching** with a **50 MB hard LRU disk bound**, achieving **75.1%–99.0% context token reduction** with **12.49 MB peak resident RAM (`VmRSS`)** in a **92.0 MB binary footprint**.
 
@@ -409,7 +409,7 @@ EOF
 
 ---
 
-## 🦈 4. Manta (494M) — Full Conversational Guru & Wasm Architect (`v-µLM Vector`)
+## 🦈 8. Manta (494M) — Full Conversational Guru & Wasm Architect (`v-µLM Vector`)
 
 **Manta** is the 494.0-million parameter edge conversational guru and DAG task planner upscaled from Qwen2.5-0.5B via mathematical `IQ3_XXS` vector codebooks. Operating in under **55 MB peak RAM**, it powers the complete NioGuru 21-persona conversational suite, deep code analysis, and `<manta_plan>` multi-step DAG orchestrations.
 
