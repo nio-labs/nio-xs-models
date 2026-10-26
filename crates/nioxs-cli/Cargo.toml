@@ -1,6 +1,6 @@
 [package]
 name = "nioxs-cli"
-version = "0.1.0"
+version = "0.2.3"
 edition = "2021"
 description = "Unified Developer CLI for Nio MicroLM Fleet & Localhost MCP Server"
 license = "MIT"

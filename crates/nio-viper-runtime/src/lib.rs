@@ -102,11 +102,15 @@ pub fn execute_viper_ast_with_shell(
 
     let (rss_init, _) = memory_mb();
 
-    let prompt_prefix = match shell {
-        ShellDialect::PowerShell => format!("<|im_start|>user\n[powershell] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
-        ShellDialect::Fish => format!("<|im_start|>user\n[fish] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
-        ShellDialect::Zsh => format!("<|im_start|>user\n[zsh] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
-        ShellDialect::Bash => format!("<|im_start|>user\n{}<|im_end|>\n<|im_start|>assistant\n", user_query),
+    let prompt_prefix = if user_query.trim().starts_with('[') {
+        format!("<|im_start|>user\n{}<|im_end|>\n<|im_start|>assistant\n", user_query.trim())
+    } else {
+        match shell {
+            ShellDialect::PowerShell => format!("<|im_start|>user\n[powershell] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+            ShellDialect::Fish => format!("<|im_start|>user\n[fish] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+            ShellDialect::Zsh => format!("<|im_start|>user\n[zsh] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+            ShellDialect::Bash => format!("<|im_start|>user\n[bash] {}<|im_end|>\n<|im_start|>assistant\n", user_query),
+        }
     };
 
     let encoding = tokenizer.encode(prompt_prefix.as_str(), false).map_err(|e| anyhow!("{e}"))?;

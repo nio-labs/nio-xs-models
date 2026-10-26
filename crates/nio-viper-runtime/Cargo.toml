@@ -1,6 +1,6 @@
 [package]
 name = "nio-viper-runtime"
-version = "0.1.0"
+version = "0.2.3"
 edition = "2021"
 description = "Official ultra-compact native Rust tactical reflex striker runtime for NioViper AST-µLM"
 license = "BUSL-1.1"
