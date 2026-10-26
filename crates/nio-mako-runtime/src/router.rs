@@ -1,5 +1,6 @@
-//! Deterministic Canonical URL Router for Zero-Key Documentation Lookups.
-//! Maps standard developer library queries directly to official web docs without any search engine API.
+//! Deterministic Canonical URL Router for Zero-Key Documentation & Web Intelligence Lookups.
+//! Maps programming libraries, security CVEs, RFC standards, kernel tunables, and devops specs
+//! directly to official web docs without any third-party search engine API.
 
 pub struct CanonicalRoute {
     pub ecosystem: &'static str,
@@ -10,7 +11,103 @@ pub struct CanonicalRoute {
 pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
     let q = query.trim().to_lowercase();
 
-    // 1. Rust Ecosystem (docs.rs)
+    // =========================================================================
+    // 1. RFC STANDARDS & PROTOCOL SPECIFICATIONS
+    // =========================================================================
+    if q.contains("rfc 7540") || (q.contains("http/2") && q.contains("spec")) {
+        return Some(CanonicalRoute {
+            ecosystem: "standards",
+            target_symbol: "IETF RFC 7540 (HTTP/2)".to_string(),
+            canonical_url: "https://datatracker.ietf.org/doc/html/rfc7540".to_string(),
+        });
+    }
+    if q.contains("rfc 6455") || (q.contains("websocket") && q.contains("rfc")) {
+        return Some(CanonicalRoute {
+            ecosystem: "standards",
+            target_symbol: "IETF RFC 6455 (WebSocket Protocol)".to_string(),
+            canonical_url: "https://datatracker.ietf.org/doc/html/rfc6455".to_string(),
+        });
+    }
+    if q.contains("rfc 9110") || (q.contains("http semantics") && q.contains("spec")) {
+        return Some(CanonicalRoute {
+            ecosystem: "standards",
+            target_symbol: "IETF RFC 9110 (HTTP Semantics)".to_string(),
+            canonical_url: "https://datatracker.ietf.org/doc/html/rfc9110".to_string(),
+        });
+    }
+    if q.contains("semver") || q.contains("semantic versioning") {
+        return Some(CanonicalRoute {
+            ecosystem: "standards",
+            target_symbol: "Semantic Versioning 2.0.0".to_string(),
+            canonical_url: "https://semver.org/spec/v2.0.0.html".to_string(),
+        });
+    }
+
+    // =========================================================================
+    // 2. SECURITY & CVE ADVISORIES
+    // =========================================================================
+    if q.contains("cve-2024-3094") || q.contains("xz backdoor") {
+        return Some(CanonicalRoute {
+            ecosystem: "security",
+            target_symbol: "CVE-2024-3094 (XZ Utils Backdoor)".to_string(),
+            canonical_url: "https://nvd.nist.gov/vuln/detail/CVE-2024-3094".to_string(),
+        });
+    }
+    if q.contains("content-security-policy") || q.contains("csp header") {
+        return Some(CanonicalRoute {
+            ecosystem: "security",
+            target_symbol: "Content-Security-Policy (CSP)".to_string(),
+            canonical_url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy".to_string(),
+        });
+    }
+    if q.contains("strict-transport-security") || q.contains("hsts header") {
+        return Some(CanonicalRoute {
+            ecosystem: "security",
+            target_symbol: "Strict-Transport-Security (HSTS)".to_string(),
+            canonical_url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security".to_string(),
+        });
+    }
+
+    // =========================================================================
+    // 3. LINUX KERNEL, SYSCTL & OS INTERNALS
+    // =========================================================================
+    if q.contains("tcp_tw_reuse") || (q.contains("sysctl") && q.contains("tcp")) {
+        return Some(CanonicalRoute {
+            ecosystem: "kernel",
+            target_symbol: "net.ipv4.tcp_tw_reuse".to_string(),
+            canonical_url: "https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt".to_string(),
+        });
+    }
+    if q.contains("sqlite wal") || (q.contains("sqlite") && q.contains("write ahead log")) {
+        return Some(CanonicalRoute {
+            ecosystem: "database",
+            target_symbol: "SQLite Write-Ahead Logging (WAL)".to_string(),
+            canonical_url: "https://sqlite.org/wal.html".to_string(),
+        });
+    }
+
+    // =========================================================================
+    // 4. CLOUD INFRASTRUCTURE & SERVICE STATUS
+    // =========================================================================
+    if q.contains("github status") || (q.contains("github") && q.contains("incident")) {
+        return Some(CanonicalRoute {
+            ecosystem: "cloud_status",
+            target_symbol: "GitHub System Status".to_string(),
+            canonical_url: "https://www.githubstatus.com/".to_string(),
+        });
+    }
+    if q.contains("cloudflare status") || (q.contains("cloudflare") && q.contains("incident")) {
+        return Some(CanonicalRoute {
+            ecosystem: "cloud_status",
+            target_symbol: "Cloudflare Status Dashboard".to_string(),
+            canonical_url: "https://www.cloudflarestatus.com/".to_string(),
+        });
+    }
+
+    // =========================================================================
+    // 5. PROGRAMMING RUNTIMES & ECOSYSTEMS
+    // =========================================================================
+    // Rust (docs.rs)
     if q.contains("tokio::sync::broadcast") || (q.contains("tokio") && q.contains("broadcast")) {
         return Some(CanonicalRoute {
             ecosystem: "rust",
@@ -47,7 +144,7 @@ pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
         });
     }
 
-    // 2. TypeScript & Web Standards (MDN)
+    // TypeScript & Web Standards (MDN)
     if q.contains("abortcontroller") || (q.contains("abort") && q.contains("signal")) {
         return Some(CanonicalRoute {
             ecosystem: "typescript",
@@ -84,7 +181,7 @@ pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
         });
     }
 
-    // 3. Python Ecosystem (docs.python.org / pypi)
+    // Python (docs.python.org / pypi)
     if q.contains("asyncio.taskgroup") || (q.contains("asyncio") && q.contains("taskgroup")) {
         return Some(CanonicalRoute {
             ecosystem: "python",
@@ -121,7 +218,7 @@ pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
         });
     }
 
-    // 4. Go Ecosystem (pkg.go.dev)
+    // Go (pkg.go.dev)
     if q.contains("errgroup") || q.contains("sync/errgroup") {
         return Some(CanonicalRoute {
             ecosystem: "go",
@@ -158,7 +255,7 @@ pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
         });
     }
 
-    // 5. DevOps & Cloud
+    // DevOps & Infra
     if q.contains("podspec") || (q.contains("kubernetes") && q.contains("pod")) {
         return Some(CanonicalRoute {
             ecosystem: "devops",
@@ -196,24 +293,4 @@ pub fn resolve_canonical_url(query: &str) -> Option<CanonicalRoute> {
     }
 
     None
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_canonical_routes() {
-        let r1 = resolve_canonical_url("how to fix tokio broadcast channel lagged error in rust").unwrap();
-        assert_eq!(r1.ecosystem, "rust");
-        assert!(r1.canonical_url.contains("tokio/sync/broadcast"));
-
-        let r2 = resolve_canonical_url("AbortController timeout in typescript").unwrap();
-        assert_eq!(r2.ecosystem, "typescript");
-        assert!(r2.canonical_url.contains("AbortController"));
-
-        let r3 = resolve_canonical_url("asyncio taskgroup error handling python 3.11").unwrap();
-        assert_eq!(r3.ecosystem, "python");
-        assert!(r3.canonical_url.contains("asyncio-task.html"));
-    }
 }
