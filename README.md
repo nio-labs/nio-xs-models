@@ -81,7 +81,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (Lite-Mistral-150M)` | Drives `nioxs-browser`, keyless search & DOM noise scrubber with 91–99.6% token cut (`mako.vmicrolm-vector.gguf`, 65.39 MB, < 22 MB RAM) | **Released** | [`v0.2.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.1) |
+| **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.IQ3_XXS.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.5.3`](https://github.com/nio-labs/nio-xs-models/releases/tag/mako-v0.1.0) |
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 253.33 MB, < 55 MB RAM) | **Released** | [`v0.2.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.2) |
 | **`Ray`** | **Rapid Stream Coding Model** | `1.54B (28L, Qwen2.5-Coder)` | Dedicated coding model for high-throughput code in-filling, tab-completion & instant boilerplate (31–36 w/s, 75.6% HumanEval) in < 88 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -373,43 +373,46 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
-## 🦈 3. Mako (150M) — Live Web Intelligence & Scraping Scout (`v-µLM Vector`)
+## 🦈 3. Mako (150M) — Live Web Intelligence & Documentation Scout (`v-µLM Vector`)
 
-**Mako** is the 150-million parameter live web intelligence and scraping scout powered by the **`v-µLM Vector`** architecture. Operating with tied embeddings and sliding-window attention on `Lite-Mistral-150M`, it drives `nioxs-browser` to perform keyless live documentation search and aggressive DOM noise scrubbing, saving **91%–99.6% of context tokens** with **< 22 MB peak resident RAM (`VmRSS`)** in a **65.39 MB binary footprint**.
+**Mako** is the 150-million parameter live web intelligence and documentation scout powered by a 34-layer depth-upscaled dual-teacher architecture (SmolLM2-135M / Qwen2.5-Coder). It provides keyless multi-domain documentation search, sub-millisecond HTML pre-scrubbing, and LLM-Native Wire DSL generation with strict `[INVARIANT]` anchors. It features **HTTP 304 ETag caching** with a **50 MB hard LRU disk bound**, achieving **75.1%–99.0% context token reduction** with **12.49 MB peak resident RAM (`VmRSS`)** in a **92.0 MB binary footprint**.
 
 ### 💻 Live Web Search & Scraping via MCP (`nioxs-mcp`)
 
-Mako exposes two first-class tools over Model Context Protocol (MCP) for Claude Code, Cursor, OpenCode, and Windsurf:
+Mako is integrated directly as the `mako_web_scout` tool in `nioxs-mcp` for Claude Code, Cursor, OpenCode, and Windsurf:
 
 ```bash
-# 1. Fetch live web page and strip 99.6% of DOM noise with surgical symbol focus
-nioxs mcp << 'EOF'
-{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"web_fetch","arguments":{"url":"https://docs.rs/tokio/latest/tokio/sync/broadcast/error/enum.RecvError.html","focus":"Lagged"}}}
+# 1. Scout live documentation, RFCs, CVEs, sysctls, or cloud status
+cargo run --bin nioxs-mcp << 'EOF'
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"mako_web_scout","arguments":{"query":"tokio broadcast channel"}}}
 EOF
 # Output:
-# [Mako Web Scout: 99.6% noise eliminated (76,394 bytes HTML → 308 bytes clean payload)]
-# pub enum RecvError { Closed, Lagged(u64), }
-# Key Invariant: The receiver lagged too far behind: messages overwritten in ring buffer.
+# {
+#   "ecosystem": "rust",
+#   "elapsed_ms": "2.19ms",
+#   "from_cache": true,
+#   "model": "Mako (150M)",
+#   "raw_bytes": 38085,
+#   "reduction_pct": "83.2%",
+#   "wire_dsl": "@api tokio::sync::broadcast [ecosystem: rust]\n[INVARIANT]: return `RecvError::Lagged` the next time `recv`\n[CITATION]: https://docs.rs/tokio/latest/tokio/sync/broadcast/index.html"
+# }
 
-# 2. Keyless live documentation search with search operator formulation
-nioxs mcp << 'EOF'
-{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"mako_search","arguments":{"query":"tokio broadcast RecvError site:docs.rs"}}}
-EOF
-# Output: Returns 5 ranked live documentation URLs with clean contextual snippets in < 1.2s.
+# 2. Standalone CLI execution
+./target/release/nioxs-mako "RFC 7540"
 ```
 
 ---
 
 ## 📦 Model Artifacts & Certified Checksums
 
-### 🦈 Predator Tier & Web Scout Suite: Manta, Mako & Skate (v0.2.2)
+### 🦈 Predator Tier & Web Scout Suite: Manta, Mako & Skate
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
 | `manta.vmicrolm-vector.gguf` | Manta (494M, Conversational Guru & Architect) | GGUF IQ3_XXS Codebooks | 253.33 MB | `ed27ef71bf8c0c5f372efb0eef99b71a9c6480bf3e228ce2f1027fd3583d08bf` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta.vmicrolm-vector.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 10.9 MB | `3fd169731d2cbde95e10bf356d66d5997fd885dd8dbb6fb4684da3f23b2585d8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta-tokenizer.json) |
-| `mako.vmicrolm-vector.gguf` | Mako (150M, Live Web Scout & Scrubber) | GGUF IQ3_XXS Codebooks | 65.39 MB | `1ee0bb2189d97034c2ab1eebba5b253b272ba5e00311090333fa90ce11b1574a` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.1/mako.vmicrolm-vector.gguf) |
-| `mako-tokenizer.json` | Mako Tokenizer (Mistral 32K) | JSON | 1.8 MB | `7fb488f2195f00e9ec14ad734feebcc57fb4ba7be49ce8bf0ad1c52b0f20959f` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.1/mako-tokenizer.json) |
+| `mako.vmicrolm-vector.IQ3_XXS.gguf` | Mako (150M, v-µLM Vector Scout) | GGUF IQ3_XXS Codebooks | 92.0 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/mako-v0.1.0/mako.vmicrolm-vector.IQ3_XXS.gguf) |
+| `mako.Q4_0.gguf` | Mako (150M, Standard Reflex GGUF) | GGUF Q4_0 | 96.0 MB | `e9b0274e891f05163832dabf2397eed5d1db41f93bf3fdaf365d9105fc4163aa` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/mako-v0.1.0/mako.Q4_0.gguf) |
 | `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (Predator Level 2) | GGUF IQ3_XXS Codebooks | 82.9 MB | `c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
 | `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
 
