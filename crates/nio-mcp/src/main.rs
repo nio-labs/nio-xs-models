@@ -73,6 +73,11 @@ fn main() -> anyhow::Result<()> {
         let mini_resp = server.process_line(mini_req).unwrap();
         println!("<- {}\n", mini_resp);
 
+        let mako_req = r#"{"jsonrpc":"2.0","id":8,"method":"tools/call","params":{"name":"mako_web_scout","arguments":{"query":"RFC 7540"}}}"#;
+        println!("-> {}", mako_req);
+        let mako_resp = server.process_line(mako_req).unwrap();
+        println!("<- {}\n", mako_resp);
+
         println!("✔ All MCP MicroLM self-tests passed successfully!");
         return Ok(());
     }

@@ -110,6 +110,24 @@ impl ToolRegistry {
                     "required": ["diff"]
                 }),
             },
+            McpTool {
+                name: "mako_web_scout".to_string(),
+                description: "Mako (150M) Web Intelligence & Documentation Scout: Zero-API key live web scraper, RFC/CVE/sysctl navigator, and sub-millisecond HTML pre-scrubber with LLM-Native Wire DSL generation.".to_string(),
+                input_schema: json!({
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Library symbol, RFC number, CVE ID, Linux sysctl, cloud service status, or technical documentation query (e.g. 'tokio broadcast channel', 'RFC 7540', 'CVE-2024-3094', 'github status')"
+                        },
+                        "force_refresh": {
+                            "type": "boolean",
+                            "description": "Bypass HTTP 304 ETag disk cache and force a live upstream fetch (default: false)"
+                        }
+                    },
+                    "required": ["query"]
+                }),
+            },
         ]
     }
 
@@ -120,6 +138,7 @@ impl ToolRegistry {
             "micro_audit" => self.handle_micro(arguments),
             "nano_route" => self.handle_nano(arguments),
             "mini_predict_defect" => self.handle_mini(arguments),
+            "mako_web_scout" => self.handle_mako(arguments),
             _ => ToolCallResult::error(format!("Unknown tool: '{name}'")),
         }
     }
@@ -317,5 +336,32 @@ impl ToolRegistry {
         });
 
         ToolCallResult::text(serde_json::to_string_pretty(&result).unwrap_or_default())
+    }
+
+    fn handle_mako(&self, args: &Value) -> ToolCallResult {
+        let query = match args.get("query").and_then(|v| v.as_str()) {
+            Some(q) => q,
+            None => return ToolCallResult::error("Missing required parameter 'query'"),
+        };
+        let force_refresh = args.get("force_refresh").and_then(|v| v.as_bool()).unwrap_or(false);
+
+        match nio_mako_runtime::scout_web_documentation(query, force_refresh) {
+            Ok(report) => {
+                let result = json!({
+                    "model": "Mako (150M)",
+                    "query": report.query,
+                    "target_url": report.target_url,
+                    "ecosystem": report.ecosystem,
+                    "raw_bytes": report.raw_bytes,
+                    "scrubbed_bytes": report.scrubbed_bytes,
+                    "reduction_pct": format!("{:.1}%", report.reduction_pct),
+                    "from_cache": report.from_cache,
+                    "elapsed_ms": format!("{:.2}ms", report.elapsed_ms),
+                    "wire_dsl": report.wire_dsl,
+                });
+                ToolCallResult::text(serde_json::to_string_pretty(&result).unwrap_or_default())
+            }
+            Err(e) => ToolCallResult::error(format!("Mako scout error: {e}")),
+        }
     }
 }
