@@ -30,6 +30,22 @@ Official model registry and distribution hub for compiled, mathematically verifi
 
 ---
 
+## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex & Vector
+
+> 📖 **Architecture Portal**: Read the full [v-µLM Dual-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
+
+**v-µLM (V-MicroLM)** is Nio's proprietary twin-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of two rigorous mathematical pillars:
+
+| Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
+| :--- | :--- | :--- | :--- | :--- |
+| **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–92.0 MB disk**, >0.999 layer cosine fidelity |
+
+- **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
+- **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
+
+---
+
 ## 🏛️ The Production MicroLM Hierarchy
 
 Instead of relying on a single slow generalist model, Nio deploys a specialized hierarchy of 5 edge MicroLMs:
@@ -335,22 +351,6 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 ---
 
-## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex & Vector
-
-> 📖 **Architecture Portal**: Read the full [v-µLM Dual-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
-
-**v-µLM (V-MicroLM)** is Nio's proprietary twin-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of two rigorous mathematical pillars:
-
-| Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
-| :--- | :--- | :--- | :--- | :--- |
-| **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–92.0 MB disk**, >0.999 layer cosine fidelity |
-
-- **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
-- **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
-
----
-
 ## 🦈 6. Skate (135M) — Resident Micro-Guru & Edge Companion (`v-µLM Vector`)
 
 **Skate** is the 134.5-million parameter resident edge companion and ambient telemetry triage model powered by the **`v-µLM Vector`** architecture. Using mathematical `IQ3_XXS` vector codebooks, it retains full 30-layer neural activation patterns in just **82.9 MB disk footprint** and operates within **22.4 MB peak resident RAM (`VmHWM`)**.
@@ -364,6 +364,25 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 | **Prompt Ingestion Speed** | **220.0 tokens/sec** | **Pass**: Near-instant context processing (< 150ms for typical edge prompts). |
 | **Binary Disk Footprint** | **82.93 MB** | Single unified `skate.vmicrolm-vector.gguf` file. |
 | **Full Suite Wall-Clock (25 Prompts)** | **56.51s** | High-throughput sequential execution across 25 diverse real-world domains. |
+
+### 💻 How to Run & Practical Examples
+
+```bash
+# 1. Pull and cache verified Skate weights (82.9 MB GGUF)
+nioxs pull skate
+
+# 2. Resident IoT / Smartwatch edge companion greeting & vitals (< 23 MB RAM)
+nioxs skate "Morning check-in. What are my active IoT system vitals?"
+
+# 3. High-throughput ambient prompt triage & sensor anomaly analysis (44.2 tok/s)
+nioxs skate "Analyze this incoming telemetry: CPU 84C, RAM 91%, Fan 4800RPM"
+
+# 4. Low-latency edge persona chat (NioGuru BFF persona, 15–24 words/second)
+nioxs skate --persona bff "Quick advice: I'm debugging an async tokio deadlock, where do I look first?"
+
+# 5. Direct GGUF execution for memory-constrained embedded Linux / Raspberry Pi / Watch
+llama-cli -m ~/.nioxs/models/skate.vmicrolm-vector.gguf -p "User: System alert summary?\nSkate:" -n 60 --repeat-penalty 1.2
+```
 
 ### 🎯 Scope & Fleet Demarcation (What Skate Does vs. What It Delegates)
 
@@ -383,27 +402,27 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 **Mako** is the 150-million parameter live web intelligence and documentation scout powered by a 34-layer depth-upscaled dual-teacher architecture (SmolLM2-135M / Qwen2.5-Coder). It provides keyless multi-domain documentation search, sub-millisecond HTML pre-scrubbing, and LLM-Native Wire DSL generation with strict `[INVARIANT]` anchors. It features **HTTP 304 ETag caching** with a **50 MB hard LRU disk bound**, achieving **75.1%–99.0% context token reduction** with **12.49 MB peak resident RAM (`VmRSS`)** in a **92.0 MB binary footprint**.
 
-### 💻 Live Web Search & Scraping via MCP (`nioxs-mcp`)
-
-Mako is integrated directly as the `mako_web_scout` tool in `nioxs-mcp` for Claude Code, Cursor, OpenCode, and Windsurf:
+### 💻 How to Run & Practical Examples
 
 ```bash
-# 1. Scout live documentation, RFCs, CVEs, sysctls, or cloud status
+# 1. Pull and cache verified Mako weights (92.0 MB GGUF)
+nioxs pull mako
+
+# 2. Live documentation scout & Wire DSL generation (< 13 MB RAM, 13.5ms latency)
+nioxs mako "tokio broadcast channel"
+
+# 3. IETF RFC protocol specification navigator
+nioxs mako "RFC 7540 HTTP/2 error codes"
+
+# 4. Real-time security advisory & CVE triage
+nioxs mako "CVE-2024-3094 backdoor summary"
+
+# 5. Localhost Model Context Protocol (MCP) tool invocation (Claude, Cursor, Antigravity)
 cargo run --bin nioxs-mcp << 'EOF'
 {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"mako_web_scout","arguments":{"query":"tokio broadcast channel"}}}
 EOF
-# Output:
-# {
-#   "ecosystem": "rust",
-#   "elapsed_ms": "2.19ms",
-#   "from_cache": true,
-#   "model": "Mako (150M)",
-#   "raw_bytes": 38085,
-#   "reduction_pct": "83.2%",
-#   "wire_dsl": "@api tokio::sync::broadcast [ecosystem: rust]\n[INVARIANT]: return `RecvError::Lagged` the next time `recv`\n[CITATION]: https://docs.rs/tokio/latest/tokio/sync/broadcast/index.html"
-# }
 
-# 2. Standalone CLI execution
+# 6. Standalone CLI execution
 ./target/release/nioxs-mako "RFC 7540"
 ```
 
@@ -412,6 +431,25 @@ EOF
 ## 🦈 8. Manta (494M) — Full Conversational Guru & Wasm Architect (`v-µLM Vector`)
 
 **Manta** is the 494.0-million parameter edge conversational guru and DAG task planner upscaled from Qwen2.5-0.5B via mathematical `IQ3_XXS` vector codebooks. Operating in under **55 MB peak RAM**, it powers the complete NioGuru 21-persona conversational suite, deep code analysis, and `<manta_plan>` multi-step DAG orchestrations.
+
+### 💻 How to Run & Practical Examples
+
+```bash
+# 1. Pull and cache verified Manta weights (253.3 MB GGUF)
+nioxs pull manta
+
+# 2. Conversational system architecture triage across 21 NioGuru personas (< 55 MB RAM)
+nioxs manta --persona architect "Design an event-driven CQRS pipeline with Raft consensus in Rust"
+
+# 3. Generate multi-step <manta_plan> execution DAG for agentic orchestration
+nioxs manta "Plan migration of our SQLite backend to high-throughput WAL mode with automated backups"
+
+# 4. Deep multi-turn code review & edge refactoring
+nioxs manta --file crates/router/src/lib.rs "Audit this router module for potential async runtime starvation"
+
+# 5. Embedded in-process execution via Wasm runtime
+nioxs manta --wasm-target web --prompt "Explain Rust memory safety to a beginner"
+```
 
 ---
 
