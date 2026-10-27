@@ -2,6 +2,8 @@
 
 Official model registry and distribution hub for compiled, mathematically verified neural model binaries (`.gguf`, `.onnx`) and specialized domain tokenizers powering the **Nio** and **NioXS** edge developer ecosystem.
 
+> 📦 **Release History**: Read the full [Unified Release Notes & Changelog](RELEASE_NOTES.md).
+
 ---
 
 ## ⚡ The MicroLM (µLM) Philosophy
