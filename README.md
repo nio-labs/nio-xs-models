@@ -81,16 +81,6 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 8: CONVERSATIONAL GURU & DAG ARCHITECT ]                                       │
 │    • Manta (494.0M)           ──► NioGuru 21 Personas, Wasm Architect (<55MB)          │
 │                                                                                        │
-│  [ TIER 9: FLASH & LEAN COGNITIVE REASONING ]                                          │
-│    • µSail (270.0M)           ──► Atomic Invariant & Boundary Prover (<32MB)           │
-│    • Sail (~1.5B)             ──► Dense Chain-of-Thought (<think>) Predator (<95MB)   │
-│                                                                                        │
-│  [ TIER 10: DIRECT ACOUSTIC INTENT & VOICE REFLEX ]                                    │
-│    • Sonar (~30.0M)           ──► Direct Acoustic-to-Intent (<25ms, ~18MB RAM)         │
-│                                                                                        │
-│  [ TIER 11: AUTOMATED AST & CVE DEPENDENCY PATCHER ]                                   │
-│    • Mend (~40.0M)            ──► Compiler-Verified SemVer & Security Medic (~22MB)    │
-│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -108,17 +98,6 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 253.33 MB, < 55 MB RAM) | **Released** | [`v0.2.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.2) |
-| **`Ray`** | **Rapid Stream Coding Model** | `1.54B (28L, Qwen2.5-Coder)` | Dedicated coding model for high-throughput code in-filling, tab-completion & instant boilerplate (31–36 w/s, 75.6% HumanEval) in < 88 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`µSail`** | **Atomic Invariant & Boundary Prover** | `270.0M (FunctionGemma-270M)` | Sub-15ms invariant proofs, security gate assertions & symbolic boundary checks (< 32 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Sail`** | **Flash & Lean Reasoning Predator** | `1.54B (28L, GQA)` | Distilled dense CoT (`<think>`), self-correction & compiler-verified rewards (RLVR) in < 95 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Cuda`** | **Deep Mini Coding Model** | `3.09B (36L, Qwen2.5-Coder)` | Dedicated deep coding model for single-file complete refactoring, concurrency & race condition triage (81.7% HumanEval) in < 150 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Hydra`** | **Sovereign Whole-Repo Coding Titan** | `7.61B (28L Wide, Qwen2.5-Coder)` | Sovereign heavy coding titan for whole-repo multi-file compiler healing & crate refactoring (88.4% HumanEval, beats GPT-4) in < 350 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Pike`** | **Euro-Atlantic Sovereign Coding Titan** | `7.24B (32L, Mistral-7B)` | Sovereign Western alternative to Hydra; 100% EU AI Act, GDPR & FedRAMP compliant whole-repo coding engine in < 350 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Orca`** | **Sovereign Enterprise Grand-Master** | `14.7B (48L, Full Brain)` | Grand-Master of system architecture, distributed consensus, and monorepo governance in < 850 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Fin`** | **Poly-Teacher Sovereign Grand-Master** | `14.7B (48L, Multi-Teacher Distilled)` | Sovereign Grand-Master taught by a multi-teacher ensemble (DeepSeek-R1, QwQ-32B, Qwen2.5-Coder-32B & Llama 3.1 405B) in < 850 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Gar`** | **Universal Encyclopedic Polymath** | `14.7B (48L, Polymath Distilled)` | Sovereign Grand-Master of universal human knowledge, STEM, law & history distilled from Llama 3.1 405B, DeepSeek-V3 & Qwen2.5-72B in < 850 MB RAM | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Sonar`** | **Acoustic Intent & Voice Co-Pilot** | `30.4M (6L Conformer)` | Direct acoustic-to-intent (A2I) co-pilot, dual-head intent & CTC parameter extraction (< 25ms, ~18.2 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Mend`** | **Automated AST & CVE Patcher** | `40.2M (8L, GQA)` | Compiler-verified AST diff transformer, automated CVE healing & breaking SemVer migration (< 40ms, ~22.4 MB RAM) | **In Development** | [`v0.2.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -396,7 +375,7 @@ llama-cli -m ~/.nioxs/models/skate.vmicrolm-vector.gguf -p "User: System alert s
 - **Architectural Boundaries (Why Skate Does NOT Write Free-Form Code)**:
   - At 135M parameters, unconstrained autoregressive sampling on intricate code synthesis (e.g. deep Rust borrow checker rules, Go concurrency channels, multi-stage Dockerfiles) triggers probability drift and token repetition loops (e.g. `mut mut mut`, `InvalidError(ErrorType)`).
   - **Deterministic Edge Execution**: When exact syntactic precision is required at < 100M scale, the **`v-µLM Reflex`** architecture with **Dynamic AST Grammars** (as implemented in `Viper`) is the mandatory pattern.
-  - **Complex Code & Compiler Healing**: Deep coding, multi-line refactoring, and AST repair are delegated to upper-tier predators: **Manta (494M)**, **Ray (1.54B)**, **Cuda (3.09B)**, **Pike (7.24B)**, **Hydra (7.61B)**, **Orca (14.7B)**, and **Fin (14.7B)**.
+  - **Complex Code & Compiler Healing**: Deep coding, multi-line refactoring, and AST repair are delegated to upper-tier predators such as **Manta (494M)**.
 
 ---
 
