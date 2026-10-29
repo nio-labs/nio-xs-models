@@ -580,6 +580,11 @@ nioxs-mcp --test
 
 This repository is licensed under the [Business Source License 1.1](LICENSE) (BSL 1.1).
 
+Third-party materials and model release provenance are documented in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); applicable license texts are in
+[LICENSES](LICENSES/). Each model distribution must include its applicable
+notices and license texts.
+
 * **Non-Production & Internal Production Use**: Free to use, copy, modify, redistribute, and run internally within your organization for testing, development, and private infrastructure.
 * **Commercial Protection Clause**: You may not offer the Licensed Work to third parties as a competing hosted, managed, or cloud service without a commercial license from Nio Labs.
 * **Automatic Open Source Transition**: On **October 20, 2030** (four years from publication), this code automatically converts to the **Apache License, Version 2.0**.
