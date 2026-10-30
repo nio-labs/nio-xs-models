@@ -79,7 +79,16 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │    • Mako (150.0M)            ──► nioxs-browser Scout, DOM Noise Scrubber (<13MB)      │
 │                                                                                        │
 │  [ TIER 8: CONVERSATIONAL GURU & DAG ARCHITECT ]                                       │
-│    • Manta (494.0M)           ──► NioGuru 21 Personas, Wasm Architect (<55MB)          │
+│    • Manta (490.0M)           ──► NioGuru 21 Personas, Wasm Architect (<85MB)          │
+│                                                                                        │
+│  [ TIER 9: TACTICAL PURE-CODE PREDATOR ]                                               │
+│    • µCuda (1.5B) / Cuda (3B) ──► MicroLM-Duet Parallel Coding Engine (<1.1GB–2.1GB)   │
+│                                                                                        │
+│  [ TIER 10: APEX POD MASTER & NEURAL FOUNDRY ]                                         │
+│    • Orca (7.6B)              ──► Autonomous Reflex Pod & Neural Compiler Master       │
+│                                                                                        │
+│  [ TIER 11: SOVEREIGN ENTERPRISE COUNCIL ]                                             │
+│    • Fin (70B / 140B)         ──► MicroLM-Council Whole-Repo Grand-Master              │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -97,7 +106,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.93 MB, **< 50 MB peak RAM**, 115+ tok/s `--turbo`) | **Released** | [`v0.2.6`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6) |
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
-| **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 253.33 MB, < 55 MB RAM) | **Released** | [`v0.2.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.2) |
+| **`Manta`** | **Full Conversational Guru & Wasm Architect** | `490.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, ~250 MB, < 85 MB RAM) | **In Training** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`µCuda / Cuda`** | **Tactical Pure-Code Predator** | `1.5B – 3.0B (MicroLM-Duet)` | Parallel twin-student coding engine for single-file full refactors, tests & compiler healing (< 1.1GB–2.1GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Orca`** | **Apex Pod Master & Neural Foundry** | `7.6B (v-µLM Reflex Master)` | Autonomous reflex pod & neural compiler master; mints 1–2MB dynamic specialist adapters on the fly (< 4.5 GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (MicroLM-Council)` | Sovereign Grand-Master taught by a multi-teacher council (DeepSeek-V3, QwQ, Llama 405B) for whole-repo migrations | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
