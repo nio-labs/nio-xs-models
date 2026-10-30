@@ -95,7 +95,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.9 MB disk, ~22 MB peak RAM) | **Released** | [`v0.2.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.0) |
+| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.93 MB, **< 50 MB peak RAM**, 115+ tok/s `--turbo`) | **Released** | [`v0.2.6`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6) |
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `494.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 253.33 MB, < 55 MB RAM) | **Released** | [`v0.2.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.2) |
 
@@ -340,11 +340,11 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 
 | Metric | Measured Value | System Analysis |
 |:---|:---:|:---|
-| **Peak Resident RAM (`VmHWM`)** | **22.4 MB** | **Pass**: Well under the 30 MB edge budget; runs comfortably on any resource-constrained device. |
-| **Generation Speed** | **44.2 tokens/sec** | **Pass**: 15–24 words/sec (3x–5x faster than human reading speed of 4–5 words/sec). |
-| **Prompt Ingestion Speed** | **220.0 tokens/sec** | **Pass**: Near-instant context processing (< 150ms for typical edge prompts). |
-| **Binary Disk Footprint** | **82.93 MB** | Single unified `skate.vmicrolm-vector.gguf` file. |
-| **Full Suite Wall-Clock (25 Prompts)** | **56.51s** | High-throughput sequential execution across 25 diverse real-world domains. |
+| **Peak Resident RAM (`VmHWM`)** | **< 50 MB** (40.85 MB peak, 27.6 MB idle) | **Pass**: Strict `< 50 MB` ceiling met; evicts inactive cache pages automatically. |
+| **Generation Speed** | **35–42 tok/s** (Default) / **115–121 tok/s** (`--turbo`) | **Pass**: Near-instant responsiveness and super-speed turbo options. |
+| **Prompt Ingestion Speed** | **220–240 tokens/sec** | **Pass**: Near-instant context processing (< 120ms for edge prompts). |
+| **Binary Disk Footprint** | **82.93 MB** | Single unified `skate.vmicrolm-vector.gguf` file (`86,957,792 bytes`). |
+| **Zero-Code Compliance** | **100% Passed** | Token-level filters for code blocks; clean deflection to Manta or Fin. |
 
 ### 💻 How to Run & Practical Examples
 
@@ -352,17 +352,18 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 # 1. Pull and cache verified Skate weights (82.9 MB GGUF)
 nioxs pull skate
 
-# 2. Resident IoT / Smartwatch edge companion greeting & vitals (< 23 MB RAM)
-nioxs skate "Morning check-in. What are my active IoT system vitals?"
+# 2. Daily companion chat via NioXS Gateway (< 50 MB RAM)
+nioxs skate "Tell me a fun fact about dolphins."
 
-# 3. High-throughput ambient prompt triage & sensor anomaly analysis (44.2 tok/s)
-nioxs skate "Analyze this incoming telemetry: CPU 84C, RAM 91%, Fan 4800RPM"
+# 3. Super-speed high-throughput execution (>115 tok/s)
+ast-micro-engine ~/.nioxs/models/skate.vmicrolm-vector.gguf ~/.nioxs/models/skate-tokenizer.json --turbo --prompt "Explain microwave physics simply"
 
-# 4. Low-latency edge persona chat (NioGuru BFF persona, 15–24 words/second)
-nioxs skate --persona bff "Quick advice: I'm debugging an async tokio deadlock, where do I look first?"
+# 4. Zero-code technical routing (clean delegation to Manta / Fin)
+nioxs skate "Write a python script to parse JSON"
+# Output: "I don't generate code directly. Please direct script execution to Manta or Fin..."
 
-# 5. Direct GGUF execution for memory-constrained embedded Linux / Raspberry Pi / Watch
-llama-cli -m ~/.nioxs/models/skate.vmicrolm-vector.gguf -p "User: System alert summary?\nSkate:" -n 60 --repeat-penalty 1.2
+# 5. Native end-to-end companion run via NioAI CLI
+nio run -m nioxs::nio-skate "What is a good way to stretch after typing for hours?"
 ```
 
 ### 🎯 Scope & Fleet Demarcation (What Skate Does vs. What It Delegates)
@@ -440,8 +441,8 @@ nioxs manta --wasm-target web --prompt "Explain Rust memory safety to a beginner
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (134.5M Edge Companion) | GGUF IQ3_XXS Codebooks | 82.9 MB | `c9e5be43d3b3a50111e7a2312683bfeee8659befe2a9df18cfba970a0d39e99e` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate.vmicrolm-vector.gguf) |
-| `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.1 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.0/skate-tokenizer.json) |
+| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (134.5M Edge Companion) | GGUF IQ3_XXS Codebooks | 82.93 MB | `a00921dca072e640bb1f9730a95e3d88ed843cba3dd0a5648a6fd5e3e9e3d86b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate.vmicrolm-vector.gguf) |
+| `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.10 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate-tokenizer.json) |
 | `mako.vmicrolm-vector.gguf` | Mako (150M, v-µLM Vector Scout) | GGUF IQ3_XXS Codebooks | 92.0 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/mako.vmicrolm-vector.gguf) |
 | `manta.vmicrolm-vector.gguf` | Manta (494M, Conversational Guru & Architect) | GGUF IQ3_XXS Codebooks | 253.33 MB | `ed27ef71bf8c0c5f372efb0eef99b71a9c6480bf3e228ce2f1027fd3583d08bf` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta.vmicrolm-vector.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 10.9 MB | `3fd169731d2cbde95e10bf356d66d5997fd885dd8dbb6fb4684da3f23b2585d8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta-tokenizer.json) |

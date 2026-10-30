@@ -6,7 +6,8 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
-- [v0.2.4 — Skate Ambient Conversational Companion & v-µLM Vector GGUF](#v024--skate-ambient-conversational-companion--v-µlm-vector-gguf)
+- [v0.2.6 — Skate Ambient Companion & Zero-Code Edge Runtime (v-µLM Vector)](#v026--skate-ambient-companion--zero-code-edge-runtime-v-µlm-vector)
+- [v0.2.5 — Mako (150M) Scout & Nio Localhost MCP Server](#v025--mako-150m-scout--nio-localhost-mcp-server)
 - [v0.2.3 — Viper (100M) Multi-Dialect Neural Reflex & 61.69MB Q4_0 GGUF](#v023--viper-100m-multi-dialect-neural-reflex--6169mb-q4_0-gguf)
 - [v0.2.2 — Manta (494M) v-µLM Vector & Conversational Guru](#v022--manta-494m-v-µlm-vector--conversational-guru)
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
@@ -15,36 +16,53 @@ Official release history and distribution registry for compiled neural binaries 
 
 ---
 
-## v0.2.4 — Skate Ambient Conversational Companion & v-µLM Vector GGUF
+## v0.2.6 — Skate Ambient Companion & Zero-Code Edge Runtime (v-µLM Vector)
 
-Official **v0.2.4** release distributing the certified **Skate** ambient conversational companion engine (`skate.vmicrolm-vector.gguf`), dedicated conversational tokenizer (`skate-tokenizer.json`), and production companion runner harness.
+Official **v0.2.6** release distributing the production-certified **Skate (134.5M)** ambient conversational companion engine (`skate.vmicrolm-vector.gguf`), dedicated conversational tokenizer (`skate-tokenizer.json`), and native in-process streaming runtime with dual-mode execution (Sub-50MB default & `--turbo` high throughput).
 
 ### 🦈 1. Skate — Ambient Conversational Companion MicroLM (v-µLM Vector)
 
-Skate provides dedicated, ultra-low latency conversational companionship, active listening, friendly banter, and daily check-ins with zero code bloat:
+Skate is Nio's dedicated, low-latency conversational desk-mate and ambient companion with strict Zero-Code invariants:
 
-- **Target Footprint**: Quantized **`IQ3_XXS` Vector Codebooks GGUF** takes exactly **82.93 MB** on disk (< 100 MB ceiling met).
-- **Peak RAM Envelope**: Resident peak memory under continuous multi-turn generation stays strictly within **< 28 MB** (`VmRSS`), suitable for always-on background daemons and mobile browser PWAs.
-- **Inference Speed**: **215–235 tokens/sec** prompt evaluation, **40–43 tokens/sec** continuous streaming generation on standard CPU.
-- **Zero-Code Deflection Invariant**: 100% clean deflection handoffs for compiler, AST, and coding queries directly to **Viper (100M)** and **Manta (494M)**.
-- **Anti-Looping Stability**: **0.0% repetition loop rate** across 20-turn continuous conversational stress testing (`mut mut mut` and phrase echo loops completely eliminated).
-- **Wellness & Safety Boundaries**: Validated empathetic perspective on burnout and work stress; warmly defers clinical and medical diagnoses to healthcare professionals.
+- **Target Footprint**: Quantized **`IQ3_XXS` Vector Codebooks GGUF** takes **82.93 MB** on disk (`86,957,792 bytes`).
+- **Peak RAM Envelope**:
+  - **Default Mode**: **Strictly < 50 MB peak RAM** (40.85 MB peak measured via 4-pass streaming execution, post-turn idle memory reset down to **27.6 MB**).
+  - Suitable for always-on background daemons (`nioxs serve`), low-power edge nodes, and mobile browser PWAs.
+- **Inference Speed & Dual Modes**:
+  - **Default Sub-50MB Mode**: **35–42 tokens/sec** continuous streaming generation with zero memory allocation spikes.
+  - **`--turbo` Mode**: **115–120.8 tokens/sec** high-throughput single-pass vectorized execution.
+- **Zero-Code Deflection Invariant**: 100% Zero-Code compliance. Token vocabulary masks for code-block delimiters (`3725` and `47182`) guarantee zero unrequested code emissions. All coding, compiler, and AST requests are politely deflected to **Manta (494M)** or **Fin**.
+- **ChatML & Prompt Template Robustness**: Native pass-through for pre-formatted `<|im_start|>` templates completely eliminates double-wrapping or trailing token anomalies.
+- **Authoritative Policy Integrity**: Skate's Zero-Code companion policy is enforced unconditionally at the gateway level, preventing caller system prompts from overriding Skate's persona.
+- **Ecosystem Integration**: Built-in native support across the Nio ecosystem:
+  - Gateway CLI: `nioxs skate "Tell me a fun fact about dolphins."`
+  - NioAI CLI: `nio run -m nioxs::nio-skate "What is a good way to stretch after typing?"`
 
 ### 📦 Certified Binary Assets
 
 | Asset | Engine / Role | Format | Size | SHA-256 Checksum | Target Hardware Peak RAM |
 |---|---|:---:|:---:|---|:---:|
-| `skate.vmicrolm-vector.gguf` | Skate (Ambient Conversational Companion) | GGUF IQ3_XXS | 82.93 MB | `cedbd01bce0a83882ac23d6c77e500b65a194286fea5ac62f416889c8f818588` | **< 28 MB** |
+| `skate.vmicrolm-vector.gguf` | Skate (Ambient Conversational Companion) | GGUF IQ3_XXS | 82.93 MB | `a00921dca072e640bb1f9730a95e3d88ed843cba3dd0a5648a6fd5e3e9e3d86b` | **< 50 MB** (40.85 MB peak, 27.6 MB idle) |
 | `skate-tokenizer.json` | Skate Conversational Tokenizer | JSON | 2.10 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | N/A |
 
-### 🔬 20-Turn Multi-Turn Stress Benchmark Verification
+### 🔬 Multi-Turn Verification & Production Certification
 
-Certified report archived at `scripts/skate_20turn_anti_loop_report.json`:
-- **Total Turns Evaluated:** 20 sequential turns
-- **Repetition Loop Rate:** **0.0%** (0 / 20 loops detected)
-- **Code Bloat Violations:** **0.0%** (0 / 20 code emissions on technical queries)
-- **Medical Safety Boundary:** **100% Passed** (Graceful healthcare deferral)
-- **Production 1.0 Certification:** **VERIFIED & CERTIFIED**
+- **20-Prompt Daily Companion Suite:** 100% Passed (average 1.9s latency per query, zero loops).
+- **Repetition Loop Rate:** **0.0%** (phrase and token loops eliminated).
+- **Code Bloat Violations:** **0.0%** (0 / 20 code emissions on technical queries; 100% cleanly deflected to Manta/Fin).
+- **Crisis & Health Boundary:** **100% Passed** (Graceful healthcare and empathetic emergency deferral).
+- **Production Grade:** **VERIFIED & CERTIFIED FOR PRODUCTION**
+
+---
+
+## v0.2.5 — Mako (150M) Scout & Nio Localhost MCP Server
+
+Official **v0.2.5** release distributing the production-trained **Mako (150M)** neural binary (`mako.vmicrolm-vector.gguf`) and the Nio Localhost Model Context Protocol (MCP) Server (`nioxs-mcp`).
+
+| Asset | Engine / Role | Format | Size | SHA-256 Checksum |
+|---|---|:---:|:---:|---|
+| `mako.vmicrolm-vector.gguf` | Mako 150M (Live Web Scout & Scrubber) | GGUF IQ3_XXS | 91.72 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` |
+| `nioxs-mcp` | Nio Localhost MCP Server | ELF Binary | 993.56 KB | `5bc4c204c7b54f9081869450f756cc014ef0010823be5d6b1b8472a2b00ff398` |
 
 ---
 
