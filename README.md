@@ -88,7 +88,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │    • Orca (7.6B)              ──► Autonomous Reflex Pod & Neural Compiler Master       │
 │                                                                                        │
 │  [ TIER 11: SOVEREIGN ENTERPRISE COUNCIL ]                                             │
-│    • Fin (70B / 140B)         ──► MicroLM-Council Whole-Repo Grand-Master              │
+│    • Fin (70B / 140B)         ──► MicroLM-Council Multimodal Whole-Repo Grand-Master   │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -109,7 +109,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Manta`** | **Full Conversational Guru & Wasm Architect** | `490.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, ~250 MB, < 85 MB RAM) | **In Training** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`µCuda / Cuda`** | **Tactical Pure-Code Predator** | `3.0B – 6.0B (v-µLM Vector Duet)` | MicroLM-Duet fluid co-reasoning (Cu & Da taking turns across coding, TDD testing, tracing & auditing; 2×1.5B & 2×3.0B) via IQ3_XXS on ast-micro-engine (< 1.5GB–2.9GB RAM concurrent Duet) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Orca`** | **Apex Pod Master & Neural Foundry** | `7.6B (v-µLM Reflex Master)` | Autonomous reflex pod & neural compiler master; mints 1–2MB dynamic specialist adapters on the fly (< 4.5 GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (MicroLM-Council)` | Sovereign Grand-Master taught by a multi-teacher council (DeepSeek-V3, QwQ, Llama 405B) for whole-repo migrations | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (v-µLM Council)` | Sovereign Multimodal Grand-Master with seated Vision Council (Figma/ERD/architecture diagrams), taught by DeepSeek-R1, QwQ & Llama 405B for whole-repo refactors | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
