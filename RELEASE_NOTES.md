@@ -6,6 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
+- [v0.2.7 — Manta (494M) Production Gold Release: Systems Guru & <manta_plan> DAG Architect (v-µLM Vector)](#v027--manta-494m-production-gold-release-systems-guru--manta_plan-dag-architect-v-µlm-vector)
 - [v0.2.6 — Skate Ambient Companion & Zero-Code Edge Runtime (v-µLM Vector)](#v026--skate-ambient-companion--zero-code-edge-runtime-v-µlm-vector)
 - [v0.2.5 — Mako (150M) Scout & Nio Localhost MCP Server](#v025--mako-150m-scout--nio-localhost-mcp-server)
 - [v0.2.3 — Viper (100M) Multi-Dialect Neural Reflex & 61.69MB Q4_0 GGUF](#v023--viper-100m-multi-dialect-neural-reflex--6169mb-q4_0-gguf)
@@ -13,6 +14,41 @@ Official release history and distribution registry for compiled neural binaries 
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
 - [v0.2.0 — Predator Tier & v-µLM Vector: Manta (494M) & Skate (135M)](#v020--predator-tier--v-µlm-vector-manta-494m--skate-135m)
 - [v0.1.0 — MicroLM (µLM) Core Production Suite & Localhost MCP Server](#v010--microlm-µlm-core-production-suite--localhost-mcp-server)
+
+---
+
+## v0.2.7 — Manta (494M) Production Gold Release: Systems Guru & <manta_plan> DAG Architect (v-µLM Vector)
+
+Official **v0.2.7** release distributing the production-certified **Manta (494M)** systems guru and DAG task architect (`manta.vmicrolm-vector.gguf`), standalone conversational tokenizer (`manta-tokenizer.json`), and native in-process runtime (`nio-manta-runtime`).
+
+Manta serves as **Tier 2** of the **Nio Companion Trinity** (Skate 135M ambient desk-mate, Manta 494M systems architect, Flagship 1.5B companion), specializing in distributed systems architecture, trade-off analysis, RFC generation, and structured `<manta_plan>` execution DAGs.
+
+### 🦈 1. Manta — Systems Guru & DAG Task Planner (`v-µLM Vector`)
+
+- **Dataset & Fine-Tuning**: Trained on `manta_production_gold_corpus.jsonl` (2,449 turns, 100% tag-balanced `<manta_plan id="...">` XML DAGs, 50x weighted production architecture exemplars).
+- **Quantization & Weight Fidelity**: Quantized via `IQ3_XXS` vector codebooks conditioned on a 32-chunk importance matrix calculated by `llama-imatrix` (`manta.imatrix.dat`).
+- **Physical Footprint**: Single unified `manta.vmicrolm-vector.gguf` taking **317.92 MB** on disk (`333,360,320 bytes`).
+- **Peak RAM & Post-Turn Reclamation**:
+  - **Post-Turn Idle RAM**: **76.03 MB – 78.14 MB** (comfortably under the `< 85 MB` background daemon budget).
+  - **Startup Peak RAM**: **146.74 MB** (strictly under the `< 200 MB` target).
+- **Clean Markdown & Zero Syntax Loops**: Eradicated broken markdown image tags (`[![...](...)]`) and repetitive token loops. Produces clean markdown comparison tables, Mermaid diagrams, and ASCII sequence flowcharts.
+- **Strict Zero-Code Systems Architect Invariant**: Operates strictly as a systems architect and planner; cleanly defers raw implementation code to downstream coding models (Cuda/Fin) while emitting comprehensive architecture plans and trade-offs.
+- **Natural Termination**: 100% natural EOS termination (`tok_id=151645`) across frontend rendering, code delegation, and distributed consensus scenarios.
+
+### 📦 Certified Binary Assets
+
+| Asset | Engine / Role | Format | Size | SHA-256 Checksum | Target Hardware Peak RAM |
+|---|---|:---:|:---:|---|:---:|
+| `manta.vmicrolm-vector.gguf` | Manta (Systems Guru & DAG Architect) | GGUF IQ3_XXS | 317.92 MB | `fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5` | **< 85 MB** (76.03 MB idle, 146.74 MB peak) |
+| `manta-tokenizer.json` | Manta Conversational Tokenizer (151K Vocab) | JSON | 13.89 MB | `ade71ec5118be2cdd8aef3a7dcd417c51fa7e76b3e164adb339f446b42e97bc8` | N/A |
+
+### 🔬 Multi-Turn Verification & Production Certification
+
+- **Edge Architecture & Consensus Suite:** 100% Passed (Raft majority quorum calculation $(N/2 + 1)$, natural EOS at 195 tokens).
+- **Code Delegation & Zero-Code Boundary:** 100% Passed (Zero raw code emissions; natural EOS at 117 tokens with clear task delegation).
+- **Frontend Architecture & Table Rendering:** 100% Passed (Clean Markdown tables and Mermaid diagram; zero broken badge syntax).
+- **Memory Invariant Compliance:** 100% Passed (Post-turn memory reclamation down to 76.03 MB).
+- **Production Grade:** **VERIFIED & CERTIFIED FOR PRODUCTION**
 
 ---
 

@@ -41,7 +41,7 @@ Official model registry and distribution hub for compiled, mathematically verifi
 | Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
 | **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–92.0 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–317.9 MB disk**, >0.999 layer cosine fidelity |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
@@ -79,7 +79,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │    • Mako (150.0M)            ──► nioxs-browser Scout, DOM Noise Scrubber (<13MB)      │
 │                                                                                        │
 │  [ TIER 8: CONVERSATIONAL GURU & DAG ARCHITECT ]                                       │
-│    • Manta (490.0M)           ──► NioGuru 21 Personas, Wasm Architect (<85MB)          │
+│    • Manta (494.0M)           ──► Systems Guru & DAG Architect (<85MB)                    │
 │                                                                                        │
 │  [ TIER 9: TACTICAL PURE-CODE PREDATOR ]                                               │
 │    • µCuda (3.0B) / Cuda (6.0B) ──► MicroLM-Duet, v-µLM Vector IQ3_XXS (<1.5GB–2.9GB)  │
@@ -106,7 +106,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.93 MB, **< 50 MB peak RAM**, 115+ tok/s `--turbo`) | **Released** | [`v0.2.6`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6) |
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
-| **`Manta`** | **Full Conversational Guru & Wasm Architect** | `490.0M (24L, v-µLM Vector)` | 100% brain from Qwen2.5-0.5B via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas, file analysis & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, ~250 MB, < 85 MB RAM) | **In Training** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
+| **`Manta`** | **Full Conversational Guru & DAG Architect** | `494.0M (24L, v-µLM Vector)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`µCuda / Cuda`** | **Tactical Pure-Code Predator** | `3.0B – 6.0B (v-µLM Vector Duet)` | MicroLM-Duet fluid co-reasoning (Cu & Da taking turns across coding, TDD testing, tracing & auditing; 2×1.5B & 2×3.0B) via IQ3_XXS on ast-micro-engine (< 1.5GB–2.9GB RAM concurrent Duet) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Orca`** | **Apex Pod Master & Neural Foundry** | `7.6B (v-µLM Reflex Master)` | Autonomous reflex pod & neural compiler master; mints 1–2MB dynamic specialist adapters on the fly (< 4.5 GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (v-µLM Council)` | Sovereign Multimodal Grand-Master with seated Vision Council (Figma/ERD/architecture diagrams), taught by DeepSeek-R1, QwQ & Llama 405B for whole-repo refactors | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -422,14 +422,14 @@ EOF
 
 ---
 
-## 🦈 8. Manta (494M) — Full Conversational Guru & Wasm Architect (`v-µLM Vector`)
+## 🦈 8. Manta (494M) — Full Conversational Guru & DAG Architect (`v-µLM Vector`)
 
-**Manta** is the 494.0-million parameter edge conversational guru and DAG task planner upscaled from Qwen2.5-0.5B via mathematical `IQ3_XXS` vector codebooks. Operating in under **55 MB peak RAM**, it powers the complete NioGuru 21-persona conversational suite, deep code analysis, and `<manta_plan>` multi-step DAG orchestrations.
+**Manta** is the 494.0-million parameter edge conversational guru and DAG task planner upscaled from Qwen2.5-0.5B via mathematical `IQ3_XXS` vector codebooks. Operating within **< 85 MB idle resident RAM** (< 150 MB startup peak), it powers the complete NioGuru 21-persona conversational suite, deep systems architecture analysis, and `<manta_plan>` multi-step DAG orchestrations.
 
 ### 💻 How to Run & Practical Examples
 
 ```bash
-# 1. Pull and cache verified Manta weights (253.3 MB GGUF)
+# 1. Pull and cache verified Manta weights (317.9 MB GGUF)
 nioxs pull manta
 
 # 2. Conversational system architecture triage across 21 NioGuru personas (< 55 MB RAM)
@@ -456,8 +456,8 @@ nioxs manta --wasm-target web --prompt "Explain Rust memory safety to a beginner
 | `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (134.5M Edge Companion) | GGUF IQ3_XXS Codebooks | 82.93 MB | `a00921dca072e640bb1f9730a95e3d88ed843cba3dd0a5648a6fd5e3e9e3d86b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate.vmicrolm-vector.gguf) |
 | `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.10 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate-tokenizer.json) |
 | `mako.vmicrolm-vector.gguf` | Mako (150M, v-µLM Vector Scout) | GGUF IQ3_XXS Codebooks | 92.0 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/mako.vmicrolm-vector.gguf) |
-| `manta.vmicrolm-vector.gguf` | Manta (494M, Conversational Guru & Architect) | GGUF IQ3_XXS Codebooks | 253.33 MB | `ed27ef71bf8c0c5f372efb0eef99b71a9c6480bf3e228ce2f1027fd3583d08bf` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta.vmicrolm-vector.gguf) |
-| `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 10.9 MB | `3fd169731d2cbde95e10bf356d66d5997fd885dd8dbb6fb4684da3f23b2585d8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.2/manta-tokenizer.json) |
+| `manta.vmicrolm-vector.gguf` | Manta (494M, Conversational Guru & Architect) | GGUF IQ3_XXS Codebooks | 317.92 MB | `fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta.vmicrolm-vector.gguf) |
+| `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 13.89 MB | `ade71ec5118be2cdd8aef3a7dcd417c51fa7e76b3e164adb339f446b42e97bc8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta-tokenizer.json) |
 
 ### ⚡ Core MicroLM Production Suite (v0.1.0)
 

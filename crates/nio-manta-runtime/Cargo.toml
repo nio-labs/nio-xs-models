@@ -1,6 +1,6 @@
 [package]
 name = "nio-manta-runtime"
-version = "0.2.2"
+version = "0.2.7"
 edition = "2021"
 description = "Official native conversational companion & planning runtime for NioManta (Qwen2.5-0.5B v-µLM Vector)"
 license = "BUSL-1.1"
