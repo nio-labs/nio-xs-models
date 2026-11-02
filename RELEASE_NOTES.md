@@ -6,6 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
+- [v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)](#v029--beluga-154b-sovereign-cognitive-companion-production-release-v-microlm-vector)
 - [v0.2.8 — Native AST Runtime IQ4_NL Fix, Code Masking & Manta Production Engine](#v028--native-ast-runtime-iq4_nl-fix-code-masking--manta-production-engine)
 - [v0.2.7 — Manta (494M) Production Gold Release: Systems Guru & <manta_plan> DAG Architect (v-µLM Vector)](#v027--manta-494m-production-gold-release-systems-guru--manta_plan-dag-architect-v-µlm-vector)
 - [v0.2.6 — Skate Ambient Companion & Zero-Code Edge Runtime (v-µLM Vector)](#v026--skate-ambient-companion--zero-code-edge-runtime-v-µlm-vector)
@@ -15,6 +16,32 @@ Official release history and distribution registry for compiled neural binaries 
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
 - [v0.2.0 — Predator Tier & v-µLM Vector: Manta (494M) & Skate (135M)](#v020--predator-tier--v-µlm-vector-manta-494m--skate-135m)
 - [v0.1.0 — MicroLM (µLM) Core Production Suite & Localhost MCP Server](#v010--microlm-µlm-core-production-suite--localhost-mcp-server)
+
+---
+
+## v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)
+
+Official **v0.2.9** release distributing the production-certified **Beluga (1.54B)** Sovereign Cognitive Companion (`beluga.vmicrolm-vector.gguf`), native conversational tokenizer (`beluga-tokenizer.json`), and AST-Micro vector codebook quantization.
+
+Beluga represents **Tier 3** (The Flagship) of the **Nio Companion Trinity** (Skate 135M ambient desk companion, Manta 494M systems guru, Beluga 1.54B sovereign cognitive companion), delivering native `<think>` Chain-of-Thought reasoning, complex systems synthesis, and zero-cloud private intelligence in strictly **< 500 MB Peak Resident RAM (`VmHWM`)**.
+
+### 🐋 1. Beluga — Sovereign Cognitive Companion (`v-MicroLM Vector`)
+
+- **Asymmetric Distillation**: Distilled from frontier reasoning teachers (DeepSeek-R1 / QwQ-32B) for dense, non-wandering `<think>` reasoning trees and systems teachers (Qwen2.5-Coder-32B) for strict borrow checker and syntax invariants.
+- **AST-Micro Codebook Quantization**: Quantized with the exact `v-MicroLM Vector` codebook:
+  - `token_embd.weight`: **`Q8_0`**
+  - `output.weight`: **`Q8_0`**
+  - Attention projections (`attn_q`, `attn_k`, `attn_v`, `attn_output`) & SwiGLU (`ffn_gate`, `ffn_up`): **`IQ4_NL`**
+  - Feed-forward down projection (`ffn_down`): **`IQ3_XXS`**
+- **Physical Footprint**: Single unified `beluga.vmicrolm-vector.gguf` taking **~638 MB** on disk.
+- **Hardware Memory SLA**: Guaranteed `< 500 MB Peak RAM` on standard laptop CPUs via AVX2 layer streaming.
+
+### 📦 Certified Binary Assets
+
+| Asset | Engine / Role | Format | Size | Target Hardware Peak RAM |
+|---|---|:---:|:---:|:---:|
+| `beluga.vmicrolm-vector.gguf` | Beluga (Sovereign Cognitive Companion) | GGUF v-MicroLM Vector | ~638 MB | **< 500 MB Active Peak** |
+| `beluga-tokenizer.json` | Beluga Conversational Tokenizer (151K Vocab) | JSON | ~11 MB | N/A |
 
 ---
 
