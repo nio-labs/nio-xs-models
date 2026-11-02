@@ -7,11 +7,63 @@ use std::path::{Path, PathBuf};
 use std::time::Instant;
 use tokenizers::Tokenizer;
 
+fn resolve_model_path(custom: Option<PathBuf>) -> PathBuf {
+    if let Some(p) = custom {
+        return p;
+    }
+    let candidates = [
+        "models/manta.vmicrolm-vector.gguf",
+        "models/nio-manta.vmicrolm-vector.gguf",
+        "models/nio-manta-ast.Q4_0.gguf",
+    ];
+    for c in &candidates {
+        let p = PathBuf::from(c);
+        if p.exists() {
+            return p;
+        }
+    }
+    if let Ok(home) = std::env::var("HOME") {
+        let nioxs_models = PathBuf::from(home).join(".nioxs").join("models");
+        for name in &["manta.vmicrolm-vector.gguf", "nio-manta.vmicrolm-vector.gguf", "nio-manta-ast.Q4_0.gguf"] {
+            let p = nioxs_models.join(name);
+            if p.exists() {
+                return p;
+            }
+        }
+    }
+    PathBuf::from("models/manta.vmicrolm-vector.gguf")
+}
+
+fn resolve_tokenizer_path(custom: Option<PathBuf>) -> PathBuf {
+    if let Some(p) = custom {
+        return p;
+    }
+    let candidates = [
+        "models/manta-tokenizer.json",
+        "models/tokenizer.json",
+    ];
+    for c in &candidates {
+        let p = PathBuf::from(c);
+        if p.exists() {
+            return p;
+        }
+    }
+    if let Ok(home) = std::env::var("HOME") {
+        let nioxs_models = PathBuf::from(home).join(".nioxs").join("models");
+        for name in &["manta-tokenizer.json", "tokenizer.json"] {
+            let p = nioxs_models.join(name);
+            if p.exists() {
+                return p;
+            }
+        }
+    }
+    PathBuf::from("models/manta-tokenizer.json")
+}
+
 fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
     let args: Vec<String> = std::env::args().collect();
-    let mut model_path = PathBuf::from("models/nio-manta-ast.Q4_0.gguf");
-
-    let mut tokenizer_path = PathBuf::from("models/tokenizer.json");
+    let mut custom_model: Option<PathBuf> = None;
+    let mut custom_tokenizer: Option<PathBuf> = None;
 
     let mut prompt = "Explain the difference between Arc<Mutex<T>> and RwLock<T> in Tokio".to_string();
     let mut is_plan = false;
@@ -22,13 +74,13 @@ fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
         match args[i].as_str() {
             "--model" | "-m" => {
                 if i + 1 < args.len() {
-                    model_path = PathBuf::from(&args[i + 1]);
+                    custom_model = Some(PathBuf::from(&args[i + 1]));
                     i += 1;
                 }
             }
             "--tokenizer" | "-t" => {
                 if i + 1 < args.len() {
-                    tokenizer_path = PathBuf::from(&args[i + 1]);
+                    custom_tokenizer = Some(PathBuf::from(&args[i + 1]));
                     i += 1;
                 }
             }
@@ -45,10 +97,10 @@ fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
                 is_interactive = true;
             }
             arg if !arg.starts_with("--") => {
-                if i == 1 && (arg.ends_with(".gguf") || Path::new(arg).exists()) {
-                    model_path = PathBuf::from(arg);
-                } else if i == 2 && (arg.ends_with(".json") || Path::new(arg).exists()) {
-                    tokenizer_path = PathBuf::from(arg);
+                if custom_model.is_none() && (arg.ends_with(".gguf") || Path::new(arg).exists()) {
+                    custom_model = Some(PathBuf::from(arg));
+                } else if custom_tokenizer.is_none() && (arg.ends_with(".json") || Path::new(arg).exists()) {
+                    custom_tokenizer = Some(PathBuf::from(arg));
                 } else {
                     prompt = arg.to_string();
                 }
@@ -58,7 +110,13 @@ fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
         i += 1;
     }
 
-    (model_path, tokenizer_path, prompt, is_plan, is_interactive)
+    (
+        resolve_model_path(custom_model),
+        resolve_tokenizer_path(custom_tokenizer),
+        prompt,
+        is_plan,
+        is_interactive,
+    )
 }
 
 fn run_single_inference(
@@ -182,6 +240,8 @@ fn main() -> Result<()> {
 
     println!("Loading GGUF: {:?}", model_path);
     let mut engine = AstMicroEngine::new(&model_path)?;
+    // Enforce Manta architectural persona by suppressing code backtick tokens:
+    engine.set_suppressed_tokens([41233, 54275, 73594]);
     let tokenizer = Tokenizer::from_file(&tokenizer_path)
         .map_err(|e| anyhow!("Failed to load tokenizer: {e}"))?;
 
