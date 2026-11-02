@@ -60,10 +60,11 @@ fn resolve_tokenizer_path(custom: Option<PathBuf>) -> PathBuf {
     PathBuf::from("models/manta-tokenizer.json")
 }
 
-fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
+fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool, Option<usize>) {
     let args: Vec<String> = std::env::args().collect();
     let mut custom_model: Option<PathBuf> = None;
     let mut custom_tokenizer: Option<PathBuf> = None;
+    let mut max_tokens: Option<usize> = None;
 
     let mut prompt = "Explain the difference between Arc<Mutex<T>> and RwLock<T> in Tokio".to_string();
     let mut is_plan = false;
@@ -87,6 +88,14 @@ fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
             "--prompt" | "-p" => {
                 if i + 1 < args.len() {
                     prompt = args[i + 1].clone();
+                    i += 1;
+                }
+            }
+            "--max-tokens" | "-n" => {
+                if i + 1 < args.len() {
+                    if let Ok(val) = args[i + 1].parse::<usize>() {
+                        max_tokens = Some(val);
+                    }
                     i += 1;
                 }
             }
@@ -116,6 +125,7 @@ fn parse_cli_args() -> (PathBuf, PathBuf, String, bool, bool) {
         prompt,
         is_plan,
         is_interactive,
+        max_tokens,
     )
 }
 
@@ -124,6 +134,7 @@ fn run_single_inference(
     tokenizer: &Tokenizer,
     user_query: &str,
     is_plan: bool,
+    max_tokens: Option<usize>,
 ) -> Result<()> {
     engine.reset_cache();
 
@@ -152,7 +163,7 @@ fn run_single_inference(
     let mut gen_tokens = Vec::new();
     let mut decode_times = Vec::new();
 
-    let max_gen_tokens = if is_plan { 160 } else { 128 };
+    let max_gen_tokens = max_tokens.unwrap_or(if is_plan { 384 } else { 256 });
     let decode_start = Instant::now();
 
     for step in 0..max_gen_tokens {
@@ -222,7 +233,7 @@ fn run_single_inference(
 }
 
 fn main() -> Result<()> {
-    let (model_path, tokenizer_path, prompt, is_plan, is_interactive) = parse_cli_args();
+    let (model_path, tokenizer_path, prompt, is_plan, is_interactive, max_tokens) = parse_cli_args();
 
     println!("============================================================");
     println!("🌊 NioManta Companion Runtime (~310M Mobile & Edge AST-µLM)");
@@ -276,13 +287,13 @@ fn main() -> Result<()> {
                 trimmed
             };
 
-            if let Err(e) = run_single_inference(&mut engine, &tokenizer, clean_query, plan_requested) {
+            if let Err(e) = run_single_inference(&mut engine, &tokenizer, clean_query, plan_requested, max_tokens) {
                 eprintln!("Error during generation: {e}");
             }
             println!();
         }
     } else {
-        run_single_inference(&mut engine, &tokenizer, &prompt, is_plan)?;
+        run_single_inference(&mut engine, &tokenizer, &prompt, is_plan, max_tokens)?;
     }
 
     Ok(())
