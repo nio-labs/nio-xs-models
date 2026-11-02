@@ -159,24 +159,62 @@ fn run_single_inference(
 
     let eos: u32 = 151643;
     let eot: u32 = 151645;
-    let mut next_token = engine.next_token(&hidden, None)?;
+    let first_token = engine.next_token(&hidden, None)?;
     let mut gen_tokens = Vec::new();
+    let mut all_tokens = prompt_tokens.clone();
     let mut decode_times = Vec::new();
 
     let max_gen_tokens = max_tokens.unwrap_or(if is_plan { 384 } else { 256 });
     let decode_start = Instant::now();
 
-    for step in 0..max_gen_tokens {
-        if next_token == eos || next_token == eot {
-            break;
+    if first_token != eos && first_token != eot {
+        gen_tokens.push(first_token);
+        all_tokens.push(first_token);
+
+        let mut current_confirmed = first_token;
+        let mut current_pos = prompt_tokens.len();
+
+        while gen_tokens.len() < max_gen_tokens {
+            let t_step = Instant::now();
+            let remaining = max_gen_tokens.saturating_sub(gen_tokens.len());
+            let max_draft = 2.min(remaining.saturating_sub(1));
+
+            let res = engine.speculative_pld_step(
+                &all_tokens,
+                current_confirmed,
+                current_pos,
+                &gen_tokens,
+                max_draft,
+                &[eos, eot],
+            )?;
+
+            let n_new = res.accepted_tokens.len();
+            let step_ms = t_step.elapsed().as_secs_f64() * 1000.0;
+            for _ in 0..n_new {
+                decode_times.push(step_ms / n_new as f64);
+            }
+
+            let mut stopped = false;
+            for tok in res.accepted_tokens {
+                if tok == eos || tok == eot {
+                    stopped = true;
+                    break;
+                }
+                gen_tokens.push(tok);
+                all_tokens.push(tok);
+                if gen_tokens.len() >= max_gen_tokens {
+                    stopped = true;
+                    break;
+                }
+            }
+
+            current_confirmed = res.next_confirmed;
+            current_pos = res.next_pos;
+
+            if stopped || res.is_eos {
+                break;
+            }
         }
-
-        gen_tokens.push(next_token);
-
-        let t_step = Instant::now();
-        let step_hidden = engine.forward_stream(&[next_token], prompt_tokens.len() + step)?;
-        next_token = engine.next_token(&step_hidden, None)?;
-        decode_times.push(t_step.elapsed().as_secs_f64() * 1000.0);
     }
     let decode_duration = decode_start.elapsed();
 
