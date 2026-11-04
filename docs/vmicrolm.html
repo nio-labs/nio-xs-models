@@ -138,7 +138,7 @@
           <div class="callout callout-success">
             <div class="callout-title">Pillar 2: v-µLM Vector — The Mathematical Codebook Lattice</div>
             <p>
-              <strong>Target Models</strong>: <code>Mako (150M)</code> &amp; <code>µCuda / Cuda (3.0B–6.0B Duet)</code><br>
+              <strong>Target Models</strong>: <code>Mako (150M)</code><br>
               <strong>Runtime</strong>: Vector Quantization (VQ) Codebook Engine with Importance Matrix calibration.<br>
               <strong>Core Mechanism</strong>: Rather than pruning tokens or forcing linear low-rank SVD decompositions that suffer from 30-layer compounding drift, v-µLM Vector quantizes weight tensors into non-linear vector codebooks (<code>IQ3_XXS</code>). This preserves <strong>&gt;0.999 layer cosine similarity</strong>, live web scraping intelligence, and token scrubbing in under 92 MB on disk.
             </p>

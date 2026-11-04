@@ -41,7 +41,7 @@ Official model registry and distribution hub for compiled, mathematically verifi
 | Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
 | **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Mako (150M)** & **µCuda / Cuda (3.0B–6.0B)** | Importance-weighted IQ3 non-linear vector quantization codebooks, live web intelligence | **92 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Mako (150M)** | Importance-weighted IQ3 non-linear vector quantization codebooks, live web intelligence | **92 MB disk**, >0.999 layer cosine fidelity |
 | **`v-µLM Companion`** | Sovereign Edge Companion Intelligence | **Skate (135M)**, **Manta (494M)** & **Beluga (1.54B)** | Tiered desktop & edge companions, dynamic layer streaming (`MADV_DONTNEED`), strict zero-code invariants, `<manta_plan>` DAGs & `<think>` CoT proofs | **< 50 MB to < 295 MB peak RAM**, pure CPU zero-GPU |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
@@ -86,15 +86,6 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 9: SOVEREIGN LEAD ARCHITECT & REASONING (v-µLM Companion) ]                   │
 │    • Beluga (1.54B)           ──► Sovereign Lead Architect, Deep <think> CoT (<295MB) │
 │                                                                                        │
-│  [ TIER 10: TACTICAL PURE-CODE PREDATOR (v-µLM Vector) ]                               │
-│    • µCuda (3.0B) / Cuda (6.0B) ──► MicroLM-Duet, v-µLM Vector IQ3_XXS (<1.5GB–2.9GB)  │
-│                                                                                        │
-│  [ TIER 11: APEX POD MASTER & NEURAL FOUNDRY ]                                         │
-│    • Orca (7.6B)              ──► Autonomous Reflex Pod & Neural Compiler Master       │
-│                                                                                        │
-│  [ TIER 12: SOVEREIGN ENTERPRISE COUNCIL ]                                             │
-│    • Fin (70B / 140B)         ──► MicroLM-Council Multimodal Whole-Repo Grand-Master   │
-│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -113,9 +104,6 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
-| **`µCuda / Cuda`** | **Tactical Pure-Code Predator** | `3.0B – 6.0B (v-µLM Vector Duet)` | MicroLM-Duet fluid co-reasoning (Cu & Da taking turns across coding, TDD testing, tracing & auditing; 2×1.5B & 2×3.0B) via IQ3_XXS on ast-micro-engine (< 1.5GB–2.9GB RAM concurrent Duet) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Orca`** | **Apex Pod Master & Neural Foundry** | `7.6B (v-µLM Reflex Master)` | Autonomous reflex pod & neural compiler master; mints 1–2MB dynamic specialist adapters on the fly (< 4.5 GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
-| **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (v-µLM Council)` | Sovereign Multimodal Grand-Master with seated Vision Council (Figma/ERD/architecture diagrams), taught by DeepSeek-R1, QwQ & Llama 405B for whole-repo refactors | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 
 ---
 
@@ -362,7 +350,7 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch
 | **Generation Speed** | **35–42 tok/s** (Default) / **115–121 tok/s** (`--turbo`) | **Pass**: Near-instant responsiveness and super-speed turbo options. |
 | **Prompt Ingestion Speed** | **220–240 tokens/sec** | **Pass**: Near-instant context processing (< 120ms for edge prompts). |
 | **Binary Disk Footprint** | **82.93 MB** | Single unified `skate.vmicrolm-vector.gguf` file (`86,957,792 bytes`). |
-| **Zero-Code Compliance** | **100% Passed** | Token-level filters for code blocks; clean deflection to Manta or Fin. |
+| **Zero-Code Compliance** | **100% Passed** | Token-level filters for code blocks; clean deflection to Manta. |
 
 ### 💻 How to Run & Practical Examples
 
@@ -376,9 +364,9 @@ nioxs skate "Tell me a fun fact about dolphins."
 # 3. Super-speed high-throughput execution (>115 tok/s)
 ast-micro-engine ~/.nioxs/models/skate.vmicrolm-vector.gguf ~/.nioxs/models/skate-tokenizer.json --turbo --prompt "Explain microwave physics simply"
 
-# 4. Zero-code technical routing (clean delegation to Manta / Fin)
+# 4. Zero-code technical routing (clean delegation to Manta)
 nioxs skate "Write a python script to parse JSON"
-# Output: "I don't generate code directly. Please direct script execution to Manta or Fin..."
+# Output: "I don't generate code directly. Please direct script execution to Manta..."
 
 # 5. Native end-to-end companion run via NioAI CLI
 nio run -m nioxs::nio-skate "What is a good way to stretch after typing for hours?"
