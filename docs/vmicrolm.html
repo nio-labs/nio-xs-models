@@ -50,6 +50,11 @@
         <div class="nav-section">
           <div class="nav-section-title">Architecture</div>
           <a href="vmicrolm.html" class="nav-link active">v-µLM (Reflex, Vector &amp; Companion)</a>
+          <a href="#overview" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">1. Tri-Engine Architecture</a>
+          <a href="#matrix" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">2. Production Artifacts</a>
+          <a href="#companions" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">3. Companion Fleet</a>
+          <a href="#benchmarks" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">4. Stock vs Companion Benchmarks</a>
+          <a href="#beluga-side-by-side" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">5. Beluga vs Qwen Side-by-Side</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
@@ -254,6 +259,186 @@
                   <td><code>d2d4642d36b907c8658301208e8cd4ab3c6d72051a37a780ebc35a56ff83d5ba</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf">Download v0.3.0</a></td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. STATE OF COMPANION FLEET -->
+        <section id="companions" class="doc-section">
+          <h2>3. State of our v-MicroLM Companion Fleet (Skate, Manta &amp; Beluga)</h2>
+          <p>
+            The <strong>v-MicroLM Companion Fleet</strong> represents Nio's tiered, zero-cloud edge intelligence architecture. Pairing custom <code>v-MicroLM Vector</code> codebooks (<code>IQ3_XXS</code> / <code>IQ4_NL</code>) with dynamic layer streaming and lock-free AVX2 parallelism, each companion tier delivers uncompromising domain specialization strictly within ultralight memory envelopes:
+          </p>
+          <ul style="margin-bottom: 1.5rem; padding-left: 1.25rem;">
+            <li><strong>Tier 1: Skate (135M)</strong> — <strong>Ambient Desk Companion</strong>. Always-on background desk-mate running in <code>&lt; 50 MB</code> active peak RAM with strict zero-code deflection.</li>
+            <li><strong>Tier 2: Manta (494M)</strong> — <strong>Systems Guru &amp; DAG Architect</strong>. High-throughput architectural and RFC planner generating structured <code>&lt;manta_plan&gt;</code> execution DAGs in <code>&lt; 235 MB</code> peak RAM.</li>
+            <li><strong>Tier 3: Beluga (1.54B)</strong> — <strong>Sovereign Lead Architect</strong>. Flagship cognitive companion delivering bit-exact <code>&lt;think&gt;</code> Chain-of-Thought reasoning proofs and system synthesis in <code>&lt; 295 MB</code> peak RAM.</li>
+          </ul>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric / Specification</th>
+                  <th>🛹 Skate</th>
+                  <th>🦈 Manta</th>
+                  <th>🐋 Beluga</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Model Parameters</strong></td>
+                  <td><strong>135M</strong> (134.5M)</td>
+                  <td><strong>494M</strong></td>
+                  <td><strong>1.54B</strong> (28 Layers, 12 Heads)</td>
+                </tr>
+                <tr>
+                  <td><strong>Primary Specialization</strong></td>
+                  <td>Ambient Desk Companion &amp; Edge Chat</td>
+                  <td>Systems Guru &amp; DAG Task Planner</td>
+                  <td>Sovereign Lead Architect &amp; CoT Prover</td>
+                </tr>
+                <tr>
+                  <td><strong>Quantization &amp; Format</strong></td>
+                  <td><code>IQ3_XXS</code> Vector / <code>IQ4_NL</code></td>
+                  <td><code>IQ3_XXS</code> (imatrix conditioned)</td>
+                  <td><code>IQ3_XXS</code> Layers + <code>IQ4_NL</code> Vocab</td>
+                </tr>
+                <tr>
+                  <td><strong>On-Disk Binary Size</strong></td>
+                  <td><strong>~75 – 83 MB</strong></td>
+                  <td><strong>~254 – 318 MB</strong></td>
+                  <td><strong>604 MB</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Idle Model RAM (Heap)</strong></td>
+                  <td><strong>&lt; 28 MB</strong> (reclaims to 27.6 MB)</td>
+                  <td><strong>~75 MB</strong> (reclaims to 74.8 MB)</td>
+                  <td><strong>~76 MB</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Active Process Peak (VmHWM)</strong></td>
+                  <td><strong>&lt; 50 MB</strong> (40.8 MB default)</td>
+                  <td><strong>~195 – 234 MB</strong></td>
+                  <td><strong>295.1 MB</strong> <em>(vs 1,312 MB stock)</em></td>
+                </tr>
+                <tr>
+                  <td><strong>Inference Rate (Pure CPU)</strong></td>
+                  <td><strong>35–42 tok/s</strong> (55+ w/s default)</td>
+                  <td><strong>20–35 words/sec</strong> (~30–45 tok/s)</td>
+                  <td><strong>21.58 tok/s</strong> (14.4 words/sec)</td>
+                </tr>
+                <tr>
+                  <td><strong>Peak Throughput / Burst</strong></td>
+                  <td><strong>115–120.8 tok/s</strong> (<code>--turbo</code>)</td>
+                  <td><strong>~50 tok/s</strong> burst</td>
+                  <td><strong>39.7 tok/s</strong> (27.4 w/s on spec hits)</td>
+                </tr>
+                <tr>
+                  <td><strong>Cognitive Invariant</strong></td>
+                  <td>Strict Zero-Code (deflects to Manta)</td>
+                  <td>Strict Zero-Code Planner (<code>&lt;manta_plan&gt;</code>)</td>
+                  <td>Bit-exact <code>&lt;think&gt;...&lt;/think&gt;</code> CoT</td>
+                </tr>
+                <tr>
+                  <td><strong>Target Hardware SLA</strong></td>
+                  <td>Always-on background daemon / 128MB RAM</td>
+                  <td>512MB RAM edge nodes &amp; containers</td>
+                  <td>512MB–1GB RAM systems (Zero GPU)</td>
+                </tr>
+                <tr>
+                  <td><strong>CLI Direct Invocation</strong></td>
+                  <td><code>nioxs skate "&lt;prompt&gt;"</code></td>
+                  <td><code>nioxs manta "&lt;prompt&gt;"</code></td>
+                  <td><code>nioxs beluga "&lt;prompt&gt;"</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. STOCK VS COMPANIONS BENCHMARK -->
+        <section id="benchmarks" class="doc-section">
+          <h2>4. Stock Foundation Models vs. Our Companions Benchmark Suite</h2>
+          <p>
+            Direct empirical comparison between unoptimized stock upstream foundation models deployed on standard inference runtimes (Ollama / <code>llama.cpp</code> using <code>Q4_K_M</code>) versus Nio's optimized companions on the native pure-Rust <code>AST-Micro</code> engine on pure CPU:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Scale Tier</th>
+                  <th>Upstream Stock Baseline<br><em>(Standard Ollama / llama.cpp Q4_K_M)</em></th>
+                  <th>Our Companion<br><em>(Native AST-Micro Engine)</em></th>
+                  <th>Disk Reduction</th>
+                  <th>Peak Process RAM Reduction (<code>VmHWM</code>)</th>
+                  <th>Inference Throughput</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Tier 1 (135M)</strong></td>
+                  <td><strong>Stock SmolLM2 135M</strong><br>&bull; Disk: ~90 MB<br>&bull; Peak RAM: <strong>340 MB</strong></td>
+                  <td><strong>Skate (135M)</strong><br>&bull; Disk: <strong>82.9 MB</strong><br>&bull; Peak RAM: <strong>40.8 MB</strong> (&lt; 50 MB)</td>
+                  <td><strong>8% smaller</strong></td>
+                  <td><strong>8.3&times; lower RAM</strong><br><em>(340 MB &rarr; 40.8 MB)</em></td>
+                  <td><strong>55+ words/s</strong><br>(115–120.8 tok/s <code>--turbo</code>)</td>
+                </tr>
+                <tr>
+                  <td><strong>Tier 2 (500M)</strong></td>
+                  <td><strong>Stock Qwen 2.5 0.5B</strong><br>&bull; Disk: ~398 MB<br>&bull; Peak RAM: <strong>620 MB</strong></td>
+                  <td><strong>Manta (494M)</strong><br>&bull; Disk: <strong>254–318 MB</strong><br>&bull; Peak RAM: <strong>195–234 MB</strong> (74.8 MB idle)</td>
+                  <td><strong>20–36% smaller</strong></td>
+                  <td><strong>2.6&times; lower RAM</strong><br><em>(620 MB &rarr; 234 MB)</em></td>
+                  <td><strong>20–35 words/s</strong><br>(Structured <code>&lt;manta_plan&gt;</code> DAGs)</td>
+                </tr>
+                <tr>
+                  <td><strong>Tier 3 (1.5B)</strong></td>
+                  <td><strong>Stock Qwen 2.5 1.5B</strong><br>&bull; Disk: 1,020 MB<br>&bull; Peak RAM: <strong>1,312 MB</strong></td>
+                  <td><strong>Beluga (1.54B)</strong><br>&bull; Disk: <strong>604 MB</strong><br>&bull; Peak RAM: <strong>295.1 MB</strong> (&lt; 300 MB)</td>
+                  <td><strong>41% smaller</strong></td>
+                  <td><strong>4.4&times; lower RAM</strong><br><em>(1,312 MB &rarr; 295.1 MB)</em></td>
+                  <td><strong>21.58 tok/s</strong> (14.4 words/s)<br>Burst up to <strong>39.7 tok/s</strong> (27.4 w/s)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. BELUGA VS STOCK QWEN 2.5 SIDE-BY-SIDE -->
+        <section id="beluga-side-by-side" class="doc-section">
+          <h2>5. Beluga vs Stock Qwen 2.5 (1.5B): Empirical Side-by-Side Comparison</h2>
+          <p>
+            Technical matrix comparing Stock Qwen 2.5 1.5B under standard inference (Ollama / llama.cpp) against Beluga running on the native sovereign NioXS engine on pure CPU:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Technical Dimension</th>
+                  <th>Stock Qwen 2.5 1.5B<br><em>(Standard Ollama / llama.cpp)</em></th>
+                  <th>Beluga<br><em>(Sovereign NioXS Engine)</em></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Model Parameters</strong></td><td>1.54 Billion (28 Layers, 12 Heads, 2 KV Heads)</td><td>1.54 Billion (28 Layers, 12 Heads, 2 KV Heads)</td></tr>
+                <tr><td><strong>Vocabulary Coverage</strong></td><td>151,936 BPE Tokens</td><td>151,936 BPE Tokens (100% stock identical)</td></tr>
+                <tr><td><strong>Reasoning Engine</strong></td><td>&lt;think&gt;...&lt;/think&gt; Chain-of-Thought</td><td>&lt;think&gt;...&lt;/think&gt; Chain-of-Thought (100% bit-exact)</td></tr>
+                <tr><td><strong>Weight Quantization</strong></td><td><code>Q4_K_M</code> (Standard 4.5-bit block quantization)</td><td><code>IQ3_XXS</code> (Layers) + <code>IQ4_NL</code> (Vocab codebook)</td></tr>
+                <tr><td><strong>Disk Storage Footprint</strong></td><td><strong>1,020 MB (1.02 GB)</strong></td><td><strong>604 MB (0.60 GB)</strong> <em>(41% smaller)</em></td></tr>
+                <tr><td><strong>True Peak Process RAM (VmHWM)</strong></td><td><strong>1,312 MB (1.31 GB)</strong></td><td><strong>295.1 MB (0.29 GB)</strong> <em>(4.4&times; lower RAM)</em></td></tr>
+                <tr><td><strong>Minimum Hardware RAM Required</strong></td><td><strong>2 GB – 4 GB free RAM</strong> <em>(OOMs below 2 GB)</em></td><td><strong>&lt; 350 MB free RAM</strong> <em>(Runs on 512MB systems)</em></td></tr>
+                <tr><td><strong>Runtime Engine</strong></td><td>GGML / llama.cpp runtime</td><td>Custom Sovereign <code>AST-Micro</code> Engine (Pure Rust)</td></tr>
+                <tr><td><strong>CPU Execution Strategy</strong></td><td>Standard Autoregressive (1 token per pass)</td><td>Speculative Trio + Asymmetric Zero-Penalty Verification</td></tr>
+                <tr><td><strong>CPU Parallelism</strong></td><td>OpenMP / standard thread pool</td><td>Lock-Free SpinThreadPool pinned to physical P-cores (<code>NUM_WORKERS = 6</code>)</td></tr>
+                <tr><td><strong>Memory Management</strong></td><td>Full GGUF file mmapped and held in physical RAM</td><td>Dynamic Layer Streaming with aggressive OS page eviction (<code>MADV_DONTNEED</code>)</td></tr>
+                <tr><td><strong>KV Cache Architecture</strong></td><td>Full static context buffer (112 MB for 4K context)</td><td>Rolling localized cache with zero-allocation reuse</td></tr>
+                <tr><td><strong>Measured Decode Rate (Pure CPU)</strong></td><td><strong>22.30 tok/s (16.06 words/sec)</strong></td><td><strong>21.58 tok/s (14.40 words/sec)</strong></td></tr>
+                <tr><td><strong>Peak Burst Rate</strong></td><td>Flat 22.3 tok/s (No multi-token burst)</td><td>Up to <strong>39.7 tok/s (27.4 words/sec)</strong> on subword hits</td></tr>
+                <tr><td><strong>Zero GPU Offload</strong></td><td>Supported, but requires &gt; 1.5 GB RAM</td><td>Supported, guaranteed strictly &lt; 350 MB RAM</td></tr>
               </tbody>
             </table>
           </div>

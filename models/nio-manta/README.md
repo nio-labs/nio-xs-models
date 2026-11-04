@@ -31,7 +31,7 @@ Manta forms **Tier 2** of the **Nio Companion Trinity**:
 
 1. **Production Gold Fine-Tuning**: Trained on `manta_production_gold_corpus.jsonl` (2,449 turns, 100% tag-balanced `<manta_plan id="...">` XML DAGs, 50x weighted production architecture exemplars).
 2. **Zero Markdown Badge Glitches**: Broken markdown image badges (`[![...](...)]`) and cyclic bracket loops are completely eradicated.
-3. **Strict Zero-Code Systems Architect Invariant**: Declares and strictly holds an architectural persona; cleanly defers raw code generation to downstream coding models (Cuda/Fin) while emitting comprehensive system trade-offs and plans.
+3. **Strict Zero-Code Systems Architect Invariant**: Declares and strictly holds an architectural persona; cleanly defers raw code generation to downstream coding models or compilers while emitting comprehensive system trade-offs and plans.
 4. **Natural EOS Termination**: 100% natural termination (`tok_id=151645`) across frontend rendering, code delegation, and distributed consensus scenarios.
 5. **Structured DAG Orchestration**: Generates machine-parseable `<manta_plan id="...">` XML blocks with `<step id="..." priority="...">` and `<risk level="...">` tags parsed natively by `nio-manta-runtime`.
 

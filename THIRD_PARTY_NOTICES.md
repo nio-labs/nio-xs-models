@@ -29,7 +29,7 @@ The Vertex checkpoint is experimental and has not been approved for a release.
 ## Model releases
 
 This is not a complete inventory of the base models, datasets, tools, or other
-dependencies used by Skate, Manta, Fin, Nemo, or other Nio models. Before a model
+dependencies used by Skate, Manta, Beluga, or other Nio models. Before a model
 is distributed, its release maintainer must identify the actual inputs and their
 licenses, retain applicable upstream notices, and include this file, the relevant
 license texts, and a model-specific provenance and notices file in the distributed

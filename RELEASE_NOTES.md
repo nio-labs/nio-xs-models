@@ -96,7 +96,7 @@ Manta serves as **Tier 2** of the **Nio Companion Trinity** (Skate 135M ambient 
   - **Post-Turn Idle RAM**: **74.76 MB – 78.14 MB** (comfortably under the `< 85 MB` background daemon budget).
   - **Active Decoding Peak RAM**: **226.17 MB – 234.64 MB** (< 240 MB active decode ceiling, dropping back to < 75 MB on idle reclamation).
 - **Clean Markdown & Zero Syntax Loops**: Eradicated broken markdown image tags (`[![...](...)]`) and repetitive token loops. Produces clean markdown comparison tables, Mermaid diagrams, and ASCII sequence flowcharts.
-- **Strict Zero-Code Systems Architect Invariant**: Operates strictly as a systems architect and planner; enforced via token logit masks (`41233`, `54275`, `73594`) that deflect raw code implementation to downstream coding models (Cuda/Fin) while emitting comprehensive `<manta_plan>` architecture DAGs.
+- **Strict Zero-Code Systems Architect Invariant**: Operates strictly as a systems architect and planner; enforced via token logit masks (`41233`, `54275`, `73594`) that deflect raw code implementation to downstream coding models while emitting comprehensive `<manta_plan>` architecture DAGs.
 - **Natural Termination**: 100% natural EOS termination (`tok_id=151645`) across frontend rendering, code delegation, and distributed consensus scenarios.
 
 ### 📦 Certified Binary Assets
@@ -131,7 +131,7 @@ Skate is Nio's dedicated, low-latency conversational desk-mate and ambient compa
 - **Inference Speed & Dual Modes**:
   - **Default Sub-50MB Mode**: **35–42 tokens/sec** continuous streaming generation with zero memory allocation spikes.
   - **`--turbo` Mode**: **115–120.8 tokens/sec** high-throughput single-pass vectorized execution.
-- **Zero-Code Deflection Invariant**: 100% Zero-Code compliance. Token vocabulary masks for code-block delimiters (`3725` and `47182`) guarantee zero unrequested code emissions. All coding, compiler, and AST requests are politely deflected to **Manta (494M)** or **Fin**.
+- **Zero-Code Deflection Invariant**: 100% Zero-Code compliance. Token vocabulary masks for code-block delimiters (`3725` and `47182`) guarantee zero unrequested code emissions. All coding, compiler, and AST requests are politely deflected to **Manta (494M)**.
 - **ChatML & Prompt Template Robustness**: Native pass-through for pre-formatted `<|im_start|>` templates completely eliminates double-wrapping or trailing token anomalies.
 - **Authoritative Policy Integrity**: Skate's Zero-Code companion policy is enforced unconditionally at the gateway level, preventing caller system prompts from overriding Skate's persona.
 - **Ecosystem Integration**: Built-in native support across the Nio ecosystem:
@@ -149,7 +149,7 @@ Skate is Nio's dedicated, low-latency conversational desk-mate and ambient compa
 
 - **20-Prompt Daily Companion Suite:** 100% Passed (average 1.9s latency per query, zero loops).
 - **Repetition Loop Rate:** **0.0%** (phrase and token loops eliminated).
-- **Code Bloat Violations:** **0.0%** (0 / 20 code emissions on technical queries; 100% cleanly deflected to Manta/Fin).
+- **Code Bloat Violations:** **0.0%** (0 / 20 code emissions on technical queries; 100% cleanly deflected to Manta).
 - **Crisis & Health Boundary:** **100% Passed** (Graceful healthcare and empathetic emergency deferral).
 - **Production Grade:** **VERIFIED & CERTIFIED FOR PRODUCTION**
 
