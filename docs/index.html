@@ -348,9 +348,9 @@
                 </tr>
                 <tr>
                   <td><strong>Skate</strong></td>
-                  <td>Resident Micro-Guru &amp; IoT Companion</td>
-                  <td><code>134.5M (30L, v-µLM Vector)</code></td>
-                  <td>Ambient telemetry triage, smartwatch &amp; conversational companion via IQ3_XXS Vector Codebooks (82.9 MB GGUF, <strong>66.2 MB Peak RAM</strong>, 55.7 w/s)</td>
+                  <td>Resident Micro-Guru &amp; Ambient Companion</td>
+                  <td><code>134.5M (30L, v-µLM Companion)</code></td>
+                  <td>Ambient telemetry triage, smartwatch &amp; conversational companion via IQ3_XXS Vector Codebooks (82.9 MB GGUF, <strong>&lt; 50 MB Peak RAM</strong>, 55+ w/s)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6">v0.2.6</a></td>
                 </tr>
@@ -364,11 +364,19 @@
                 </tr>
                 <tr>
                   <td><strong>Manta</strong></td>
-                  <td>Full Conversational Guru &amp; DAG Architect</td>
-                  <td><code>494.0M (24L, v-µLM Vector)</code></td>
-                  <td>Powers NioGuru 21 personas, architecture reviews &amp; &lt;manta_plan&gt; DAG orchestrations via IQ3_XXS Vector Codebooks (317.9 MB GGUF, <strong>&lt; 80 MB Idle RAM</strong>, 226–235 MB peak)</td>
+                  <td>Systems Guru &amp; DAG Architect</td>
+                  <td><code>494.0M (24L, v-µLM Companion)</code></td>
+                  <td>Powers NioGuru 21 personas, architecture reviews &amp; &lt;manta_plan&gt; DAG orchestrations via IQ3_XXS Vector Codebooks (317.9 MB GGUF, <strong>&lt; 80 MB Idle RAM</strong>, &lt; 235 MB peak)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.8">v0.2.8</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Beluga</strong></td>
+                  <td>Sovereign Lead Architect &amp; Reasoning</td>
+                  <td><code>1.54B (28L, v-µLM Companion)</code></td>
+                  <td>Bit-exact &lt;think&gt; Chain-of-Thought reasoning proofs &amp; architecture synthesis via AST-Micro layer streaming (604 MB GGUF, <strong>&lt; 295 MB Peak RAM</strong>, 14–22 tok/s)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
                 </tr>
               </tbody>
             </table>
@@ -902,7 +910,7 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                 </tr>
                 <tr>
                   <td><code>manta.vmicrolm-vector.gguf</code></td>
-                  <td>Manta 494M (Conversational Guru &amp; DAG Architect)</td>
+                  <td>Manta 494M (Systems Guru &amp; DAG Architect)</td>
                   <td>317.92 MB</td>
                   <td><code>fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta.vmicrolm-vector.gguf">Download v0.2.7</a></td>
@@ -913,6 +921,27 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                   <td>13.89 MB</td>
                   <td><code>ade71ec5118be2cdd8aef3a7dcd417c51fa7e76b3e164adb339f446b42e97bc8</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta-tokenizer.json">Download v0.2.7</a></td>
+                </tr>
+                <tr>
+                  <td><code>beluga.vmicrolm-vector.gguf</code></td>
+                  <td>Beluga 1.54B (Sovereign Lead Architect &amp; CoT Reasoning)</td>
+                  <td>604 MB</td>
+                  <td><code>d2d4642d36b907c8658301208e8cd4ab3c6d72051a37a780ebc35a56ff83d5ba</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>beluga-tokenizer.json</code></td>
+                  <td>Beluga Tokenizer (151K Vocab)</td>
+                  <td>11.42 MB</td>
+                  <td><code>39fcf08d13e3bcfb7e616fecf9c898c9f5653b6fa0340b10f8a846c483a93883</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>universal_subwords.json</code></td>
+                  <td>Universal Lookahead Trie Rules</td>
+                  <td>15.28 KB</td>
+                  <td><code>19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json">Download v0.3.0</a></td>
                 </tr>
                 <tr>
                   <td><code>nioxs-mcp</code></td>

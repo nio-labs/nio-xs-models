@@ -32,19 +32,21 @@ Official model registry and distribution hub for compiled, mathematically verifi
 
 ---
 
-## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex & Vector
+## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex, Vector & Companion
 
-> 📖 **Architecture Portal**: Read the full [v-µLM Dual-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
+> 📖 **Architecture Portal**: Read the full [v-µLM Tri-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
 
-**v-µLM (V-MicroLM)** is Nio's proprietary twin-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of two rigorous mathematical pillars:
+**v-µLM (V-MicroLM)** is Nio's proprietary tri-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of three rigorous mathematical pillars:
 
 | Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
 | **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
-| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Skate (135M)**, **Mako (150M)** & **Manta (494M)** | Importance-weighted IQ3 non-linear vector quantization codebooks | **82.9–317.9 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Mako (150M)** & **µCuda / Cuda (3.0B–6.0B)** | Importance-weighted IQ3 non-linear vector quantization codebooks, live web intelligence | **92 MB disk**, >0.999 layer cosine fidelity |
+| **`v-µLM Companion`** | Sovereign Edge Companion Intelligence | **Skate (135M)**, **Manta (494M)** & **Beluga (1.54B)** | Tiered desktop & edge companions, dynamic layer streaming (`MADV_DONTNEED`), strict zero-code invariants, `<manta_plan>` DAGs & `<think>` CoT proofs | **< 50 MB to < 295 MB peak RAM**, pure CPU zero-GPU |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
+- **Dynamic Layer Streaming**: Native Rust `AST-Micro` engine with OS page eviction (`MADV_DONTNEED`) allows multi-billion parameter reasoning models (like Beluga 1.54B) to execute at under 295 MB peak process RAM without quantization degradation.
 
 ---
 
@@ -72,22 +74,25 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 5: PREDICTIVE DEFECT & SYNTAX ]                                                │
 │    • Mini (7.1M)              ──► Pre-emptive Defect & Regression Forecaster        │
 │                                                                                        │
-│  [ TIER 6: RESIDENT EDGE COMPANION & IOT TRIAGE ]                                      │
-│    • Skate (134.5M)           ──► Resident Micro-Guru, Smartwatch & Ambient Edge (<23MB)│
+│  [ TIER 6: RESIDENT EDGE COMPANION (v-µLM Companion) ]                                │
+│    • Skate (134.5M)           ──► Resident Micro-Guru, Smartwatch & Ambient Edge (<50MB)│
 │                                                                                        │
-│  [ TIER 7: LIVE WEB INTELLIGENCE & CRAWL SCOUT ]                                       │
+│  [ TIER 7: LIVE WEB INTELLIGENCE & CRAWL SCOUT (v-µLM Vector) ]                       │
 │    • Mako (150.0M)            ──► nioxs-browser Scout, DOM Noise Scrubber (<13MB)      │
 │                                                                                        │
-│  [ TIER 8: CONVERSATIONAL GURU & DAG ARCHITECT ]                                       │
-│    • Manta (494.0M)           ──► Systems Guru & DAG Architect (<85MB)                    │
+│  [ TIER 8: SYSTEMS GURU & DAG ARCHITECT (v-µLM Companion) ]                            │
+│    • Manta (494.0M)           ──► Systems Guru & DAG Architect (<85MB idle, <235MB)   │
 │                                                                                        │
-│  [ TIER 9: TACTICAL PURE-CODE PREDATOR ]                                               │
+│  [ TIER 9: SOVEREIGN LEAD ARCHITECT & REASONING (v-µLM Companion) ]                   │
+│    • Beluga (1.54B)           ──► Sovereign Lead Architect, Deep <think> CoT (<295MB) │
+│                                                                                        │
+│  [ TIER 10: TACTICAL PURE-CODE PREDATOR (v-µLM Vector) ]                               │
 │    • µCuda (3.0B) / Cuda (6.0B) ──► MicroLM-Duet, v-µLM Vector IQ3_XXS (<1.5GB–2.9GB)  │
 │                                                                                        │
-│  [ TIER 10: APEX POD MASTER & NEURAL FOUNDRY ]                                         │
+│  [ TIER 11: APEX POD MASTER & NEURAL FOUNDRY ]                                         │
 │    • Orca (7.6B)              ──► Autonomous Reflex Pod & Neural Compiler Master       │
 │                                                                                        │
-│  [ TIER 11: SOVEREIGN ENTERPRISE COUNCIL ]                                             │
+│  [ TIER 12: SOVEREIGN ENTERPRISE COUNCIL ]                                             │
 │    • Fin (70B / 140B)         ──► MicroLM-Council Multimodal Whole-Repo Grand-Master   │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
@@ -104,9 +109,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Micro`** | **Contextual Policy Arbiter** | `5.0M / Cluster` | Contextual policy arbiter approving/rejecting terminal mutations with continuous risk scores (sec, infra, base ONNX) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mask`** | **Stream Security & Redaction** | `1.1M Byte-Conv` | Real-time secret, API key & PII stream redactor for terminal pipes & MCP gateway (`mask.onnx`, 4.43 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
 | **`Mini`** | **Defect & Syntax Forecaster** | `7.1M Bidirectional AST` | Pre-emptive defect forecaster predicting build breaks & lifetime violations in < 5ms (`mini.onnx`, 27.1 MB) | **Released** | [`v0.1.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.1.0) |
-| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Vector)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.93 MB, **< 50 MB peak RAM**, 115+ tok/s `--turbo`) | **Released** | [`v0.2.6`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6) |
+| **`Skate`** | **Resident Micro-Guru & Edge Companion** | `134.5M (30L, v-µLM Companion)` | 100% brain from SmolLM2-135M via IQ3_XXS Vector Codebooks (`skate.vmicrolm-vector.gguf`, 82.93 MB, **< 50 MB peak RAM**, 115+ tok/s `--turbo`) | **Released** | [`v0.2.6`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.6) |
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
-| **`Manta`** | **Full Conversational Guru & DAG Architect** | `494.0M (24L, v-µLM Vector)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
+| **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
+| **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`µCuda / Cuda`** | **Tactical Pure-Code Predator** | `3.0B – 6.0B (v-µLM Vector Duet)` | MicroLM-Duet fluid co-reasoning (Cu & Da taking turns across coding, TDD testing, tracing & auditing; 2×1.5B & 2×3.0B) via IQ3_XXS on ast-micro-engine (< 1.5GB–2.9GB RAM concurrent Duet) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Orca`** | **Apex Pod Master & Neural Foundry** | `7.6B (v-µLM Reflex Master)` | Autonomous reflex pod & neural compiler master; mints 1–2MB dynamic specialist adapters on the fly (< 4.5 GB RAM) | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
 | **`Fin`** | **Sovereign Enterprise Grand-Master** | `70.0B – 140.0B (v-µLM Council)` | Sovereign Multimodal Grand-Master with seated Vision Council (Figma/ERD/architecture diagrams), taught by DeepSeek-R1, QwQ & Llama 405B for whole-repo refactors | **In Development** | [`v0.3.0-preview`](https://github.com/nio-labs/nio-xs-models/releases) |
@@ -447,17 +453,51 @@ nioxs manta --wasm-target web --prompt "Explain Rust memory safety to a beginner
 
 ---
 
+## 🐋 9. Beluga (1.54B) — Sovereign Lead Architect & Cognitive Companion (`v-µLM Companion`)
+
+**Beluga** is the 1.54-billion parameter flagship of the **v-µLM Companion Fleet** (Skate 135M ambient desk companion, Manta 494M systems architect, Beluga 1.54B sovereign lead architect). Powered by custom `IQ3_XXS` layer weights and `IQ4_NL` vocabulary codebooks, it delivers native `<think>` Chain-of-Thought reasoning, deep invariant proofs, and whole-architecture synthesis in strictly **< 295 MB Peak RAM (`VmHWM`)** on pure CPU ($4.4\times$ lower than stock Qwen in Ollama/llama.cpp at 1,312 MB).
+
+### 💻 How to Run & Practical Examples
+
+```bash
+# 1. Pull and cache verified Beluga weights (604 MB GGUF)
+nioxs pull beluga
+
+# 2. Invoke sovereign reasoning companion directly (< 295 MB RAM)
+nioxs beluga "Prove why a Send bound is required on async worker task queues in Rust"
+
+# 3. Query via local OpenAI-compatible API gateway
+curl -s http://127.0.0.1:7460/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "beluga",
+    "messages": [
+      {"role": "user", "content": "Analyze trade-offs between Raft vs Paxos for low-latency edge storage."}
+    ]
+  }'
+```
+
+---
+
 ## 📦 Model Artifacts & Certified Checksums
 
-### 🦈 Predator Tier & Web Scout Suite: Skate, Mako & Manta
+### 🤝 v-µLM Companion Suite: Skate, Manta & Beluga
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `skate.vmicrolm-vector.gguf` | Skate v-µLM Vector (134.5M Edge Companion) | GGUF IQ3_XXS Codebooks | 82.93 MB | `a00921dca072e640bb1f9730a95e3d88ed843cba3dd0a5648a6fd5e3e9e3d86b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate.vmicrolm-vector.gguf) |
+| `skate.vmicrolm-vector.gguf` | Skate (135M Ambient Desk Companion) | GGUF IQ3_XXS Codebooks | 82.93 MB | `a00921dca072e640bb1f9730a95e3d88ed843cba3dd0a5648a6fd5e3e9e3d86b` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate.vmicrolm-vector.gguf) |
 | `skate-tokenizer.json` | Skate Tokenizer (SmolLM2) | JSON | 2.10 MB | `9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.6/skate-tokenizer.json) |
-| `mako.vmicrolm-vector.gguf` | Mako (150M, v-µLM Vector Scout) | GGUF IQ3_XXS Codebooks | 92.0 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/mako.vmicrolm-vector.gguf) |
-| `manta.vmicrolm-vector.gguf` | Manta (494M, Conversational Guru & Architect) | GGUF IQ3_XXS Codebooks | 317.92 MB | `fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta.vmicrolm-vector.gguf) |
+| `manta.vmicrolm-vector.gguf` | Manta (494M Systems Guru & Architect) | GGUF IQ3_XXS Codebooks | 317.92 MB | `fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta.vmicrolm-vector.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 13.89 MB | `ade71ec5118be2cdd8aef3a7dcd417c51fa7e76b3e164adb339f446b42e97bc8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta-tokenizer.json) |
+| `beluga.vmicrolm-vector.gguf` | Beluga (1.54B Sovereign Lead Architect) | GGUF IQ3_XXS + IQ4_NL | 604 MB | `d2d4642d36b907c8658301208e8cd4ab3c6d72051a37a780ebc35a56ff83d5ba` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf) |
+| `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `39fcf08d13e3bcfb7e616fecf9c898c9f5653b6fa0340b10f8a846c483a93883` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
+| `universal_subwords.json` | Universal Lookahead Trie Rules | JSON | 15.28 KB | `19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json) |
+
+### 🦈 v-µLM Vector & Live Web Scout Suite
+
+| Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
+|---|---|:---:|:---:|---|:---:|
+| `mako.vmicrolm-vector.gguf` | Mako (150M v-µLM Vector Scout) | GGUF IQ3_XXS Codebooks | 92.0 MB | `6c8836d82e766f3b40cfbbb2b01ece4adc7642c00748b0e546b8949ffc552c77` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.5/mako.vmicrolm-vector.gguf) |
 
 ### ⚡ Core MicroLM Production Suite (v0.1.0)
 
