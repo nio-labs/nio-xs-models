@@ -539,7 +539,7 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 | `manta.vmicrolm-vector.gguf` | Manta (494M Systems Guru & Architect) | GGUF IQ3_XXS Codebooks | 317.92 MB | `fa981bab81c7cb32a7072dfd193f1e03f988eb800d7e6773a03b69c861d452a5` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta.vmicrolm-vector.gguf) |
 | `manta-tokenizer.json` | Manta Tokenizer (Qwen2.5 151K Vocab) | JSON | 13.89 MB | `ade71ec5118be2cdd8aef3a7dcd417c51fa7e76b3e164adb339f446b42e97bc8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.2.7/manta-tokenizer.json) |
 | `beluga.vmicrolm-vector.gguf` | Beluga (1.54B Sovereign Lead Architect) | GGUF IQ3_XXS + IQ4_NL | 604 MB | `d2d4642d36b907c8658301208e8cd4ab3c6d72051a37a780ebc35a56ff83d5ba` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf) |
-| `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `39fcf08d13e3bcfb7e616fecf9c898c9f5653b6fa0340b10f8a846c483a93883` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
+| `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `cf535eea1ed9374c2bc3436625216c18fc703fc37aae8e019b3e85cc658e0395` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
 | `universal_subwords.json` | Universal Lookahead Trie Rules | JSON | 15.28 KB | `19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json) |
 
 ### 🦈 v-µLM Vector & Live Web Scout Suite
