@@ -6,7 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
-- [v0.3.0 — NioBeluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--niobeluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
+- [v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--beluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
 - [v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)](#v029--beluga-154b-sovereign-cognitive-companion-production-release-v-microlm-vector)
 - [v0.2.8 — Native AST Runtime IQ4_NL Fix, Code Masking & Manta Production Engine](#v028--native-ast-runtime-iq4_nl-fix-code-masking--manta-production-engine)
 - [v0.2.7 — Manta (494M) Production Gold Release: Systems Guru & <manta_plan> DAG Architect (v-µLM Vector)](#v027--manta-494m-production-gold-release-systems-guru--manta_plan-dag-architect-v-µlm-vector)
@@ -20,13 +20,13 @@ Official release history and distribution registry for compiled neural binaries 
 
 ---
 
-## v0.3.0 — NioBeluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)
+## v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)
 
-Official **v0.3.0** release distributing the production **NioBeluga (1.54B)** Sovereign Cognitive Companion (`beluga.vmicrolm-vector.gguf`), universal BPE subwords (`universal_subwords.json`), and AST-Micro subquantization.
+Official **v0.3.0** release distributing the production **Beluga (1.54B)** Sovereign Cognitive Companion (`beluga.vmicrolm-vector.gguf`), universal BPE subwords (`universal_subwords.json`), and AST-Micro subquantization.
 
 Beluga delivers native `<think>` Chain-of-Thought reasoning, deep systems synthesis, and zero-cloud private intelligence in strictly **< 295 MB Peak Resident RAM (`VmHWM`)** on pure CPU.
 
-### 🐋 1. NioBeluga Highlights
+### 🐋 1. Beluga Highlights
 
 - **Extreme Edge RAM Footprint**: Peaks at **295.1 MB RAM** ($4.4\times$ lower than Stock Qwen 2.5 in Ollama/llama.cpp at 1,312 MB).
 - **Disk Storage Optimization**: Compressed from 1,020 MB to **604 MB** on disk using `IQ3_XXS` layer weights while preserving 100% of the 151,936 vocab tokens in `IQ4_NL`.
@@ -37,7 +37,7 @@ Beluga delivers native `<think>` Chain-of-Thought reasoning, deep systems synthe
 
 | Asset | Role | Format | Size | Peak RAM (CPU) |
 |---|---|:---:|:---:|:---:|
-| `beluga.vmicrolm-vector.gguf` | NioBeluga (Sovereign Cognitive Companion) | GGUF (`IQ3_XXS` + `IQ4_NL`) | 604 MB | **< 295 MB Peak RAM** |
+| `beluga.vmicrolm-vector.gguf` | Beluga (Sovereign Cognitive Companion) | GGUF (`IQ3_XXS` + `IQ4_NL`) | 604 MB | **< 295 MB Peak RAM** |
 | `beluga-tokenizer.json` | Conversational Tokenizer (151K Vocab) | JSON | ~11 MB | N/A |
 | `universal_subwords.json` | Deterministic Lookahead Trie Rules | JSON | 15 KB | < 16 KB RAM |
 
