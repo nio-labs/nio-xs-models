@@ -52,7 +52,7 @@ Official model registry and distribution hub for compiled, mathematically verifi
 
 ## 🏛️ The Production MicroLM Hierarchy
 
-Instead of relying on a single slow generalist model, Nio deploys a specialized hierarchy of 5 edge MicroLMs:
+Instead of relying on a single slow generalist model, Nio deploys a specialized hierarchy of edge MicroLMs:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -86,6 +86,9 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 9: SOVEREIGN LEAD ARCHITECT & REASONING (v-µLM Companion) ]                   │
 │    • Beluga (1.54B)           ──► Sovereign Lead Architect, Deep <think> CoT (<295MB) │
 │                                                                                        │
+│  [ TIER 10: SOVEREIGN REFLEX LEAD & STAFF PEER (v-µLM Reflex) ]                       │
+│    • Blue (3.82B)             ──► Calm Staff-Engineer Peer, Lean <think> (~192MB)     │
+│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -104,6 +107,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Mako`** | **Live Web Intelligence & Scraping Scout** | `150.0M (34L, v-µLM Vector)` | Keyless multi-domain live documentation scout, HTTP 304 ETag caching (50MB LRU disk limit), and LLM-Native Wire DSL (`mako.vmicrolm-vector.gguf`, 92.0 MB, **12.49 MB peak RAM**, 13.5ms latency) | **Released** | [`v0.2.5`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.5) |
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
+| **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
 
 ---
 

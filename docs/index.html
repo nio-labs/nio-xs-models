@@ -76,6 +76,7 @@
           <a href="#mako" class="nav-link">11. Mako (150M Web Scout)</a>
           <a href="#manta" class="nav-link">12. Manta (494M Guru)</a>
           <a href="#beluga" class="nav-link">13. Beluga (1.54B Lead Architect)</a>
+          <a href="#blue" class="nav-link">13b. Blue (3.82B Reflex Lead)</a>
           <a href="#companion-fleet" class="nav-link">14. Companion Fleet &amp; Benchmarks</a>
         </div>
         <div class="nav-section">
@@ -379,6 +380,14 @@
                   <td>Bit-exact &lt;think&gt; Chain-of-Thought reasoning proofs &amp; architecture synthesis via AST-Micro layer streaming (604 MB GGUF, <strong>&lt; 295 MB Peak RAM</strong>, 14–22 tok/s)</td>
                   <td><span class="badge badge-accent">Released</span></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0">v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><strong>Blue</strong></td>
+                  <td>Sovereign Reflex Lead &amp; Staff Peer</td>
+                  <td><code>3.82B (32L, v-µLM Reflex)</code></td>
+                  <td>Phi-3.5-mini based staff-engineer peer with lean &lt;think&gt; verification via vMicroLM Reflex streaming (1.40 GiB GGUF, <strong>~192 MB Peak RAM</strong>, ~4.4 tok/s measured)</td>
+                  <td><span class="badge badge-accent">Released</span></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1">v0.3.1</a></td>
                 </tr>
               </tbody>
             </table>
@@ -846,6 +855,17 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
           </div>
         </section>
 
+        <!-- 13b. BLUE -->
+        <section id="blue" class="doc-section">
+          <h2>13b. Blue 3.82B — Sovereign Reflex Lead</h2>
+          <p><strong>Blue</strong> is the 3.82-billion parameter flagship built on <code>microsoft/Phi-3.5-mini-instruct</code> (MIT). It runs on the vMicroLM Reflex streaming engine with a measured <strong>192.3 MB peak RAM</strong> on pure CPU, delivering a calm staff-engineer voice with lean <code>&lt;think&gt;</code> verification. Measured throughput is ~4.4 tok/s on the reference machine. Run it with <code>nioxs blue "&lt;prompt&gt;"</code>.</p>
+          <div class="spec-grid">
+            <div class="spec-card"><div class="spec-title">Peak RAM</div><div class="spec-value">192.3 MB</div><div class="spec-sub">Measured VmHWM</div></div>
+            <div class="spec-card"><div class="spec-title">Throughput</div><div class="spec-value">~4.4 tok/s</div><div class="spec-sub">Pure CPU, measured</div></div>
+            <div class="spec-card"><div class="spec-title">Binary Size</div><div class="spec-value">1.40 GiB</div><div class="spec-sub">blue.vmicrolm-reflex.gguf</div></div>
+          </div>
+        </section>
+
         <!-- 14. COMPANION FLEET & BENCHMARKS -->
         <section id="companion-fleet" class="doc-section">
           <div class="section-badge">Edge Fleet &bull; Skate, Manta &amp; Beluga</div>
@@ -1143,6 +1163,20 @@ nioxs mini check --threshold 0.70 --diff-file pr_changes.patch</code></pre>
                   <td>15.28 KB</td>
                   <td><code>19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8</code></td>
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json">Download v0.3.0</a></td>
+                </tr>
+                <tr>
+                  <td><code>blue.vmicrolm-reflex.gguf</code></td>
+                  <td>Blue 3.82B (Sovereign Reflex Lead)</td>
+                  <td>1.40 GiB</td>
+                  <td><code>6b673f5a2ed71eced7b6cc947beccf3cf3f669eb25d6e6233c48e47e11e9bb32</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.1/blue.vmicrolm-reflex.gguf">Download v0.3.1</a></td>
+                </tr>
+                <tr>
+                  <td><code>blue-tokenizer.json</code></td>
+                  <td>Blue Tokenizer</td>
+                  <td>3.73 MiB</td>
+                  <td><code>8fcc6f6a32f0bd5ccdac48a0522dcd1cc575e5daf591f09d489e07f0d9035b2e</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.1/blue-tokenizer.json">Download v0.3.1</a></td>
                 </tr>
                 <tr>
                   <td><code>nioxs-mcp</code></td>

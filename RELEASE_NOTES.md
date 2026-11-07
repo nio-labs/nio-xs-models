@@ -6,6 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
+- [v0.3.1 — Blue (3.82B) Sovereign Reflex Lead Release (v-µLM Reflex)](#v031--blue-382b-sovereign-reflex-lead-release-v-µlm-reflex)
 - [v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--beluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
 - [v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)](#v029--beluga-154b-sovereign-cognitive-companion-production-release-v-microlm-vector)
 - [v0.2.8 — Native AST Runtime IQ4_NL Fix, Code Masking & Manta Production Engine](#v028--native-ast-runtime-iq4_nl-fix-code-masking--manta-production-engine)
@@ -17,6 +18,25 @@ Official release history and distribution registry for compiled neural binaries 
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
 - [v0.2.0 — Predator Tier & v-µLM Vector: Manta (494M) & Skate (135M)](#v020--predator-tier--v-µlm-vector-manta-494m--skate-135m)
 - [v0.1.0 — MicroLM (µLM) Core Production Suite & Localhost MCP Server](#v010--microlm-µlm-core-production-suite--localhost-mcp-server)
+
+---
+
+## v0.3.1 — Blue (3.82B) Sovereign Reflex Lead Release (v-µLM Reflex)
+
+Official **v0.3.1** release distributing **Blue (3.82B)** (`blue.vmicrolm-reflex.gguf`) and its tokenizer (`blue-tokenizer.json`). Blue is built on `microsoft/Phi-3.5-mini-instruct` (MIT, 32 layers) and acts as a calm staff-engineer peer with lean `<think>` verification, running through the vMicroLM Reflex streaming engine on pure CPU. Available via `nioxs blue "<prompt>"` and `nioxs pull blue` (NioXS v0.5.2+).
+
+### 🐋 Blue Highlights
+
+- **Measured Peak RAM**: **192.3 MB** (`VmHWM`) on a 3-prompt production benchmark (sub-200 MB SLA passed).
+- **Disk Size**: 1,499,437,216 bytes (~1.40 GiB).
+- **Measured CPU Throughput**: ~4.4 tok/s average generation (7.0 tok/s prefill) on the reference machine. This is far below the 35–48 tok/s design target in the spec; treat it as a first release and expect speed work in later versions.
+
+### 📦 Certified Binary Assets
+
+| Asset | Role | Size | SHA-256 |
+|---|---|:---:|---|
+| `blue.vmicrolm-reflex.gguf` | Blue (Sovereign Reflex Lead) | 1,499,437,216 B | `6b673f5a2ed71eced7b6cc947beccf3cf3f669eb25d6e6233c48e47e11e9bb32` |
+| `blue-tokenizer.json` | Blue Tokenizer | 3,911,372 B | `8fcc6f6a32f0bd5ccdac48a0522dcd1cc575e5daf591f09d489e07f0d9035b2e` |
 
 ---
 
