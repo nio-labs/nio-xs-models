@@ -89,6 +89,9 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 10: SOVEREIGN REFLEX LEAD & STAFF PEER (v-µLM Reflex) ]                       │
 │    • Blue (3.82B)             ──► Calm Staff-Engineer Peer, Lean <think> (~192MB)     │
 │                                                                                        │
+│  [ TIER 11: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Reflex Pure-Code) ]                 │
+│    • Rhino (32.7B)            ──► Pure-Code Systems Titan, 64L IQ3_XXS (11.96 GiB)    │
+│                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -108,6 +111,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
+| **`Rhino`** | **Sovereign Pure-Code Land Titan** | `32.7B (64L, v-µLM Reflex Pure-Code)` | Qwen2.5-Coder-32B based pure-code systems titan with `<think>` formal invariant verification, zero conversational filler (`rhino.vmicrolm-reflex.gguf`, 11.96 GiB / 12,839,271,392 bytes) | **Released** | [`v0.3.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) |
 
 ---
 

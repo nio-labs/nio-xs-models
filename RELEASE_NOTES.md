@@ -6,6 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
+- [v0.3.2 — Rhino (32.7B) Sovereign Pure-Code Land Titan Release (v-µLM Reflex Pure-Code)](#v032--rhino-327b-sovereign-pure-code-land-titan-release-v-µlm-reflex-pure-code)
 - [v0.3.1 — Blue (3.82B) Sovereign Reflex Lead Release (v-µLM Reflex)](#v031--blue-382b-sovereign-reflex-lead-release-v-µlm-reflex)
 - [v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--beluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
 - [v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)](#v029--beluga-154b-sovereign-cognitive-companion-production-release-v-microlm-vector)
@@ -18,6 +19,25 @@ Official release history and distribution registry for compiled neural binaries 
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
 - [v0.2.0 — Predator Tier & v-µLM Vector: Manta (494M) & Skate (135M)](#v020--predator-tier--v-µlm-vector-manta-494m--skate-135m)
 - [v0.1.0 — MicroLM (µLM) Core Production Suite & Localhost MCP Server](#v010--microlm-µlm-core-production-suite--localhost-mcp-server)
+
+---
+
+## v0.3.2 — Rhino (32.7B) Sovereign Pure-Code Land Titan Release (v-µLM Reflex Pure-Code)
+
+Official **v0.3.2** release distributing **Rhino (32.7B)** (`rhino.vmicrolm-reflex.gguf`) and its tokenizer (`rhino-tokenizer.json`). Rhino is built on `Qwen/Qwen2.5-Coder-32B-Instruct` (64 layers, 32.7B parameters) fine-tuned with vMicroLM Reflex prompt-masked QLoRA (`final loss 0.1513`) as a strictly **Pure-Code Land Titan** (NOT a conversational companion). Available via `nioxs rhino "<prompt>"` and `nioxs pull rhino` (NioXS v0.5.5+).
+
+### 🦏 Rhino Highlights
+
+- **Pure-Code Land Titan**: Zero conversational filler; verifies formal state invariants, memory orderings, and lifetime constraints inside concise `<think>...</think>` blocks (`<= 150` tokens) before emitting complete, compilable production implementations.
+- **Disk Size**: 12,839,271,392 bytes (~11.96 GiB) quantized in `IQ3_XXS` across all 64 transformer blocks.
+- **GitHub Release Distribution**: Mirrored as 7 × 1.9 GB parts (`rhino.vmicrolm-reflex.gguf.part-00` .. `part-06`) on GitHub Releases (automatically streamed and verified into a single file by `nioxs pull rhino`) and as a single file on Hugging Face (`monynith/nio-rhino-32b-gguf`).
+
+### 📦 Certified Binary Assets
+
+| Asset | Role | Size | SHA-256 |
+|---|---|:---:|---|
+| `rhino.vmicrolm-reflex.gguf` | Rhino (Sovereign Pure-Code Land Titan, assembled from `.part-00`..`.part-06`) | 12,839,271,392 B | `74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed` |
+| `rhino-tokenizer.json` | Rhino Tokenizer | 11,422,184 B | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` |
 
 ---
 

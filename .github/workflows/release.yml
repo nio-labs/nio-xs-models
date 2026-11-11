@@ -1,0 +1,70 @@
+name: Mirror & Publish NioXS Models Release
+
+on:
+  push:
+    tags:
+      - 'v0.3.2'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-rhino:
+    name: Mirror Rhino (32.7B) to GitHub Release v0.3.2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Free runner disk space for 12.8 GB GGUF stream
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          df -h
+
+      - name: Stream & Verify Rhino (32.7B) from Hugging Face and Split into <2GiB Parts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+
+          echo "1. Downloading rhino-tokenizer.json (11.4 MB)..."
+          curl -fSL --retry 5 --retry-delay 3 \
+            "https://huggingface.co/monynith/nio-rhino-32b-gguf/resolve/main/rhino-tokenizer.json" \
+            -o dist/rhino-tokenizer.json
+          echo "9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034  dist/rhino-tokenizer.json" | sha256sum -c -
+
+          echo "2. Streaming rhino.vmicrolm-reflex.gguf (12.84 GB) into 1.9 GB GitHub Release parts..."
+          curl -fSL --retry 5 --retry-delay 5 \
+            "https://huggingface.co/monynith/nio-rhino-32b-gguf/resolve/main/rhino.vmicrolm-reflex.gguf" \
+            | tee >(sha256sum > /tmp/rhino.sha256) \
+            | split -d -a 2 -b 1900000000 - dist/rhino.vmicrolm-reflex.gguf.part-
+          sync
+
+          COMPUTED_SHA=$(awk '{print $1}' /tmp/rhino.sha256)
+          EXPECTED_SHA="74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed"
+          echo "Computed SHA-256: $COMPUTED_SHA"
+          if [ "$COMPUTED_SHA" != "$EXPECTED_SHA" ]; then
+            echo "SHA-256 mismatch! Expected $EXPECTED_SHA, got $COMPUTED_SHA"
+            exit 1
+          fi
+
+          ls -lh dist/
+
+      - name: Publish GitHub Release v0.3.2
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v0.3.2
+          name: "v0.3.2 — Rhino (32.7B) Sovereign Pure-Code Land Titan Release (v-µLM Reflex)"
+          body: |
+            Official **v0.3.2** release distributing **Rhino (32.7B)** (`rhino.vmicrolm-reflex.gguf`, 64-Layer `IQ3_XXS` vMicroLM Reflex Pure-Code Land Titan) and `rhino-tokenizer.json`.
+
+            - **Assembled GGUF Size**: `12,839,271,392` bytes (`11.96 GiB`)
+            - **Assembled GGUF SHA-256**: `74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed`
+            - **Tokenizer Size**: `11,422,184` bytes (`10.89 MiB`)
+            - **Tokenizer SHA-256**: `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034`
+            - **Pull via NioXS (`v0.5.5+`)**: `nioxs pull rhino` (streams and verifies `.part-00`..`.part-06` automatically into `~/.nioxs/models/rhino.vmicrolm-reflex.gguf`)
+            - **Hugging Face Single-File Mirror**: https://huggingface.co/monynith/nio-rhino-32b-gguf
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
