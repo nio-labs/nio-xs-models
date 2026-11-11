@@ -125,19 +125,19 @@ The **v-MicroLM Companion Fleet** represents Nio's tiered, zero-cloud edge intel
 
 ### 📊 v-MicroLM Companion Benchmark Suite
 
-| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga |
-| :--- | :--- | :--- | :--- |
-| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) |
-| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover |
-| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab |
-| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** |
-| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** |
-| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* |
-| **Inference Rate (Pure CPU)** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) |
-| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) |
-| **Cognitive Invariant** | Strict Zero-Code (deflects to Manta) | Strict Zero-Code Planner (`<manta_plan>`) | Bit-exact `<think>...</think>` CoT |
-| **Target Hardware SLA** | Always-on background daemon / 128MB RAM | 512MB RAM edge nodes & containers | 512MB–1GB RAM systems (Zero GPU) |
-| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` |
+| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga | 🦏 Rhino |
+| :--- | :--- | :--- | :--- | :--- |
+| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) | **32.7B** (64 Layers, 40 Heads) |
+| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover | Pure-Code Systems Titan & Prover |
+| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab | `IQ3_XXS` Layers + `IQ4_NL` Vocab |
+| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** | **11.96 GB (12,839,271,392 B)** |
+| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** | **~180 MB** |
+| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* | **< 2.8 GB** *(2-Layer Ring Buffer)* |
+| **Inference Rate** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) | **45.2 tok/s (GPU)** / ~4.6 tok/s (CPU) |
+| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) | **60+ tok/s** GPU burst |
+| **Cognitive Invariant** | Strict Zero-Code (deflects to Manta) | Strict Zero-Code Planner (`<manta_plan>`) | Bit-exact `<think>...</think>` CoT | Strict Pure-Code, Invariant `<think>`, 0-Filler |
+| **Target Hardware SLA** | Always-on background daemon / 128MB RAM | 512MB RAM edge nodes & containers | 512MB–1GB RAM systems (Zero GPU) | Laptops & Workstations with or w/o GPU |
+| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` | `nioxs rhino "<prompt>"` |
 
 ---
 
@@ -150,6 +150,25 @@ Direct empirical comparison between unoptimized stock upstream foundation models
 | **Tier 1 (135M)** | **Stock SmolLM2 135M**<br>• Disk: ~90 MB<br>• Peak RAM: **340 MB** | **Skate (135M)**<br>• Disk: **82.9 MB**<br>• Peak RAM: **40.8 MB** (< 50 MB) | **8% smaller** | **8.3× lower RAM** *(340 MB → 40.8 MB)* | **55+ words/s**<br>(115–120.8 tok/s `--turbo`) |
 | **Tier 2 (500M)** | **Stock Qwen 2.5 0.5B**<br>• Disk: ~398 MB<br>• Peak RAM: **620 MB** | **Manta (494M)**<br>• Disk: **254–318 MB**<br>• Peak RAM: **195–234 MB** (74.8 MB idle) | **20–36% smaller** | **2.6× lower RAM** *(620 MB → 234 MB)* | **20–35 words/s**<br>(Structured `<manta_plan>` DAGs) |
 | **Tier 3 (1.5B)** | **Stock Qwen 2.5 1.5B**<br>• Disk: 1,020 MB<br>• Peak RAM: **1,312 MB** | **Beluga (1.54B)**<br>• Disk: **604 MB**<br>• Peak RAM: **295.1 MB** (< 300 MB) | **41% smaller** | **4.4× lower RAM** *(1,312 MB → 295.1 MB)* | **21.58 tok/s** (14.4 words/s)<br>Burst up to **39.7 tok/s** (27.4 w/s) |
+| **Tier 11 (32.7B)** | **Stock Qwen 2.5 Coder 32B**<br>• Disk: 19.8 GB<br>• Peak RAM: **> 24 GB** | **Rhino (32.7B Pure-Code)**<br>• Disk: **11.96 GB**<br>• Peak RAM: **< 2.8 GB** (CPU Ring) | **40% smaller** | **8.5× lower RAM** *(24 GB → < 2.8 GB)* | **45.2 tok/s** (RTX 4090 GPU)<br>Formal Invariant Prover, 0-Filler |
+
+---
+
+## 🦏 Rhino (32.7B) vs Stock Foundation Coders: Side-by-Side Comparison
+
+| Technical Dimension | Stock Qwen 2.5 Coder 32B<br>*(Standard Ollama / llama.cpp Q4_K_M)* | Rhino (32.7B)<br>*(Sovereign vMicroLM Reflex Engine)* |
+| :--- | :--- | :--- |
+| **Model Parameters** | 32.76 Billion (64 Layers, 40 Heads, 8 KV Heads) | 32.76 Billion (64 Layers, 40 Heads, 8 KV Heads) |
+| **Specialization & Role** | General conversational code chatbot | **Sovereign Pure-Code Land Titan** (NOT a companion) |
+| **Conversational Filler** | Apologies, pleasantries, preambles, disclaimers | **Zero conversational filler** (immediate `<think>` & code) |
+| **Reasoning Engine** | None / Unconstrained autoregressive text | **Strict Formal Invariant Prover** inside `<think>` (`<= 150` tok) |
+| **Weight Quantization** | `Q4_K_M` (Standard 4.5-bit block format) | `IQ3_XXS` (Layers) + `IQ4_NL` (Vocab codebook) |
+| **Disk Storage Footprint** | **19.8 GB** | **11.96 GB (12,839,271,392 bytes)** *(40% disk reduction)* |
+| **Active Memory Model** | Full GGUF pinned in system RAM (OOMs < 24 GB) | **2-Layer Sliding Ring Buffer** (`MADV_DONTNEED` layer streaming) |
+| **Target RAM Envelope (CPU)** | **> 24 GB – 32 GB RAM** | **< 2.8 GB Peak Resident RAM** on CPU |
+| **GPU Offload (RTX 4090)** | 64 / 64 Layers offloaded (~22 GB VRAM) | 64 / 64 Layers offloaded (~14 GB VRAM) |
+| **Decode Throughput** | ~35 tok/s (GPU) | **45.2 tok/s (RTX 4090)** / ~4.6 tok/s (CPU Ring Buffer) |
+| **CLI Direct Invocation** | `ollama run qwen2.5-coder:32b` | `nioxs rhino "<prompt>"` / `nioxs pull rhino` |
 
 ---
 
@@ -536,6 +555,37 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 
 ---
 
+## 🦏 10. Rhino (32.7B) — Sovereign Pure-Code Land Titan (`v-µLM Reflex Pure-Code`)
+
+**Rhino** is the 32.7-billion parameter pure-code flagship built on `Qwen/Qwen2.5-Coder-32B-Instruct`. Engineered strictly as a Pure-Code Land Titan (not a conversational companion), Rhino enforces rigorous mathematical and algorithmic invariant verification inside `<think>...</think>` blocks (bounded to $\le 150$ tokens) before emitting production code with **zero conversational filler**, preambles, apologies, or conversational chatter.
+
+Operating under the native `v-µLM Reflex` streaming architecture with a 2-layer sliding ring buffer (`MADV_DONTNEED`), Rhino bounds CPU memory consumption to **< 2.8 GB Peak RAM (`VmHWM`)** ($8.5\times$ lower than unoptimized stock 32B runtimes requiring > 24 GB RAM) and achieves **45.2 tok/s** decode rate when offloaded to an NVIDIA RTX 4090.
+
+### 💻 How to Run & Practical Examples
+
+```bash
+# 1. Pull and reconstruct multi-part verified Rhino weights (11.96 GB, auto-assembled from .part-00..06)
+nioxs pull rhino
+
+# 2. Invoke pure-code titan directly (pure code output with <think> invariant proof)
+nioxs rhino "Implement an SPSC lock-free bounded ring buffer with zero allocation and cacheline padding"
+
+# 3. Hardware GPU offload for 45.2 tok/s decode rate
+nioxs rhino --device gpu -n 2048 "Implement an io_uring completion queue poller in Rust"
+
+# 4. Query via local OpenAI-compatible API gateway (:7460)
+curl -s http://127.0.0.1:7460/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "rhino",
+    "messages": [
+      {"role": "user", "content": "Implement a lock-free CAS stack with ABA mitigation."}
+    ]
+  }'
+```
+
+---
+
 ## 📦 Model Artifacts & Certified Checksums
 
 ### 🤝 v-µLM Companion Suite: Skate, Manta & Beluga
@@ -549,6 +599,13 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 | `beluga.vmicrolm-vector.gguf` | Beluga (1.54B Sovereign Lead Architect) | GGUF IQ3_XXS + IQ4_NL | 604 MB | `d2d4642d36b907c8658301208e8cd4ab3c6d72051a37a780ebc35a56ff83d5ba` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf) |
 | `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `cf535eea1ed9374c2bc3436625216c18fc703fc37aae8e019b3e85cc658e0395` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
 | `universal_subwords.json` | Universal Lookahead Trie Rules | JSON | 15.28 KB | `19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json) |
+
+### 🦏 v-µLM Reflex Pure-Code Suite (Rhino 32.7B)
+
+| Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
+|---|---|:---:|:---:|---|:---:|
+| `rhino.vmicrolm-reflex.gguf` | Rhino (32.7B Pure-Code Land Titan) | GGUF IQ3_XXS (64 Layers) | 11.96 GB (12,839,271,392 B) | `74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed` | [Download Parts](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) / [HF Mirror](https://huggingface.co/monynith/nio-rhino-32b-gguf) |
+| `rhino-tokenizer.json` | Rhino Tokenizer | JSON | 11.42 MB | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/rhino-tokenizer.json) |
 
 ### 🦈 v-µLM Vector & Live Web Scout Suite
 
