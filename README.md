@@ -89,8 +89,8 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 10: SOVEREIGN REFLEX LEAD & STAFF PEER (v-µLM Reflex) ]                       │
 │    • Blue (3.82B)             ──► Calm Staff-Engineer Peer, Lean <think> (~192MB)     │
 │                                                                                        │
-│  [ TIER 11: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Reflex Pure-Code) ]                 │
-│    • Rhino (32.7B)            ──► Pure-Code Systems Titan, 64L IQ3_XXS (11.96 GiB)    │
+│  [ TIER 11: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Reflex Pure-Code MoE) ]             │
+│    • Bison (7.0B MoE)         ──► Pure-Code Flagship Architect, 48L Q4_K_M (2.94 GiB) │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -111,7 +111,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
-| **`Rhino`** | **Sovereign Pure-Code Land Titan** | `32.7B (64L, v-µLM Reflex Pure-Code)` | Qwen2.5-Coder-32B based pure-code systems titan with `<think>` formal invariant verification, zero conversational filler (`rhino.vmicrolm-reflex.gguf`, 11.96 GiB / 12,839,271,392 bytes) | **Released** | [`v0.3.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) |
+| **`Bison`** | **Sovereign Pure-Code Flagship Architect** | `7.0B MoE (48L, 1.6B Active)` | Qwen3-Coder-MoE based pure-code architect trained via Dual-Teacher distillation with `<think>` formal invariant verification, zero conversational filler (`bison.moe-7b-q4km.gguf`, 2.94 GiB / 3,153,630,976 bytes, **< 1.5 GB peak RAM**) | **Released** | [`v0.3.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) |
 
 ---
 
@@ -123,21 +123,21 @@ The **v-MicroLM Companion Fleet** represents Nio's tiered, zero-cloud edge intel
 - **Tier 2: Manta (494M)** — **Systems Guru & DAG Architect**. High-throughput architectural and RFC planner generating structured `<manta_plan>` execution DAGs in `< 235 MB` peak RAM.
 - **Tier 3: Beluga (1.54B)** — **Sovereign Lead Architect**. Flagship cognitive companion delivering bit-exact `<think>` Chain-of-Thought reasoning proofs and system synthesis in `< 295 MB` peak RAM.
 
-### 📊 v-MicroLM Companion Benchmark Suite
+### 📊 v-MicroLM Companion & Pure-Code Benchmark Suite
 
-| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga | 🦏 Rhino |
+| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga | 🦬 Bison |
 | :--- | :--- | :--- | :--- | :--- |
-| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) | **32.7B** (64 Layers, 40 Heads) |
-| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover | Pure-Code Systems Titan & Prover |
-| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab | `IQ3_XXS` Layers + `IQ4_NL` Vocab |
-| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** | **11.96 GB (12,839,271,392 B)** |
-| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** | **~180 MB** |
-| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* | **< 2.8 GB** *(2-Layer Ring Buffer)* |
-| **Inference Rate** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) | **45.2 tok/s (GPU)** / ~4.6 tok/s (CPU) |
-| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) | **60+ tok/s** GPU burst |
+| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) | **7.0B MoE** (`1.6B` Active, 48 Layers) |
+| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover | Pure-Code Flagship Architect & Prover |
+| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab | `Q4_K_M` Sparse 16-Expert MoE |
+| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** | **2.94 GiB (3,153,630,976 B)** |
+| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** | **~140 MB** |
+| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* | **< 1.5 GB** *(2-Layer Ring Buffer)* |
+| **Inference Rate** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) | **110+ tok/s (GPU)** / **22–38 tok/s (CPU)** |
+| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) | **180+ tok/s** GPU burst |
 | **Cognitive Invariant** | Strict Zero-Code (deflects to Manta) | Strict Zero-Code Planner (`<manta_plan>`) | Bit-exact `<think>...</think>` CoT | Strict Pure-Code, Invariant `<think>`, 0-Filler |
 | **Target Hardware SLA** | Always-on background daemon / 128MB RAM | 512MB RAM edge nodes & containers | 512MB–1GB RAM systems (Zero GPU) | Laptops & Workstations with or w/o GPU |
-| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` | `nioxs rhino "<prompt>"` |
+| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` | `nioxs bison "<prompt>"` |
 
 ---
 
@@ -150,25 +150,25 @@ Direct empirical comparison between unoptimized stock upstream foundation models
 | **Tier 1 (135M)** | **Stock SmolLM2 135M**<br>• Disk: ~90 MB<br>• Peak RAM: **340 MB** | **Skate (135M)**<br>• Disk: **82.9 MB**<br>• Peak RAM: **40.8 MB** (< 50 MB) | **8% smaller** | **8.3× lower RAM** *(340 MB → 40.8 MB)* | **55+ words/s**<br>(115–120.8 tok/s `--turbo`) |
 | **Tier 2 (500M)** | **Stock Qwen 2.5 0.5B**<br>• Disk: ~398 MB<br>• Peak RAM: **620 MB** | **Manta (494M)**<br>• Disk: **254–318 MB**<br>• Peak RAM: **195–234 MB** (74.8 MB idle) | **20–36% smaller** | **2.6× lower RAM** *(620 MB → 234 MB)* | **20–35 words/s**<br>(Structured `<manta_plan>` DAGs) |
 | **Tier 3 (1.5B)** | **Stock Qwen 2.5 1.5B**<br>• Disk: 1,020 MB<br>• Peak RAM: **1,312 MB** | **Beluga (1.54B)**<br>• Disk: **604 MB**<br>• Peak RAM: **295.1 MB** (< 300 MB) | **41% smaller** | **4.4× lower RAM** *(1,312 MB → 295.1 MB)* | **21.58 tok/s** (14.4 words/s)<br>Burst up to **39.7 tok/s** (27.4 w/s) |
-| **Tier 11 (32.7B)** | **Stock Qwen 2.5 Coder 32B**<br>• Disk: 19.8 GB<br>• Peak RAM: **> 24 GB** | **Rhino (32.7B Pure-Code)**<br>• Disk: **11.96 GB**<br>• Peak RAM: **< 2.8 GB** (CPU Ring) | **40% smaller** | **8.5× lower RAM** *(24 GB → < 2.8 GB)* | **45.2 tok/s** (RTX 4090 GPU)<br>Formal Invariant Prover, 0-Filler |
+| **Tier 11 (7.0B MoE)** | **Stock Qwen 2.5 Coder 7B**<br>• Disk: 4.7 GB<br>• Peak RAM: **> 6.2 GB** | **Bison (7.0B Pure-Code MoE)**<br>• Disk: **2.94 GiB**<br>• Peak RAM: **< 1.5 GB** (CPU Stream) | **37% smaller** | **4.1× lower RAM** *(6.2 GB → < 1.5 GB)* | **110+ tok/s (GPU)** / **22–38 tok/s (CPU)**<br>Formal Invariant Prover, 0-Filler |
 
 ---
 
-## 🦏 Rhino (32.7B) vs Stock Foundation Coders: Side-by-Side Comparison
+## 🦬 Bison (7.0B MoE) vs Stock Foundation Coders: Side-by-Side Comparison
 
-| Technical Dimension | Stock Qwen 2.5 Coder 32B<br>*(Standard Ollama / llama.cpp Q4_K_M)* | Rhino (32.7B)<br>*(Sovereign vMicroLM Reflex Engine)* |
+| Technical Dimension | Stock Qwen 2.5 Coder 7B<br>*(Standard Ollama / llama.cpp Q4_K_M)* | Bison (7.0B MoE)<br>*(Sovereign vMicroLM Reflex Engine)* |
 | :--- | :--- | :--- |
-| **Model Parameters** | 32.76 Billion (64 Layers, 40 Heads, 8 KV Heads) | 32.76 Billion (64 Layers, 40 Heads, 8 KV Heads) |
-| **Specialization & Role** | General conversational code chatbot | **Sovereign Pure-Code Land Titan** (NOT a companion) |
+| **Model Parameters** | 7.61 Billion Dense (28 Layers, 100% active) | **7.0 Billion Sparse MoE** (48 Layers, **1.6B active/token**) |
+| **Specialization & Role** | General conversational code chatbot | **Sovereign Pure-Code Flagship Architect** (NOT a companion) |
 | **Conversational Filler** | Apologies, pleasantries, preambles, disclaimers | **Zero conversational filler** (immediate `<think>` & code) |
 | **Reasoning Engine** | None / Unconstrained autoregressive text | **Strict Formal Invariant Prover** inside `<think>` (`<= 150` tok) |
-| **Weight Quantization** | `Q4_K_M` (Standard 4.5-bit block format) | `IQ3_XXS` (Layers) + `IQ4_NL` (Vocab codebook) |
-| **Disk Storage Footprint** | **19.8 GB** | **11.96 GB (12,839,271,392 bytes)** *(40% disk reduction)* |
-| **Active Memory Model** | Full GGUF pinned in system RAM (OOMs < 24 GB) | **2-Layer Sliding Ring Buffer** (`MADV_DONTNEED` layer streaming) |
-| **Target RAM Envelope (CPU)** | **> 24 GB – 32 GB RAM** | **< 2.8 GB Peak Resident RAM** on CPU |
-| **GPU Offload (RTX 4090)** | 64 / 64 Layers offloaded (~22 GB VRAM) | 64 / 64 Layers offloaded (~14 GB VRAM) |
-| **Decode Throughput** | ~35 tok/s (GPU) | **45.2 tok/s (RTX 4090)** / ~4.6 tok/s (CPU Ring Buffer) |
-| **CLI Direct Invocation** | `ollama run qwen2.5-coder:32b` | `nioxs rhino "<prompt>"` / `nioxs pull rhino` |
+| **Weight Quantization** | `Q4_K_M` (Dense 7.6B weights) | `Q4_K_M` (Top-16 Router-Sliced MoE + Merged Dual-Teacher LoRA) |
+| **Disk Storage Footprint** | **4.68 GB** | **2.94 GiB (3,153,630,976 bytes)** *(37% disk reduction)* |
+| **Active Memory Model** | Full GGUF pinned in system RAM (~6.2 GB) | **Sparse Active Expert Routing + Layer Streaming** |
+| **Target RAM Envelope (CPU)** | **6 GB – 8 GB RAM** | **< 1.5 GB Peak Resident RAM** on CPU |
+| **GPU Offload** | 28 / 28 Layers (~5.5 GB VRAM) | 48 / 48 Layers (~3.4 GB VRAM — fits 4GB/6GB Laptop GPUs) |
+| **Decode Throughput** | ~8–12 tok/s (CPU) / ~45 tok/s (GPU) | **22–38 tok/s (CPU)** / **110–180 tok/s (GPU)** |
+| **CLI Direct Invocation** | `ollama run qwen2.5-coder:7b` | `nioxs bison "<prompt>"` / `nioxs pull bison` |
 
 ---
 
@@ -555,29 +555,29 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 
 ---
 
-## 🦏 10. Rhino (32.7B) — Sovereign Pure-Code Land Titan (`v-µLM Reflex Pure-Code`)
+## 🦬 10. Bison (7.0B MoE) — Sovereign Pure-Code Flagship Architect (`v-µLM Reflex Pure-Code`)
 
-**Rhino** is the 32.7-billion parameter pure-code flagship built on `Qwen/Qwen2.5-Coder-32B-Instruct`. Engineered strictly as a Pure-Code Land Titan (not a conversational companion), Rhino enforces rigorous mathematical and algorithmic invariant verification inside `<think>...</think>` blocks (bounded to $\le 150$ tokens) before emitting production code with **zero conversational filler**, preambles, apologies, or conversational chatter.
+**Bison** is the 7.0-billion parameter (`1.6B` active per token) pure-code Sparse MoE flagship built by distilling dual frontier teachers (Claude 3.7/4.5 Sonnet + DeepSeek-V3/Qwen3-Coder) via 400-step LoRA SFT and router-norm top-16 expert slicing across all 48 layers. Engineered strictly as a Pure-Code Flagship Architect (not a conversational companion), Bison enforces rigorous mathematical and algorithmic invariant verification inside `<think>...</think>` blocks (bounded to $\le 150$ tokens) before emitting production code with **zero conversational filler**, preambles, apologies, or conversational chatter.
 
-Operating under the native `v-µLM Reflex` streaming architecture with a 2-layer sliding ring buffer (`MADV_DONTNEED`), Rhino bounds CPU memory consumption to **< 2.8 GB Peak RAM (`VmHWM`)** ($8.5\times$ lower than unoptimized stock 32B runtimes requiring > 24 GB RAM) and achieves **45.2 tok/s** decode rate when offloaded to an NVIDIA RTX 4090.
+Operating under the native `v-µLM Reflex` streaming architecture with sparse top-4 active expert routing, Bison packs a **2.94 GiB (`3,153,630,976` bytes)** single-file GGUF footprint, bounds CPU memory consumption to **< 1.5 GB Peak RAM (`VmHWM`)**, and achieves **22–38 tok/s on CPU** and **110–180 tok/s on GPU**.
 
 ### 💻 How to Run & Practical Examples
 
 ```bash
-# 1. Pull and reconstruct multi-part verified Rhino weights (11.96 GB, auto-assembled from .part-00..06)
-nioxs pull rhino
+# 1. Pull verified Bison weights (2.94 GiB single-file GGUF)
+nioxs pull bison
 
-# 2. Invoke pure-code titan directly (pure code output with <think> invariant proof)
-nioxs rhino "Implement an SPSC lock-free bounded ring buffer with zero allocation and cacheline padding"
+# 2. Invoke pure-code architect directly (pure code output with <think> invariant proof)
+nioxs bison "Implement an SPSC lock-free bounded ring buffer with zero allocation and cacheline padding"
 
-# 3. Hardware GPU offload for 45.2 tok/s decode rate
-nioxs rhino --device gpu -n 2048 "Implement an io_uring completion queue poller in Rust"
+# 3. Hardware GPU offload for 110+ tok/s decode rate
+nioxs bison --device gpu -n 2048 "Implement an io_uring completion queue poller in Rust"
 
 # 4. Query via local OpenAI-compatible API gateway (:7460)
 curl -s http://127.0.0.1:7460/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "rhino",
+    "model": "bison",
     "messages": [
       {"role": "user", "content": "Implement a lock-free CAS stack with ABA mitigation."}
     ]
@@ -600,12 +600,12 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 | `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `cf535eea1ed9374c2bc3436625216c18fc703fc37aae8e019b3e85cc658e0395` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
 | `universal_subwords.json` | Universal Lookahead Trie Rules | JSON | 15.28 KB | `19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json) |
 
-### 🦏 v-µLM Reflex Pure-Code Suite (Rhino 32.7B)
+### 🦬 v-µLM Reflex Pure-Code MoE Suite (Bison 7.0B MoE)
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `rhino.vmicrolm-reflex.gguf` | Rhino (32.7B Pure-Code Land Titan) | GGUF IQ3_XXS (64 Layers) | 11.96 GB (12,839,271,392 B) | `74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed` | [Download Parts](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) / [HF Mirror](https://huggingface.co/monynith/nio-rhino-32b-gguf) |
-| `rhino-tokenizer.json` | Rhino Tokenizer | JSON | 11.42 MB | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/rhino-tokenizer.json) |
+| `bison.moe-7b-q4km.gguf` | Bison (7.0B Pure-Code Flagship Architect) | GGUF Q4_K_M (48L, 16 Experts) | 2.94 GiB (3,153,630,976 B) | `a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/bison.moe-7b-q4km.gguf) |
+| `bison-tokenizer.json` | Bison Tokenizer | JSON | 11.42 MB | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/bison-tokenizer.json) |
 
 ### 🦈 v-µLM Vector & Live Web Scout Suite
 

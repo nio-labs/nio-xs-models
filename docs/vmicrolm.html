@@ -55,7 +55,7 @@
           <a href="#companions" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">3. Companion Fleet</a>
           <a href="#benchmarks" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">4. Stock vs Companion Benchmarks</a>
           <a href="#beluga-side-by-side" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">5. Beluga vs Qwen Side-by-Side</a>
-          <a href="#rhino-side-by-side" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">6. Rhino vs Stock Side-by-Side</a>
+          <a href="#bison-side-by-side" class="nav-link" style="padding-left: 1.5rem; font-size: 12px;">6. Bison vs Stock Side-by-Side</a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">MicroLM Engines</div>
@@ -261,13 +261,13 @@
                   <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga.vmicrolm-vector.gguf">Download v0.3.0</a></td>
                 </tr>
                 <tr>
-                  <td><strong>Rhino (32.7B)</strong></td>
-                  <td><code>v-µLM Reflex Pure-Code</code></td>
-                  <td>Sovereign Pure-Code Land Titan &amp; Invariant Prover</td>
-                  <td>GGUF IQ3_XXS (64 Layers)</td>
-                  <td><strong>11.96 GB</strong></td>
-                  <td><code>74077f14f2be40a50b213ddb15d600f914c16000bb0a56c8f40ff6ce772b67ed</code></td>
-                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2">Download v0.3.2 Parts</a> / <a href="https://huggingface.co/monynith/nio-rhino-32b-gguf">HF Mirror</a></td>
+                  <td><strong>Bison (7.0B MoE)</strong></td>
+                  <td><code>v-µLM Reflex Pure-Code MoE</code></td>
+                  <td>Sovereign Pure-Code Flagship Architect &amp; Invariant Prover</td>
+                  <td>GGUF Q4_K_M (48L, 16 Experts)</td>
+                  <td><strong>2.94 GiB</strong></td>
+                  <td><code>a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931</code></td>
+                  <td><a href="https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/bison.moe-7b-q4km.gguf">Download v0.3.2</a></td>
                 </tr>
               </tbody>
             </table>
@@ -294,7 +294,7 @@
                   <th>🐟 Skate</th>
                   <th>🦈 Manta</th>
                   <th>🐋 Beluga</th>
-                  <th>🦏 Rhino</th>
+                  <th>🦬 Bison</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,56 +303,56 @@
                   <td><strong>135M</strong> (134.5M)</td>
                   <td><strong>494M</strong></td>
                   <td><strong>1.54B</strong> (28 Layers, 12 Heads)</td>
-                  <td><strong>32.7B</strong> (64 Layers, 40 Heads)</td>
+                  <td><strong>7.0B MoE</strong> (1.6B Active, 48 Layers)</td>
                 </tr>
                 <tr>
                   <td><strong>Primary Specialization</strong></td>
                   <td>Ambient Desk Companion &amp; Edge Chat</td>
                   <td>Systems Guru &amp; DAG Task Planner</td>
                   <td>Sovereign Lead Architect &amp; CoT Prover</td>
-                  <td>Pure-Code Systems Titan &amp; Prover</td>
+                  <td>Pure-Code Flagship Architect &amp; Prover</td>
                 </tr>
                 <tr>
                   <td><strong>Quantization &amp; Format</strong></td>
                   <td><code>IQ3_XXS</code> Vector / <code>IQ4_NL</code></td>
                   <td><code>IQ3_XXS</code> (imatrix conditioned)</td>
                   <td><code>IQ3_XXS</code> Layers + <code>IQ4_NL</code> Vocab</td>
-                  <td><code>IQ3_XXS</code> Layers + <code>IQ4_NL</code> Vocab</td>
+                  <td><code>Q4_K_M</code> Sparse 16-Expert MoE</td>
                 </tr>
                 <tr>
                   <td><strong>On-Disk Binary Size</strong></td>
                   <td><strong>~75 – 83 MB</strong></td>
                   <td><strong>~254 – 318 MB</strong></td>
                   <td><strong>604 MB</strong></td>
-                  <td><strong>11.96 GB (12,839,271,392 B)</strong></td>
+                  <td><strong>2.94 GiB (3,153,630,976 B)</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Idle Model RAM (Heap)</strong></td>
                   <td><strong>&lt; 28 MB</strong> (reclaims to 27.6 MB)</td>
                   <td><strong>~75 MB</strong> (reclaims to 74.8 MB)</td>
                   <td><strong>~76 MB</strong></td>
-                  <td><strong>~180 MB</strong></td>
+                  <td><strong>~140 MB</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Active Process Peak (VmHWM)</strong></td>
                   <td><strong>&lt; 50 MB</strong> (40.8 MB default)</td>
                   <td><strong>~195 – 234 MB</strong></td>
                   <td><strong>295.1 MB</strong> <em>(vs 1,312 MB stock)</em></td>
-                  <td><strong>&lt; 2.8 GB</strong> <em>(2-Layer Ring Buffer)</em></td>
+                  <td><strong>&lt; 1.5 GB</strong> <em>(Sparse Active Stream)</em></td>
                 </tr>
                 <tr>
                   <td><strong>Inference Rate (Pure CPU)</strong></td>
                   <td><strong>35–42 tok/s</strong> (55+ w/s default)</td>
                   <td><strong>20–35 words/sec</strong> (~30–45 tok/s)</td>
                   <td><strong>21.58 tok/s</strong> (14.4 words/sec)</td>
-                  <td><strong>45.2 tok/s (GPU)</strong> / ~4.6 tok/s (CPU)</td>
+                  <td><strong>110+ tok/s (GPU)</strong> / <strong>22–38 tok/s (CPU)</strong></td>
                 </tr>
                 <tr>
                   <td><strong>Peak Throughput / Burst</strong></td>
                   <td><strong>115–120.8 tok/s</strong> (<code>--turbo</code>)</td>
                   <td><strong>~50 tok/s</strong> burst</td>
                   <td><strong>39.7 tok/s</strong> (27.4 w/s on spec hits)</td>
-                  <td><strong>60+ tok/s</strong> GPU burst</td>
+                  <td><strong>180+ tok/s</strong> GPU burst</td>
                 </tr>
                 <tr>
                   <td><strong>Cognitive Invariant</strong></td>
@@ -373,7 +373,7 @@
                   <td><code>nioxs skate "&lt;prompt&gt;"</code></td>
                   <td><code>nioxs manta "&lt;prompt&gt;"</code></td>
                   <td><code>nioxs beluga "&lt;prompt&gt;"</code></td>
-                  <td><code>nioxs rhino "&lt;prompt&gt;"</code></td>
+                  <td><code>nioxs bison "&lt;prompt&gt;"</code></td>
                 </tr>
               </tbody>
             </table>
@@ -425,12 +425,12 @@
                   <td><strong>21.58 tok/s</strong> (14.4 words/s)<br>Burst up to <strong>39.7 tok/s</strong> (27.4 w/s)</td>
                 </tr>
                 <tr>
-                  <td><strong>Tier 11 (32.7B)</strong></td>
-                  <td><strong>Stock Qwen 2.5 Coder 32B</strong><br>&bull; Disk: 19.8 GB<br>&bull; Peak RAM: <strong>&gt; 24 GB</strong></td>
-                  <td><strong>Rhino (32.7B Pure-Code)</strong><br>&bull; Disk: <strong>11.96 GB</strong><br>&bull; Peak RAM: <strong>&lt; 2.8 GB</strong> (CPU Ring)</td>
-                  <td><strong>40% smaller</strong></td>
-                  <td><strong>8.5&times; lower RAM</strong><br><em>(24 GB &rarr; &lt; 2.8 GB)</em></td>
-                  <td><strong>45.2 tok/s</strong> (RTX 4090 GPU)<br>Formal Invariant Prover, 0-Filler</td>
+                  <td><strong>Tier 11 (7.0B MoE)</strong></td>
+                  <td><strong>Stock Qwen 2.5 Coder 7B</strong><br>&bull; Disk: 4.7 GB<br>&bull; Peak RAM: <strong>&gt; 6.2 GB</strong></td>
+                  <td><strong>Bison (7.0B Pure-Code MoE)</strong><br>&bull; Disk: <strong>2.94 GiB</strong><br>&bull; Peak RAM: <strong>&lt; 1.5 GB</strong> (CPU Stream)</td>
+                  <td><strong>37% smaller</strong></td>
+                  <td><strong>4.1&times; lower RAM</strong><br><em>(6.2 GB &rarr; &lt; 1.5 GB)</em></td>
+                  <td><strong>110+ tok/s (GPU)</strong> / <strong>22–38 tok/s (CPU)</strong><br>Formal Invariant Prover, 0-Filler</td>
                 </tr>
               </tbody>
             </table>
@@ -474,11 +474,11 @@
           </div>
         </section>
 
-        <!-- 6. RHINO VS STOCK QWEN 2.5 CODER 32B SIDE-BY-SIDE -->
-        <section id="rhino-side-by-side" class="doc-section">
-          <h2>6. Rhino (32.7B) vs Stock Foundation Coders: Empirical Side-by-Side Comparison</h2>
+        <!-- 6. BISON VS STOCK QWEN 2.5 CODER 7B SIDE-BY-SIDE -->
+        <section id="bison-side-by-side" class="doc-section">
+          <h2>6. Bison (7.0B MoE) vs Stock Foundation Coders: Empirical Side-by-Side Comparison</h2>
           <p>
-            Technical matrix comparing Stock Qwen 2.5 Coder 32B under standard inference (Ollama / llama.cpp Q4_K_M) against Rhino running on the native sovereign vMicroLM Reflex streaming engine:
+            Technical matrix comparing Stock Qwen 2.5 Coder 7B under standard inference (Ollama / llama.cpp Q4_K_M) against Bison running on the native sovereign vMicroLM Reflex streaming engine:
           </p>
 
           <div class="table-wrapper">
@@ -486,22 +486,22 @@
               <thead>
                 <tr>
                   <th>Technical Dimension</th>
-                  <th>Stock Qwen 2.5 Coder 32B<br><em>(Standard Ollama / llama.cpp Q4_K_M)</em></th>
-                  <th>Rhino (32.7B)<br><em>(Sovereign vMicroLM Reflex Engine)</em></th>
+                  <th>Stock Qwen 2.5 Coder 7B<br><em>(Standard Ollama / llama.cpp Q4_K_M)</em></th>
+                  <th>Bison (7.0B MoE)<br><em>(Sovereign vMicroLM Reflex Engine)</em></th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td><strong>Model Parameters</strong></td><td>32.76 Billion (64 Layers, 40 Heads, 8 KV Heads)</td><td>32.76 Billion (64 Layers, 40 Heads, 8 KV Heads)</td></tr>
-                <tr><td><strong>Specialization &amp; Role</strong></td><td>General conversational code chatbot</td><td><strong>Sovereign Pure-Code Land Titan</strong> (NOT a companion)</td></tr>
+                <tr><td><strong>Model Parameters</strong></td><td>7.61 Billion Dense (28 Layers, 100% active)</td><td><strong>7.0 Billion Sparse MoE</strong> (48 Layers, <strong>1.6B active/token</strong>)</td></tr>
+                <tr><td><strong>Specialization &amp; Role</strong></td><td>General conversational code chatbot</td><td><strong>Sovereign Pure-Code Flagship Architect</strong> (NOT a companion)</td></tr>
                 <tr><td><strong>Conversational Filler</strong></td><td>Apologies, pleasantries, preambles, disclaimers</td><td><strong>Zero conversational filler</strong> (immediate &lt;think&gt; &amp; code)</td></tr>
                 <tr><td><strong>Reasoning Engine</strong></td><td>None / Unconstrained autoregressive text</td><td><strong>Strict Formal Invariant Prover</strong> inside &lt;think&gt; (&le; 150 tok)</td></tr>
-                <tr><td><strong>Weight Quantization</strong></td><td><code>Q4_K_M</code> (Standard 4.5-bit block format)</td><td><code>IQ3_XXS</code> (Layers) + <code>IQ4_NL</code> (Vocab codebook)</td></tr>
-                <tr><td><strong>Disk Storage Footprint</strong></td><td><strong>19.8 GB</strong></td><td><strong>11.96 GB (12,839,271,392 bytes)</strong> <em>(40% disk reduction)</em></td></tr>
-                <tr><td><strong>Active Memory Model</strong></td><td>Full GGUF pinned in system RAM (OOMs &lt; 24 GB)</td><td><strong>2-Layer Sliding Ring Buffer</strong> (<code>MADV_DONTNEED</code> layer streaming)</td></tr>
-                <tr><td><strong>Target RAM Envelope (CPU)</strong></td><td><strong>&gt; 24 GB – 32 GB RAM</strong></td><td><strong>&lt; 2.8 GB Peak Resident RAM</strong> on CPU</td></tr>
-                <tr><td><strong>GPU Offload (RTX 4090)</strong></td><td>64 / 64 Layers offloaded (~22 GB VRAM)</td><td>64 / 64 Layers offloaded (~14 GB VRAM)</td></tr>
-                <tr><td><strong>Decode Throughput</strong></td><td>~35 tok/s (GPU)</td><td><strong>45.2 tok/s (RTX 4090)</strong> / ~4.6 tok/s (CPU Ring Buffer)</td></tr>
-                <tr><td><strong>CLI Direct Invocation</strong></td><td><code>ollama run qwen2.5-coder:32b</code></td><td><code>nioxs rhino "&lt;prompt&gt;"</code> / <code>nioxs pull rhino</code></td></tr>
+                <tr><td><strong>Weight Quantization</strong></td><td><code>Q4_K_M</code> (Dense 7.6B weights)</td><td><code>Q4_K_M</code> (Top-16 Router-Sliced MoE + Merged Dual-Teacher LoRA)</td></tr>
+                <tr><td><strong>Disk Storage Footprint</strong></td><td><strong>4.68 GB</strong></td><td><strong>2.94 GiB (3,153,630,976 bytes)</strong> <em>(37% disk reduction)</em></td></tr>
+                <tr><td><strong>Active Memory Model</strong></td><td>Full GGUF pinned in system RAM (~6.2 GB)</td><td><strong>Sparse Active Expert Routing + Layer Streaming</strong></td></tr>
+                <tr><td><strong>Target RAM Envelope (CPU)</strong></td><td><strong>6 GB – 8 GB RAM</strong></td><td><strong>&lt; 1.5 GB Peak Resident RAM</strong> on CPU</td></tr>
+                <tr><td><strong>GPU Offload</strong></td><td>28 / 28 Layers (~5.5 GB VRAM)</td><td>48 / 48 Layers (~3.4 GB VRAM — fits 4GB/6GB Laptop GPUs)</td></tr>
+                <tr><td><strong>Decode Throughput</strong></td><td>~8–12 tok/s (CPU) / ~45 tok/s (GPU)</td><td><strong>22–38 tok/s (CPU)</strong> / <strong>110–180 tok/s (GPU)</strong></td></tr>
+                <tr><td><strong>CLI Direct Invocation</strong></td><td><code>ollama run qwen2.5-coder:7b</code></td><td><code>nioxs bison "&lt;prompt&gt;"</code> / <code>nioxs pull bison</code></td></tr>
               </tbody>
             </table>
           </div>
