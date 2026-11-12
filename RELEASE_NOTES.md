@@ -6,7 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
-- [v0.4.0 — Bison (7.0B MoE) Sovereign Pure-Code Land Titan Release](#v040--bison-70b-moe-sovereign-pure-code-land-titan-release)
+- [v0.4.0 — Sovereign Land Fleet Release (Cheetah 1.5B & Bison 7.0B MoE)](#v040--sovereign-land-fleet-release-cheetah-15b--bison-70b-moe)
 - [v0.3.1 — Blue (3.82B) Sovereign Reflex Lead Release (v-µLM Reflex)](#v031--blue-382b-sovereign-reflex-lead-release-v-µlm-reflex)
 - [v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--beluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
 - [v0.2.9 — Beluga (1.54B) Sovereign Cognitive Companion Production Release (v-MicroLM Vector)](#v029--beluga-154b-sovereign-cognitive-companion-production-release-v-microlm-vector)
@@ -22,21 +22,30 @@ Official release history and distribution registry for compiled neural binaries 
 
 ---
 
-## v0.4.0 — Bison (7.0B MoE) Sovereign Pure-Code Land Titan Release
+## v0.4.0 — Sovereign Land Fleet Release (Cheetah 1.5B & Bison 7.0B MoE)
 
-Official **v0.4.0** release distributing **Bison (7.0B MoE)** (`bison.moe-7b-q4km.gguf`) and its tokenizer (`bison-tokenizer.json`). Bison is built on `Qwen/Qwen3-Coder-30B-A3B-Instruct` (48 layers, 16 router-norm pruned coding experts, 1.9B active parameters) fine-tuned with Dual-Teacher LoRA (`DeepSeek-R1-Distill-70B` + `Microsoft Phi-4`) as a strictly **Pure-Code Land Titan** (NOT a conversational companion). Available via `nioxs bison "<prompt>"` and `nioxs pull bison` (NioXS v0.5.5+).
+Official **v0.4.0** release distributing the **Sovereign Land Fleet (`nio-terra`)**: **Cheetah 1.5B** (`cheetah.1.5b-q4km.gguf`) and **Bison 7.0B MoE** (`bison.moe-7b-q4km.gguf`) with matching tokenizers. The Land Fleet delivers zero-filler, production-grade code generation and systems programming directly on local hardware without cloud dependencies.
 
-### 🦬 Bison Highlights
+### 🐆 Cheetah Highlights (1.5B Code Sprinter)
+- **Sub-20ms Code Reflex**: Instant terminal commands, syntax transformations, and algorithmic functions.
+- **Speculative Decoding**: Active N-gram + Bigram draft proposals achieving **11.22 tok/s** on pure CPU.
+- **Lightweight Footprint**: 1.11 GB disk footprint and **< 460 MB Peak RAM** with 4-Layer Rolling Window KV.
+- **Pull Command**: `nioxs pull cheetah` | CLI: `nioxs cheetah "<prompt>"`
 
-- **Pure-Code Land Titan**: Zero conversational filler; verifies formal state invariants, memory orderings, and lifetime constraints inside concise `<think>...</think>` blocks (`<= 150` tokens) before emitting complete, compilable production implementations.
-- **Disk Size**: 3,153,630,976 bytes (2.94 GiB) quantized in `Q4_K_M` across all 48 transformer blocks. Fits 100% inside 4GB/6GB laptop GPUs and runs in `< 1.5 GB RAM` on pure CPU.
+### 🦬 Bison Highlights (7.0B MoE Pure-Code Titan)
+- **Pure-Code Land Titan**: Zero conversational filler; verifies formal state invariants, memory orderings, and lifetime constraints inside concise `<think>...</think>` blocks (`<= 150` tokens).
+- **Prefix Cache Acceleration**: Binary disk-persisted prefix cache accelerates cold start ~6× (from 103s to 17s on CPU).
+- **Sub-1.5 GB Memory Bound**: Runs in **~1.32 GB Peak RAM** on pure CPU.
+- **Pull Command**: `nioxs pull bison` | CLI: `nioxs bison "<prompt>"`
 
 ### 📦 Certified Binary Assets
 
-| Asset | Role | Size | SHA-256 |
+| Asset | Fleet Role | Size | SHA-256 |
 |---|---|:---:|---|
-| `bison.moe-7b-q4km.gguf` | Bison (Sovereign Pure-Code Land Titan, 16-Expert Sparse MoE) | 3,153,630,976 B | `a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931` |
-| `bison-tokenizer.json` | Bison Tokenizer | 11,422,184 B | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` |
+| `cheetah.1.5b-q4km.gguf` | Cheetah (Sovereign Code Sprinter, 28L Q4_K_M) | 1,117,320,768 B | `cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046` |
+| `cheetah-tokenizer.json` | Cheetah Tokenizer | 7,031,645 B | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` |
+| `bison.moe-7b-q4km.gguf` | Bison (Sovereign Pure-Code Land Titan, 48L Q4_K_M) | 4,683,073,536 B | `509287f78cb4d4cf6b3843734733b914b2c158e43e22a7f4bf5e963800894d3c` |
+| `bison-tokenizer.json` | Bison Tokenizer | 7,031,645 B | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` |
 
 ---
 

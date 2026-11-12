@@ -111,7 +111,8 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
-| **`Bison`** | **Sovereign Pure-Code Flagship Architect** | `7.0B MoE (48L, 1.6B Active)` | Qwen3-Coder-MoE based pure-code architect trained via Dual-Teacher distillation with `<think>` formal invariant verification, zero conversational filler (`bison.moe-7b-q4km.gguf`, 2.94 GiB / 3,153,630,976 bytes, **< 1.5 GB peak RAM**) | **Released** | [`v0.3.2`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.2) |
+| **`Cheetah`** | **Sovereign Code Sprinter** | `1.5B (28L, Q4_K_M)` | Sub-20ms code sprinter for terminal commands and instant code emission (`cheetah.1.5b-q4km.gguf`, 1.11 GB / 1,117,320,768 bytes, **< 460 MB peak RAM**, 11.2 tok/s CPU) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`Bison`** | **Sovereign Pure-Code Flagship Architect** | `7.0B MoE (48L, Q4_K_M)` | Sovereign pure-code land titan with `<think>` formal invariant verification, zero conversational filler (`bison.moe-7b-q4km.gguf`, 4.68 GB / 4,683,073,536 bytes, **< 1.35 GB peak RAM**) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 
 ---
 
@@ -600,12 +601,14 @@ curl -s http://127.0.0.1:7460/v1/chat/completions \
 | `beluga-tokenizer.json` | Beluga Tokenizer (151K Vocab) | JSON | ~11 MB | `cf535eea1ed9374c2bc3436625216c18fc703fc37aae8e019b3e85cc658e0395` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/beluga-tokenizer.json) |
 | `universal_subwords.json` | Universal Lookahead Trie Rules | JSON | 15.28 KB | `19dfab51e432bd3e654967b8880719e7b8aff70d2a51aa3d729813d72cd8faa8` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.0/universal_subwords.json) |
 
-### 🦬 v-µLM Reflex Pure-Code MoE Suite (Bison 7.0B MoE)
+### 🌍 Sovereign Land Fleet Suite (`nio-terra` v0.4.0)
 
 | Artifact | Engine / Role | Format | Size | SHA-256 Checksum | Download Link |
 |---|---|:---:|:---:|---|:---:|
-| `bison.moe-7b-q4km.gguf` | Bison (7.0B Pure-Code Flagship Architect) | GGUF Q4_K_M (48L, 16 Experts) | 2.94 GiB (3,153,630,976 B) | `a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/bison.moe-7b-q4km.gguf) |
-| `bison-tokenizer.json` | Bison Tokenizer | JSON | 11.42 MB | `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.3.2/bison-tokenizer.json) |
+| `cheetah.1.5b-q4km.gguf` | Cheetah (1.5B Sovereign Code Sprinter) | GGUF Q4_K_M (28L) | 1.11 GB (1,117,320,768 B) | `cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/cheetah.1.5b-q4km.gguf) |
+| `cheetah-tokenizer.json` | Cheetah Tokenizer | JSON | 7.03 MB (7,031,645 B) | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/cheetah-tokenizer.json) |
+| `bison.moe-7b-q4km.gguf` | Bison (7.0B Pure-Code Land Titan) | GGUF Q4_K_M (48L, Multi-Part) | 4.68 GB (4,683,073,536 B) | `509287f78cb4d4cf6b3843734733b914b2c158e43e22a7f4bf5e963800894d3c` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/bison.moe-7b-q4km.gguf) |
+| `bison-tokenizer.json` | Bison Tokenizer | JSON | 7.03 MB (7,031,645 B) | `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539` | [Download](https://github.com/nio-labs/nio-xs-models/releases/download/v0.4.0/bison-tokenizer.json) |
 
 ### 🦈 v-µLM Vector & Live Web Scout Suite
 

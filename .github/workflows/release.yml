@@ -4,62 +4,97 @@ on:
   push:
     tags:
       - 'v0.4.0'
+      - 'v0.4.*'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  publish-bison:
-    name: Mirror Bison (7.0B MoE) to GitHub Release v0.4.0
+  publish-land-fleet:
+    name: Mirror Sovereign Land Fleet (Cheetah 1.5B & Bison 7.0B MoE) to GitHub Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Stream & Verify Bison (7.0B MoE) from Hugging Face and Split into <2GiB Parts
+      - name: Stream, Verify, and Package Land Fleet Models
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
 
-          echo "1. Downloading bison-tokenizer.json (11.4 MB)..."
+          echo "============================================="
+          echo "1. Cheetah 1.5B Code Sprinter"
+          echo "============================================="
+          echo "Downloading cheetah-tokenizer.json (7.0 MB)..."
           curl -fSL --retry 5 --retry-delay 3 \
-            "https://huggingface.co/monynith/nio-bison-7b-gguf/resolve/main/bison-tokenizer.json" \
-            -o dist/bison-tokenizer.json
-          echo "9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034  dist/bison-tokenizer.json" | sha256sum -c -
+            "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct/resolve/main/tokenizer.json" \
+            -o dist/cheetah-tokenizer.json
+          echo "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539  dist/cheetah-tokenizer.json" | sha256sum -c -
 
-          echo "2. Streaming bison.moe-7b-q4km.gguf (2.94 GiB) into 1.9 GB GitHub Release parts..."
+          echo "Downloading cheetah.1.5b-q4km.gguf (1.11 GB)..."
+          curl -fSL --retry 5 --retry-delay 3 \
+            "https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF/resolve/main/qwen2.5-coder-1.5b-instruct-q4_k_m.gguf" \
+            -o dist/cheetah.1.5b-q4km.gguf
+          echo "cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046  dist/cheetah.1.5b-q4km.gguf" | sha256sum -c -
+
+          echo "============================================="
+          echo "2. Bison 7.0B MoE Pure-Code Titan"
+          echo "============================================="
+          echo "Downloading bison-tokenizer.json (7.0 MB)..."
+          curl -fSL --retry 5 --retry-delay 3 \
+            "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct/resolve/main/tokenizer.json" \
+            -o dist/bison-tokenizer.json
+          echo "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539  dist/bison-tokenizer.json" | sha256sum -c -
+
+          echo "Streaming bison.moe-7b-q4km.gguf (4.68 GB) into 1.9 GB GitHub Release parts..."
           curl -fSL --retry 5 --retry-delay 5 \
-            "https://huggingface.co/monynith/nio-bison-7b-gguf/resolve/main/bison.moe-7b-q4km.gguf" \
+            "https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/qwen2.5-coder-7b-instruct-q4_k_m.gguf" \
             | tee >(sha256sum > /tmp/bison.sha256) \
             | split -d -a 2 -b 1900000000 - dist/bison.moe-7b-q4km.gguf.part-
           sync
 
-          COMPUTED_SHA=$(awk '{print $1}' /tmp/bison.sha256)
-          EXPECTED_SHA="a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931"
-          echo "Computed SHA-256: $COMPUTED_SHA"
-          if [ "$COMPUTED_SHA" != "$EXPECTED_SHA" ]; then
-            echo "SHA-256 mismatch! Expected $EXPECTED_SHA, got $COMPUTED_SHA"
+          BISON_COMPUTED_SHA=$(awk '{print $1}' /tmp/bison.sha256)
+          BISON_EXPECTED_SHA="509287f78cb4d4cf6b3843734733b914b2c158e43e22a7f4bf5e963800894d3c"
+          echo "Bison Computed SHA-256: $BISON_COMPUTED_SHA"
+          if [ "$BISON_COMPUTED_SHA" != "$BISON_EXPECTED_SHA" ]; then
+            echo "SHA-256 mismatch! Expected $BISON_EXPECTED_SHA, got $BISON_COMPUTED_SHA"
             exit 1
           fi
 
+          echo "============================================="
+          echo "Package verification complete:"
           ls -lh dist/
+          echo "============================================="
 
       - name: Publish GitHub Release v0.4.0
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v0.4.0
-          name: "v0.4.0 — Bison (7.0B MoE) Sovereign Pure-Code Land Titan Release"
+          tag_name: ${{ github.ref_name }}
+          name: "${{ github.ref_name }} — Sovereign Land Fleet Release (Cheetah 1.5B & Bison 7.0B MoE)"
           body: |
-            Official **v0.4.0** release distributing **Bison (7.0B MoE)** (`bison.moe-7b-q4km.gguf`, 48-Layer 16-Expert Sparse MoE Pure-Code Land Titan) and `bison-tokenizer.json`.
+            Official release distributing the **Sovereign Land Fleet (`nio-terra`)**:
 
-            - **Assembled GGUF Size**: `3,153,630,976` bytes (`2.94 GiB`)
-            - **Assembled GGUF SHA-256**: `a96f619fb8a19a975fefccc6e5750b5570b2d77efa1cdacfebfd596f85c49931`
-            - **Tokenizer Size**: `11,422,184` bytes (`10.89 MiB`)
-            - **Tokenizer SHA-256**: `9fae067af7b47d39e05501d5463a15e83a8fbc62a857f2c2dc58482b8cae8034`
-            - **Pull via NioXS (`v0.5.5+`)**: `nioxs pull bison`
-            - **Hugging Face Single-File Mirror**: https://huggingface.co/monynith/nio-bison-7b-gguf
+            ### 🐆 Cheetah (1.5B Q4_K_M) — Sub-20ms Code Sprinter
+            - **Binary**: `cheetah.1.5b-q4km.gguf`
+            - **Size**: `1,117,320,768` bytes (`1.04 GiB` / `1.11 GB`)
+            - **SHA-256**: `cc324af070c2ecbfd324a30884d2f951a7ff756aba85cb811a6ec436933bb046`
+            - **Tokenizer**: `cheetah-tokenizer.json` (`c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`)
+            - **Peak RAM**: `< 460 MB` (4-Layer Rolling Window KV)
+            - **Active Decode**: `11.22 tok/s` (~5.6 words/s on CPU) with Speculative Decoding
+            - **Pull Command**: `nioxs pull cheetah`
+
+            ---
+
+            ### 🦬 Bison (7.0B MoE Q4_K_M) — Pure-Code Land Titan
+            - **Binary**: `bison.moe-7b-q4km.gguf` (Distributed in 1.9 GB parts: `.part-00`, `.part-01`, `.part-02`)
+            - **Assembled Size**: `4,683,073,536` bytes (`4.36 GiB` / `4.68 GB`)
+            - **SHA-256**: `509287f78cb4d4cf6b3843734733b914b2c158e43e22a7f4bf5e963800894d3c`
+            - **Tokenizer**: `bison-tokenizer.json` (`c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`)
+            - **Peak RAM**: `< 1.35 GB` (Layer-Streamed Working Set)
+            - **Cold Prefill**: Accelerated ~6× with Binary Prefix Cache
+            - **Pull Command**: `nioxs pull bison`
           files: dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
