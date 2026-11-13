@@ -6,6 +6,7 @@ Official release history and distribution registry for compiled neural binaries 
 
 ## 📑 Table of Contents
 
+- [v0.4.1 — Tiger 3.0B Sovereign Vibe Coder & Daily Systems Workhorse](#v041--tiger-30b-sovereign-vibe-coder--daily-systems-workhorse)
 - [v0.4.0 — Sovereign Land Fleet Release (Cheetah 1.5B & Bison 7.0B MoE)](#v040--sovereign-land-fleet-release-cheetah-15b--bison-70b-moe)
 - [v0.3.1 — Blue (3.82B) Sovereign Reflex Lead Release (v-µLM Reflex)](#v031--blue-382b-sovereign-reflex-lead-release-v-µlm-reflex)
 - [v0.3.0 — Beluga (1.54B) Sovereign Cognitive Companion Gold Release (IQ3_XXS + < 295MB Peak RAM)](#v030--beluga-154b-sovereign-cognitive-companion-gold-release-iq3_xxs---295mb-peak-ram)
@@ -19,6 +20,19 @@ Official release history and distribution registry for compiled neural binaries 
 - [v0.2.1 — Mako (150M) Live Web Scout & MCP Token Scrubber](#v021--mako-150m-live-web-scout--mcp-token-scrubber)
 - [v0.2.0 — Predator Tier & v-µLM Vector: Manta (494M) & Skate (135M)](#v020--predator-tier--v-µlm-vector-manta-494m--skate-135m)
 - [v0.1.0 — MicroLM (µLM) Core Production Suite & Localhost MCP Server](#v010--microlm-µlm-core-production-suite--localhost-mcp-server)
+
+---
+
+## v0.4.1 — Tiger 3.0B Sovereign Vibe Coder & Daily Systems Workhorse
+
+Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)** with **Tiger 3.0B** (`tiger.3b-q4km.gguf`) alongside **Cheetah 1.5B** and **Bison 7.0B MoE**. Tiger is engineered as the daily "vibe coding" workhorse—the perfect mid-tier model bridging sub-second reflexes and deep algorithmic titan logic.
+
+### 🐅 Tiger Highlights (3.0B Daily Workhorse)
+- **Daily Vibe Coding Workhorse**: Authors multi-file features, comprehensive test suites, and robust modules without losing context or hallucinating interfaces.
+- **Zero Conversational Fluff**: Emits pure, compilable code immediately—no pleasantries, no conversational preamble.
+- **Tight Memory Envelope**: **`< 720 MB` Peak RAM** (`698 MB` measured on pure CPU) via 4-Layer Rolling Window KV.
+- **High Decode Throughput**: **8.5–10.0 tok/s** on consumer laptop CPUs.
+- **Pull Command**: `nioxs pull tiger` | CLI: `nioxs tiger "<prompt>"`
 
 ---
 
