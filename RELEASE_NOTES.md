@@ -23,9 +23,15 @@ Official release history and distribution registry for compiled neural binaries 
 
 ---
 
-## v0.4.1 — Tiger 3.0B Vibe Coder & Fox 3.0B Articulate Mentor Release
+## v0.4.1 — Sovereign Land Fleet (Cheetah, Tiger, Fox & Rabbit)
 
-Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)** with **Tiger 3.0B** (`tiger.3b-q4km.gguf`) and **Fox 3.0B** (`fox.3b-q4km.gguf`) alongside **Cheetah 1.5B** and **Bison 7.0B MoE**.
+Official **v0.4.1** release distributing the complete **Sovereign Land Fleet (`nio-terra`)** featuring **Cheetah 1.5B**, **Tiger 3.0B**, **Fox 3.0B**, and **Rabbit 3.0B**.
+
+### 🐆 Cheetah Highlights (1.5B Code Sprinter)
+- **Sub-20ms Code Reflex**: Instant terminal commands, syntax transformations, and algorithmic functions.
+- **Speculative Decoding**: Active N-gram + Bigram draft proposals achieving **11.22 tok/s** on pure CPU.
+- **Lightweight Footprint**: 1.11 GB disk footprint and **< 460 MB Peak RAM** with 4-Layer Rolling Window KV.
+- **Pull Command**: `nioxs pull cheetah` | CLI: `nioxs cheetah "<prompt>"`
 
 ### 🐅 Tiger Highlights (3.0B Daily Workhorse)
 - **Daily Vibe Coding Workhorse**: Authors multi-file features, comprehensive test suites, and robust modules without losing context or hallucinating interfaces.
@@ -39,6 +45,12 @@ Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)*
 - **Natural, Unsuppressed Prose**: Explains complex concepts with clarity and warmth—zero token penalties on conversational openings.
 - **Shared Memory Efficiency**: Reuses the 36-layer 3.0B quantized architecture in **`< 720 MB` Peak RAM** with instant local linking.
 - **Pull Command**: `nioxs pull fox` | CLI: `nioxs fox "<prompt>"`
+
+### 🐇 Rabbit Highlights (3.0B Deep Thinker & Root-Cause Detective)
+- **Sovereign Deep Thinker**: Dissects concurrency deadlocks, memory leaks, and complex systems architecture with rigorous step-by-step reasoning inside `<think>...</think>` tags before delivering production fixes.
+- **Bit-Exact CoT Verification**: Dedicated companion decoding dynamics (`temp = 0.60`, `top_p = 0.95`, `repeat_penalty = 1.02`) with visible real-time thinking stream.
+- **Shared Memory Efficiency**: Operates within **`< 720 MB` Peak RAM** on CPU with Binary Prefix Cache acceleration.
+- **Pull Command**: `nioxs pull rabbit` | CLI: `nioxs rabbit "<prompt>"`
 
 ---
 

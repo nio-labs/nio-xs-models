@@ -98,8 +98,8 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 13: SOVEREIGN ARTICULATE MENTOR (v-µLM Conversational Land Fleet) ]            │
 │    • Fox (3.0B)               ──► Articulate Mentor & Rubber Duck, 36L (< 720 MB)      │
 │                                                                                        │
-│  [ TIER 14: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Pure-Code MoE) ]                     │
-│    • Bison (7.0B MoE)         ──► Pure-Code Flagship Architect, 48L Q4_K_M (< 1.35 GB) │
+│  [ TIER 14: SOVEREIGN DEEP THINKER & DETECTIVE (v-µLM Deep CoT Reasoning) ]           │
+│    • Rabbit (3.0B)            ──► Root-Cause Detective & <think> CoT Prover (< 720 MB) │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -120,10 +120,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Manta`** | **Systems Guru & DAG Architect** | `494.0M (24L, v-µLM Companion)` | Systems guru & DAG architect trained on gold corpus via IQ3_XXS Vector Codebooks, powers NioGuru 21 personas & `<manta_plan>` DAGs (`manta.vmicrolm-vector.gguf`, 317.92 MB, < 85 MB idle RAM) | **Released** | [`v0.2.7`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.2.7) |
 | **`Beluga`** | **Sovereign Lead Architect & Reasoning** | `1.54B (28L, v-µLM Companion)` | Sovereign Lead Architect delivering bit-exact `<think>` Chain-of-Thought reasoning proofs via dynamic layer streaming (`beluga.vmicrolm-vector.gguf`, 604 MB, **< 295 MB peak RAM**, 14–22 tok/s) | **Released** | [`v0.3.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.0) |
 | **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
-| **`Cheetah`** | **Sovereign Code Sprinter** | `1.5B (28L, Q4_K_M)` | Sub-20ms code sprinter for terminal commands and instant code emission (`cheetah.1.5b-q4km.gguf`, 1.11 GB / 1,117,320,768 bytes, **< 460 MB peak RAM**, 11.2 tok/s CPU) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`Cheetah`** | **Sovereign Code Sprinter** | `1.5B (28L, Q4_K_M)` | Sub-20ms code sprinter for terminal commands and instant code emission (`cheetah.1.5b-q4km.gguf`, 1.11 GB / 1,117,320,768 bytes, **< 460 MB peak RAM**, 11.2 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
 | **`Tiger`** | **Sovereign Daily Vibe Coder & Systems Workhorse** | `3.0B (36L, Q4_K_M)` | Daily vibe coder for multi-file features and full modules, zero conversational filler (`tiger.3b-q4km.gguf`, 2.10 GB / 2,104,932,800 bytes, **< 720 MB peak RAM**, 8.5–10 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
 | **`Fox`** | **Sovereign Articulate Mentor & Rubber Duck** | `3.0B (36L, Q4_K_M)` | Articulate pair programmer explaining architecture, trade-offs, and algorithms with pedagogical warmth (`fox.3b-q4km.gguf`, 2.10 GB / 2,104,932,800 bytes, **< 720 MB peak RAM**, 8.5–10 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
-| **`Bison`** | **Sovereign Pure-Code Flagship Architect** | `7.0B MoE (48L, Q4_K_M)` | Sovereign pure-code land titan with `<think>` formal invariant verification, zero conversational filler (`bison.moe-7b-q4km.gguf`, 4.68 GB / 4,683,073,536 bytes, **< 1.35 GB peak RAM**) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
+| **`Rabbit`** | **Sovereign Deep Thinker & Root-Cause Detective** | `3.0B (36L, Q4_K_M)` | Deep reasoning & root-cause detective with bit-exact `<think>` Chain-of-Thought verification (`rabbit.3b-q4km.gguf`, 2.10 GB / 2,104,932,800 bytes, **< 720 MB peak RAM**, 8.5–10 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
 
 ---
 
@@ -137,19 +137,19 @@ The **v-MicroLM Companion Fleet** represents Nio's tiered, zero-cloud edge intel
 
 ### 📊 v-MicroLM Companion & Pure-Code Benchmark Suite
 
-| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga | 🦬 Bison |
+| Metric / Specification | 🐟 Skate | 🦈 Manta | 🐋 Beluga | 🐅 Tiger / 🐇 Rabbit |
 | :--- | :--- | :--- | :--- | :--- |
-| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) | **7.0B MoE** (`1.6B` Active, 48 Layers) |
-| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover | Pure-Code Flagship Architect & Prover |
-| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab | `Q4_K_M` Sparse 16-Expert MoE |
-| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** | **2.94 GiB (3,153,630,976 B)** |
-| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** | **~140 MB** |
-| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* | **< 1.5 GB** *(2-Layer Ring Buffer)* |
-| **Inference Rate** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) | **110+ tok/s (GPU)** / **22–38 tok/s (CPU)** |
-| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) | **180+ tok/s** GPU burst |
-| **Cognitive Invariant** | Strict Zero-Code (deflects to Manta) | Strict Zero-Code Planner (`<manta_plan>`) | Bit-exact `<think>...</think>` CoT | Strict Pure-Code, Invariant `<think>`, 0-Filler |
+| **Model Parameters** | **135M** (134.5M) | **494M** | **1.54B** (28 Layers, 12 Heads) | **3.0B** (36 Layers, Dense Q4_K_M) |
+| **Primary Specialization** | Ambient Desk Companion & Edge Chat | Systems Guru & DAG Task Planner | Sovereign Lead Architect & CoT Prover | Daily Vibe Coder / Deep CoT Detective |
+| **Quantization & Format** | `IQ3_XXS` Vector / `IQ4_NL` | `IQ3_XXS` (imatrix conditioned) | `IQ3_XXS` Layers + `IQ4_NL` Vocab | `Q4_K_M` 36L Dense Quantized |
+| **On-Disk Binary Size** | **~75 – 83 MB** | **~254 – 318 MB** | **604 MB** | **2.10 GB (2,104,932,800 B)** |
+| **Idle Model RAM (Heap)** | **< 28 MB** (reclaims to 27.6 MB) | **~75 MB** (reclaims to 74.8 MB) | **~76 MB** | **~110 MB** |
+| **Active Process Peak (`VmHWM`)**| **< 50 MB** (40.8 MB default) | **~195 – 234 MB** | **295.1 MB** *(vs 1,312 MB stock)* | **< 720 MB** *(698 MB on CPU)* |
+| **Inference Rate** | **35–42 tok/s** (55+ w/s default) | **20–35 words/sec** (~30–45 tok/s) | **21.58 tok/s** (14.4 words/sec) | **8.5–10.0 tok/s (CPU)** |
+| **Peak Throughput / Burst** | **115–120.8 tok/s** (`--turbo`) | **~50 tok/s** burst | **39.7 tok/s** (27.4 w/s on spec hits) | **45+ tok/s** GPU offload |
+| **Cognitive Invariant** | Strict Zero-Code (deflects to Manta) | Strict Zero-Code Planner (`<manta_plan>`) | Bit-exact `<think>...</think>` CoT | Pure-Code Workhorse / Root-Cause CoT |
 | **Target Hardware SLA** | Always-on background daemon / 128MB RAM | 512MB RAM edge nodes & containers | 512MB–1GB RAM systems (Zero GPU) | Laptops & Workstations with or w/o GPU |
-| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` | `nioxs bison "<prompt>"` |
+| **CLI Direct Invocation** | `nioxs skate "<prompt>"` | `nioxs manta "<prompt>"` | `nioxs beluga "<prompt>"` | `nioxs tiger "<prompt>"` / `nioxs rabbit` |
 
 ---
 
@@ -162,25 +162,25 @@ Direct empirical comparison between unoptimized stock upstream foundation models
 | **Tier 1 (135M)** | **Stock SmolLM2 135M**<br>• Disk: ~90 MB<br>• Peak RAM: **340 MB** | **Skate (135M)**<br>• Disk: **82.9 MB**<br>• Peak RAM: **40.8 MB** (< 50 MB) | **8% smaller** | **8.3× lower RAM** *(340 MB → 40.8 MB)* | **55+ words/s**<br>(115–120.8 tok/s `--turbo`) |
 | **Tier 2 (500M)** | **Stock Qwen 2.5 0.5B**<br>• Disk: ~398 MB<br>• Peak RAM: **620 MB** | **Manta (494M)**<br>• Disk: **254–318 MB**<br>• Peak RAM: **195–234 MB** (74.8 MB idle) | **20–36% smaller** | **2.6× lower RAM** *(620 MB → 234 MB)* | **20–35 words/s**<br>(Structured `<manta_plan>` DAGs) |
 | **Tier 3 (1.5B)** | **Stock Qwen 2.5 1.5B**<br>• Disk: 1,020 MB<br>• Peak RAM: **1,312 MB** | **Beluga (1.54B)**<br>• Disk: **604 MB**<br>• Peak RAM: **295.1 MB** (< 300 MB) | **41% smaller** | **4.4× lower RAM** *(1,312 MB → 295.1 MB)* | **21.58 tok/s** (14.4 words/s)<br>Burst up to **39.7 tok/s** (27.4 w/s) |
-| **Tier 11 (7.0B MoE)** | **Stock Qwen 2.5 Coder 7B**<br>• Disk: 4.7 GB<br>• Peak RAM: **> 6.2 GB** | **Bison (7.0B Pure-Code MoE)**<br>• Disk: **2.94 GiB**<br>• Peak RAM: **< 1.5 GB** (CPU Stream) | **37% smaller** | **4.1× lower RAM** *(6.2 GB → < 1.5 GB)* | **110+ tok/s (GPU)** / **22–38 tok/s (CPU)**<br>Formal Invariant Prover, 0-Filler |
+| **Tier 12 (3.0B)** | **Stock Qwen 2.5 Coder 3B**<br>• Disk: ~2.1 GB<br>• Peak RAM: **> 3.4 GB** | **Tiger / Rabbit (3.0B Land Fleet)**<br>• Disk: **2.10 GB**<br>• Peak RAM: **< 720 MB** (CPU Stream) | **Matches weights** | **4.7× lower RAM** *(3.4 GB → < 720 MB)* | **8.5–10 tok/s (CPU)**<br>Sub-720MB RAM, zero filler |
 
 ---
 
-## 🦬 Bison (7.0B MoE) vs Stock Foundation Coders: Side-by-Side Comparison
+## 🐅 Tiger & 🐇 Rabbit (3.0B) vs Stock Foundation Coders: Side-by-Side Comparison
 
-| Technical Dimension | Stock Qwen 2.5 Coder 7B<br>*(Standard Ollama / llama.cpp Q4_K_M)* | Bison (7.0B MoE)<br>*(Sovereign vMicroLM Reflex Engine)* |
+| Technical Dimension | Stock Qwen 2.5 Coder 3B<br>*(Standard Ollama / llama.cpp Q4_K_M)* | Tiger / Rabbit (3.0B Land Fleet)<br>*(Sovereign vMicroLM Reflex Engine)* |
 | :--- | :--- | :--- |
-| **Model Parameters** | 7.61 Billion Dense (28 Layers, 100% active) | **7.0 Billion Sparse MoE** (48 Layers, **1.6B active/token**) |
-| **Specialization & Role** | General conversational code chatbot | **Sovereign Pure-Code Flagship Architect** (NOT a companion) |
-| **Conversational Filler** | Apologies, pleasantries, preambles, disclaimers | **Zero conversational filler** (immediate `<think>` & code) |
-| **Reasoning Engine** | None / Unconstrained autoregressive text | **Strict Formal Invariant Prover** inside `<think>` (`<= 150` tok) |
-| **Weight Quantization** | `Q4_K_M` (Dense 7.6B weights) | `Q4_K_M` (Top-16 Router-Sliced MoE + Merged Dual-Teacher LoRA) |
-| **Disk Storage Footprint** | **4.68 GB** | **2.94 GiB (3,153,630,976 bytes)** *(37% disk reduction)* |
-| **Active Memory Model** | Full GGUF pinned in system RAM (~6.2 GB) | **Sparse Active Expert Routing + Layer Streaming** |
-| **Target RAM Envelope (CPU)** | **6 GB – 8 GB RAM** | **< 1.5 GB Peak Resident RAM** on CPU |
-| **GPU Offload** | 28 / 28 Layers (~5.5 GB VRAM) | 48 / 48 Layers (~3.4 GB VRAM — fits 4GB/6GB Laptop GPUs) |
-| **Decode Throughput** | ~8–12 tok/s (CPU) / ~45 tok/s (GPU) | **22–38 tok/s (CPU)** / **110–180 tok/s (GPU)** |
-| **CLI Direct Invocation** | `ollama run qwen2.5-coder:7b` | `nioxs bison "<prompt>"` / `nioxs pull bison` |
+| **Model Parameters** | 3.09 Billion Dense (36 Layers) | **3.09 Billion Dense** (36 Layers, Q4_K_M) |
+| **Specialization & Role** | General conversational code chatbot | **Sovereign Daily Vibe Coder (Tiger) & Deep Thinker (Rabbit)** |
+| **Conversational Filler** | Apologies, pleasantries, preambles, disclaimers | **Zero conversational filler** (pure code or `<think>` CoT) |
+| **Reasoning Engine** | None / Unconstrained autoregressive text | **Strict Root-Cause Analysis** inside `<think>` (`100–300` tok) |
+| **Weight Quantization** | `Q4_K_M` (Standard 4.5-bit block quantization) | `Q4_K_M` (36L Optimized Tensor Memory Map) |
+| **Disk Storage Footprint** | **2.10 GB** | **2.10 GB (2,104,932,800 bytes)** |
+| **Active Memory Model** | Full GGUF pinned in system RAM (~3.4 GB) | **4-Layer Rolling Window KV + Binary Prefix Cache** |
+| **Target RAM Envelope (CPU)** | **3.5 GB – 4 GB RAM** | **< 720 MB Peak Resident RAM** on CPU (`698 MB` measured) |
+| **GPU Offload** | 36 / 36 Layers (~3.0 GB VRAM) | 36 / 36 Layers (~3.0 GB VRAM — fits 4GB Laptop GPUs) |
+| **Decode Throughput** | ~7–9 tok/s (CPU) | **8.5–10 tok/s (CPU)** with Speculative Decoding |
+| **CLI Direct Invocation** | `ollama run qwen2.5-coder:3b` | `nioxs tiger "<prompt>"` / `nioxs rabbit "<prompt>"` |
 
 ---
 
