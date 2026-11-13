@@ -95,7 +95,10 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 │  [ TIER 12: SOVEREIGN DAILY VIBE CODER (v-µLM Pure-Code Workhorse) ]                   │
 │    • Tiger (3.0B)             ──► Daily Vibe Coder & Systems Workhorse, 36L (< 720 MB)  │
 │                                                                                        │
-│  [ TIER 13: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Pure-Code MoE) ]                     │
+│  [ TIER 13: SOVEREIGN ARTICULATE MENTOR (v-µLM Conversational Land Fleet) ]            │
+│    • Fox (3.0B)               ──► Articulate Mentor & Rubber Duck, 36L (< 720 MB)      │
+│                                                                                        │
+│  [ TIER 14: SOVEREIGN PURE-CODE LAND TITAN (v-µLM Pure-Code MoE) ]                     │
 │    • Bison (7.0B MoE)         ──► Pure-Code Flagship Architect, 48L Q4_K_M (< 1.35 GB) │
 │                                                                                        │
 └────────────────────────────────────────────────────────────────────────────────────────┘
@@ -119,6 +122,7 @@ Instead of relying on a single slow generalist model, Nio deploys a specialized 
 | **`Blue`** | **Sovereign Reflex Lead & Staff Peer** | `3.82B (32L, v-µLM Reflex)` | Phi-3.5-mini based calm staff-engineer peer with lean `<think>` verification via vMicroLM Reflex streaming (`blue.vmicrolm-reflex.gguf`, 1.40 GiB / 1,499,437,216 bytes, **~192 MB peak RAM**, ~4.4 tok/s measured on CPU) | **Released** | [`v0.3.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.3.1) |
 | **`Cheetah`** | **Sovereign Code Sprinter** | `1.5B (28L, Q4_K_M)` | Sub-20ms code sprinter for terminal commands and instant code emission (`cheetah.1.5b-q4km.gguf`, 1.11 GB / 1,117,320,768 bytes, **< 460 MB peak RAM**, 11.2 tok/s CPU) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 | **`Tiger`** | **Sovereign Daily Vibe Coder & Systems Workhorse** | `3.0B (36L, Q4_K_M)` | Daily vibe coder for multi-file features and full modules, zero conversational filler (`tiger.3b-q4km.gguf`, 2.10 GB / 2,104,932,800 bytes, **< 720 MB peak RAM**, 8.5–10 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
+| **`Fox`** | **Sovereign Articulate Mentor & Rubber Duck** | `3.0B (36L, Q4_K_M)` | Articulate pair programmer explaining architecture, trade-offs, and algorithms with pedagogical warmth (`fox.3b-q4km.gguf`, 2.10 GB / 2,104,932,800 bytes, **< 720 MB peak RAM**, 8.5–10 tok/s CPU) | **Released** | [`v0.4.1`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.1) |
 | **`Bison`** | **Sovereign Pure-Code Flagship Architect** | `7.0B MoE (48L, Q4_K_M)` | Sovereign pure-code land titan with `<think>` formal invariant verification, zero conversational filler (`bison.moe-7b-q4km.gguf`, 4.68 GB / 4,683,073,536 bytes, **< 1.35 GB peak RAM**) | **Released** | [`v0.4.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.4.0) |
 
 ---

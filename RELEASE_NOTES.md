@@ -23,9 +23,9 @@ Official release history and distribution registry for compiled neural binaries 
 
 ---
 
-## v0.4.1 — Tiger 3.0B Sovereign Vibe Coder & Daily Systems Workhorse
+## v0.4.1 — Tiger 3.0B Vibe Coder & Fox 3.0B Articulate Mentor Release
 
-Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)** with **Tiger 3.0B** (`tiger.3b-q4km.gguf`) alongside **Cheetah 1.5B** and **Bison 7.0B MoE**. Tiger is engineered as the daily "vibe coding" workhorse—the perfect mid-tier model bridging sub-second reflexes and deep algorithmic titan logic.
+Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)** with **Tiger 3.0B** (`tiger.3b-q4km.gguf`) and **Fox 3.0B** (`fox.3b-q4km.gguf`) alongside **Cheetah 1.5B** and **Bison 7.0B MoE**.
 
 ### 🐅 Tiger Highlights (3.0B Daily Workhorse)
 - **Daily Vibe Coding Workhorse**: Authors multi-file features, comprehensive test suites, and robust modules without losing context or hallucinating interfaces.
@@ -33,6 +33,12 @@ Official **v0.4.1** release completing the **Sovereign Land Fleet (`nio-terra`)*
 - **Tight Memory Envelope**: **`< 720 MB` Peak RAM** (`698 MB` measured on pure CPU) via 4-Layer Rolling Window KV.
 - **High Decode Throughput**: **8.5–10.0 tok/s** on consumer laptop CPUs.
 - **Pull Command**: `nioxs pull tiger` | CLI: `nioxs tiger "<prompt>"`
+
+### 🦊 Fox Highlights (3.0B Articulate Mentor & Rubber Duck)
+- **High Chatty & Pedagogical Pair Programmer**: Discusses architectural trade-offs, walks through algorithms, explains *why* specific choices were made, and mentors developers conversationally.
+- **Natural, Unsuppressed Prose**: Explains complex concepts with clarity and warmth—zero token penalties on conversational openings.
+- **Shared Memory Efficiency**: Reuses the 36-layer 3.0B quantized architecture in **`< 720 MB` Peak RAM** with instant local linking.
+- **Pull Command**: `nioxs pull fox` | CLI: `nioxs fox "<prompt>"`
 
 ---
 
