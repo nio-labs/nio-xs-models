@@ -1,0 +1,4 @@
+# Hydra Model Weights & Archives (Distributed via GitHub Releases)
+*.safetensors
+*.tar.gz
+*.gguf
