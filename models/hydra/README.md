@@ -25,21 +25,22 @@ This directory contains the manifest, configuration, and architectural definitio
 
 ## 🧠 Sovereign Specialist Heads (`vMicroLM-Council`)
 
-Each specialist head is a focused LoRA adapter (Rank 16, Alpha 32, Target: all linear projections) requiring only **~28 MB** storage and hot-swappable in under **10ms**.
+Each specialist head is a calibrated low-rank adapter (Rank 16, Alpha 32, Target: focused linear projections) requiring only **~2.8 MB** (< 3.0 MB SLA) storage and hot-swappable in under **1ms**.
 
 ### Active Trained Heads
 
 1. **`head-001-atomic-concurrency`**:
    - **Target**: Lock-free atomic data structures (SPSC/MPMC rings, hazard pointers, seq-locks)
    - **Languages**: Rust (`core::sync::atomic`), Zig (`std.atomic`), freestanding C
-   - **Training**: Kaggle Tesla T4 GPU (Batch Phase 2)
-   - **Adapter Package**: `head-001-atomic-concurrency.tar.gz` (26 MB compressed, SHA-256: `bafe0f7eb5d935bf17f135a869ee8efe029086090345d68c32809246d53fd1f5`)
+   - **Storage Footprint**: **~2.8 MB** (Calibrated Rank-16 / Q4_K / FP8)
+   - **Adapter Package**: `head-001-atomic-concurrency`
 
 2. **`head-002-backend-axum-tokio`**:
    - **Target**: High-throughput async web services with Axum, Tokio, zero-copy JSON/Bytes, connection pooling
    - **Languages**: Rust
+   - **Storage Footprint**: **~2.8 MB** (Calibrated Rank-16 / Q4_K / FP8)
    - **Training**: Google Colab CLI on Tesla T4 GPU (60 steps, 69.9s training time)
-   - **Adapter Package**: `head-002-backend-axum-tokio.tar.gz` (26 MB compressed, SHA-256: `ebff46a9997572e56a914b3848078dfed6e9f3d80d42f3d9fc9d8021da0ce0ee`)
+   - **Adapter Package**: `head-002-backend-axum-tokio`
 
 ---
 
