@@ -18,7 +18,8 @@ This directory contains the manifest, configuration, and architectural definitio
 
 | Model Artifact | Base Arch | Quantization | Size | SHA-256 Checksum | Purpose |
 |---|---|:---:|:---:|---|---|
-| **`hydra-anchor-180m.q4km.gguf`** | Qwen-Coder-180M (10L Sliced) | `Q4_K_M` | 242 MB | `cb5c0b050b4cb68712d54a8c47e65b8844bda868e8134c0c18bd86924337216e` | Base Council anchor weights for hot-swapping specialist heads |
+| **`hydra-anchor-0.5b.q4km.gguf`** | Qwen-Coder-0.5B (24L Unpruned) | `Q4_K_M` | ~380 MB | Planned / Colab Distilled | Full 24-layer dynamic sovereign anchor for autonomous triage & polymath synthesis |
+| **`hydra-anchor-180m.q4km.gguf`** | Qwen-Coder-180M (10L Sliced) | `Q4_K_M` | 242 MB | `cb5c0b050b4cb68712d54a8c47e65b8844bda868e8134c0c18bd86924337216e` | Ultra-compact (<150MB RAM) 10-layer anchor for low-memory CPU devices |
 | **`hydra-kernel-180m.q4km.gguf`** | Qwen-Coder-180M (10L Sliced) | `Q4_K_M` | 242 MB | `f177c73a75219c875dff160b8381e821cfb9565e714e9907e759d4469adf912d` | SFT-aligned kernel emitting `<think>` formal invariants & lock-free POSIX code |
 
 ---
