@@ -2,3 +2,4 @@
 *.safetensors
 *.tar.gz
 *.gguf
+heads/hydra/
