@@ -1,5 +1,7 @@
 # Hydra Model Weights & Archives (Distributed via GitHub Releases)
 *.safetensors
+*.safetensors.lz4
 *.tar.gz
 *.gguf
 heads/hydra/
+legacy_heads_10l_backup/

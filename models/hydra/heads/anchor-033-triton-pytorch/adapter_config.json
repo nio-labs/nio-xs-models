@@ -1,0 +1,13 @@
+{
+  "r": 12,
+  "lora_alpha": 24.0,
+  "target_modules": [
+    "k_proj",
+    "up_proj",
+    "v_proj",
+    "gate_proj",
+    "q_proj",
+    "down_proj",
+    "o_proj"
+  ]
+}
