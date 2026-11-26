@@ -52,9 +52,12 @@ Official model registry and distribution hub for compiled, mathematically verifi
 | Stock `Qwen2.5-Coder-3B` (`INT4`) | `3.0B` | `1` pod | `79.27%` (`130/164`) | `73.0%` (`73/100`) | Baseline |
 | Stock `Qwen2.5-Coder-3B` (`FP16`) | `3.0B` | `1` pod | `81.10%` (`133/164`) | `74.0%` (`74/100`) | Baseline |
 | Stock `Qwen2.5-Coder-7B` (`INT4`) | `7.0B` | `1` pod | `84.15%` (`138/164`) | `84.0%` (`84/100`) | Baseline |
+| Stock `Qwen2.5-Coder-14B` (`FP16`, Pass@1)* | `14.7B` | `1` pod | `89.60%` | `87.2%` | `arXiv:2409.12186` |
 | **`Orca Nano`** (`0.5B × 13`, `Q4_K_M`) | **`0.5B`** | **`13 pods` (`~4.9 GB`, `380 MB/pod`)** | **`85.37%`** (`140/164`) | **`84.0%`** (`84/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
 | **`Orca Mini`** (`1.5B × 13`, `Q4_K_M`) | **`1.5B`** | **`13 pods` (`~12.2 GB`, `941 MB/pod`)** | **`86.59%`** (`142/164`) | **`87.0%`** (`87/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
 | **`Orca Omni`** (`0.5B Fast → 1.5B Esc.`) | **`0.5B / 1.5B`** | **`26 pods` (`~17.1 GB`: `Nano + Mini`)** | **`92.07%`** (`151/164`) | **`89.0%`** (`89/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+
+*(**Methodology:** Full `openai/openai_humaneval` `164` + `mbpp` sanitized `100` in isolated `5s`-timeout Python subprocesses. `3B`/`7B INT4` ran in the same multi-round harness; \*`14B` `FP16` is the published single-shot Pass@1 baseline. Orca tiers use error-guided + fresh-restart `--verify` loops matching `nioxs`.)*
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
