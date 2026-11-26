@@ -32,17 +32,29 @@ Official model registry and distribution hub for compiled, mathematically verifi
 
 ---
 
-## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex, Vector & Companion
+## 🧬 The v-µLM (V-MicroLM) Architecture: Reflex, Vector, Companion & Pods
 
-> 📖 **Architecture Portal**: Read the full [v-µLM Tri-Engine Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
+> 📖 **Architecture Portal**: Read the full [v-µLM Architecture Guide](https://nio-labs.github.io/nio-xs-models/vmicrolm.html) on GitHub Pages.
 
-**v-µLM (V-MicroLM)** is Nio's proprietary tri-engine edge architecture that eliminates reliance on brittle synthetic dataset fine-tuning in favor of three rigorous mathematical pillars:
+**v-µLM (V-MicroLM)** is Nio's proprietary edge architecture that eliminates single-monolith bottlenecks across four rigorous pillars:
 
 | Pillar | Engine Type | Model Targets | Core Mechanism | Runtime Footprint |
 | :--- | :--- | :--- | :--- | :--- |
 | **`v-µLM Reflex`** | Instant Grammar & In-Process Decision Engine | **Nano (~0.5M)**, **Mask (1.1M)**, **Micro (5.0M)**, **Mini (7.1M)**, **Viper (100M)** | Structural AST constraints, lexical intent routing, and real-time policy classification | **< 28 MB RAM**, sub-0.1ms to sub-20µs sampling |
 | **`v-µLM Vector`** | Vector Codebook Lattice (VQ) | **Mako (150M)** | Importance-weighted IQ3 non-linear vector quantization codebooks, live web intelligence | **92 MB disk**, >0.999 layer cosine fidelity |
 | **`v-µLM Companion`** | Sovereign Edge Companion Intelligence | **Skate (135M)**, **Manta (494M)** & **Beluga (1.54B)** | Tiered desktop & edge companions, dynamic layer streaming (`MADV_DONTNEED`), strict zero-code invariants, `<manta_plan>` DAGs & `<think>` CoT proofs | **< 50 MB to < 295 MB peak RAM**, pure CPU zero-GPU |
+| **`v-µLM Pods`** | Dynamic Specialist Pod Fleet & Error-Guided Self-Repair | **Orca Nano (0.5B×13)**, **Orca Mini (1.5B×13)** & **Orca Omni (0.5B+1.5B)** | Dynamic `pod_manifest.json` routing across 13 specialist Q4_K_M pods + bounded `--verify` repair loop | **`85.37%–92.07%` HumanEval**, `0.5B–1.5B` active |
+
+### 🐋 Orca (`v0.6.0`) Benchmark Comparison vs. Stock `Qwen2.5-Coder-Instruct`
+
+| Model / Fleet | Active Params | HumanEval (`164`) | MBPP (`100`) | Release |
+| :--- | :--- | :--- | :--- | :--- |
+| Stock `Qwen2.5-Coder-3B` (`INT4`) | `3.0B` | `79.27%` (`130/164`) | `73.0%` (`73/100`) | Baseline |
+| Stock `Qwen2.5-Coder-3B` (`FP16`) | `3.0B` | `81.10%` (`133/164`) | `74.0%` (`74/100`) | Baseline |
+| Stock `Qwen2.5-Coder-7B` (`INT4`) | `7.0B` | `84.15%` (`138/164`) | `84.0%` (`84/100`) | Baseline |
+| **`Orca Nano`** (`0.5B × 13`, `Q4_K_M`) | **`0.5B`** | **`85.37%`** (`140/164`) | **`84.0%`** (`84/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| **`Orca Mini`** (`1.5B × 13`, `Q4_K_M`) | **`1.5B`** | **`86.59%`** (`142/164`) | **`87.0%`** (`87/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| **`Orca Omni`** (`0.5B Fast → 1.5B Esc.`) | **`0.5B / 1.5B`** | **`92.07%`** (`151/164`) | **`89.0%`** (`89/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
 
 - **Zero Synthetic Datasets**: Eliminates the catastrophic reasoning forgetting and repetitive loops common to small models fine-tuned on artificial Q&A data.
 - **Deep Signal Retention**: Mathematical vector codebooks prevent the compounding drift that causes linear SVD approximations to collapse over 30 transformer layers.
