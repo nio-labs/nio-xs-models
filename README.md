@@ -45,17 +45,23 @@ Official model registry and distribution hub for compiled, mathematically verifi
 | **`v-µLM Companion`** | Sovereign Edge Companion Intelligence | **Skate (135M)**, **Manta (494M)** & **Beluga (1.54B)** | Tiered desktop & edge companions, dynamic layer streaming (`MADV_DONTNEED`), strict zero-code invariants, `<manta_plan>` DAGs & `<think>` CoT proofs | **< 50 MB to < 295 MB peak RAM**, pure CPU zero-GPU |
 | **`v-µLM Pods`** | Dynamic Specialist Pod Fleet & Error-Guided Self-Repair | **Orca Nano (0.5B×13)**, **Orca Mini (1.5B×13)** & **Orca Omni (0.5B+1.5B)** | Dynamic `pod_manifest.json` routing across 13 specialist Q4_K_M pods + bounded `--verify` repair loop | **`85.37%–92.07%` HumanEval**, `0.5B–1.5B` active |
 
-### 🐋 Orca (`v0.6.0`) Benchmark Comparison vs. Stock `Qwen2.5-Coder-Instruct`
+### 🐋 Orca (`v0.6.0`) Ranked Benchmark Leaderboard (Sorted by HumanEval)
 
-| Model / Fleet | Active Params | Pods & Total Size (`Q4_K_M`) | HumanEval (`164`) | MBPP (`100`) | Release |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Stock `Qwen2.5-Coder-3B` (`INT4`) | `3.0B` | `1` pod | `79.27%` (`130/164`) | `73.0%` (`73/100`) | Baseline |
-| Stock `Qwen2.5-Coder-3B` (`FP16`) | `3.0B` | `1` pod | `81.10%` (`133/164`) | `74.0%` (`74/100`) | Baseline |
-| Stock `Qwen2.5-Coder-7B` (`INT4`) | `7.0B` | `1` pod | `84.15%` (`138/164`) | `84.0%` (`84/100`) | Baseline |
-| Stock `Qwen2.5-Coder-14B` (`FP16`, Pass@1)* | `14.7B` | `1` pod | `89.60%` | `87.2%` | `arXiv:2409.12186` |
-| **`Orca Nano`** (`orca-nano-0.5b-6.5b`) | **`0.5B`** | **`13 pods / 6.5B`** (`~4.9 GB`, `380 MB/pod`) | **`85.37%`** (`140/164`) | **`84.0%`** (`84/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
-| **`Orca Mini`** (`orca-mini-1.5b-19.5b`) | **`1.5B`** | **`13 pods / 19.5B`** (`~12.2 GB`, `941 MB/pod`) | **`86.59%`** (`142/164`) | **`87.0%`** (`87/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
-| **`Orca Omni`** (`orca-omni-0.5b-1.5b-26b`) | **`0.5B / 1.5B`** | **`26 pods / 26.0B`** (`~17.1 GB`: `Nano + Mini`) | **`92.07%`** (`151/164`) | **`89.0%`** (`89/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| Rank | Model / Fleet | Active Params | Pods & Total Size (`Q4_K_M`) | HumanEval (`164`) | MBPP (`100`) | Source / Release |
+| :---: | :--- | :---: | :--- | :--- | :--- | :--- |
+| **1** | `Qwen2.5-Coder-32B-Instruct` (`FP16`, Pass@1)* | `32.5B` | `1` pod | `92.70%` | `90.2%` | Published |
+| **2** | `OpenAI o1` (Frontier, Pass@1)* | Frontier | Cloud API | `92.40%` | — | Published |
+| **3** | **`Orca Omni`** (`orca-omni-0.5b-1.5b-26b`) | **`0.5B / 1.5B`** | **`26 pods / 26.0B`** (`~17.1 GB`: `Nano + Mini`) | **`92.07%`** (`151/164`) | **`89.0%`** (`89/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| **4** | `Claude 3.5 Sonnet` (Frontier, Pass@1)* | Frontier | Cloud API | `92.00%` | `91.0%` | Published |
+| **5** | `DeepSeek-V3` (`671B` MoE, Pass@1)* | `37B` | Cloud / cluster | `91.60%` | `75.4%` | Published |
+| **6** | `GPT-4o` (Frontier, Pass@1)* | Frontier | Cloud API | `90.20%` | `87.2%` | Published |
+| **7** | `Qwen2.5-Coder-14B-Instruct` (`FP16`, Pass@1)* | `14.7B` | `1` pod | `89.60%` | `87.2%` | `arXiv:2409.12186` |
+| **8** | `Llama-3.1-405B-Instruct` (Pass@1)* | `405B` | Cloud / cluster | `89.00%` | `88.6%` | Published |
+| **9** | **`Orca Mini`** (`orca-mini-1.5b-19.5b`) | **`1.5B`** | **`13 pods / 19.5B`** (`~12.2 GB`, `941 MB/pod`) | **`86.59%`** (`142/164`) | **`87.0%`** (`87/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| **10** | **`Orca Nano`** (`orca-nano-0.5b-6.5b`) | **`0.5B`** | **`13 pods / 6.5B`** (`~4.9 GB`, `380 MB/pod`) | **`85.37%`** (`140/164`) | **`84.0%`** (`84/100`) | [`v0.6.0`](https://github.com/nio-labs/nio-xs-models/releases/tag/v0.6.0) |
+| **11** | Stock `Qwen2.5-Coder-7B` (`INT4`) | `7.0B` | `1` pod | `84.15%` (`138/164`) | `84.0%` (`84/100`) | Baseline |
+| **12** | Stock `Qwen2.5-Coder-3B` (`FP16`) | `3.0B` | `1` pod | `81.10%` (`133/164`) | `74.0%` (`74/100`) | Baseline |
+| **13** | Stock `Qwen2.5-Coder-3B` (`INT4`) | `3.0B` | `1` pod | `79.27%` (`130/164`) | `73.0%` (`73/100`) | Baseline |
 
 *(**Methodology:** Full `openai/openai_humaneval` `164` + `mbpp` sanitized `100` in isolated `5s`-timeout Python subprocesses. `3B`/`7B INT4` ran in the same multi-round harness; \*`14B` `FP16` is the published single-shot Pass@1 baseline. Orca tiers use error-guided + fresh-restart `--verify` loops matching `nioxs`.)*
 
